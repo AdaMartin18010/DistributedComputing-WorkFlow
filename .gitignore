@@ -1,32 +1,72 @@
-# If you prefer the allow list template instead of the deny list, see community template:
-# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
-#
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
+# 操作系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
 
-# Test binary, built with `go test -c`
-*.test
+# 编辑器文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
 
-# Code coverage profiles and other test artifacts
-*.out
-coverage.*
-*.coverprofile
-profile.cov
+# 临时文件
+*.tmp
+*.temp
+*.log
+*.bak
+*.cache
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
+# 构建文件
+build/
+dist/
+*.pyc
+__pycache__/
+*.class
+*.jar
+*.war
 
-# Go workspace file
-go.work
-go.work.sum
+# 依赖文件
+node_modules/
+vendor/
+venv/
+env/
+.venv/
 
-# env file
+# 测试文件
+.coverage
+.pytest_cache/
+*.cover
+.hypothesis/
+
+# 文档生成
+_site/
+.jekyll-cache/
+.jekyll-metadata/
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 环境变量
 .env
+.env.local
+.env.*.local
 
-# Editor/IDE
-# .idea/
-# .vscode/
+# 备份文件
+*.backup
+*.old
+
+# 压缩文件（可选，根据需要取消注释）
+# *.zip
+# *.tar.gz
+# *.rar

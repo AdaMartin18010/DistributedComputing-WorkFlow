@@ -85,7 +85,11 @@
     - [11.4 概念属性关系图](#114-概念属性关系图)
     - [11.5 形式化证明流程图](#115-形式化证明流程图)
       - [证明流程图1：Raft选举安全性证明](#证明流程图1raft选举安全性证明)
-  - [十二、相关文档](#十二相关文档)
+  - [十二、代码示例](#十二代码示例)
+    - [12.1 基本Raft算法实现](#121-基本raft算法实现)
+    - [12.2 Raft日志复制实现](#122-raft日志复制实现)
+    - [12.3 Temporal使用Raft实现](#123-temporal使用raft实现)
+  - [十三、相关文档](#十三相关文档)
     - [12.1 核心论证文档](#121-核心论证文档)
     - [12.2 理论模型专题文档](#122-理论模型专题文档)
     - [12.3 相关资源](#123-相关资源)
@@ -1244,7 +1248,382 @@ flowchart TD
 
 ---
 
-## 十二、相关文档
+## 十二、代码示例
+
+### 12.1 基本Raft算法实现
+
+#### 12.1.1 Raft节点实现
+
+**代码说明**：
+此代码示例展示如何实现基本的Raft算法。
+
+**关键点说明**：
+- 实现Leader、Follower、Candidate三种角色
+- 实现Leader选举
+- 实现日志复制
+
+```python
+from typing import Dict, List, Optional, Tuple
+from dataclasses import dataclass
+from enum import Enum
+import time
+import random
+
+class NodeRole(Enum):
+    """节点角色"""
+    FOLLOWER = "follower"
+    CANDIDATE = "candidate"
+    LEADER = "leader"
+
+@dataclass
+class LogEntry:
+    """日志条目"""
+    term: int
+    index: int
+    command: str
+
+@dataclass
+class VoteRequest:
+    """投票请求"""
+    term: int
+    candidate_id: int
+    last_log_index: int
+    last_log_term: int
+
+@dataclass
+class VoteResponse:
+    """投票响应"""
+    term: int
+    vote_granted: bool
+
+class RaftNode:
+    """Raft节点"""
+
+    def __init__(self, node_id: int, all_nodes: List[int]):
+        self.node_id = node_id
+        self.all_nodes = all_nodes
+        self.role = NodeRole.FOLLOWER
+        self.current_term = 0
+        self.voted_for: Optional[int] = None
+        self.log: List[LogEntry] = []
+        self.commit_index = 0
+        self.last_applied = 0
+        self.next_index: Dict[int, int] = {}
+        self.match_index: Dict[int, int] = {}
+        self.election_timeout = random.uniform(1.5, 3.0)
+        self.last_heartbeat = time.time()
+
+    def become_candidate(self):
+        """成为Candidate"""
+        self.role = NodeRole.CANDIDATE
+        self.current_term += 1
+        self.voted_for = self.node_id
+        self.votes_received = 1  # 自己投票给自己
+
+    def become_leader(self):
+        """成为Leader"""
+        self.role = NodeRole.LEADER
+        # 初始化next_index和match_index
+        for node_id in self.all_nodes:
+            if node_id != self.node_id:
+                self.next_index[node_id] = len(self.log) + 1
+                self.match_index[node_id] = 0
+
+    def become_follower(self, term: int):
+        """成为Follower"""
+        self.role = NodeRole.FOLLOWER
+        self.current_term = term
+        self.voted_for = None
+
+    def request_vote(self, request: VoteRequest) -> VoteResponse:
+        """处理投票请求"""
+        if request.term > self.current_term:
+            self.become_follower(request.term)
+
+        vote_granted = False
+        if request.term == self.current_term and \
+           (self.voted_for is None or self.voted_for == request.candidate_id):
+            # 检查日志是否至少一样新
+            last_log_term = self.log[-1].term if self.log else 0
+            last_log_index = len(self.log)
+
+            if request.last_log_term > last_log_term or \
+               (request.last_log_term == last_log_term and
+                request.last_log_index >= last_log_index):
+                self.voted_for = request.candidate_id
+                vote_granted = True
+
+        return VoteResponse(term=self.current_term, vote_granted=vote_granted)
+
+    def start_election(self, nodes: List['RaftNode']) -> bool:
+        """开始选举"""
+        self.become_candidate()
+        votes = 1  # 自己投票给自己
+
+        # 向其他节点请求投票
+        for node in nodes:
+            if node.node_id != self.node_id:
+                request = VoteRequest(
+                    term=self.current_term,
+                    candidate_id=self.node_id,
+                    last_log_index=len(self.log),
+                    last_log_term=self.log[-1].term if self.log else 0
+                )
+                response = node.request_vote(request)
+
+                if response.term > self.current_term:
+                    self.become_follower(response.term)
+                    return False
+
+                if response.vote_granted:
+                    votes += 1
+
+        # 检查是否获得大多数投票
+        majority = len(self.all_nodes) // 2 + 1
+        if votes >= majority:
+            self.become_leader()
+            return True
+
+        return False
+
+    def append_entries(self, term: int, leader_id: int, prev_log_index: int,
+                      prev_log_term: int, entries: List[LogEntry],
+                      leader_commit: int) -> bool:
+        """处理日志追加请求"""
+        if term > self.current_term:
+            self.become_follower(term)
+
+        success = False
+        if term == self.current_term:
+            self.become_follower(term)
+            self.last_heartbeat = time.time()
+
+            # 检查日志匹配
+            if prev_log_index == 0 or \
+               (prev_log_index <= len(self.log) and
+                self.log[prev_log_index - 1].term == prev_log_term):
+                success = True
+
+                # 追加新条目
+                if entries:
+                    # 删除冲突的条目
+                    if prev_log_index < len(self.log):
+                        self.log = self.log[:prev_log_index]
+                    self.log.extend(entries)
+
+                # 更新commit_index
+                if leader_commit > self.commit_index:
+                    self.commit_index = min(leader_commit, len(self.log))
+
+        return success
+
+    def replicate_log(self, nodes: List['RaftNode'], command: str) -> bool:
+        """复制日志（Leader）"""
+        if self.role != NodeRole.LEADER:
+            return False
+
+        # 创建新日志条目
+        entry = LogEntry(
+            term=self.current_term,
+            index=len(self.log) + 1,
+            command=command
+        )
+        self.log.append(entry)
+
+        # 复制到其他节点
+        replicated_count = 1  # 自己已经复制
+
+        for node in nodes:
+            if node.node_id != self.node_id:
+                prev_log_index = self.next_index[node.node_id] - 1
+                prev_log_term = self.log[prev_log_index - 1].term if prev_log_index > 0 else 0
+                entries = self.log[prev_log_index:]
+
+                success = node.append_entries(
+                    term=self.current_term,
+                    leader_id=self.node_id,
+                    prev_log_index=prev_log_index,
+                    prev_log_term=prev_log_term,
+                    entries=entries,
+                    leader_commit=self.commit_index
+                )
+
+                if success:
+                    self.next_index[node.node_id] = len(self.log) + 1
+                    self.match_index[node.node_id] = len(self.log)
+                    replicated_count += 1
+                else:
+                    self.next_index[node.node_id] -= 1
+
+        # 检查是否大多数节点已复制
+        majority = len(self.all_nodes) // 2 + 1
+        if replicated_count >= majority:
+            self.commit_index = len(self.log)
+            return True
+
+        return False
+
+# 使用示例
+def example_raft():
+    """Raft使用示例"""
+    nodes = [1, 2, 3, 4, 5]
+    raft_nodes = [RaftNode(nid, nodes) for nid in nodes]
+
+    # 节点1开始选举
+    leader = raft_nodes[0]
+    if leader.start_election(raft_nodes):
+        print(f"Node {leader.node_id} became leader")
+
+        # Leader复制日志
+        leader.replicate_log(raft_nodes, "command1")
+        leader.replicate_log(raft_nodes, "command2")
+
+        print(f"Leader log: {[entry.command for entry in leader.log]}")
+```
+
+---
+
+### 12.2 Raft日志复制实现
+
+#### 12.2.1 日志复制和提交
+
+**代码说明**：
+此代码示例展示如何实现Raft的日志复制和提交机制。
+
+**关键点说明**：
+- 实现日志追加
+- 实现日志提交
+- 保证日志一致性
+
+```python
+class RaftLogReplication:
+    """Raft日志复制"""
+
+    def __init__(self, node: RaftNode, nodes: List[RaftNode]):
+        self.node = node
+        self.nodes = nodes
+
+    def append_command(self, command: str) -> bool:
+        """追加命令（Leader）"""
+        if self.node.role != NodeRole.LEADER:
+            return False
+
+        # 复制日志
+        return self.node.replicate_log(self.nodes, command)
+
+    def apply_committed_entries(self):
+        """应用已提交的条目"""
+        while self.node.last_applied < self.node.commit_index:
+            self.node.last_applied += 1
+            entry = self.node.log[self.node.last_applied - 1]
+            # 应用命令
+            print(f"Applying command: {entry.command} at index {entry.index}")
+
+    def get_committed_commands(self) -> List[str]:
+        """获取已提交的命令"""
+        return [entry.command for entry in self.node.log[:self.node.commit_index]]
+```
+
+---
+
+### 12.3 Temporal使用Raft实现
+
+#### 12.3.1 Temporal工作流状态复制
+
+**代码说明**：
+此代码示例展示Temporal如何使用Raft实现工作流状态复制。
+
+**关键点说明**：
+- 使用Raft保证工作流状态一致性
+- 处理Leader故障
+- 保证工作流正确性
+
+```python
+from temporalio import workflow, activity
+
+class TemporalRaft:
+    """Temporal Raft实现"""
+
+    def __init__(self, workflow_id: str, workers: List[int]):
+        self.workflow_id = workflow_id
+        self.workers = workers
+        self.raft_nodes = [RaftNode(wid, workers) for wid in workers]
+        self.leader: Optional[RaftNode] = None
+
+    def elect_leader(self):
+        """选举Leader"""
+        for node in self.raft_nodes:
+            if node.start_election(self.raft_nodes):
+                self.leader = node
+                return node
+        return None
+
+    def update_workflow_state(self, new_state: str) -> bool:
+        """更新工作流状态（使用Raft）"""
+        # 确保有Leader
+        if not self.leader or self.leader.role != NodeRole.LEADER:
+            self.leader = self.elect_leader()
+            if not self.leader:
+                return False
+
+        # 使用Raft复制状态
+        return self.leader.replicate_log(self.raft_nodes, f"state:{new_state}")
+
+    def get_workflow_state(self) -> Optional[str]:
+        """获取工作流状态"""
+        if self.leader:
+            # 应用已提交的条目
+            committed = self.leader.log[:self.leader.commit_index]
+            if committed:
+                last_entry = committed[-1]
+                if last_entry.command.startswith("state:"):
+                    return last_entry.command.split(":")[1]
+        return None
+
+@workflow.defn
+class RaftWorkflow:
+    """Raft工作流"""
+
+    @workflow.run
+    async def execute(self, workflow_id: str) -> str:
+        """执行工作流（使用Raft）"""
+        workers = [1, 2, 3, 4, 5]
+        raft = TemporalRaft(workflow_id, workers)
+
+        # 选举Leader
+        leader = raft.elect_leader()
+        if not leader:
+            return "Failed to elect leader"
+
+        # 更新工作流状态（使用Raft）
+        states = ["created", "running", "completed"]
+        for state in states:
+            if raft.update_workflow_state(state):
+                print(f"State {state} committed via Raft")
+
+        # 获取最终状态
+        final_state = raft.get_workflow_state()
+
+        # Temporal保证：
+        # 1. 工作流状态通过Raft复制到所有节点
+        # 2. 即使Leader故障，也能选举新Leader
+        # 3. 需要大多数节点同意才能提交状态
+
+        return f"Workflow {workflow_id} completed with state {final_state}"
+```
+
+**使用说明**：
+1. Temporal可以使用Raft实现工作流状态复制
+2. 保证即使Leader故障，也能选举新Leader并继续工作
+3. 需要大多数节点同意才能提交状态
+
+---
+
+> 💡 **提示**：这些代码示例展示了Raft算法的实现。Raft算法比Paxos更容易理解和实现，通过Leader选举和日志复制保证共识。Temporal可以使用Raft算法保证工作流状态的一致性。
+
+---
+
+## 十三、相关文档
 
 ### 12.1 核心论证文档
 

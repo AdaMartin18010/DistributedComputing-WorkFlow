@@ -76,7 +76,11 @@
     - [11.4 概念属性关系图](#114-概念属性关系图)
     - [11.5 形式化证明流程图](#115-形式化证明流程图)
       - [证明流程图1：Paxos安全性证明](#证明流程图1paxos安全性证明)
-  - [十二、相关文档](#十二相关文档)
+  - [十二、代码示例](#十二代码示例)
+    - [12.1 基本Paxos算法实现](#121-基本paxos算法实现)
+    - [12.2 Multi-Paxos实现示例](#122-multi-paxos实现示例)
+    - [12.3 Temporal使用Paxos实现](#123-temporal使用paxos实现)
+  - [十三、相关文档](#十三相关文档)
     - [12.1 核心论证文档](#121-核心论证文档)
     - [12.2 理论模型专题文档](#122-理论模型专题文档)
     - [12.3 相关资源](#123-相关资源)
@@ -1008,7 +1012,322 @@ flowchart TD
 
 ---
 
-## 十二、相关文档
+## 十二、代码示例
+
+### 12.1 基本Paxos算法实现
+
+#### 12.1.1 Paxos节点实现
+
+**代码说明**：
+此代码示例展示如何实现基本的Paxos算法。
+
+**关键点说明**：
+
+- 实现Proposer、Acceptor、Learner三个角色
+- 实现两阶段协议（Prepare和Accept）
+- 保证共识正确性
+
+```python
+from typing import Dict, List, Optional, Tuple
+from dataclasses import dataclass
+from enum import Enum
+
+class MessageType(Enum):
+    """消息类型"""
+    PREPARE = "prepare"
+    PROMISE = "promise"
+    ACCEPT = "accept"
+    ACCEPTED = "accepted"
+
+@dataclass
+class Message:
+    """Paxos消息"""
+    msg_type: MessageType
+    proposal_number: int
+    value: Optional[str] = None
+    sender: int = 0
+
+class Acceptor:
+    """Acceptor节点"""
+
+    def __init__(self, node_id: int):
+        self.node_id = node_id
+        self.promised_number = 0
+        self.accepted_number = 0
+        self.accepted_value: Optional[str] = None
+
+    def receive_prepare(self, proposal_number: int) -> Optional[Message]:
+        """接收Prepare消息"""
+        if proposal_number > self.promised_number:
+            self.promised_number = proposal_number
+            # 返回Promise消息
+            return Message(
+                msg_type=MessageType.PROMISE,
+                proposal_number=proposal_number,
+                value=self.accepted_value,
+                sender=self.node_id
+            )
+        return None
+
+    def receive_accept(self, proposal_number: int, value: str) -> Optional[Message]:
+        """接收Accept消息"""
+        if proposal_number >= self.promised_number:
+            self.promised_number = proposal_number
+            self.accepted_number = proposal_number
+            self.accepted_value = value
+            # 返回Accepted消息
+            return Message(
+                msg_type=MessageType.ACCEPTED,
+                proposal_number=proposal_number,
+                value=value,
+                sender=self.node_id
+            )
+        return None
+
+class Proposer:
+    """Proposer节点"""
+
+    def __init__(self, node_id: int, acceptors: List[Acceptor]):
+        self.node_id = node_id
+        self.acceptors = acceptors
+        self.proposal_number = node_id  # 初始提议编号
+        self.promises: List[Message] = []
+        self.accepted_count = 0
+
+    def propose(self, value: str) -> bool:
+        """提议值"""
+        # 阶段1：Prepare
+        self.proposal_number += len(self.acceptors)  # 增加提议编号
+        self.promises = []
+
+        # 发送Prepare消息
+        for acceptor in self.acceptors:
+            promise = acceptor.receive_prepare(self.proposal_number)
+            if promise:
+                self.promises.append(promise)
+
+        # 检查是否有大多数Promise
+        if len(self.promises) < len(self.acceptors) // 2 + 1:
+            return False
+
+        # 选择值：如果有已接受的值，使用它；否则使用提议的值
+        chosen_value = value
+        for promise in self.promises:
+            if promise.value:
+                chosen_value = promise.value
+                break
+
+        # 阶段2：Accept
+        self.accepted_count = 0
+        for acceptor in self.acceptors:
+            accepted = acceptor.receive_accept(self.proposal_number, chosen_value)
+            if accepted:
+                self.accepted_count += 1
+
+        # 检查是否有大多数Accepted
+        return self.accepted_count >= len(self.acceptors) // 2 + 1
+
+class Learner:
+    """Learner节点"""
+
+    def __init__(self, acceptors: List[Acceptor]):
+        self.acceptors = acceptors
+        self.learned_value: Optional[str] = None
+
+    def learn(self) -> Optional[str]:
+        """学习已接受的值"""
+        accepted_values: Dict[str, int] = {}
+
+        for acceptor in self.acceptors:
+            if acceptor.accepted_value:
+                value = acceptor.accepted_value
+                accepted_values[value] = accepted_values.get(value, 0) + 1
+
+        # 检查是否有大多数接受的值
+        majority = len(self.acceptors) // 2 + 1
+        for value, count in accepted_values.items():
+            if count >= majority:
+                self.learned_value = value
+                return value
+
+        return None
+
+# 使用示例
+def example_paxos():
+    """Paxos使用示例"""
+    # 创建5个Acceptor节点
+    acceptors = [Acceptor(i) for i in range(5)]
+
+    # 创建Proposer节点
+    proposer = Proposer(10, acceptors)
+
+    # 提议值
+    success = proposer.propose("value1")
+    print(f"Proposal success: {success}")
+
+    # Learner学习值
+    learner = Learner(acceptors)
+    learned_value = learner.learn()
+    print(f"Learned value: {learned_value}")
+```
+
+---
+
+### 12.2 Multi-Paxos实现示例
+
+#### 12.2.1 Multi-Paxos算法
+
+**代码说明**：
+此代码示例展示如何实现Multi-Paxos算法。
+
+**关键点说明**：
+
+- 实现多实例Paxos
+- 使用Leader优化性能
+- 保证多个值的共识
+
+```python
+class MultiPaxos:
+    """Multi-Paxos实现"""
+
+    def __init__(self, node_id: int, all_nodes: List[int]):
+        self.node_id = node_id
+        self.all_nodes = all_nodes
+        self.instances: Dict[int, Proposer] = {}  # instance_id -> proposer
+        self.acceptors: Dict[int, Acceptor] = {
+            nid: Acceptor(nid) for nid in all_nodes
+        }
+        self.leader: Optional[int] = None
+        self.sequence_number = 0
+
+    def become_leader(self):
+        """成为Leader"""
+        self.leader = self.node_id
+
+    def propose_value(self, value: str) -> bool:
+        """提议值（Multi-Paxos）"""
+        if self.leader != self.node_id:
+            # 不是Leader，转发给Leader
+            return False
+
+        # 创建新的Paxos实例
+        instance_id = self.sequence_number
+        self.sequence_number += 1
+
+        proposer = Proposer(self.node_id, list(self.acceptors.values()))
+        self.instances[instance_id] = proposer
+
+        # 提议值
+        return proposer.propose(value)
+
+    def get_consensus_values(self) -> Dict[int, str]:
+        """获取所有已达成共识的值"""
+        consensus_values = {}
+
+        for instance_id, proposer in self.instances.items():
+            learner = Learner(list(self.acceptors.values()))
+            learned_value = learner.learn()
+            if learned_value:
+                consensus_values[instance_id] = learned_value
+
+        return consensus_values
+
+# 使用示例
+def example_multi_paxos():
+    """Multi-Paxos使用示例"""
+    nodes = [1, 2, 3, 4, 5]
+    multi_paxos = MultiPaxos(1, nodes)
+
+    # 成为Leader
+    multi_paxos.become_leader()
+
+    # 提议多个值
+    multi_paxos.propose_value("value1")
+    multi_paxos.propose_value("value2")
+    multi_paxos.propose_value("value3")
+
+    # 获取共识值
+    consensus = multi_paxos.get_consensus_values()
+    print(f"Consensus values: {consensus}")
+```
+
+---
+
+### 12.3 Temporal使用Paxos实现
+
+#### 12.3.1 Temporal工作流状态共识
+
+**代码说明**：
+此代码示例展示Temporal如何使用Paxos实现工作流状态共识。
+
+**关键点说明**：
+
+- 使用Paxos保证工作流状态一致性
+- 处理节点故障
+- 保证工作流正确性
+
+```python
+from temporalio import workflow, activity
+
+class TemporalPaxos:
+    """Temporal Paxos实现"""
+
+    def __init__(self, workflow_id: str, workers: List[int]):
+        self.workflow_id = workflow_id
+        self.workers = workers
+        self.acceptors = [Acceptor(wid) for wid in workers]
+        self.proposer = Proposer(workers[0], self.acceptors)
+        self.learner = Learner(self.acceptors)
+
+    def update_workflow_state(self, new_state: str) -> bool:
+        """更新工作流状态（使用Paxos）"""
+        # 使用Paxos提议新状态
+        success = self.proposer.propose(new_state)
+
+        if success:
+            # 学习已接受的值
+            learned = self.learner.learn()
+            return learned == new_state
+
+        return False
+
+@workflow.defn
+class PaxosWorkflow:
+    """Paxos工作流"""
+
+    @workflow.run
+    async def execute(self, workflow_id: str) -> str:
+        """执行工作流（使用Paxos）"""
+        workers = [1, 2, 3, 4, 5]
+        paxos = TemporalPaxos(workflow_id, workers)
+
+        # 更新工作流状态（使用Paxos）
+        states = ["created", "running", "completed"]
+        for state in states:
+            if paxos.update_workflow_state(state):
+                print(f"State {state} committed via Paxos")
+
+        # Temporal保证：
+        # 1. 工作流状态通过Paxos达成共识
+        # 2. 即使有节点故障，状态也能正确更新
+        # 3. 需要大多数节点同意
+
+        return f"Workflow {workflow_id} completed with Paxos"
+```
+
+**使用说明**：
+
+1. Temporal可以使用Paxos实现工作流状态共识
+2. 保证即使有节点故障，状态也能正确更新
+3. 需要大多数节点同意才能更新状态
+
+---
+
+> 💡 **提示**：这些代码示例展示了Paxos算法的实现。Paxos算法需要大多数节点同意才能达成共识。Temporal可以使用Paxos算法保证工作流状态的一致性。
+
+---
+
+## 十三、相关文档
 
 ### 12.1 核心论证文档
 

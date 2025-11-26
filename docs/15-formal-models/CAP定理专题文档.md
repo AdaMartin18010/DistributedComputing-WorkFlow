@@ -1,6 +1,7 @@
 # CAP定理专题文档
 
 **快速导航**：
+
 - [↑ 返回目录](#目录)
 - [核心文档](#核心文档快速链接)：[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md) | [PostgreSQL选型论证](../18-argumentation-enhancement/PostgreSQL选型论证.md)
 - [相关理论模型](#相关理论模型快速链接)：[一致性模型专题文档](一致性模型专题文档.md) | [FLP不可能定理专题文档](FLP不可能定理专题文档.md) | [Saga模式专题文档](Saga模式专题文档.md)
@@ -91,11 +92,17 @@
     - [11.4 概念属性关系图](#114-概念属性关系图)
     - [11.5 形式化证明流程图](#115-形式化证明流程图)
       - [证明流程图1：CAP定理证明步骤](#证明流程图1cap定理证明步骤)
-  - [十二、相关文档](#十二相关文档)
+  - [十二、代码示例](#十二代码示例)
+    - [12.1 CP系统实现示例（PostgreSQL）](#121-cp系统实现示例postgresql)
+    - [12.2 AP系统实现示例（Cassandra）](#122-ap系统实现示例cassandra)
+    - [12.3 CAP权衡决策示例](#123-cap权衡决策示例)
+    - [12.4 Temporal在CAP中的实现](#124-temporal在cap中的实现)
+  - [十三、相关文档](#十三相关文档)
     - [12.1 核心论证文档](#121-核心论证文档)
     - [12.2 理论模型专题文档](#122-理论模型专题文档)
     - [12.3 相关资源](#123-相关资源)
     - [12.4 文档关联说明](#124-文档关联说明)
+  - [导航](#导航)
 
 ---
 
@@ -1657,7 +1664,395 @@ flowchart TD
 
 ---
 
-## 十二、相关文档
+## 十二、代码示例
+
+### 12.1 CP系统实现示例（PostgreSQL）
+
+#### 12.1.1 强一致性实现
+
+**代码说明**：
+此代码示例展示如何在PostgreSQL中实现强一致性（CP系统）。
+
+**关键点说明**：
+
+- 使用事务保证一致性
+- 使用同步复制保证分区容错性
+- 在网络分区时牺牲可用性
+
+```python
+import psycopg2
+from psycopg2 import pool
+from contextlib import contextmanager
+
+# PostgreSQL连接池（CP系统配置）
+db_pool = psycopg2.pool.ThreadedConnectionPool(
+    minconn=1,
+    maxconn=20,
+    host="postgres-primary",  # 主节点
+    port=5432,
+    database="temporal",
+    user="temporal_user",
+    password="temporal_password"
+)
+
+@contextmanager
+def get_db_connection():
+    """获取数据库连接（CP系统：强一致性）"""
+    conn = None
+    try:
+        conn = db_pool.getconn()
+        # 设置隔离级别为可序列化（最高一致性）
+        conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE)
+        yield conn
+        conn.commit()
+    except psycopg2.OperationalError as e:
+        # 网络分区时，CP系统会拒绝请求（牺牲可用性）
+        if conn:
+            conn.rollback()
+        raise ConnectionError("Database unavailable due to partition (CP system)")
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        raise
+    finally:
+        if conn:
+            db_pool.putconn(conn)
+
+def update_workflow_state_cp(workflow_id: str, new_state: str):
+    """更新工作流状态（CP系统：强一致性）"""
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            # 使用事务保证原子性和一致性
+            cur.execute(
+                """
+                BEGIN;
+                UPDATE executions
+                SET status = %s, updated_at = NOW()
+                WHERE workflow_id = %s;
+                COMMIT;
+                """,
+                (new_state, workflow_id)
+            )
+            # CP系统：如果主节点不可用（网络分区），操作会失败
+            # 这保证了强一致性，但牺牲了可用性
+```
+
+**使用说明**：
+
+1. 配置PostgreSQL主从复制（同步复制）
+2. 设置事务隔离级别为可序列化
+3. 在网络分区时，系统会拒绝请求以保证一致性
+
+---
+
+#### 12.1.2 分区容错性配置
+
+**代码说明**：
+此代码示例展示如何配置PostgreSQL的分区容错性。
+
+**关键点说明**：
+
+- 配置主从复制
+- 配置故障转移
+- 处理网络分区
+
+```python
+# PostgreSQL主从配置（CP系统）
+PRIMARY_CONFIG = {
+    "host": "postgres-primary",
+    "port": 5432,
+    "database": "temporal",
+    "user": "temporal_user",
+    "password": "temporal_password"
+}
+
+REPLICA_CONFIG = {
+    "host": "postgres-replica",
+    "port": 5432,
+    "database": "temporal",
+    "user": "temporal_user",
+    "password": "temporal_password"
+}
+
+def get_connection_with_failover():
+    """获取连接（带故障转移）"""
+    try:
+        # 尝试连接主节点
+        conn = psycopg2.connect(**PRIMARY_CONFIG)
+        return conn, "primary"
+    except psycopg2.OperationalError:
+        # 主节点不可用，尝试从节点（只读）
+        try:
+            conn = psycopg2.connect(**REPLICA_CONFIG)
+            return conn, "replica"
+        except psycopg2.OperationalError:
+            # 所有节点都不可用（网络分区）
+            raise ConnectionError("All database nodes unavailable (network partition)")
+
+def update_workflow_with_partition_handling(workflow_id: str, new_state: str):
+    """更新工作流状态（处理网络分区）"""
+    conn, node_type = get_connection_with_failover()
+
+    if node_type == "replica":
+        # 从节点只读，不能写入
+        raise ReadOnlyError("Cannot write to replica node")
+
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "UPDATE executions SET status = %s WHERE workflow_id = %s",
+                (new_state, workflow_id)
+            )
+            conn.commit()
+    except psycopg2.OperationalError as e:
+        # 网络分区：主节点不可用
+        conn.rollback()
+        raise ConnectionError("Primary node unavailable due to partition (CP system)")
+    finally:
+        conn.close()
+```
+
+---
+
+### 12.2 AP系统实现示例（Cassandra）
+
+#### 12.2.1 最终一致性实现
+
+**代码说明**：
+此代码示例展示如何在Cassandra中实现最终一致性（AP系统）。
+
+**关键点说明**：
+
+- 使用最终一致性保证可用性
+- 在网络分区时继续服务
+- 牺牲强一致性
+
+```python
+from cassandra.cluster import Cluster
+from cassandra.query import ConsistencyLevel
+
+# Cassandra集群配置（AP系统）
+cluster = Cluster(['cassandra-node1', 'cassandra-node2', 'cassandra-node3'])
+session = cluster.connect('temporal')
+
+def update_workflow_state_ap(workflow_id: str, new_state: str):
+    """更新工作流状态（AP系统：最终一致性）"""
+    # AP系统：使用最终一致性级别
+    # 在网络分区时，系统继续服务（保证可用性）
+    # 但可能暂时不一致（牺牲一致性）
+    session.execute(
+        """
+        UPDATE executions
+        SET status = %s, updated_at = toTimestamp(now())
+        WHERE workflow_id = %s
+        """,
+        (new_state, workflow_id),
+        consistency_level=ConsistencyLevel.ONE  # 最终一致性
+    )
+    # AP系统：即使部分节点不可用（网络分区），操作也会成功
+    # 这保证了可用性，但可能暂时不一致
+
+def read_workflow_state_ap(workflow_id: str):
+    """读取工作流状态（AP系统：最终一致性）"""
+    # AP系统：可能读取到旧数据（最终一致性）
+    result = session.execute(
+        "SELECT status FROM executions WHERE workflow_id = %s",
+        (workflow_id,),
+        consistency_level=ConsistencyLevel.ONE  # 最终一致性
+    )
+    return result.one()
+```
+
+**使用说明**：
+
+1. 配置Cassandra集群（多节点）
+2. 使用最终一致性级别
+3. 在网络分区时，系统继续服务
+
+---
+
+### 12.3 CAP权衡决策示例
+
+#### 12.3.1 系统选择决策
+
+**代码说明**：
+此代码示例展示如何根据业务需求选择CP或AP系统。
+
+**关键点说明**：
+
+- 根据业务需求选择系统类型
+- 实现相应的配置
+- 处理CAP权衡
+
+```python
+from enum import Enum
+from typing import Protocol
+
+class CAPType(Enum):
+    """CAP系统类型"""
+    CP = "CP"  # 一致性 + 分区容错性
+    AP = "AP"  # 可用性 + 分区容错性
+    CA = "CA"  # 一致性 + 可用性（不适用于分布式系统）
+
+class DatabaseAdapter(Protocol):
+    """数据库适配器接口"""
+    def update(self, key: str, value: str) -> bool:
+        ...
+
+    def read(self, key: str) -> str:
+        ...
+
+class CPAdapter:
+    """CP系统适配器（PostgreSQL）"""
+    def __init__(self):
+        self.pool = psycopg2.pool.ThreadedConnectionPool(...)
+
+    def update(self, key: str, value: str) -> bool:
+        """更新（强一致性）"""
+        try:
+            with get_db_connection() as conn:
+                # 强一致性：如果网络分区，操作失败
+                conn.execute(f"UPDATE table SET value = {value} WHERE key = {key}")
+                return True
+        except ConnectionError:
+            # CP系统：网络分区时拒绝请求
+            return False
+
+    def read(self, key: str) -> str:
+        """读取（强一致性）"""
+        with get_db_connection() as conn:
+            result = conn.execute(f"SELECT value FROM table WHERE key = {key}")
+            return result.fetchone()[0]
+
+class APAdapter:
+    """AP系统适配器（Cassandra）"""
+    def __init__(self):
+        self.session = Cluster(...).connect()
+
+    def update(self, key: str, value: str) -> bool:
+        """更新（最终一致性）"""
+        # AP系统：网络分区时继续服务
+        self.session.execute(
+            f"UPDATE table SET value = {value} WHERE key = {key}",
+            consistency_level=ConsistencyLevel.ONE
+        )
+        return True
+
+    def read(self, key: str) -> str:
+        """读取（最终一致性）"""
+        # AP系统：可能读取到旧数据
+        result = self.session.execute(
+            f"SELECT value FROM table WHERE key = {key}",
+            consistency_level=ConsistencyLevel.ONE
+        )
+        return result.one().value
+
+def choose_database(cap_type: CAPType) -> DatabaseAdapter:
+    """根据CAP类型选择数据库"""
+    if cap_type == CAPType.CP:
+        return CPAdapter()  # PostgreSQL
+    elif cap_type == CAPType.AP:
+        return APAdapter()  # Cassandra
+    else:
+        raise ValueError("CA system not suitable for distributed systems")
+
+# 使用示例
+def update_workflow_by_requirement(workflow_id: str, new_state: str,
+                                   requires_consistency: bool):
+    """根据业务需求选择系统"""
+    if requires_consistency:
+        # 金融系统：需要强一致性（CP）
+        adapter = choose_database(CAPType.CP)
+    else:
+        # 日志系统：可以接受最终一致性（AP）
+        adapter = choose_database(CAPType.AP)
+
+    return adapter.update(workflow_id, new_state)
+```
+
+---
+
+### 12.4 Temporal在CAP中的实现
+
+#### 12.4.1 Temporal CP系统实现
+
+**代码说明**：
+此代码示例展示Temporal如何实现CP系统。
+
+**关键点说明**：
+
+- Temporal使用PostgreSQL作为存储（CP系统）
+- 保证工作流状态的一致性
+- 在网络分区时牺牲可用性
+
+```python
+from temporalio import workflow, activity
+from temporalio.client import Client
+
+# Temporal客户端配置（CP系统）
+client = Client.connect(
+    "temporal-server:7233",
+    namespace="default"
+)
+
+@workflow.defn
+class OrderWorkflow:
+    """订单处理工作流（CP系统：强一致性）"""
+
+    @workflow.run
+    async def execute(self, order_id: str) -> str:
+        """执行工作流（CP系统保证一致性）"""
+        # Temporal使用PostgreSQL存储状态（CP系统）
+        # 保证工作流状态的一致性
+        # 在网络分区时，工作流执行会暂停（牺牲可用性）
+
+        # Step 1: 创建订单
+        order_result = await workflow.execute_activity(
+            create_order,
+            order_id,
+            start_to_close_timeout=timedelta(seconds=30)
+        )
+
+        # Step 2: 处理支付
+        payment_result = await workflow.execute_activity(
+            process_payment,
+            order_id,
+            start_to_close_timeout=timedelta(seconds=30)
+        )
+
+        # CP系统：如果PostgreSQL主节点不可用（网络分区），
+        # 工作流状态更新会失败，工作流会暂停
+        # 这保证了状态一致性，但牺牲了可用性
+
+        return f"Order {order_id} processed"
+
+@activity.defn
+async def create_order(order_id: str) -> dict:
+    """创建订单（使用PostgreSQL CP系统）"""
+    # 使用PostgreSQL存储（CP系统）
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                "INSERT INTO orders (order_id, status) VALUES (%s, 'created')",
+                (order_id,)
+            )
+            # CP系统：如果主节点不可用，操作失败
+            return {"order_id": order_id, "status": "created"}
+```
+
+**使用说明**：
+
+1. Temporal使用PostgreSQL作为存储后端（CP系统）
+2. 保证工作流状态的一致性
+3. 在网络分区时，工作流会暂停以保证一致性
+
+---
+
+> 💡 **提示**：这些代码示例展示了CAP定理在实际系统中的应用。CP系统（如PostgreSQL）保证强一致性但牺牲可用性，AP系统（如Cassandra）保证可用性但牺牲强一致性。Temporal选择CP系统以保证工作流状态的一致性。
+
+---
+
+## 十三、相关文档
 
 ### 12.1 核心论证文档
 

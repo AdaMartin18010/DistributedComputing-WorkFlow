@@ -76,7 +76,15 @@
     - [11.4 概念属性关系图](#114-概念属性关系图)
     - [11.5 形式化证明流程图](#115-形式化证明流程图)
       - [证明流程图1：FLP不可能定理证明步骤](#证明流程图1flp不可能定理证明步骤)
-  - [十二、相关文档](#十二相关文档)
+  - [十二、代码示例](#十二代码示例)
+    - [12.1 故障检测器实现示例](#121-故障检测器实现示例)
+      - [12.1.1 心跳故障检测器](#1211-心跳故障检测器)
+      - [12.1.2 使用故障检测器的共识算法](#1212-使用故障检测器的共识算法)
+    - [12.2 随机化算法示例](#122-随机化算法示例)
+      - [12.2.1 随机化共识算法](#1221-随机化共识算法)
+    - [12.3 Temporal绕过FLP的实现](#123-temporal绕过flp的实现)
+      - [12.3.1 Temporal故障检测器](#1231-temporal故障检测器)
+  - [十三、相关文档](#十三相关文档)
     - [12.1 核心论证文档](#121-核心论证文档)
     - [12.2 理论模型专题文档](#122-理论模型专题文档)
     - [12.3 相关资源](#123-相关资源)
@@ -1308,7 +1316,362 @@ flowchart TD
 
 ---
 
-## 十二、相关文档
+## 十二、代码示例
+
+### 12.1 故障检测器实现示例
+
+#### 12.1.1 心跳故障检测器
+
+**代码说明**：
+此代码示例展示如何实现心跳故障检测器来绕过FLP不可能定理。
+
+**关键点说明**：
+
+- 实现心跳机制
+- 检测进程故障
+- 使用故障检测器实现共识
+
+```python
+import asyncio
+import time
+from typing import Dict, Set, Optional
+from enum import Enum
+
+class ProcessState(Enum):
+    """进程状态"""
+    ALIVE = "alive"
+    SUSPECTED = "suspected"
+    FAILED = "failed"
+
+class HeartbeatFailureDetector:
+    """心跳故障检测器（绕过FLP限制）"""
+
+    def __init__(self, process_id: str, timeout: float = 5.0):
+        self.process_id = process_id
+        self.timeout = timeout
+        self.heartbeats: Dict[str, float] = {}  # 进程ID -> 最后心跳时间
+        self.suspected: Set[str] = set()  # 被怀疑的进程
+        self.state: Dict[str, ProcessState] = {}  # 进程状态
+
+    def receive_heartbeat(self, from_process: str):
+        """接收心跳"""
+        self.heartbeats[from_process] = time.time()
+        if from_process in self.suspected:
+            self.suspected.remove(from_process)
+        self.state[from_process] = ProcessState.ALIVE
+
+    def check_failures(self):
+        """检查故障（定期调用）"""
+        current_time = time.time()
+        for process_id, last_heartbeat in self.heartbeats.items():
+            if current_time - last_heartbeat > self.timeout:
+                if process_id not in self.suspected:
+                    self.suspected.add(process_id)
+                    self.state[process_id] = ProcessState.SUSPECTED
+                    print(f"Process {process_id} is suspected")
+
+    def is_alive(self, process_id: str) -> bool:
+        """检查进程是否存活"""
+        return process_id not in self.suspected and \
+               self.state.get(process_id) == ProcessState.ALIVE
+
+    def get_alive_processes(self) -> Set[str]:
+        """获取存活的进程"""
+        return {pid for pid, state in self.state.items()
+                if state == ProcessState.ALIVE}
+
+async def heartbeat_sender(detector: HeartbeatFailureDetector,
+                          target_processes: Set[str],
+                          interval: float = 1.0):
+    """心跳发送器"""
+    while True:
+        for target in target_processes:
+            # 发送心跳（在实际系统中通过网络发送）
+            print(f"Process {detector.process_id} sending heartbeat to {target}")
+            # 模拟网络延迟
+            await asyncio.sleep(0.1)
+        await asyncio.sleep(interval)
+
+async def failure_detector_loop(detector: HeartbeatFailureDetector,
+                                interval: float = 0.5):
+    """故障检测循环"""
+    while True:
+        detector.check_failures()
+        await asyncio.sleep(interval)
+
+# 使用示例
+async def main():
+    detector = HeartbeatFailureDetector("process1", timeout=3.0)
+
+    # 启动心跳发送器
+    asyncio.create_task(heartbeat_sender(detector, {"process2", "process3"}))
+
+    # 启动故障检测循环
+    asyncio.create_task(failure_detector_loop(detector))
+
+    # 模拟接收心跳
+    await asyncio.sleep(2)
+    detector.receive_heartbeat("process2")
+
+    await asyncio.sleep(5)
+    print(f"Alive processes: {detector.get_alive_processes()}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+**使用说明**：
+
+1. 实现心跳故障检测器
+2. 定期检查进程心跳
+3. 检测到超时后标记为怀疑
+4. 使用故障检测器实现共识算法
+
+---
+
+#### 12.1.2 使用故障检测器的共识算法
+
+**代码说明**：
+此代码示例展示如何使用故障检测器实现共识算法。
+
+**关键点说明**：
+
+- 使用故障检测器检测故障
+- 实现基本的共识算法
+- 绕过FLP限制
+
+```python
+class ConsensusWithFailureDetector:
+    """使用故障检测器的共识算法（绕过FLP）"""
+
+    def __init__(self, process_id: str, all_processes: Set[str]):
+        self.process_id = process_id
+        self.all_processes = all_processes
+        self.detector = HeartbeatFailureDetector(process_id)
+        self.proposed_value: Optional[str] = None
+        self.decided_value: Optional[str] = None
+        self.votes: Dict[str, str] = {}  # 进程ID -> 投票值
+
+    async def propose(self, value: str) -> str:
+        """提议值（使用故障检测器）"""
+        self.proposed_value = value
+
+        # 等待大多数进程响应（使用故障检测器）
+        alive_processes = self.detector.get_alive_processes()
+        majority = len(self.all_processes) // 2 + 1
+
+        if len(alive_processes) >= majority:
+            # 有大多数进程存活，可以达成共识
+            self.decided_value = value
+            return value
+        else:
+            # 没有大多数进程存活，无法达成共识
+            raise ConsensusImpossible("Not enough alive processes")
+
+    def receive_vote(self, from_process: str, value: str):
+        """接收投票"""
+        if self.detector.is_alive(from_process):
+            self.votes[from_process] = value
+
+    def decide(self) -> Optional[str]:
+        """决定值"""
+        if self.decided_value:
+            return self.decided_value
+
+        # 检查是否有大多数进程投票
+        alive_processes = self.detector.get_alive_processes()
+        majority = len(self.all_processes) // 2 + 1
+
+        if len(alive_processes) >= majority:
+            # 统计投票
+            vote_counts = {}
+            for process_id in alive_processes:
+                if process_id in self.votes:
+                    vote = self.votes[process_id]
+                    vote_counts[vote] = vote_counts.get(vote, 0) + 1
+
+            # 找到大多数投票的值
+            for value, count in vote_counts.items():
+                if count >= majority:
+                    self.decided_value = value
+                    return value
+
+        return None
+```
+
+---
+
+### 12.2 随机化算法示例
+
+#### 12.2.1 随机化共识算法
+
+**代码说明**：
+此代码示例展示如何使用随机化算法绕过FLP限制。
+
+**关键点说明**：
+
+- 使用随机化打破对称性
+- 实现随机化共识算法
+- 绕过FLP限制
+
+```python
+import random
+import asyncio
+
+class RandomizedConsensus:
+    """随机化共识算法（绕过FLP）"""
+
+    def __init__(self, process_id: str, all_processes: Set[str]):
+        self.process_id = process_id
+        self.all_processes = all_processes
+        self.proposed_value: Optional[str] = None
+        self.decided_value: Optional[str] = None
+        self.round = 0
+
+    async def propose_randomized(self, value: str) -> str:
+        """随机化提议"""
+        self.proposed_value = value
+
+        while self.decided_value is None:
+            self.round += 1
+
+            # 随机化决策
+            if random.random() < 0.5:
+                # 50%概率决定
+                self.decided_value = value
+                return value
+            else:
+                # 50%概率继续下一轮
+                await asyncio.sleep(0.1)
+
+        return self.decided_value
+
+    async def propose_with_backoff(self, value: str) -> str:
+        """带指数退避的随机化提议"""
+        self.proposed_value = value
+        backoff = 0.1
+
+        while self.decided_value is None:
+            self.round += 1
+
+            # 随机化决策（概率随轮次增加）
+            decision_probability = min(0.5 + self.round * 0.1, 0.9)
+
+            if random.random() < decision_probability:
+                self.decided_value = value
+                return value
+            else:
+                # 指数退避
+                await asyncio.sleep(backoff)
+                backoff = min(backoff * 2, 5.0)
+
+        return self.decided_value
+```
+
+---
+
+### 12.3 Temporal绕过FLP的实现
+
+#### 12.3.1 Temporal故障检测器
+
+**代码说明**：
+此代码示例展示Temporal如何使用故障检测器绕过FLP限制。
+
+**关键点说明**：
+
+- Temporal使用故障检测器检测Worker故障
+- 使用故障检测器实现工作流状态一致性
+- 绕过FLP限制
+
+```python
+from temporalio import workflow, activity
+from temporalio.worker import Worker
+import asyncio
+
+class TemporalFailureDetector:
+    """Temporal故障检测器（绕过FLP）"""
+
+    def __init__(self, worker_id: str, heartbeat_timeout: float = 30.0):
+        self.worker_id = worker_id
+        self.heartbeat_timeout = heartbeat_timeout
+        self.last_heartbeat: Dict[str, float] = {}
+        self.suspected_workers: Set[str] = set()
+
+    def receive_heartbeat(self, from_worker: str):
+        """接收Worker心跳"""
+        self.last_heartbeat[from_worker] = time.time()
+        if from_worker in self.suspected_workers:
+            self.suspected_workers.remove(from_worker)
+
+    def check_worker_failures(self):
+        """检查Worker故障"""
+        current_time = time.time()
+        for worker_id, last_time in self.last_heartbeat.items():
+            if current_time - last_time > self.heartbeat_timeout:
+                if worker_id not in self.suspected_workers:
+                    self.suspected_workers.add(worker_id)
+                    print(f"Worker {worker_id} is suspected")
+
+    def is_worker_alive(self, worker_id: str) -> bool:
+        """检查Worker是否存活"""
+        return worker_id not in self.suspected_workers
+
+@activity.defn
+async def long_running_activity(params: dict):
+    """长时间运行的Activity（使用心跳）"""
+    total_steps = params['total_steps']
+
+    for i in range(total_steps):
+        # 执行任务步骤
+        process_step(i)
+
+        # 发送心跳（绕过FLP：使用故障检测器）
+        activity.heartbeat(f"Progress: {i}/{total_steps}")
+
+        # 如果Worker被怀疑故障，Activity会被重新调度
+        await asyncio.sleep(1)
+
+    return "Task completed"
+
+@workflow.defn
+class ResilientWorkflow:
+    """容错工作流（使用故障检测器绕过FLP）"""
+
+    @workflow.run
+    async def execute(self, params: dict) -> str:
+        """执行工作流（使用故障检测器）"""
+        # Temporal使用故障检测器检测Worker故障
+        # 如果Worker故障，工作流会被重新调度到其他Worker
+        # 这绕过了FLP限制：使用故障检测器实现确定性共识
+
+        result = await workflow.execute_activity(
+            long_running_activity,
+            params,
+            start_to_close_timeout=timedelta(hours=1),
+            heartbeat_timeout=timedelta(seconds=30)  # 心跳超时
+        )
+
+        # Temporal的故障检测器确保：
+        # 1. 如果Worker故障，Activity会被重新调度
+        # 2. 工作流状态保持一致
+        # 3. 绕过FLP限制
+
+        return result
+```
+
+**使用说明**：
+
+1. Temporal使用故障检测器检测Worker故障
+2. 如果Worker故障，工作流会被重新调度
+3. 这绕过了FLP限制，实现了确定性共识
+
+---
+
+> 💡 **提示**：这些代码示例展示了如何绕过FLP不可能定理。主要方法包括使用故障检测器、随机化算法等。Temporal通过故障检测器检测Worker故障并重新调度工作流，从而绕过了FLP限制。
+
+---
+
+## 十三、相关文档
 
 ### 12.1 核心论证文档
 

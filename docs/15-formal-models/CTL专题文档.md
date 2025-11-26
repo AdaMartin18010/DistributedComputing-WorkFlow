@@ -91,7 +91,18 @@
     - [11.4 概念属性关系图](#114-概念属性关系图)
     - [11.5 形式化证明流程图](#115-形式化证明流程图)
       - [证明流程图1：CTL模型检验算法流程图](#证明流程图1ctl模型检验算法流程图)
-  - [十二、相关文档](#十二相关文档)
+  - [十二、代码示例](#十二代码示例)
+    - [12.1 NuSMV模型示例](#121-nusmv模型示例)
+      - [12.1.1 简单状态机示例](#1211-简单状态机示例)
+      - [12.1.2 工作流验证示例](#1212-工作流验证示例)
+    - [12.2 SPIN/Promela示例](#122-spinpromela示例)
+      - [12.2.1 并发系统示例](#1221-并发系统示例)
+    - [12.3 CTL公式示例](#123-ctl公式示例)
+      - [12.3.1 基本CTL公式](#1231-基本ctl公式)
+      - [12.3.2 工作流性质验证](#1232-工作流性质验证)
+    - [12.4 实际应用示例](#124-实际应用示例)
+      - [12.4.1 Temporal工作流CTL验证](#1241-temporal工作流ctl验证)
+  - [十三、相关文档](#十三相关文档)
     - [12.1 核心论证文档](#121-核心论证文档)
     - [12.2 理论模型专题文档](#122-理论模型专题文档)
     - [12.3 相关资源](#123-相关资源)
@@ -1768,7 +1779,347 @@ flowchart TD
 
 ---
 
-## 十二、相关文档
+## 十二、代码示例
+
+### 12.1 NuSMV模型示例
+
+#### 12.1.1 简单状态机示例
+
+**代码说明**：
+此代码示例展示如何使用NuSMV建模和验证一个简单的状态机系统。
+
+**关键点说明**：
+
+- 定义状态变量
+- 定义状态转换
+- 定义CTL性质
+- 使用NuSMV验证性质
+
+```smv
+MODULE main
+VAR
+    state : {init, running, completed, failed};
+
+ASSIGN
+    init(state) := init;
+    next(state) := case
+        state = init : running;
+        state = running : {completed, failed};
+        state = completed : completed;
+        state = failed : failed;
+        TRUE : state;
+    esac;
+
+-- CTL性质：从初始状态，最终会到达完成或失败状态
+SPEC AG (state = init -> AF (state = completed | state = failed))
+
+-- CTL性质：一旦完成，就永远不会失败
+SPEC AG (state = completed -> AG (state != failed))
+
+-- CTL性质：一旦失败，就永远不会完成
+SPEC AG (state = failed -> AG (state != completed))
+```
+
+**使用说明**：
+
+1. 将代码保存为`simple_state_machine.smv`文件
+2. 运行NuSMV：`nuSMV simple_state_machine.smv`
+3. 使用`check_ctlspec`命令验证CTL性质
+4. 查看验证结果
+
+---
+
+#### 12.1.2 工作流验证示例
+
+**代码说明**：
+此代码示例展示如何使用NuSMV验证工作流系统的性质。
+
+**关键点说明**：
+
+- 定义工作流状态
+- 定义Activity状态
+- 定义状态转换规则
+- 验证工作流正确性性质
+
+```smv
+MODULE main
+VAR
+    workflow_state : {created, running, completed, failed};
+    activity1 : {pending, running, completed, failed};
+    activity2 : {pending, running, completed, failed};
+    activity3 : {pending, running, completed, failed};
+
+ASSIGN
+    init(workflow_state) := created;
+    init(activity1) := pending;
+    init(activity2) := pending;
+    init(activity3) := pending;
+
+    next(workflow_state) := case
+        workflow_state = created : running;
+        workflow_state = running & activity1 = completed & activity2 = completed & activity3 = completed : completed;
+        workflow_state = running & (activity1 = failed | activity2 = failed | activity3 = failed) : failed;
+        TRUE : workflow_state;
+    esac;
+
+    next(activity1) := case
+        workflow_state = running & activity1 = pending : running;
+        workflow_state = running & activity1 = running : {completed, failed};
+        TRUE : activity1;
+    esac;
+
+    next(activity2) := case
+        workflow_state = running & activity1 = completed & activity2 = pending : running;
+        workflow_state = running & activity2 = running : {completed, failed};
+        TRUE : activity2;
+    esac;
+
+    next(activity3) := case
+        workflow_state = running & activity2 = completed & activity3 = pending : running;
+        workflow_state = running & activity3 = running : {completed, failed};
+        TRUE : activity3;
+    esac;
+
+-- CTL性质：工作流最终会完成或失败
+SPEC AG (workflow_state = running -> AF (workflow_state = completed | workflow_state = failed))
+
+-- CTL性质：Activity按顺序执行
+SPEC AG (activity2 = running -> AX (activity1 = completed))
+SPEC AG (activity3 = running -> AX (activity2 = completed))
+
+-- CTL性质：工作流状态一致性
+SPEC AG (workflow_state = completed -> (activity1 = completed & activity2 = completed & activity3 = completed))
+SPEC AG (workflow_state = failed -> (activity1 = failed | activity2 = failed | activity3 = failed))
+```
+
+**使用说明**：
+
+1. 将代码保存为`workflow_verification.smv`文件
+2. 运行NuSMV进行验证
+3. 检查所有CTL性质是否满足
+
+---
+
+### 12.2 SPIN/Promela示例
+
+#### 12.2.1 并发系统示例
+
+**代码说明**：
+此代码示例展示如何使用SPIN/Promela建模和验证并发系统。
+
+**关键点说明**：
+
+- 定义进程
+- 定义进程间通信
+- 定义LTL性质（SPIN主要支持LTL，但可以表达CTL性质）
+
+```promela
+/* 简单的互斥锁示例 */
+bool lock = false;
+int counter = 0;
+
+active proctype Process1() {
+    do
+        :: !lock ->
+            lock = true;
+            counter = counter + 1;
+            lock = false;
+    od
+}
+
+active proctype Process2() {
+    do
+        :: !lock ->
+            lock = true;
+            counter = counter + 1;
+            lock = false;
+    od
+}
+
+/* LTL性质：互斥性（等价于CTL的AG性质） */
+ltl mutex { [] (lock -> (counter == 1)) }
+
+/* LTL性质：活性（等价于CTL的AF性质） */
+ltl liveness { [] (counter < 10) }
+```
+
+**使用说明**：
+
+1. 将代码保存为`mutex.pml`文件
+2. 运行SPIN生成验证器：`spin -a mutex.pml`
+3. 编译验证器：`gcc -o pan pan.c`
+4. 运行验证：`./pan`
+
+---
+
+### 12.3 CTL公式示例
+
+#### 12.3.1 基本CTL公式
+
+**代码说明**：
+此代码示例展示常用的CTL公式及其含义。
+
+**关键点说明**：
+
+- EX：存在下一个状态
+- AX：所有下一个状态
+- EF：存在路径最终
+- AF：所有路径最终
+- EG：存在路径总是
+- AG：所有路径总是
+- EU：存在路径直到
+- AU：所有路径直到
+
+```text
+-- 基本CTL公式示例
+
+-- EX p：存在下一个状态满足p
+EX (state = running)
+
+-- AX p：所有下一个状态满足p
+AX (state = running | state = completed)
+
+-- EF p：存在路径最终满足p
+EF (state = completed)
+
+-- AF p：所有路径最终满足p
+AF (state = completed | state = failed)
+
+-- EG p：存在路径总是满足p
+EG (state != failed)
+
+-- AG p：所有路径总是满足p
+AG (state = completed -> state != failed)
+
+-- E[p U q]：存在路径p直到q
+E[(state = running) U (state = completed)]
+
+-- A[p U q]：所有路径p直到q
+A[(state = running) U (state = completed | state = failed)]
+```
+
+---
+
+#### 12.3.2 工作流性质验证
+
+**代码说明**：
+此代码示例展示如何使用CTL公式表达和验证工作流的性质。
+
+**关键点说明**：
+
+- 安全性性质：使用AG
+- 活性性质：使用AF
+- 响应性性质：使用AG和AF组合
+
+```text
+-- 工作流性质CTL公式
+
+-- 安全性：工作流状态始终有效
+AG (workflow_state \in {created, running, completed, failed})
+
+-- 安全性：一旦完成，就永远不会失败
+AG (workflow_state = completed -> AG (workflow_state != failed))
+
+-- 活性：工作流最终会完成或失败
+AG (workflow_state = running -> AF (workflow_state = completed | workflow_state = failed))
+
+-- 响应性：如果Activity失败，工作流最终会失败
+AG (activity_failed -> AF (workflow_state = failed))
+
+-- 公平性：如果所有Activity都完成，工作流最终会完成
+AG ((all_activities_completed) -> AF (workflow_state = completed))
+```
+
+---
+
+### 12.4 实际应用示例
+
+#### 12.4.1 Temporal工作流CTL验证
+
+**代码说明**：
+此代码示例展示如何使用CTL验证Temporal工作流的性质。
+
+**关键点说明**：
+
+- 定义Temporal工作流状态
+- 定义Activity执行状态
+- 使用CTL公式表达工作流性质
+- 使用NuSMV验证性质
+
+```smv
+MODULE TemporalWorkflow
+VAR
+    workflow_id : 0..100;
+    workflow_state : {created, running, completed, failed, cancelled};
+    activities : array 0..2 of {pending, running, completed, failed};
+    current_activity : 0..2;
+
+ASSIGN
+    init(workflow_state) := created;
+    init(current_activity) := 0;
+    init(activities[0]) := pending;
+    init(activities[1]) := pending;
+    init(activities[2]) := pending;
+
+    next(workflow_state) := case
+        workflow_state = created : running;
+        workflow_state = running & activities[0] = completed & activities[1] = completed & activities[2] = completed : completed;
+        workflow_state = running & (activities[0] = failed | activities[1] = failed | activities[2] = failed) : failed;
+        workflow_state = running & workflow_state = cancelled : cancelled;
+        TRUE : workflow_state;
+    esac;
+
+    next(current_activity) := case
+        workflow_state = running & activities[current_activity] = completed & current_activity < 2 : current_activity + 1;
+        TRUE : current_activity;
+    esac;
+
+    next(activities[0]) := case
+        workflow_state = running & current_activity = 0 & activities[0] = pending : running;
+        workflow_state = running & current_activity = 0 & activities[0] = running : {completed, failed};
+        TRUE : activities[0];
+    esac;
+
+    next(activities[1]) := case
+        workflow_state = running & current_activity = 1 & activities[1] = pending : running;
+        workflow_state = running & current_activity = 1 & activities[1] = running : {completed, failed};
+        TRUE : activities[1];
+    esac;
+
+    next(activities[2]) := case
+        workflow_state = running & current_activity = 2 & activities[2] = pending : running;
+        workflow_state = running & current_activity = 2 & activities[2] = running : {completed, failed};
+        TRUE : activities[2];
+    esac;
+
+-- CTL性质：工作流状态一致性
+SPEC AG (workflow_state = completed -> (activities[0] = completed & activities[1] = completed & activities[2] = completed))
+
+-- CTL性质：Activity顺序执行
+SPEC AG (current_activity = 1 -> AX (activities[0] = completed))
+SPEC AG (current_activity = 2 -> AX (activities[1] = completed))
+
+-- CTL性质：工作流最终会终止
+SPEC AG (workflow_state = running -> AF (workflow_state = completed | workflow_state = failed | workflow_state = cancelled))
+
+-- CTL性质：故障恢复（如果Activity失败，可以重试）
+SPEC AG (activities[0] = failed -> EF (activities[0] = running))
+```
+
+**使用说明**：
+
+1. 将代码保存为`temporal_workflow.smv`文件
+2. 运行NuSMV进行验证
+3. 验证所有CTL性质
+4. 分析验证结果
+
+---
+
+> 💡 **提示**：这些代码示例可以直接在NuSMV或SPIN中运行和验证。建议按照示例顺序学习，从简单到复杂，逐步掌握CTL的使用方法。
+
+---
+
+## 十三、相关文档
 
 ### 12.1 核心论证文档
 

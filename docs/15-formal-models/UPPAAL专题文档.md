@@ -73,7 +73,16 @@
     - [11.4 概念属性关系图](#114-概念属性关系图)
     - [11.5 形式化证明流程图](#115-形式化证明流程图)
       - [证明流程图1：区域图构建算法流程图](#证明流程图1区域图构建算法流程图)
-  - [十二、相关文档](#十二相关文档)
+  - [十二、代码示例](#十二代码示例)
+    - [12.1 UPPAAL时间自动机示例](#121-uppaal时间自动机示例)
+      - [12.1.1 简单时间自动机示例](#1211-简单时间自动机示例)
+      - [12.1.2 工作流时间自动机示例](#1212-工作流时间自动机示例)
+    - [12.2 UPPAAL查询语言示例](#122-uppaal查询语言示例)
+      - [12.2.1 基本查询](#1221-基本查询)
+      - [12.2.2 工作流性质验证查询](#1222-工作流性质验证查询)
+    - [12.3 实际应用示例](#123-实际应用示例)
+      - [12.3.1 Temporal工作流时间约束验证](#1231-temporal工作流时间约束验证)
+  - [十三、相关文档](#十三相关文档)
     - [12.1 核心论证文档](#121-核心论证文档)
     - [12.2 理论模型专题文档](#122-理论模型专题文档)
     - [12.3 相关资源](#123-相关资源)
@@ -1040,7 +1049,336 @@ flowchart TD
 
 ---
 
-## 十二、相关文档
+## 十二、代码示例
+
+### 12.1 UPPAAL时间自动机示例
+
+#### 12.1.1 简单时间自动机示例
+
+**代码说明**：
+此代码示例展示如何使用UPPAAL创建和验证一个简单的时间自动机。
+
+**关键点说明**：
+
+- 定义时钟变量
+- 定义位置（Location）
+- 定义转换（Transition）
+- 定义时钟约束
+- 定义CTL性质
+
+**UPPAAL XML格式示例**：
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'>
+<nta>
+    <declaration>
+        clock x;
+    </declaration>
+
+    <template>
+        <name>SimpleTimer</name>
+        <declaration>
+        </declaration>
+        <location id="id0">
+            <name>Start</name>
+            <committed/>
+        </location>
+        <location id="id1">
+            <name>Running</name>
+        </location>
+        <location id="id2">
+            <name>Completed</name>
+        </location>
+        <init ref="id0"/>
+        <transition>
+            <source ref="id0"/>
+            <target ref="id1"/>
+            <label kind="assignment" x="0">x := 0</label>
+        </transition>
+        <transition>
+            <source ref="id1"/>
+            <target ref="id2"/>
+            <label kind="guard" x="10">x &gt;= 10</label>
+        </transition>
+    </template>
+
+    <system>
+        SimpleTimer = SimpleTimer();
+        system SimpleTimer;
+    </system>
+</nta>
+```
+
+**CTL性质验证**：
+
+```text
+-- 可达性：最终会到达Completed状态
+A<> SimpleTimer.Completed
+
+-- 安全性：在Running状态时，时钟x总是小于等于10
+A[] (SimpleTimer.Running imply x <= 10)
+
+-- 活性：从Start状态，最终会到达Completed状态
+SimpleTimer.Start --> SimpleTimer.Completed
+```
+
+**使用说明**：
+
+1. 在UPPAAL工具中创建新模型
+2. 添加模板、位置和转换
+3. 定义时钟变量和约束
+4. 运行验证，检查CTL性质
+
+---
+
+#### 12.1.2 工作流时间自动机示例
+
+**代码说明**：
+此代码示例展示如何使用UPPAAL建模带时间约束的工作流。
+
+**关键点说明**：
+
+- 定义工作流状态位置
+- 定义Activity执行位置
+- 定义时间约束（超时、延迟）
+- 验证时间相关性质
+
+**UPPAAL模型结构**：
+
+```text
+模板：Workflow
+时钟：x（工作流时钟）
+
+位置：
+- Start: 初始位置
+- Running: 运行中
+- Activity1: Activity1执行中
+- Activity2: Activity2执行中
+- Activity3: Activity3执行中
+- Completed: 完成
+- Timeout: 超时
+
+转换：
+- Start -> Running: x := 0
+- Running -> Activity1: x <= 5
+- Activity1 -> Activity2: x >= 2 && x <= 10
+- Activity2 -> Activity3: x >= 2 && x <= 10
+- Activity3 -> Completed: x >= 2 && x <= 10
+- Running -> Timeout: x > 30（超时）
+```
+
+**CTL性质验证**：
+
+```text
+-- 可达性：工作流最终会完成
+A<> Workflow.Completed
+
+-- 安全性：工作流不会超时（如果所有Activity在30秒内完成）
+A[] (not Workflow.Timeout)
+
+-- 时间约束：Activity执行时间在2-10秒之间
+A[] (Workflow.Activity1 imply x >= 2 && x <= 10)
+
+-- 活性：如果工作流运行，最终会完成或超时
+A[] (Workflow.Running imply A<> (Workflow.Completed || Workflow.Timeout))
+```
+
+---
+
+### 12.2 UPPAAL查询语言示例
+
+#### 12.2.1 基本查询
+
+**代码说明**：
+此代码示例展示UPPAAL查询语言的基本用法。
+
+**关键点说明**：
+
+- 可达性查询
+- 安全性查询
+- 活性查询
+- 时间约束查询
+
+```text
+-- 可达性查询
+-- 语法：E<> p（存在路径最终满足p）或 A<> p（所有路径最终满足p）
+E<> Workflow.Completed
+A<> Workflow.Completed
+
+-- 安全性查询
+-- 语法：E[] p（存在路径总是满足p）或 A[] p（所有路径总是满足p）
+A[] (not Workflow.Timeout)
+A[] (Workflow.Running imply x <= 30)
+
+-- 活性查询
+-- 语法：p --> q（p蕴含最终q）
+Workflow.Running --> Workflow.Completed
+
+-- 时间约束查询
+-- 语法：使用时钟约束
+A[] (Workflow.Activity1 imply x >= 2 && x <= 10)
+E<> (Workflow.Completed && x <= 30)
+```
+
+---
+
+#### 12.2.2 工作流性质验证查询
+
+**代码说明**：
+此代码示例展示如何使用UPPAAL查询语言验证工作流的性质。
+
+**关键点说明**：
+
+- 工作流终止性
+- 时间约束满足性
+- 超时避免性
+- Activity顺序性
+
+```text
+-- 工作流终止性：工作流最终会完成或超时
+A<> (Workflow.Completed || Workflow.Timeout)
+
+-- 时间约束满足性：所有Activity都在时间约束内完成
+A[] ((Workflow.Activity1 && x > 10) imply false)
+A[] ((Workflow.Activity2 && x > 10) imply false)
+A[] ((Workflow.Activity3 && x > 10) imply false)
+
+-- 超时避免性：如果所有Activity在30秒内完成，工作流不会超时
+A[] (Workflow.Completed imply x <= 30)
+
+-- Activity顺序性：Activity按顺序执行
+A[] (Workflow.Activity2 imply Workflow.Activity1 was true)
+A[] (Workflow.Activity3 imply Workflow.Activity2 was true)
+```
+
+---
+
+### 12.3 实际应用示例
+
+#### 12.3.1 Temporal工作流时间约束验证
+
+**代码说明**：
+此代码示例展示如何使用UPPAAL验证Temporal工作流的时间约束。
+
+**关键点说明**：
+
+- 定义工作流时间自动机
+- 定义Activity时间约束
+- 验证超时处理
+- 验证时间保证
+
+**UPPAAL模型**：
+
+```xml
+<template>
+    <name>TemporalWorkflow</name>
+    <declaration>
+        clock workflow_time;
+        clock activity1_time;
+        clock activity2_time;
+        clock activity3_time;
+    </declaration>
+
+    <location id="created">
+        <name>Created</name>
+    </location>
+    <location id="running">
+        <name>Running</name>
+    </location>
+    <location id="activity1">
+        <name>Activity1</name>
+        <invariant>activity1_time &lt;= 10</invariant>
+    </location>
+    <location id="activity2">
+        <name>Activity2</name>
+        <invariant>activity2_time &lt;= 10</invariant>
+    </location>
+    <location id="activity3">
+        <name>Activity3</name>
+        <invariant>activity3_time &lt;= 10</invariant>
+    </location>
+    <location id="completed">
+        <name>Completed</name>
+    </location>
+    <location id="timeout">
+        <name>Timeout</name>
+    </location>
+
+    <init ref="created"/>
+
+    <transition>
+        <source ref="created"/>
+        <target ref="running"/>
+        <label kind="assignment">workflow_time := 0</label>
+    </transition>
+
+    <transition>
+        <source ref="running"/>
+        <target ref="activity1"/>
+        <label kind="assignment">activity1_time := 0</label>
+        <label kind="guard">workflow_time &lt;= 30</label>
+    </transition>
+
+    <transition>
+        <source ref="activity1"/>
+        <target ref="activity2"/>
+        <label kind="guard">activity1_time &gt;= 2 && activity1_time &lt;= 10</label>
+        <label kind="assignment">activity2_time := 0</label>
+    </transition>
+
+    <transition>
+        <source ref="activity2"/>
+        <target ref="activity3"/>
+        <label kind="guard">activity2_time &gt;= 2 && activity2_time &lt;= 10</label>
+        <label kind="assignment">activity3_time := 0</label>
+    </transition>
+
+    <transition>
+        <source ref="activity3"/>
+        <target ref="completed"/>
+        <label kind="guard">activity3_time &gt;= 2 && activity3_time &lt;= 10</label>
+        <label kind="guard">workflow_time &lt;= 30</label>
+    </transition>
+
+    <transition>
+        <source ref="running"/>
+        <target ref="timeout"/>
+        <label kind="guard">workflow_time &gt; 30</label>
+    </transition>
+</template>
+```
+
+**验证查询**：
+
+```text
+-- 工作流最终会完成或超时
+A<> (TemporalWorkflow.Completed || TemporalWorkflow.Timeout)
+
+-- 如果工作流完成，总时间不超过30秒
+A[] (TemporalWorkflow.Completed imply workflow_time <= 30)
+
+-- Activity执行时间在2-10秒之间
+A[] (TemporalWorkflow.Activity1 imply activity1_time >= 2 && activity1_time <= 10)
+
+-- 超时避免性：如果所有Activity在时间约束内完成，工作流不会超时
+A[] ((TemporalWorkflow.Completed && workflow_time <= 30) imply not TemporalWorkflow.Timeout)
+```
+
+**使用说明**：
+
+1. 在UPPAAL工具中创建模型
+2. 定义时间自动机模板
+3. 添加时钟变量和约束
+4. 运行验证，检查CTL性质
+
+---
+
+> 💡 **提示**：这些代码示例可以直接在UPPAAL工具中运行和验证。建议按照示例顺序学习，从简单到复杂，逐步掌握UPPAAL的使用方法。
+
+---
+
+## 十三、相关文档
 
 ### 12.1 核心论证文档
 

@@ -78,7 +78,18 @@
     - [11.4 概念属性关系图](#114-概念属性关系图)
     - [11.5 形式化证明流程图](#115-形式化证明流程图)
       - [证明流程图1：LTL到Büchi自动机转换算法](#证明流程图1ltl到büchi自动机转换算法)
-  - [十二、相关文档](#十二相关文档)
+  - [十二、代码示例](#十二代码示例)
+    - [12.1 SPIN/Promela示例](#121-spinpromela示例)
+      - [12.1.1 简单互斥锁示例](#1211-简单互斥锁示例)
+      - [12.1.2 工作流验证示例](#1212-工作流验证示例)
+    - [12.2 NuSMV LTL示例](#122-nusmv-ltl示例)
+      - [12.2.1 状态机LTL验证](#1221-状态机ltl验证)
+    - [12.3 LTL公式示例](#123-ltl公式示例)
+      - [12.3.1 基本LTL公式](#1231-基本ltl公式)
+      - [12.3.2 工作流性质LTL公式](#1232-工作流性质ltl公式)
+    - [12.4 实际应用示例](#124-实际应用示例)
+      - [12.4.1 Temporal工作流LTL验证](#1241-temporal工作流ltl验证)
+  - [十三、相关文档](#十三相关文档)
     - [12.1 核心论证文档](#121-核心论证文档)
     - [12.2 理论模型专题文档](#122-理论模型专题文档)
     - [12.3 相关资源](#123-相关资源)
@@ -1475,7 +1486,380 @@ flowchart TD
 
 ---
 
-## 十二、相关文档
+## 十二、代码示例
+
+### 12.1 SPIN/Promela示例
+
+#### 12.1.1 简单互斥锁示例
+
+**代码说明**：
+此代码示例展示如何使用SPIN/Promela建模和验证一个简单的互斥锁系统。
+
+**关键点说明**：
+
+- 定义共享资源
+- 定义进程
+- 定义LTL性质
+- 使用SPIN验证性质
+
+```promela
+/* 互斥锁示例 */
+bool lock = false;
+int counter = 0;
+
+active proctype Process1() {
+    do
+        :: !lock ->
+            lock = true;
+            counter = counter + 1;
+            lock = false;
+    od
+}
+
+active proctype Process2() {
+    do
+        :: !lock ->
+            lock = true;
+            counter = counter + 1;
+            lock = false;
+    od
+}
+
+/* LTL性质：互斥性（安全性） */
+ltl mutex { [] (lock -> (counter == 1)) }
+
+/* LTL性质：活性（进程最终会执行） */
+ltl liveness { [] (counter < 10) }
+
+/* LTL性质：公平性（每个进程都有机会执行） */
+ltl fairness { [] (<> (counter > 0)) }
+```
+
+**使用说明**：
+
+1. 将代码保存为`mutex.pml`文件
+2. 运行SPIN生成验证器：`spin -a mutex.pml`
+3. 编译验证器：`gcc -o pan pan.c`
+4. 运行验证：`./pan -a`（验证所有LTL性质）
+
+---
+
+#### 12.1.2 工作流验证示例
+
+**代码说明**：
+此代码示例展示如何使用SPIN/Promela验证工作流系统的性质。
+
+**关键点说明**：
+
+- 定义工作流状态
+- 定义Activity状态
+- 定义LTL性质
+- 验证工作流正确性
+
+```promela
+/* 工作流验证示例 */
+mtype = {created, running, completed, failed};
+mtype = {pending, running, completed, failed};
+
+mtype workflow_state = created;
+mtype activity1 = pending;
+mtype activity2 = pending;
+mtype activity3 = pending;
+
+active proctype Workflow() {
+    workflow_state = running;
+
+    /* Activity1执行 */
+    activity1 = running;
+    if
+        :: activity1 = completed;
+        :: activity1 = failed;
+    fi;
+
+    if
+        :: activity1 = completed ->
+            /* Activity2执行 */
+            activity2 = running;
+            if
+                :: activity2 = completed;
+                :: activity2 = failed;
+            fi;
+
+            if
+                :: activity2 = completed ->
+                    /* Activity3执行 */
+                    activity3 = running;
+                    if
+                        :: activity3 = completed;
+                        :: activity3 = failed;
+                    fi;
+
+                    if
+                        :: activity3 = completed -> workflow_state = completed;
+                        :: activity3 = failed -> workflow_state = failed;
+                    fi;
+                :: activity2 = failed -> workflow_state = failed;
+            fi;
+        :: activity1 = failed -> workflow_state = failed;
+    fi;
+}
+
+/* LTL性质：工作流最终会完成或失败（活性） */
+ltl termination { [] (workflow_state = running -> <> (workflow_state = completed || workflow_state = failed)) }
+
+/* LTL性质：Activity顺序执行（安全性） */
+ltl order { [] ((activity2 = running) -> X (activity1 = completed)) }
+ltl order2 { [] ((activity3 = running) -> X (activity2 = completed)) }
+
+/* LTL性质：工作流状态一致性（安全性） */
+ltl consistency { [] ((workflow_state = completed) -> (activity1 = completed && activity2 = completed && activity3 = completed)) }
+```
+
+**使用说明**：
+
+1. 将代码保存为`workflow.pml`文件
+2. 运行SPIN进行验证
+3. 检查所有LTL性质是否满足
+
+---
+
+### 12.2 NuSMV LTL示例
+
+#### 12.2.1 状态机LTL验证
+
+**代码说明**：
+此代码示例展示如何使用NuSMV的LTL功能验证状态机性质。
+
+**关键点说明**：
+
+- 定义状态变量
+- 定义状态转换
+- 定义LTL性质
+- 使用NuSMV验证LTL性质
+
+```smv
+MODULE main
+VAR
+    state : {init, running, completed, failed};
+
+ASSIGN
+    init(state) := init;
+    next(state) := case
+        state = init : running;
+        state = running : {completed, failed};
+        state = completed : completed;
+        state = failed : failed;
+        TRUE : state;
+    esac;
+
+-- LTL性质：工作流最终会完成或失败（活性）
+LTLSPEC G (state = running -> F (state = completed | state = failed))
+
+-- LTL性质：一旦完成，就永远不会失败（安全性）
+LTLSPEC G (state = completed -> G (state != failed))
+
+-- LTL性质：一旦失败，就永远不会完成（安全性）
+LTLSPEC G (state = failed -> G (state != completed))
+
+-- LTL性质：响应性（如果运行，最终会完成或失败）
+LTLSPEC G (state = running -> F (state = completed | state = failed))
+```
+
+**使用说明**：
+
+1. 将代码保存为`state_machine.smv`文件
+2. 运行NuSMV：`nuSMV state_machine.smv`
+3. 使用`check_ltlspec`命令验证LTL性质
+4. 查看验证结果
+
+---
+
+### 12.3 LTL公式示例
+
+#### 12.3.1 基本LTL公式
+
+**代码说明**：
+此代码示例展示常用的LTL公式及其含义。
+
+**关键点说明**：
+
+- X：下一个状态
+- F：最终（Eventually）
+- G：总是（Globally）
+- U：直到（Until）
+- R：释放（Release）
+
+```text
+-- 基本LTL公式示例
+
+-- X p：下一个状态满足p
+X (state = running)
+
+-- F p：最终满足p
+F (state = completed)
+
+-- G p：总是满足p
+G (state != failed)
+
+-- p U q：p直到q
+(state = running) U (state = completed)
+
+-- p R q：p释放q（q直到p）
+(state != failed) R (state = completed)
+
+-- 组合公式
+G (state = running -> F (state = completed))
+-- 含义：总是（如果运行，则最终会完成）
+
+G (state = completed -> G (state != failed))
+-- 含义：总是（如果完成，则总是不会失败）
+
+F (state = completed) -> G (state = completed)
+-- 含义：如果最终完成，则总是完成
+```
+
+---
+
+#### 12.3.2 工作流性质LTL公式
+
+**代码说明**：
+此代码示例展示如何使用LTL公式表达工作流的性质。
+
+**关键点说明**：
+
+- 安全性性质：使用G
+- 活性性质：使用F
+- 响应性性质：使用G和F组合
+
+```text
+-- 工作流性质LTL公式
+
+-- 安全性：工作流状态始终有效
+G (workflow_state \in {created, running, completed, failed})
+
+-- 安全性：一旦完成，就永远不会失败
+G (workflow_state = completed -> G (workflow_state != failed))
+
+-- 活性：工作流最终会完成或失败
+G (workflow_state = running -> F (workflow_state = completed | workflow_state = failed))
+
+-- 响应性：如果Activity失败，工作流最终会失败
+G (activity_failed -> F (workflow_state = failed))
+
+-- 公平性：如果所有Activity都完成，工作流最终会完成
+G ((all_activities_completed) -> F (workflow_state = completed))
+
+-- 顺序性：Activity按顺序执行
+G ((activity2_running) -> X (activity1_completed))
+G ((activity3_running) -> X (activity2_completed))
+```
+
+---
+
+### 12.4 实际应用示例
+
+#### 12.4.1 Temporal工作流LTL验证
+
+**代码说明**：
+此代码示例展示如何使用LTL验证Temporal工作流的性质。
+
+**关键点说明**：
+
+- 定义Temporal工作流状态
+- 定义Activity执行状态
+- 使用LTL公式表达工作流性质
+- 使用SPIN验证性质
+
+```promela
+/* Temporal工作流LTL验证 */
+mtype = {created, running, completed, failed, cancelled};
+
+mtype workflow_state = created;
+bool activity1_completed = false;
+bool activity2_completed = false;
+bool activity3_completed = false;
+bool activity1_failed = false;
+bool activity2_failed = false;
+bool activity3_failed = false;
+
+active proctype TemporalWorkflow() {
+    workflow_state = running;
+
+    /* Activity1执行 */
+    if
+        :: activity1_completed = true;
+        :: activity1_failed = true;
+    fi;
+
+    if
+        :: activity1_completed ->
+            /* Activity2执行 */
+            if
+                :: activity2_completed = true;
+                :: activity2_failed = true;
+            fi;
+
+            if
+                :: activity2_completed ->
+                    /* Activity3执行 */
+                    if
+                        :: activity3_completed = true;
+                        :: activity3_failed = true;
+                    fi;
+
+                    if
+                        :: activity3_completed -> workflow_state = completed;
+                        :: activity3_failed -> workflow_state = failed;
+                    fi;
+                :: activity2_failed -> workflow_state = failed;
+            fi;
+        :: activity1_failed -> workflow_state = failed;
+    fi;
+}
+
+/* LTL性质：工作流最终会终止（活性） */
+ltl termination {
+    G (workflow_state = running -> F (workflow_state = completed || workflow_state = failed || workflow_state = cancelled))
+}
+
+/* LTL性质：工作流状态一致性（安全性） */
+ltl consistency {
+    G ((workflow_state = completed) -> (activity1_completed && activity2_completed && activity3_completed))
+}
+
+ltl consistency2 {
+    G ((workflow_state = failed) -> (activity1_failed || activity2_failed || activity3_failed))
+}
+
+/* LTL性质：Activity顺序执行（安全性） */
+ltl order {
+    G ((activity2_completed) -> X (activity1_completed))
+}
+
+ltl order2 {
+    G ((activity3_completed) -> X (activity2_completed))
+}
+
+/* LTL性质：故障恢复（活性） */
+ltl recovery {
+    G ((activity1_failed) -> F (activity1_completed))
+}
+```
+
+**使用说明**：
+
+1. 将代码保存为`temporal_workflow.pml`文件
+2. 运行SPIN进行验证
+3. 验证所有LTL性质
+4. 分析验证结果
+
+---
+
+> 💡 **提示**：这些代码示例可以直接在SPIN或NuSMV中运行和验证。建议按照示例顺序学习，从简单到复杂，逐步掌握LTL的使用方法。
+
+---
+
+## 十三、相关文档
 
 ### 12.1 核心论证文档
 

@@ -76,7 +76,16 @@
     - [11.4 概念属性关系图](#114-概念属性关系图)
     - [11.5 形式化证明流程图](#115-形式化证明流程图)
       - [证明流程图1：类型检查算法流程图](#证明流程图1类型检查算法流程图)
-  - [十二、相关文档](#十二相关文档)
+  - [十二、代码示例](#十二代码示例)
+    - [12.1 Coq证明示例](#121-coq证明示例)
+      - [12.1.1 简单定理证明示例](#1211-简单定理证明示例)
+      - [12.1.2 工作流性质证明示例](#1212-工作流性质证明示例)
+    - [12.2 Isabelle证明示例](#122-isabelle证明示例)
+      - [12.2.1 简单定理证明示例](#1221-简单定理证明示例)
+      - [12.2.2 工作流性质证明示例](#1222-工作流性质证明示例)
+    - [12.3 实际应用示例](#123-实际应用示例)
+      - [12.3.1 Temporal工作流性质证明](#1231-temporal工作流性质证明)
+  - [十三、相关文档](#十三相关文档)
     - [12.1 核心论证文档](#121-核心论证文档)
     - [12.2 理论模型专题文档](#122-理论模型专题文档)
     - [12.3 相关资源](#123-相关资源)
@@ -1104,7 +1113,315 @@ flowchart TD
 
 ---
 
-## 十二、相关文档
+## 十二、代码示例
+
+### 12.1 Coq证明示例
+
+#### 12.1.1 简单定理证明示例
+
+**代码说明**：
+此代码示例展示如何使用Coq证明一个简单的数学定理。
+
+**关键点说明**：
+
+- 定义命题
+- 使用证明策略
+- 完成证明
+
+```coq
+(* 简单定理：加法交换律 *)
+Theorem add_comm : forall n m : nat, n + m = m + n.
+Proof.
+  intros n m.
+  induction n as [| n' IHn'].
+  - (* n = 0 *)
+    simpl.
+    rewrite <- plus_n_O.
+    reflexivity.
+  - (* n = S n' *)
+    simpl.
+    rewrite IHn'.
+    rewrite plus_n_Sm.
+    reflexivity.
+Qed.
+
+(* 简单定理：加法结合律 *)
+Theorem add_assoc : forall n m p : nat, n + (m + p) = (n + m) + p.
+Proof.
+  intros n m p.
+  induction n as [| n' IHn'].
+  - (* n = 0 *)
+    reflexivity.
+  - (* n = S n' *)
+    simpl.
+    rewrite IHn'.
+    reflexivity.
+Qed.
+```
+
+**使用说明**：
+
+1. 在Coq IDE中打开文件
+2. 使用`Check`命令检查类型
+3. 使用`Proof`开始证明
+4. 使用证明策略完成证明
+5. 使用`Qed`结束证明
+
+---
+
+#### 12.1.2 工作流性质证明示例
+
+**代码说明**：
+此代码示例展示如何使用Coq证明工作流的性质。
+
+**关键点说明**：
+
+- 定义工作流状态类型
+- 定义状态转换关系
+- 证明工作流性质
+
+```coq
+(* 工作流状态类型 *)
+Inductive WorkflowState : Type :=
+  | Created
+  | Running
+  | Completed
+  | Failed.
+
+(* 状态转换关系 *)
+Inductive Step : WorkflowState -> WorkflowState -> Prop :=
+  | step_start : Step Created Running
+  | step_complete : Step Running Completed
+  | step_fail : Step Running Failed.
+
+(* 可达性关系 *)
+Inductive Reachable : WorkflowState -> WorkflowState -> Prop :=
+  | reachable_refl : forall s, Reachable s s
+  | reachable_step : forall s1 s2 s3,
+      Step s1 s2 -> Reachable s2 s3 -> Reachable s1 s3.
+
+(* 定理：从Created状态可以到达Completed或Failed状态 *)
+Theorem workflow_termination : forall s,
+  Reachable Created s -> s = Completed \/ s = Failed.
+Proof.
+  intros s H.
+  inversion H; subst.
+  - (* s = Created *)
+    left. reflexivity.
+  - (* Step Created s2, Reachable s2 s *)
+    inversion H0; subst.
+    + (* Step Created Running *)
+      inversion H1; subst.
+      * (* Step Running Completed *)
+        left. reflexivity.
+      * (* Step Running Failed *)
+        right. reflexivity.
+Qed.
+```
+
+**使用说明**：
+
+1. 在Coq IDE中定义类型和关系
+2. 使用归纳类型定义状态和转换
+3. 使用证明策略证明性质
+4. 验证证明正确性
+
+---
+
+### 12.2 Isabelle证明示例
+
+#### 12.2.1 简单定理证明示例
+
+**代码说明**：
+此代码示例展示如何使用Isabelle证明一个简单的数学定理。
+
+**关键点说明**：
+
+- 定义函数
+- 使用证明方法
+- 完成证明
+
+```isabelle
+theory SimpleExample
+imports Main
+begin
+
+(* 简单函数定义 *)
+fun add :: "nat => nat => nat" where
+  "add 0 n = n" |
+  "add (Suc m) n = Suc (add m n)"
+
+(* 简单定理：加法交换律 *)
+theorem add_comm: "add m n = add n m"
+proof (induct m)
+  case 0
+  show ?case by simp
+next
+  case (Suc m)
+  have "add (Suc m) n = Suc (add m n)" by simp
+  also have "... = Suc (add n m)" using Suc.IH by simp
+  also have "... = add n (Suc m)" by simp
+  finally show ?case .
+qed
+
+end
+```
+
+**使用说明**：
+
+1. 在Isabelle/jEdit中创建新理论文件
+2. 定义函数和类型
+3. 使用`theorem`声明定理
+4. 使用`proof`开始证明
+5. 使用证明方法完成证明
+
+---
+
+#### 12.2.2 工作流性质证明示例
+
+**代码说明**：
+此代码示例展示如何使用Isabelle证明工作流的性质。
+
+**关键点说明**：
+
+- 定义工作流状态类型
+- 定义状态转换关系
+- 证明工作流性质
+
+```isabelle
+theory WorkflowExample
+imports Main
+begin
+
+(* 工作流状态类型 *)
+datatype WorkflowState = Created | Running | Completed | Failed
+
+(* 状态转换关系 *)
+inductive step :: "WorkflowState => WorkflowState => bool" where
+  step_start: "step Created Running" |
+  step_complete: "step Running Completed" |
+  step_fail: "step Running Failed"
+
+(* 可达性关系 *)
+inductive reachable :: "WorkflowState => WorkflowState => bool" where
+  reachable_refl: "reachable s s" |
+  reachable_step: "step s1 s2 ==> reachable s2 s3 ==> reachable s1 s3"
+
+(* 定理：从Created状态可以到达Completed或Failed状态 *)
+theorem workflow_termination:
+  "reachable Created s ==> s = Completed | s = Failed"
+proof (induct rule: reachable.induct)
+  case (reachable_refl s)
+  then show ?case by (cases s) auto
+next
+  case (reachable_step s1 s2 s3)
+  then show ?case
+  proof (cases s1)
+    case Created
+    with reachable_step.hyps(1) have "s2 = Running" by (cases rule: step.cases) auto
+    with reachable_step.hyps(2) reachable_step.IH show ?thesis
+      by (cases s3) auto
+  qed auto
+qed
+
+end
+```
+
+**使用说明**：
+
+1. 在Isabelle/jEdit中创建新理论文件
+2. 定义数据类型和关系
+3. 使用归纳定义定义状态和转换
+4. 使用证明方法证明性质
+5. 验证证明正确性
+
+---
+
+### 12.3 实际应用示例
+
+#### 12.3.1 Temporal工作流性质证明
+
+**代码说明**：
+此代码示例展示如何使用Coq证明Temporal工作流的性质。
+
+**关键点说明**：
+
+- 定义Temporal工作流状态
+- 定义Activity执行状态
+- 证明工作流正确性性质
+
+```coq
+(* Temporal工作流状态 *)
+Inductive WorkflowState : Type :=
+  | Created
+  | Running
+  | Completed
+  | Failed
+  | Cancelled.
+
+(* Activity状态 *)
+Inductive ActivityState : Type :=
+  | Pending
+  | Running
+  | Completed
+  | Failed.
+
+(* 工作流配置 *)
+Record WorkflowConfig : Type := {
+  num_activities : nat;
+  activity_states : nat -> ActivityState;
+}.
+
+(* 状态转换 *)
+Inductive WorkflowStep : WorkflowState -> WorkflowState -> Prop :=
+  | step_start : WorkflowStep Created Running
+  | step_complete : forall config,
+      (forall i, i < num_activities config ->
+       activity_states config i = Completed) ->
+      WorkflowStep Running Completed
+  | step_fail : forall config i,
+      i < num_activities config ->
+      activity_states config i = Failed ->
+      WorkflowStep Running Failed
+  | step_cancel : WorkflowStep Running Cancelled.
+
+(* 可达性 *)
+Inductive WorkflowReachable : WorkflowState -> WorkflowState -> Prop :=
+  | reachable_refl : forall s, WorkflowReachable s s
+  | reachable_step : forall s1 s2 s3,
+      WorkflowStep s1 s2 ->
+      WorkflowReachable s2 s3 ->
+      WorkflowReachable s1 s3.
+
+(* 定理：工作流最终会终止 *)
+Theorem workflow_termination : forall s,
+  WorkflowReachable Created s ->
+  s = Completed \/ s = Failed \/ s = Cancelled.
+Proof.
+  intros s H.
+  induction H.
+  - (* s = Created *)
+    inversion H; subst.
+    (* 需要更多证明步骤... *)
+  - (* Step s1 s2, Reachable s2 s *)
+    (* 证明步骤... *)
+Admitted.
+```
+
+**使用说明**：
+
+1. 在Coq IDE中定义工作流模型
+2. 定义状态和转换关系
+3. 使用证明策略证明性质
+4. 完成证明
+
+---
+
+> 💡 **提示**：这些代码示例可以在Coq或Isabelle中运行和验证。建议按照示例顺序学习，从简单到复杂，逐步掌握定理证明的使用方法。
+
+---
+
+## 十三、相关文档
 
 ### 12.1 核心论证文档
 

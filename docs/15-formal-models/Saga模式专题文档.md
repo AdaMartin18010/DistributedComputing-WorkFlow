@@ -85,7 +85,11 @@
     - [11.4 概念属性关系图](#114-概念属性关系图)
     - [11.5 形式化证明流程图](#115-形式化证明流程图)
       - [证明流程图1：Saga正确性证明步骤](#证明流程图1saga正确性证明步骤)
-  - [十二、相关文档](#十二相关文档)
+  - [十二、代码示例](#十二代码示例)
+    - [12.1 编排式Saga实现示例](#121-编排式saga实现示例)
+    - [12.2 协同式Saga实现示例](#122-协同式saga实现示例)
+    - [12.3 Temporal Saga实现示例](#123-temporal-saga实现示例)
+  - [十三、相关文档](#十三相关文档)
     - [12.1 核心论证文档](#121-核心论证文档)
     - [12.2 理论模型专题文档](#122-理论模型专题文档)
     - [12.3 相关资源](#123-相关资源)
@@ -1844,7 +1848,419 @@ flowchart TD
 
 ---
 
-## 十二、相关文档
+## 十二、代码示例
+
+### 12.1 编排式Saga实现示例
+
+#### 12.1.1 Saga协调器实现
+
+**代码说明**：
+此代码示例展示如何实现编排式Saga协调器。
+
+**关键点说明**：
+- 实现Saga协调器
+- 实现事务步骤执行
+- 实现补偿操作
+
+```python
+from typing import List, Dict, Callable, Optional
+from enum import Enum
+from dataclasses import dataclass
+
+class SagaStatus(Enum):
+    """Saga状态"""
+    PENDING = "pending"
+    RUNNING = "running"
+    COMPLETED = "completed"
+    COMPENSATING = "compensating"
+    FAILED = "failed"
+
+@dataclass
+class SagaStep:
+    """Saga步骤"""
+    name: str
+    execute: Callable
+    compensate: Callable
+    executed: bool = False
+    compensated: bool = False
+
+class SagaOrchestrator:
+    """Saga协调器（编排式）"""
+
+    def __init__(self, saga_id: str):
+        self.saga_id = saga_id
+        self.steps: List[SagaStep] = []
+        self.status = SagaStatus.PENDING
+        self.current_step_index = 0
+
+    def add_step(self, name: str, execute: Callable, compensate: Callable):
+        """添加步骤"""
+        step = SagaStep(name=name, execute=execute, compensate=compensate)
+        self.steps.append(step)
+
+    def execute(self) -> bool:
+        """执行Saga"""
+        self.status = SagaStatus.RUNNING
+
+        try:
+            for i, step in enumerate(self.steps):
+                self.current_step_index = i
+                print(f"Executing step: {step.name}")
+
+                # 执行步骤
+                result = step.execute()
+                step.executed = True
+
+                if not result:
+                    # 执行失败，开始补偿
+                    self.compensate()
+                    return False
+
+            # 所有步骤执行成功
+            self.status = SagaStatus.COMPLETED
+            return True
+
+        except Exception as e:
+            print(f"Error executing saga: {e}")
+            self.compensate()
+            return False
+
+    def compensate(self):
+        """补偿操作（逆序执行）"""
+        self.status = SagaStatus.COMPENSATING
+
+        # 逆序执行补偿操作
+        for step in reversed(self.steps):
+            if step.executed and not step.compensated:
+                print(f"Compensating step: {step.name}")
+                try:
+                    step.compensate()
+                    step.compensated = True
+                except Exception as e:
+                    print(f"Error compensating step {step.name}: {e}")
+
+        self.status = SagaStatus.FAILED
+
+# 使用示例
+def create_order(order_id: str) -> bool:
+    """创建订单"""
+    print(f"Creating order {order_id}")
+    return True
+
+def cancel_order(order_id: str):
+    """取消订单（补偿）"""
+    print(f"Canceling order {order_id}")
+
+def reserve_inventory(item_id: str, quantity: int) -> bool:
+    """预留库存"""
+    print(f"Reserving inventory: {item_id} x {quantity}")
+    return True
+
+def release_inventory(item_id: str, quantity: int):
+    """释放库存（补偿）"""
+    print(f"Releasing inventory: {item_id} x {quantity}")
+
+def process_payment(order_id: str, amount: float) -> bool:
+    """处理支付"""
+    print(f"Processing payment for order {order_id}: {amount}")
+    return True
+
+def refund_payment(order_id: str, amount: float):
+    """退款（补偿）"""
+    print(f"Refunding payment for order {order_id}: {amount}")
+
+def example_orchestration_saga():
+    """编排式Saga示例"""
+    saga = SagaOrchestrator("order-saga-1")
+
+    # 添加步骤
+    saga.add_step(
+        "CreateOrder",
+        lambda: create_order("order-123"),
+        lambda: cancel_order("order-123")
+    )
+    saga.add_step(
+        "ReserveInventory",
+        lambda: reserve_inventory("item-1", 2),
+        lambda: release_inventory("item-1", 2)
+    )
+    saga.add_step(
+        "ProcessPayment",
+        lambda: process_payment("order-123", 100.0),
+        lambda: refund_payment("order-123", 100.0)
+    )
+
+    # 执行Saga
+    success = saga.execute()
+    print(f"Saga execution result: {success}")
+```
+
+---
+
+### 12.2 协同式Saga实现示例
+
+#### 12.2.1 事件驱动的Saga实现
+
+**代码说明**：
+此代码示例展示如何实现协同式Saga（事件驱动）。
+
+**关键点说明**：
+- 使用事件驱动架构
+- 每个服务独立处理事件
+- 实现补偿事件
+
+```python
+from typing import Dict, List, Callable
+from enum import Enum
+
+class EventType(Enum):
+    """事件类型"""
+    ORDER_CREATED = "order_created"
+    INVENTORY_RESERVED = "inventory_reserved"
+    PAYMENT_PROCESSED = "payment_processed"
+    ORDER_COMPLETED = "order_completed"
+    ORDER_FAILED = "order_failed"
+    COMPENSATE_ORDER = "compensate_order"
+    COMPENSATE_INVENTORY = "compensate_inventory"
+    COMPENSATE_PAYMENT = "compensate_payment"
+
+class Event:
+    """事件"""
+    def __init__(self, event_type: EventType, saga_id: str, data: Dict):
+        self.event_type = event_type
+        self.saga_id = saga_id
+        self.data = data
+
+class SagaChoreography:
+    """Saga协同（事件驱动）"""
+
+    def __init__(self):
+        self.event_handlers: Dict[EventType, List[Callable]] = {}
+        self.saga_states: Dict[str, Dict] = {}
+
+    def register_handler(self, event_type: EventType, handler: Callable):
+        """注册事件处理器"""
+        if event_type not in self.event_handlers:
+            self.event_handlers[event_type] = []
+        self.event_handlers[event_type].append(handler)
+
+    def publish_event(self, event: Event):
+        """发布事件"""
+        # 更新Saga状态
+        if event.saga_id not in self.saga_states:
+            self.saga_states[event.saga_id] = {}
+
+        self.saga_states[event.saga_id][event.event_type.value] = event.data
+
+        # 处理事件
+        if event.event_type in self.event_handlers:
+            for handler in self.event_handlers[event.event_type]:
+                handler(event)
+
+    def start_saga(self, saga_id: str, order_data: Dict):
+        """启动Saga"""
+        event = Event(EventType.ORDER_CREATED, saga_id, order_data)
+        self.publish_event(event)
+
+# 使用示例
+def handle_order_created(event: Event):
+    """处理订单创建事件"""
+    print(f"Handling order created: {event.saga_id}")
+    # 创建订单
+    # ...
+    # 发布库存预留事件
+    inventory_event = Event(
+        EventType.INVENTORY_RESERVED,
+        event.saga_id,
+        {"item_id": "item-1", "quantity": 2}
+    )
+    saga.publish_event(inventory_event)
+
+def handle_inventory_reserved(event: Event):
+    """处理库存预留事件"""
+    print(f"Handling inventory reserved: {event.saga_id}")
+    # 预留库存
+    # ...
+    # 发布支付处理事件
+    payment_event = Event(
+        EventType.PAYMENT_PROCESSED,
+        event.saga_id,
+        {"order_id": event.saga_id, "amount": 100.0}
+    )
+    saga.publish_event(payment_event)
+
+def handle_payment_processed(event: Event):
+    """处理支付处理事件"""
+    print(f"Handling payment processed: {event.saga_id}")
+    # 处理支付
+    # ...
+    # 发布订单完成事件
+    completed_event = Event(
+        EventType.ORDER_COMPLETED,
+        event.saga_id,
+        {}
+    )
+    saga.publish_event(completed_event)
+
+def example_choreography_saga():
+    """协同式Saga示例"""
+    saga = SagaChoreography()
+
+    # 注册事件处理器
+    saga.register_handler(EventType.ORDER_CREATED, handle_order_created)
+    saga.register_handler(EventType.INVENTORY_RESERVED, handle_inventory_reserved)
+    saga.register_handler(EventType.PAYMENT_PROCESSED, handle_payment_processed)
+
+    # 启动Saga
+    saga.start_saga("saga-1", {"order_id": "order-123", "item_id": "item-1"})
+```
+
+---
+
+### 12.3 Temporal Saga实现示例
+
+#### 12.3.1 Temporal工作流实现Saga模式
+
+**代码说明**：
+此代码示例展示如何使用Temporal工作流实现Saga模式。
+
+**关键点说明**：
+- 使用Temporal工作流作为Saga协调器
+- 使用Activity实现事务步骤
+- 使用补偿Activity实现补偿操作
+
+```python
+from temporalio import workflow, activity
+from temporalio.client import Client
+from datetime import timedelta
+
+@activity.defn
+async def create_order_activity(order_id: str, item_id: str, quantity: int) -> dict:
+    """创建订单Activity"""
+    # 创建订单逻辑
+    print(f"Creating order {order_id}")
+    return {"order_id": order_id, "status": "created"}
+
+@activity.defn
+async def cancel_order_activity(order_id: str):
+    """取消订单Activity（补偿）"""
+    print(f"Canceling order {order_id}")
+
+@activity.defn
+async def reserve_inventory_activity(item_id: str, quantity: int) -> dict:
+    """预留库存Activity"""
+    print(f"Reserving inventory: {item_id} x {quantity}")
+    return {"item_id": item_id, "reserved": quantity}
+
+@activity.defn
+async def release_inventory_activity(item_id: str, quantity: int):
+    """释放库存Activity（补偿）"""
+    print(f"Releasing inventory: {item_id} x {quantity}")
+
+@activity.defn
+async def process_payment_activity(order_id: str, amount: float) -> dict:
+    """处理支付Activity"""
+    print(f"Processing payment for order {order_id}: {amount}")
+    return {"payment_id": f"pay-{order_id}", "amount": amount}
+
+@activity.defn
+async def refund_payment_activity(order_id: str, amount: float):
+    """退款Activity（补偿）"""
+    print(f"Refunding payment for order {order_id}: {amount}")
+
+@workflow.defn
+class OrderSagaWorkflow:
+    """订单Saga工作流（编排式）"""
+
+    @workflow.run
+    async def execute(self, order_id: str, item_id: str, quantity: int, amount: float) -> str:
+        """执行Saga"""
+        executed_steps = []
+
+        try:
+            # Step 1: 创建订单
+            order_result = await workflow.execute_activity(
+                create_order_activity,
+                order_id, item_id, quantity,
+                start_to_close_timeout=timedelta(seconds=30)
+            )
+            executed_steps.append(("create_order", order_result))
+
+            # Step 2: 预留库存
+            inventory_result = await workflow.execute_activity(
+                reserve_inventory_activity,
+                item_id, quantity,
+                start_to_close_timeout=timedelta(seconds=30)
+            )
+            executed_steps.append(("reserve_inventory", inventory_result))
+
+            # Step 3: 处理支付
+            payment_result = await workflow.execute_activity(
+                process_payment_activity,
+                order_id, amount,
+                start_to_close_timeout=timedelta(seconds=30)
+            )
+            executed_steps.append(("process_payment", payment_result))
+
+            return f"Order {order_id} saga completed successfully"
+
+        except Exception as e:
+            # 补偿操作（逆序执行）
+            workflow.logger.error(f"Saga failed: {e}, starting compensation")
+
+            # 逆序补偿
+            for step_name, step_result in reversed(executed_steps):
+                try:
+                    if step_name == "process_payment":
+                        await workflow.execute_activity(
+                            refund_payment_activity,
+                            order_id, amount,
+                            start_to_close_timeout=timedelta(seconds=30)
+                        )
+                    elif step_name == "reserve_inventory":
+                        await workflow.execute_activity(
+                            release_inventory_activity,
+                            item_id, quantity,
+                            start_to_close_timeout=timedelta(seconds=30)
+                        )
+                    elif step_name == "create_order":
+                        await workflow.execute_activity(
+                            cancel_order_activity,
+                            order_id,
+                            start_to_close_timeout=timedelta(seconds=30)
+                        )
+                except Exception as comp_error:
+                    workflow.logger.error(f"Compensation failed for {step_name}: {comp_error}")
+
+            raise
+
+# 使用示例
+async def run_saga_workflow():
+    """运行Saga工作流"""
+    client = await Client.connect("localhost:7233")
+
+    result = await client.execute_workflow(
+        OrderSagaWorkflow.run,
+        "order-123", "item-1", 2, 100.0,
+        id="saga-workflow-1",
+        task_queue="saga-task-queue"
+    )
+
+    print(f"Saga result: {result}")
+```
+
+**使用说明**：
+1. Temporal工作流可以作为Saga协调器
+2. 使用Activity实现事务步骤和补偿操作
+3. 工作流自动处理故障和补偿
+
+---
+
+> 💡 **提示**：这些代码示例展示了Saga模式的实现。编排式Saga使用协调器管理事务，协同式Saga使用事件驱动架构。Temporal工作流可以作为Saga协调器，提供强大的故障处理和补偿机制。
+
+---
+
+## 十三、相关文档
 
 ### 12.1 核心论证文档
 

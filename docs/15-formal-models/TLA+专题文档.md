@@ -105,7 +105,20 @@
     - [11.5 形式化证明流程图](#115-形式化证明流程图)
       - [证明流程图1：不变式保持性证明](#证明流程图1不变式保持性证明)
       - [证明流程图2：规约蕴含定理证明](#证明流程图2规约蕴含定理证明)
-  - [十二、相关文档](#十二相关文档)
+  - [十二、代码示例](#十二代码示例)
+    - [12.1 TLA+规约示例](#121-tla规约示例)
+      - [12.1.1 简单计数器示例](#1211-简单计数器示例)
+      - [12.1.2 工作流状态机示例](#1212-工作流状态机示例)
+      - [12.1.3 Saga模式示例](#1213-saga模式示例)
+    - [12.2 PlusCal算法示例](#122-pluscal算法示例)
+      - [12.2.1 简单算法示例](#1221-简单算法示例)
+      - [12.2.2 并发算法示例](#1222-并发算法示例)
+    - [12.3 TLC模型检验配置示例](#123-tlc模型检验配置示例)
+      - [12.3.1 基本配置](#1231-基本配置)
+      - [12.3.2 高级配置](#1232-高级配置)
+    - [12.4 实际应用示例](#124-实际应用示例)
+      - [12.4.1 Temporal工作流验证示例](#1241-temporal工作流验证示例)
+  - [十三、相关文档](#十三相关文档)
     - [12.1 核心论证文档](#121-核心论证文档)
     - [12.2 理论模型专题文档](#122-理论模型专题文档)
     - [12.3 相关资源](#123-相关资源)
@@ -2329,7 +2342,540 @@ flowchart TD
 
 ---
 
-## 十二、相关文档
+## 十二、代码示例
+
+### 12.1 TLA+规约示例
+
+#### 12.1.1 简单计数器示例
+
+**代码说明**：
+此代码示例展示如何使用TLA+规约一个简单的计数器系统，包括状态定义、动作定义和系统规约。
+
+**关键点说明**：
+
+- 定义状态变量
+- 定义初始状态
+- 定义动作（递增操作）
+- 定义系统规约
+- 定义不变式
+
+```tla
+---- MODULE SimpleCounter ----
+
+EXTENDS Naturals
+
+VARIABLES counter
+
+Init == counter = 0
+
+Increment == counter' = counter + 1
+
+Next == Increment
+
+Spec == Init /\ [][Next]_counter
+
+TypeOK == counter \in Nat
+
+\* 不变式：计数器值始终是非负整数
+Invariant == TypeOK
+
+====
+```
+
+**使用说明**：
+
+1. 将代码保存为`SimpleCounter.tla`文件
+2. 在TLA+ Toolbox中打开文件
+3. 创建TLC模型配置
+4. 运行模型检验，验证`Invariant`不变式
+
+---
+
+#### 12.1.2 工作流状态机示例
+
+**代码说明**：
+此代码示例展示如何使用TLA+规约一个工作流状态机，包括状态转换、事件处理和状态一致性保证。
+
+**关键点说明**：
+
+- 定义工作流状态（Pending、Running、Completed、Failed）
+- 定义状态转换动作
+- 定义状态一致性不变式
+- 定义活性性质（工作流最终会完成或失败）
+
+```tla
+---- MODULE WorkflowStateMachine ----
+
+EXTENDS Naturals, Sequences
+
+VARIABLES state, events
+
+\* 工作流状态
+States == {"Pending", "Running", "Completed", "Failed"}
+
+Init ==
+    /\ state = "Pending"
+    /\ events = <<>>
+
+Start ==
+    /\ state = "Pending"
+    /\ state' = "Running"
+    /\ events' = Append(events, "Started")
+    /\ UNCHANGED <<>>
+
+Complete ==
+    /\ state = "Running"
+    /\ state' = "Completed"
+    /\ events' = Append(events, "Completed")
+    /\ UNCHANGED <<>>
+
+Fail ==
+    /\ state = "Running"
+    /\ state' = "Failed"
+    /\ events' = Append(events, "Failed")
+    /\ UNCHANGED <<>>
+
+Next == Start \/ Complete \/ Fail
+
+Spec == Init /\ [][Next]_<<state, events>>
+
+\* 不变式：状态始终有效
+TypeOK == state \in States
+
+\* 不变式：状态转换一致性
+StateConsistency ==
+    /\ (state = "Pending") => (Len(events) = 0)
+    /\ (state = "Running") => (Len(events) > 0)
+    /\ (state \in {"Completed", "Failed"}) => (Len(events) > 1)
+
+Invariant == TypeOK /\ StateConsistency
+
+\* 活性性质：工作流最终会完成或失败
+Liveness == (state = "Running") => \Diamond (state \in {"Completed", "Failed"})
+
+====
+```
+
+**使用说明**：
+
+1. 将代码保存为`WorkflowStateMachine.tla`文件
+2. 在TLA+ Toolbox中创建TLC模型配置
+3. 添加不变式`Invariant`进行验证
+4. 添加活性性质`Liveness`进行验证
+
+---
+
+#### 12.1.3 Saga模式示例
+
+**代码说明**：
+此代码示例展示如何使用TLA+规约Saga模式的正确性，包括步骤执行、补偿操作和事务一致性。
+
+**关键点说明**：
+
+- 定义Saga步骤和补偿操作
+- 定义执行和补偿动作
+- 定义事务一致性不变式
+- 定义补偿正确性性质
+
+```tla
+---- MODULE SagaPattern ----
+
+EXTENDS Naturals, Sequences, FiniteSets
+
+VARIABLES steps, compensations, state
+
+\* Saga状态
+States == {"Running", "Compensating", "Completed", "Aborted"}
+
+\* 步骤类型
+StepType == {"Step1", "Step2", "Step3"}
+
+Init ==
+    /\ steps = <<>>
+    /\ compensations = <<>>
+    /\ state = "Running"
+
+ExecuteStep(step) ==
+    /\ state = "Running"
+    /\ step \in StepType
+    /\ step \notin steps
+    /\ steps' = Append(steps, step)
+    /\ state' = "Running"
+    /\ UNCHANGED compensations
+
+CompensateStep(step) ==
+    /\ state = "Compensating"
+    /\ step \in steps
+    /\ step \notin compensations
+    /\ compensations' = Append(compensations, step)
+    /\ state' = "Compensating"
+    /\ UNCHANGED steps
+
+Complete ==
+    /\ state = "Running"
+    /\ Len(steps) = 3
+    /\ state' = "Completed"
+    /\ UNCHANGED <<steps, compensations>>
+
+Abort ==
+    /\ state = "Running"
+    /\ state' = "Compensating"
+    /\ UNCHANGED <<steps, compensations>>
+
+FinishCompensation ==
+    /\ state = "Compensating"
+    /\ Len(compensations) = Len(steps)
+    /\ state' = "Aborted"
+    /\ UNCHANGED <<steps, compensations>>
+
+Next ==
+    \/ \E step \in StepType : ExecuteStep(step)
+    \/ \E step \in StepType : CompensateStep(step)
+    \/ Complete
+    \/ Abort
+    \/ FinishCompensation
+
+Spec == Init /\ [][Next]_<<steps, compensations, state>>
+
+\* 不变式：状态一致性
+StateConsistency ==
+    /\ (state = "Running") => (Len(compensations) = 0)
+    /\ (state = "Compensating") => (Len(compensations) <= Len(steps))
+    /\ (state = "Completed") => (Len(steps) = 3 /\ Len(compensations) = 0)
+    /\ (state = "Aborted") => (Len(compensations) = Len(steps))
+
+\* 不变式：补偿顺序正确性（后进先出）
+CompensationOrder ==
+    \A i, j \in DOMAIN compensations :
+        (i < j) => (compensations[i] 在 steps 中的位置 > compensations[j] 在 steps 中的位置)
+
+Invariant == StateConsistency /\ CompensationOrder
+
+====
+```
+
+**使用说明**：
+
+1. 将代码保存为`SagaPattern.tla`文件
+2. 在TLA+ Toolbox中创建TLC模型配置
+3. 添加不变式`Invariant`进行验证
+4. 验证Saga模式的正确性
+
+---
+
+### 12.2 PlusCal算法示例
+
+#### 12.2.1 简单算法示例
+
+**代码说明**：
+此代码示例展示如何使用PlusCal编写算法，然后编译为TLA+进行验证。
+
+**关键点说明**：
+
+- PlusCal提供类似Pascal/C的语法
+- 自动编译为TLA+
+- 适合算法描述
+
+```tla
+---- MODULE SimpleAlgorithm ----
+
+EXTENDS Naturals
+
+(*
+--algorithm SimpleSum {
+    variable sum = 0, i = 1;
+    {
+        while (i <= 10) {
+            sum := sum + i;
+            i := i + 1;
+        };
+        assert sum = 55;
+    }
+}
+*)
+
+\* PlusCal编译后的TLA+代码会自动生成在这里
+
+====
+```
+
+**使用说明**：
+
+1. 在TLA+ Toolbox中创建新文件
+2. 使用PlusCal语法编写算法
+3. 使用"Translate PlusCal Algorithm"功能编译为TLA+
+4. 运行TLC模型检验验证算法正确性
+
+---
+
+#### 12.2.2 并发算法示例
+
+**代码说明**：
+此代码示例展示如何使用PlusCal编写并发算法，包括进程定义和进程间通信。
+
+**关键点说明**：
+
+- 定义多个进程
+- 进程间共享变量
+- 进程同步和通信
+
+```tla
+---- MODULE ConcurrentAlgorithm ----
+
+EXTENDS Naturals
+
+CONSTANTS N  \* 进程数量
+
+(*
+--algorithm ConcurrentSum {
+    variable sum = 0;
+    process (Worker \in 1..N) {
+        local value;
+        {
+            value := Worker * 10;
+            sum := sum + value;
+        }
+    }
+}
+*)
+
+\* PlusCal编译后的TLA+代码会自动生成在这里
+
+====
+```
+
+**使用说明**：
+
+1. 在TLA+ Toolbox中创建新文件
+2. 使用PlusCal语法编写并发算法
+3. 编译为TLA+后运行模型检验
+4. 验证并发算法的正确性
+
+---
+
+### 12.3 TLC模型检验配置示例
+
+#### 12.3.1 基本配置
+
+**代码说明**：
+此代码示例展示如何创建TLC模型检验配置文件。
+
+**关键点说明**：
+
+- 定义常量
+- 指定初始状态谓词
+- 指定下一状态动作
+- 指定不变式
+
+```tla
+---- MODULE SimpleCounterCFG ----
+
+CONSTANTS MaxValue = 10
+
+SPECIFICATION SimpleCounter
+
+INIT Init
+
+NEXT Next
+
+INVARIANT Invariant
+
+====
+```
+
+**使用说明**：
+
+1. 创建`.cfg`配置文件
+2. 指定要检验的规约
+3. 指定不变式
+4. 运行TLC模型检验
+
+---
+
+#### 12.3.2 高级配置
+
+**代码说明**：
+此代码示例展示如何使用TLC的高级配置选项，包括状态约束、动作约束和对称性。
+
+**关键点说明**：
+
+- 使用状态约束减少状态空间
+- 使用动作约束限制动作执行
+- 使用对称性优化模型检验
+
+```tla
+---- MODULE AdvancedCFG ----
+
+CONSTANTS
+    N = 3,
+    MaxValue = 100
+
+SPECIFICATION WorkflowStateMachine
+
+INIT Init
+
+NEXT Next
+
+INVARIANT Invariant
+
+PROPERTY Liveness
+
+CONSTRAINT
+    \* 状态约束：限制状态空间
+    state \in {"Running", "Completed"}
+
+ACTION_CONSTRAINT
+    \* 动作约束：限制动作执行
+    Complete
+
+SYMMETRY
+    \* 对称性：如果适用，可以显著减少状态空间
+    Permutations(StepType)
+
+====
+```
+
+**使用说明**：
+
+1. 创建高级配置文件
+2. 使用约束减少状态空间
+3. 使用对称性优化性能
+4. 运行模型检验
+
+---
+
+### 12.4 实际应用示例
+
+#### 12.4.1 Temporal工作流验证示例
+
+**代码说明**：
+此代码示例展示如何使用TLA+验证Temporal工作流的正确性，包括工作流执行、Activity执行和故障恢复。
+
+**关键点说明**：
+
+- 定义工作流状态
+- 定义Activity执行动作
+- 定义故障和恢复动作
+- 定义正确性性质
+
+```tla
+---- MODULE TemporalWorkflow ----
+
+EXTENDS Naturals, Sequences, FiniteSets
+
+VARIABLES
+    workflowState,
+    activities,
+    completedActivities,
+    failedActivities
+
+\* 工作流状态
+WorkflowStates == {"Created", "Running", "Completed", "Failed"}
+
+\* Activity状态
+ActivityStates == {"Pending", "Running", "Completed", "Failed"}
+
+Init ==
+    /\ workflowState = "Created"
+    /\ activities = [a \in {"Activity1", "Activity2", "Activity3"} |-> "Pending"]
+    /\ completedActivities = {}
+    /\ failedActivities = {}
+
+StartWorkflow ==
+    /\ workflowState = "Created"
+    /\ workflowState' = "Running"
+    /\ UNCHANGED <<activities, completedActivities, failedActivities>>
+
+ExecuteActivity(activity) ==
+    /\ workflowState = "Running"
+    /\ activity \in DOMAIN activities
+    /\ activities[activity] = "Pending"
+    /\ activities' = [activities EXCEPT ![activity] = "Running"]
+    /\ UNCHANGED <<workflowState, completedActivities, failedActivities>>
+
+CompleteActivity(activity) ==
+    /\ workflowState = "Running"
+    /\ activity \in DOMAIN activities
+    /\ activities[activity] = "Running"
+    /\ activities' = [activities EXCEPT ![activity] = "Completed"]
+    /\ completedActivities' = completedActivities \cup {activity}
+    /\ UNCHANGED <<workflowState, failedActivities>>
+
+FailActivity(activity) ==
+    /\ workflowState = "Running"
+    /\ activity \in DOMAIN activities
+    /\ activities[activity] = "Running"
+    /\ activities' = [activities EXCEPT ![activity] = "Failed"]
+    /\ failedActivities' = failedActivities \cup {activity}
+    /\ UNCHANGED <<workflowState, completedActivities>>
+
+RetryActivity(activity) ==
+    /\ workflowState = "Running"
+    /\ activity \in DOMAIN activities
+    /\ activities[activity] = "Failed"
+    /\ activities' = [activities EXCEPT ![activity] = "Pending"]
+    /\ failedActivities' = failedActivities \ {activity}
+    /\ UNCHANGED <<workflowState, completedActivities>>
+
+CompleteWorkflow ==
+    /\ workflowState = "Running"
+    /\ \A a \in DOMAIN activities : activities[a] = "Completed"
+    /\ workflowState' = "Completed"
+    /\ UNCHANGED <<activities, completedActivities, failedActivities>>
+
+FailWorkflow ==
+    /\ workflowState = "Running"
+    /\ \E a \in DOMAIN activities : activities[a] = "Failed"
+    /\ workflowState' = "Failed"
+    /\ UNCHANGED <<activities, completedActivities, failedActivities>>
+
+Next ==
+    \/ StartWorkflow
+    \/ \E a \in DOMAIN activities : ExecuteActivity(a)
+    \/ \E a \in DOMAIN activities : CompleteActivity(a)
+    \/ \E a \in DOMAIN activities : FailActivity(a)
+    \/ \E a \in DOMAIN activities : RetryActivity(a)
+    \/ CompleteWorkflow
+    \/ FailWorkflow
+
+Spec == Init /\ [][Next]_<<workflowState, activities, completedActivities, failedActivities>>
+
+\* 不变式：工作流状态一致性
+WorkflowStateConsistency ==
+    /\ (workflowState = "Created") => (\A a \in DOMAIN activities : activities[a] = "Pending")
+    /\ (workflowState = "Running") => (\A a \in DOMAIN activities : activities[a] \in {"Pending", "Running", "Completed", "Failed"})
+    /\ (workflowState = "Completed") => (\A a \in DOMAIN activities : activities[a] = "Completed")
+    /\ (workflowState = "Failed") => (\E a \in DOMAIN activities : activities[a] = "Failed")
+
+\* 不变式：Activity状态一致性
+ActivityStateConsistency ==
+    /\ completedActivities \cap failedActivities = {}
+    /\ \A a \in completedActivities : activities[a] = "Completed"
+    /\ \A a \in failedActivities : activities[a] = "Failed"
+
+Invariant == WorkflowStateConsistency /\ ActivityStateConsistency
+
+\* 活性性质：工作流最终会完成或失败
+Liveness == (workflowState = "Running") => \Diamond (workflowState \in {"Completed", "Failed"})
+
+====
+```
+
+**使用说明**：
+
+1. 将代码保存为`TemporalWorkflow.tla`文件
+2. 在TLA+ Toolbox中创建TLC模型配置
+3. 添加不变式`Invariant`进行验证
+4. 添加活性性质`Liveness`进行验证
+5. 运行模型检验，验证Temporal工作流的正确性
+
+---
+
+> 💡 **提示**：这些代码示例可以直接在TLA+ Toolbox中运行和验证。建议按照示例顺序学习，从简单到复杂，逐步掌握TLA+的使用方法。
+
+---
+
+## 十三、相关文档
 
 ### 12.1 核心论证文档
 

@@ -95,7 +95,7 @@
 
 ### 1.2 核心思想
 
-**核心思想1：三个性质**
+**核心思想1：三个性质**:
 
 CAP定理涉及三个性质：
 
@@ -103,7 +103,7 @@ CAP定理涉及三个性质：
 - **A（Availability）**：可用性，系统持续可用，每个请求都能得到响应
 - **P（Partition tolerance）**：分区容错性，系统在网络分区时仍能继续工作
 
-**核心思想2：三选二约束**
+**核心思想2：三选二约束**:
 
 在分布式系统中，最多只能同时满足三个性质中的两个：
 
@@ -111,7 +111,7 @@ CAP定理涉及三个性质：
 - **CP系统**：一致性和分区容错性，但可能不可用（如分布式数据库）
 - **AP系统**：可用性和分区容错性，但可能不一致（如最终一致性系统）
 
-**核心思想3：实际选择**
+**核心思想3：实际选择**:
 
 在实际分布式系统中：
 
@@ -120,19 +120,19 @@ CAP定理涉及三个性质：
 
 ### 1.3 应用领域
 
-**应用领域1：分布式数据库**
+**应用领域1：分布式数据库**:
 
 - 数据库设计
 - 复制策略
 - 一致性选择
 
-**应用领域2：分布式系统**
+**应用领域2：分布式系统**:
 
 - 系统架构设计
 - 一致性模型选择
 - 可用性设计
 
-**应用领域3：云计算**
+**应用领域3：云计算**:
 
 - 云服务设计
 - 数据存储选择
@@ -178,7 +178,7 @@ CAP定理涉及三个性质：
 
 ### 2.2 重要人物
 
-**Eric Brewer（1964-）**
+**Eric Brewer（1964-）**:
 
 - **身份**：CAP定理的提出者
 - **背景**：美国计算机科学家，Google副总裁
@@ -188,7 +188,7 @@ CAP定理涉及三个性质：
 
 **来源**：Wikipedia [Eric Brewer](https://en.wikipedia.org/wiki/Eric_Brewer_(computer_scientist))
 
-**Seth Gilbert & Nancy Lynch**
+**Seth Gilbert & Nancy Lynch**:
 
 - **身份**：CAP定理的形式化证明者
 - **背景**：美国计算机科学家，MIT教授
@@ -613,7 +613,7 @@ $$ \neg (C \land A \land P) \land (C \land A) \land (C \land P) \land (A \land P
 
 #### 原始演讲
 
-2. **Brewer, E. (2000). "Towards Robust Distributed Systems"**
+1. **Brewer, E. (2000). "Towards Robust Distributed Systems"**
    - 会议：ACM Symposium on Principles of Distributed Computing (PODC)
    - **重要性**：CAP定理的原始提出
 

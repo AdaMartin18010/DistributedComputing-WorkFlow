@@ -244,6 +244,7 @@ $$ \text{Speedup} = \frac{T_{before}}{T_{after}} = \frac{2,869}{8.9} = 322.4\tex
 此代码示例展示如何使用Python的psycopg2库连接PostgreSQL数据库，并配置连接池。
 
 **关键点说明**：
+
 - 使用连接池管理数据库连接
 - 配置连接参数（主机、端口、数据库名、用户名、密码）
 - 实现连接重试机制
@@ -309,6 +310,7 @@ def query_workflow_status(workflow_id: str):
 此代码示例展示如何使用PostgreSQL的ACID事务处理工作流状态更新。
 
 **关键点说明**：
+
 - 使用事务保证操作的原子性
 - 实现错误处理和回滚机制
 - 使用保存点（Savepoint）实现嵌套事务
@@ -410,6 +412,7 @@ def update_workflow_with_compensation(workflow_id: str, updates: dict):
 此代码示例展示如何创建和优化PostgreSQL索引，提升查询性能。
 
 **关键点说明**：
+
 - 创建B-tree索引用于等值和范围查询
 - 创建复合索引用于多列查询
 - 创建部分索引用于条件查询
@@ -490,6 +493,7 @@ def analyze_query_performance(query: str, params: tuple):
 此代码示例展示如何配置PostgreSQL连接池，优化数据库连接性能。
 
 **关键点说明**：
+
 - 使用连接池管理数据库连接
 - 配置连接池大小（最小连接数、最大连接数）
 - 实现连接健康检查
@@ -610,7 +614,7 @@ $$ \text{Speedup} = \frac{\lambda_{PG}}{\lambda_{Cass}} = \frac{10,000,000}{1,85
 
 #### 2.1.2 写入性能优势的技术原因
 
-**原因1：WAL（Write-Ahead Log）优化**
+**原因1：WAL（Write-Ahead Log）优化**:
 
 **WAL机制**：
 
@@ -634,7 +638,7 @@ $$ \text{TotalSpeedup} = 10 \times 5 \times 2 = 100\text{x} \text{ (理论值)} 
 
 实际测量值：5.4x（考虑其他因素）
 
-**原因2：MVCC并发控制**
+**原因2：MVCC并发控制**:
 
 **MVCC优势**：
 
@@ -648,7 +652,7 @@ $$ \text{Throughput}_{MVCC} = \text{Throughput}_{TableLock} \times \text{Concurr
 
 其中 $\text{ConcurrencyFactor} \approx 5-20$（取决于工作负载）
 
-**原因3：连接池优化**
+**原因3：连接池优化**:
 
 **连接池优势**：
 
@@ -704,7 +708,7 @@ $$ \text{Speedup} = \frac{T_{Cass}}{T_{PG}} = \frac{1,200}{8.9} = 134.8\text{x} 
 
 #### 2.2.2 查询性能优势的技术原因
 
-**原因1：索引优化**
+**原因1：索引优化**:
 
 **索引优势**：
 
@@ -722,7 +726,7 @@ $$ \text{Speedup} = \frac{10^6}{\log_2(10^6)} = 50,000\text{x} \text{ (理论值
 
 实际测量值：10-300x（考虑其他因素）
 
-**原因2：SQL优化器**
+**原因2：SQL优化器**:
 
 **优化器优势**：
 
@@ -734,7 +738,7 @@ $$ \text{Speedup} = \frac{10^6}{\log_2(10^6)} = 50,000\text{x} \text{ (理论值
 
 $$ \text{Speedup} = \frac{T_{NaivePlan}}{T_{OptimizedPlan}} = 2-10\text{x} $$
 
-**原因3：MVCC并发控制**
+**原因3：MVCC并发控制**:
 
 **MVCC优势**：
 
@@ -753,7 +757,7 @@ $$ \text{TotalSpeedup} = 135\text{x} \text{ (实际测量值)} $$
 
 #### 2.2.3 查询优化实践案例
 
-**案例1：索引优化**
+**案例1：索引优化**:
 
 **优化前**（全表扫描）：
 
@@ -777,7 +781,7 @@ CREATE INDEX idx_workflow_status_time ON executions (
 -- 性能提升：322倍
 ```
 
-**案例2：分区表优化**
+**案例2：分区表优化**:
 
 **优化前**（全表扫描）：
 
@@ -806,7 +810,7 @@ CREATE TABLE history_events (
 
 #### 2.3.1 数据库配置优化
 
-**优化策略1：内存配置优化**
+**优化策略1：内存配置优化**:
 
 **关键参数**：
 
@@ -842,7 +846,7 @@ $$ \text{BufferHitRatio} = \frac{\text{BufferHits}}{\text{BufferHits} + \text{Di
 
 ---
 
-**优化策略2：WAL配置优化**
+**优化策略2：WAL配置优化**:
 
 **关键参数**：
 
@@ -878,7 +882,7 @@ $$ \text{CheckpointFrequency} = \frac{\text{max_wal_size}}{\text{WriteRate}} $$
 
 ---
 
-**优化策略3：连接配置优化**
+**优化策略3：连接配置优化**:
 
 **关键参数**：
 
@@ -906,7 +910,7 @@ $$ \text{OptimalConnections} = \frac{\text{CPU Cores} \times 2}{\text{AvgQueryTi
 
 #### 2.3.2 查询优化策略
 
-**策略1：查询计划优化**
+**策略1：查询计划优化**:
 
 **EXPLAIN ANALYZE使用**：
 
@@ -938,7 +942,7 @@ WHERE status = 'Running' AND start_time > NOW() - INTERVAL '1 hour';
 
 ---
 
-**策略2：索引优化**
+**策略2：索引优化**:
 
 **索引类型选择**：
 
@@ -974,7 +978,7 @@ WHERE status = 'Running';
 
 ---
 
-**策略3：分区优化**
+**策略3：分区优化**:
 
 **分区策略**：
 
@@ -1013,7 +1017,7 @@ CREATE TABLE executions_2024_02 PARTITION OF executions
 
 #### 2.3.3 写入优化策略
 
-**策略1：批量写入优化**
+**策略1：批量写入优化**:
 
 **批量插入**：
 
@@ -1043,7 +1047,7 @@ $$ \text{Speedup} = \frac{T_{Single} \times N}{T_{Batch} + T_{Overhead}} = \frac
 
 ---
 
-**策略2：COPY命令优化**
+**策略2：COPY命令优化**:
 
 **COPY命令使用**：
 
@@ -1066,7 +1070,7 @@ $$ \text{Speedup} = \frac{T_{INSERT}}{T_{COPY}} = \frac{1000\text{ms}}{50\text{m
 
 ---
 
-**策略3：异步提交优化**
+**策略3：异步提交优化**:
 
 **异步提交配置**：
 
@@ -1100,7 +1104,7 @@ $$ \text{Speedup} = \frac{T_{Sync}}{T_{Async}} = \frac{2\text{ms}}{0.5\text{ms}}
 
 **方案架构**：
 
-```
+```text
 主节点 (Primary)
     |
     | 流式复制
@@ -1111,7 +1115,7 @@ $$ \text{Speedup} = \frac{T_{Sync}}{T_{Async}} = \frac{2\text{ms}}{0.5\text{ms}}
 
 **配置步骤**：
 
-**步骤1：主节点配置**
+**步骤1：主节点配置**:
 
 ```sql
 -- postgresql.conf
@@ -1123,7 +1127,7 @@ max_replication_slots = 3
 host replication replicator 192.168.1.0/24 md5
 ```
 
-**步骤2：从节点配置**
+**步骤2：从节点配置**:
 
 ```bash
 # 基础备份
@@ -1155,7 +1159,7 @@ primary_conninfo = 'host=primary_host port=5432 user=replicator'
 
 **方案架构**：
 
-```
+```text
 主节点 (Primary)
     |
     | WAL流式传输
@@ -1166,7 +1170,7 @@ primary_conninfo = 'host=primary_host port=5432 user=replicator'
 
 **配置步骤**：
 
-**步骤1：配置流式复制**
+**步骤1：配置流式复制**:
 
 ```sql
 -- 主节点
@@ -1178,7 +1182,7 @@ SELECT pg_reload_conf();
 SELECT pg_create_physical_replication_slot('standby1');
 ```
 
-**步骤2：配置从节点**
+**步骤2：配置从节点**:
 
 ```bash
 # recovery.conf
@@ -1207,7 +1211,7 @@ primary_slot_name = 'standby1'
 
 **方案架构**：
 
-```
+```text
 区域1 (Region 1)
     主节点 (Primary)
         |
@@ -1224,7 +1228,7 @@ primary_slot_name = 'standby1'
 
 **配置步骤**：
 
-**步骤1：配置跨区域复制**
+**步骤1：配置跨区域复制**:
 
 ```sql
 -- 主节点（区域1）
@@ -1291,7 +1295,7 @@ $$ \text{CostSavings} = \frac{C_{Cassandra} - C_{PostgreSQL}}{C_{Cassandra}} = \
 
 #### 3.1.2 成本差异原因分析
 
-**原因1：节点数差异**
+**原因1：节点数差异**:
 
 **PostgreSQL集群**：
 
@@ -1315,7 +1319,7 @@ $$ \text{CostSavings} = \frac{C_{Cassandra} - C_{PostgreSQL}}{C_{Cassandra}} = \
 
 $$ \Delta C = C_{Cass} - C_{PG} = 33,251 - 3,325 = 29,926\text{ $/月} $$
 
-**原因2：资源利用率差异**
+**原因2：资源利用率差异**:
 
 **资源利用率对比**：
 
@@ -1444,9 +1448,9 @@ $$ C(n) = C_0 \times n^{\alpha} $$
 
 #### 4.1.2 SQL支持的优势
 
-**优势1：复杂查询能力**
+**优势1：复杂查询能力**:
 
-**示例：时间聚合查询**
+**示例：时间聚合查询**:
 
 ```sql
 SELECT workflow_type, COUNT(*), AVG(execution_time)
@@ -1458,9 +1462,9 @@ GROUP BY workflow_type;
 **PostgreSQL**：✅ 支持，执行时间45ms
 **Cassandra**：❌ 不支持，需要应用层实现
 
-**优势2：数据分析能力**
+**优势2：数据分析能力**:
 
-**示例：工作流分析**
+**示例：工作流分析**:
 
 ```sql
 SELECT
@@ -1476,9 +1480,9 @@ GROUP BY workflow_type;
 **PostgreSQL**：✅ 支持，执行时间<100ms
 **Cassandra**：❌ 不支持，需要应用层实现
 
-**优势3：运维便利性**
+**优势3：运维便利性**:
 
-**示例：故障诊断**
+**示例：故障诊断**:
 
 ```sql
 SELECT
@@ -1512,7 +1516,7 @@ ORDER BY created_at DESC;
 
 #### 4.2.2 ACID事务的优势
 
-**优势1：数据一致性保证**
+**优势1：数据一致性保证**:
 
 **工作流状态更新**：
 
@@ -1526,7 +1530,7 @@ COMMIT;
 **PostgreSQL**：✅ 原子性保证，要么全部成功，要么全部失败
 **Cassandra**：❌ 无原子性保证，可能出现不一致状态
 
-**优势2：并发控制**
+**优势2：并发控制**:
 
 **并发工作流执行**：
 
@@ -1540,7 +1544,7 @@ COMMIT;
 **PostgreSQL**：✅ 行级锁保证，避免并发冲突
 **Cassandra**：❌ 无锁机制，可能出现并发冲突
 
-**优势3：故障恢复**
+**优势3：故障恢复**:
 
 **故障恢复场景**：
 
@@ -1566,9 +1570,9 @@ COMMIT;
 
 #### 4.3.2 复杂查询的优势
 
-**优势1：数据分析能力**
+**优势1：数据分析能力**:
 
-**示例：工作流性能分析**
+**示例：工作流性能分析**:
 
 ```sql
 WITH workflow_stats AS (
@@ -1599,9 +1603,9 @@ LEFT JOIN (
 **PostgreSQL**：✅ 支持，执行时间<100ms
 **Cassandra**：❌ 不支持，需要应用层实现
 
-**优势2：运维便利性**
+**优势2：运维便利性**:
 
-**示例：故障诊断**
+**示例：故障诊断**:
 
 ```sql
 SELECT
@@ -1670,7 +1674,7 @@ LIMIT 100;
 
 #### 5.2.1 存储后端切换
 
-**方案1：根据规模选择存储后端**
+**方案1：根据规模选择存储后端**:
 
 - **<10M events/s**：PostgreSQL（成本效益最优）
 - **>100M events/s**：Cassandra（扩展性最优）
@@ -1694,6 +1698,33 @@ LIMIT 100;
 
 **决策树**：
 
+<details>
+<summary><strong>📊 图表说明（点击展开/折叠）</strong></summary>
+
+**图表用途**：
+
+- 展示存储后端选择的决策流程
+- 根据事件速率选择最合适的存储后端
+
+**图表结构**：
+
+- 节点：表示决策点和选择
+- 箭头：表示决策路径
+
+**关键节点说明**：
+
+- **Start**：决策起点
+- **事件速率判断**：根据事件速率选择存储后端
+- **PostgreSQL**：适合<10M events/s的场景
+- **Cassandra**：适合>100M events/s的场景
+
+**决策逻辑**：
+
+- 如果事件速率<10M events/s，选择PostgreSQL（成本效益最优）
+- 如果事件速率>100M events/s，选择Cassandra（扩展性最优）
+
+</details>
+
 ```mermaid
 graph TD
     Start[选择存储后端] --> A{事件速率?}
@@ -1705,7 +1736,7 @@ graph TD
 
 #### 5.2.2 性能优化方案
 
-**方案2：性能优化**
+**方案2：性能优化**:
 
 - **连接池优化**：使用连接池减少延迟
 - **索引优化**：使用索引提升查询性能
@@ -1719,7 +1750,7 @@ graph TD
 
 #### 5.2.3 混合架构方案
 
-**方案3：混合架构**
+**方案3：混合架构**:
 
 - **PostgreSQL**：处理<10M events/s的工作流
 - **Cassandra**：处理>100M events/s的工作流
@@ -1979,7 +2010,7 @@ Uber使用PostgreSQL存储数据中心管理数据，需要处理大规模部署
 
 **完整论证链条**：
 
-```
+```text
 理论基础 → 形式化定义 → 定理证明 → 算法实现 → 性能验证 → 实践案例 → 国际对标 → 结论
 ```
 

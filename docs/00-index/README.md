@@ -78,7 +78,7 @@ docs/
 - [技术堆栈对比](../02-technology-comparison/技术堆栈对比分析.md)
 - [形式化验证理论](../03-formal-verification/形式化验证理论.md)
 - [企业实践案例](../04-practice-cases/企业实践案例.md) - 按行业分类的企业实践案例
-- [场景主题分类案例](../04-practice-cases/场景主题分类案例.md) - 按场景主题分类的案例深度分析
+- [场景主题分类案例](../04-practice-cases/场景主题分类案例.md) - 按场景主题分类的案例深度分析（15个场景主题，40+个案例）
 - [项目推进计划](../05-roadmap/项目推进计划.md)
 - [性能基准测试](../06-benchmarks/性能基准测试.md)
 - [国际对标分析](../07-international-benchmark/国际对标分析.md)
@@ -89,16 +89,16 @@ docs/
 - [论证思路与策略决策](../12-argumentation-strategy/论证思路与策略决策.md) - 论证方法论和决策框架
 - [后续推进计划与方案](../13-next-steps/后续推进计划与方案.md) - 详细的后续推进计划和实施方案
 - [论证完备性增强](../14-argumentation-enhancement/论证完备性增强.md) - 理论基础完备性、场景归纳、形式化证明增强
-- [论证增强总结](../../ARGUMENTATION_ENHANCEMENT_SUMMARY.md) - 论证完备性增强总结报告
-- [论证完备性最终报告](../../FINAL_ARGUMENTATION_COMPLETE.md) - 论证完备性和充分性最终完成报告
-- [项目最终完成确认](../../PROJECT_FINAL_COMPLETE.md) - 项目100%完成确认报告（v6.0）
-- [最终项目完成报告](../../FINAL_PROJECT_COMPLETION_REPORT.md) - 项目最终完成报告（v6.0）
-- [项目完成状态最终报告](../../PROJECT_COMPLETION_STATUS_FINAL.md) - 项目完成状态最终报告（v6.0）
-- [项目最终完成确认](../../PROJECT_FINAL_COMPLETION.md) - 项目最终完成确认（v6.0）
-- [内容扩展状态报告](../../CONTENT_EXPANSION_STATUS.md) - 内容扩展进度和状态
-- [扩展完成报告](../../FINAL_EXPANSION_COMPLETE.md) - 内容扩展完成报告
-- [项目最终状态](../../PROJECT_FINAL_STATUS.md) - 项目最终完成状态
-- [项目完成最终报告](../../PROJECT_COMPLETE_FINAL.md) - 项目100%完成最终报告
+- [理论模型专题文档](../15-formal-models/README.md) - 理论模型深度扩展专题文档（v8.0，全部完成，18个专题文档）
+- [理论模型深度扩展计划](../15-formal-models/理论模型深度扩展计划.md) - 详细的扩展计划和对标资源
+- [理论模型扩展推进任务](../16-next-phase/理论模型扩展推进任务.md) - 详细的推进任务和时间表（v8.0，已完成）
+- [思维表征增强计划](../17-enhancement-plan/README.md) - 思维表征增强计划和后续推进任务（v9.0，✅ 已完成）
+- [全局知识概念关系图](../17-enhancement-plan/全局知识概念关系图.md) - 所有18个理论模型的全局知识概念关系图
+- [概念索引](../17-enhancement-plan/概念索引.md) - 所有核心概念按字母顺序和分类的索引
+- [概念属性关系数据库](../17-enhancement-plan/概念属性关系数据库.md) - 概念、属性、关系的结构化数据库
+- [v9.0最终完成确认](../../PROJECT_COMPLETE_V9_FINAL.md) - v9.0项目最终完成确认报告
+- [归档文档索引](../../archive/README.md) - 已归档的完成报告和状态报告（v6.0、v7.0、v8.0）
+- [项目v9.0推进计划总结](../../PROJECT_V9_PLAN_SUMMARY.md) - v9.0版本推进计划总结
 - [文档导航图](文档导航图.md) - 完整的文档导航和阅读路径
 
 ## 文档版本

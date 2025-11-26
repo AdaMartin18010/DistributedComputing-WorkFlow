@@ -12,7 +12,7 @@
 - **[技术堆栈对比](docs/02-technology-comparison/技术堆栈对比分析.md)** - 全面对比Temporal、Airflow、Flink等框架
 - **[形式化验证理论](docs/03-formal-verification/形式化验证理论.md)** - TLA+、CTL/LTL、Petri网等验证方法
 - **[企业实践案例](docs/04-practice-cases/企业实践案例.md)** - 按行业分类的企业实践案例（15+个行业，30+个案例）
-- **[场景主题分类案例](docs/04-practice-cases/场景主题分类案例.md)** - 按场景主题分类的案例深度分析（7个场景主题，30+个案例）
+- **[场景主题分类案例](docs/04-practice-cases/场景主题分类案例.md)** - 按场景主题分类的案例深度分析（15个场景主题，40+个案例）
 - **[项目推进计划](docs/05-roadmap/项目推进计划.md)** - 32周详细推进计划
 - **[性能基准测试](docs/06-benchmarks/性能基准测试.md)** - 详细的性能测试报告和对比分析
 - **[国际对标分析](docs/07-international-benchmark/国际对标分析.md)** - 与国际先进系统的全面对标
@@ -20,6 +20,12 @@
 - **[快速开始指南](docs/09-quickstart/快速开始指南.md)** - 5分钟快速上手指南
 - **[最佳实践指南](docs/10-best-practices/最佳实践指南.md)** - 生产环境最佳实践
 - **[常见问题解答](docs/11-faq/常见问题解答.md)** - FAQ和问题解答
+- **[理论模型专题文档](docs/15-formal-models/README.md)** - 理论模型深度扩展专题文档（v8.0，全部完成，18个专题文档）
+- **[理论模型扩展推进任务](docs/16-next-phase/理论模型扩展推进任务.md)** - 详细的推进任务和时间表（v8.0，已完成）
+- **[思维表征增强计划](docs/17-enhancement-plan/README.md)** - 思维表征增强计划和后续推进任务（v9.0，✅ 已完成，112个思维表征）
+- **[全局知识概念关系图](docs/17-enhancement-plan/全局知识概念关系图.md)** - 所有18个理论模型的全局知识概念关系图
+- **[概念索引](docs/17-enhancement-plan/概念索引.md)** - 所有核心概念按字母顺序和分类的索引
+- **[v9.0最终完成确认](PROJECT_COMPLETE_V9_FINAL.md)** - v9.0项目最终完成确认报告
 
 ### 🎯 核心发现
 

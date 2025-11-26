@@ -387,7 +387,7 @@ $$ \text{Idempotent}(C) \implies \text{EventualConsistent}(S) $$
 
 **架构图**：
 
-```
+```text
 Orchestrator
     |
     |---> Service 1 (T1, C1)
@@ -444,7 +444,7 @@ func OrderSagaWorkflow(ctx workflow.Context, order Order) error {
 
 **架构图**：
 
-```
+```text
 Service 1 (T1, C1) <---> Event Bus <---> Service 2 (T2, C2)
                               |
                               |

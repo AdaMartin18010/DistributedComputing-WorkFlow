@@ -26,18 +26,18 @@
 
 #### P1优先级（6个）- ✅ 全部完成
 
-10. ✅ **UPPAAL专题文档** - 详细目录结构完整，对标Wikipedia、Baier & Katoen著作、Alur & Dill原始论文
-11. ✅ **向量时钟专题文档** - 详细目录结构完整，对标Wikipedia、Coulouris著作、Lamport/Fidge原始论文、大学课程
-12. ✅ **拜占庭容错专题文档** - 详细目录结构完整，对标Wikipedia、Cachin著作、Lamport/Castro原始论文、大学课程
-13. ✅ **Paxos算法专题文档** - 详细目录结构完整（用户已改进），对标Wikipedia、Kleppmann著作、Lamport原始论文、大学课程
-14. ✅ **Raft算法专题文档** - 详细目录结构完整（用户已改进），对标Wikipedia、Kleppmann著作、Ongaro & Ousterhout原始论文、大学课程
-15. ✅ **工作流模式专题文档** - 详细目录结构完整，对标van der Aalst著作、原始论文、Wikipedia
+1. ✅ **UPPAAL专题文档** - 详细目录结构完整，对标Wikipedia、Baier & Katoen著作、Alur & Dill原始论文
+2. ✅ **向量时钟专题文档** - 详细目录结构完整，对标Wikipedia、Coulouris著作、Lamport/Fidge原始论文、大学课程
+3. ✅ **拜占庭容错专题文档** - 详细目录结构完整，对标Wikipedia、Cachin著作、Lamport/Castro原始论文、大学课程
+4. ✅ **Paxos算法专题文档** - 详细目录结构完整（用户已改进），对标Wikipedia、Kleppmann著作、Lamport原始论文、大学课程
+5. ✅ **Raft算法专题文档** - 详细目录结构完整（用户已改进），对标Wikipedia、Kleppmann著作、Ongaro & Ousterhout原始论文、大学课程
+6. ✅ **工作流模式专题文档** - 详细目录结构完整，对标van der Aalst著作、原始论文、Wikipedia
 
 #### P2优先级（3个）- ✅ 全部完成
 
-16. ✅ **Coq/Isabelle专题文档** - 详细目录结构完整（已更新），对标Wikipedia、工具文档、经典教程
-17. ✅ **Chandy-Lamport快照算法专题文档** - 详细目录结构完整（已更新），对标Coulouris著作、原始论文、Wikipedia、大学课程
-18. ✅ **CTL/LTL扩展专题文档** - 详细目录结构完整（已更新），对标Baier & Katoen著作、原始论文、Wikipedia、大学课程
+1. ✅ **Coq/Isabelle专题文档** - 详细目录结构完整（已更新），对标Wikipedia、工具文档、经典教程
+2. ✅ **Chandy-Lamport快照算法专题文档** - 详细目录结构完整（已更新），对标Coulouris著作、原始论文、Wikipedia、大学课程
+3. ✅ **CTL/LTL扩展专题文档** - 详细目录结构完整（已更新），对标Baier & Katoen著作、原始论文、Wikipedia、大学课程
 
 ## 📚 质量保证
 

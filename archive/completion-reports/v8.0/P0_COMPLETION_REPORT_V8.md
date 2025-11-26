@@ -117,9 +117,9 @@
 
 ### P2优先级（可选，12周内）
 
-7. ⏳ Coq/Isabelle专题文档
-8. ⏳ Chandy-Lamport快照算法专题文档
-9. ⏳ 时序逻辑扩展专题文档
+1. ⏳ Coq/Isabelle专题文档
+2. ⏳ Chandy-Lamport快照算法专题文档
+3. ⏳ 时序逻辑扩展专题文档
 
 ---
 

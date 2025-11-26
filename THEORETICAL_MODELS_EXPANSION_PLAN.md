@@ -33,39 +33,39 @@
 
 #### P1优先级（重要，8周内）
 
-10. **UPPAAL（Timed Automata）**
-11. **向量时钟（Vector Clocks）**
-12. **拜占庭容错（Byzantine Fault Tolerance）**
-13. **Paxos算法**
-14. **Raft算法**
-15. **工作流模式（Workflow Patterns）**
+1. **UPPAAL（Timed Automata）**
+2. **向量时钟（Vector Clocks）**
+3. **拜占庭容错（Byzantine Fault Tolerance）**
+4. **Paxos算法**
+5. **Raft算法**
+6. **工作流模式（Workflow Patterns）**
 
 #### P2优先级（可选，12周内）
 
-16. **Coq/Isabelle（定理证明）**
-17. **Chandy-Lamport快照算法**
-18. **时序逻辑扩展**
+1. **Coq/Isabelle（定理证明）**
+2. **Chandy-Lamport快照算法**
+3. **时序逻辑扩展**
 
 ## 📊 实施计划
 
 ### 时间表
 
-**第1-2周：P0优先级前5个**
+**第1-2周：P0优先级前5个**:
 
 - Week 1: TLA+、CTL、LTL
 - Week 2: Petri网、CAP定理
 
-**第3-4周：P0优先级后4个**
+**第3-4周：P0优先级后4个**:
 
 - Week 3: FLP不可能定理、一致性模型
 - Week 4: 工作流网、Saga模式
 
-**第5-8周：P1优先级**
+**第5-8周：P1优先级**:
 
 - Week 5-6: UPPAAL、向量时钟、拜占庭容错
 - Week 7-8: Paxos、Raft、工作流模式
 
-**第9-12周：P2优先级（可选）**
+**第9-12周：P2优先级（可选）**:
 
 - Week 9-10: Coq/Isabelle
 - Week 11-12: Chandy-Lamport、时序逻辑扩展

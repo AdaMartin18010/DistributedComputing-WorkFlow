@@ -49,18 +49,18 @@
 
 ### P1优先级（重要，8周内）
 
-10. ⏳ **UPPAAL（Timed Automata）**
-11. ⏳ **向量时钟（Vector Clocks）**
-12. ⏳ **拜占庭容错（Byzantine Fault Tolerance）**
-13. ⏳ **Paxos算法**
-14. ⏳ **Raft算法**
-15. ⏳ **工作流模式（Workflow Patterns）**
+1. ⏳ **UPPAAL（Timed Automata）**
+2. ⏳ **向量时钟（Vector Clocks）**
+3. ⏳ **拜占庭容错（Byzantine Fault Tolerance）**
+4. ⏳ **Paxos算法**
+5. ⏳ **Raft算法**
+6. ⏳ **工作流模式（Workflow Patterns）**
 
 ### P2优先级（可选，12周内）
 
-16. ⏳ **Coq/Isabelle（定理证明）**
-17. ⏳ **Chandy-Lamport快照算法**
-18. ⏳ **时序逻辑扩展**
+1. ⏳ **Coq/Isabelle（定理证明）**
+2. ⏳ **Chandy-Lamport快照算法**
+3. ⏳ **时序逻辑扩展**
 
 ## 📚 对标资源
 

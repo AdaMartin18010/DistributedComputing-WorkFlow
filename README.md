@@ -11,7 +11,8 @@
 - **[主题关系分析](docs/01-theme-analysis/主题关系分析.md)** - 梳理工作流与分布式计算的主题和子主题关系
 - **[技术堆栈对比](docs/02-technology-comparison/技术堆栈对比分析.md)** - 全面对比Temporal、Airflow、Flink等框架
 - **[形式化验证理论](docs/03-formal-verification/形式化验证理论.md)** - TLA+、CTL/LTL、Petri网等验证方法
-- **[企业实践案例](docs/04-practice-cases/企业实践案例.md)** - Coinbase、Uber、Netflix等深度案例分析
+- **[企业实践案例](docs/04-practice-cases/企业实践案例.md)** - 按行业分类的企业实践案例（15+个行业，30+个案例）
+- **[场景主题分类案例](docs/04-practice-cases/场景主题分类案例.md)** - 按场景主题分类的案例深度分析（7个场景主题，30+个案例）
 - **[项目推进计划](docs/05-roadmap/项目推进计划.md)** - 32周详细推进计划
 - **[性能基准测试](docs/06-benchmarks/性能基准测试.md)** - 详细的性能测试报告和对比分析
 - **[国际对标分析](docs/07-international-benchmark/国际对标分析.md)** - 与国际先进系统的全面对标
@@ -63,25 +64,33 @@
 
 ## 企业实践案例
 
-### 金融科技
+### 按行业分类（15+个行业，30+个案例）
 
-- **Coinbase** - 跨境加密支付，5,000+ QPS，99.99%可靠性
-- **Stripe** - 支付编排，PCI DSS合规
+**金融科技**：Coinbase、Stripe、PayPal
+**共享经济**：Uber、Airbnb
+**流媒体**：Netflix、Spotify
+**科研计算**：CERN、NIH
+**医疗健康**：Epic Systems、Cerner
+**物联网**：AWS IoT Core
+**游戏行业**：Riot Games
+**制造业**：智能制造系统
+**零售电商**：Amazon、Alibaba
+**广告营销**：Google Ads、Facebook Ads
+**供应链**：Walmart
+**保险**：Allstate
+**房地产**：Zillow
+**交通出行**：Didi
+**农业科技**：John Deere
 
-### 共享经济
+### 按场景主题分类（7个场景主题）
 
-- **Uber** - 数据中心升级，300K+服务器，72小时零失败
-- **Airbnb** - 房源管理，全球同步
-
-### 流媒体
-
-- **Netflix** - 内容编码管道，10,000+并行任务
-- **Spotify** - 推荐系统，1B+用户
-
-### 科研计算
-
-- **CERN/LHC** - 粒子物理分析，PB级数据
-- **NIH** - 蛋白质组学，48小时实验流程
+1. **订单处理场景**：Amazon、Alibaba、Uber、Didi
+2. **支付处理场景**：Coinbase、Stripe、Amazon支付
+3. **数据处理管道场景**：Netflix、CERN、Datadog
+4. **实时系统场景**：Google Ads、Spotify、Riot Games
+5. **业务流程自动化场景**：Allstate、Zillow、Walmart
+6. **设备协调场景**：Uber、AWS IoT、制造业、John Deere
+7. **数据隐私与合规场景**：Epic Systems、Coinbase合规
 
 ## 形式化验证
 

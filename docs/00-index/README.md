@@ -17,7 +17,8 @@ docs/
 ├── 03-formal-verification/   # 形式化验证理论
 │   └── 形式化验证理论.md
 ├── 04-practice-cases/        # 企业实践案例
-│   └── 企业实践案例.md
+│   ├── 企业实践案例.md
+│   └── 场景主题分类案例.md
 └── 05-roadmap/              # 项目推进计划
     └── 项目推进计划.md
 ```
@@ -76,7 +77,8 @@ docs/
 - [主题关系分析](../01-theme-analysis/主题关系分析.md)
 - [技术堆栈对比](../02-technology-comparison/技术堆栈对比分析.md)
 - [形式化验证理论](../03-formal-verification/形式化验证理论.md)
-- [企业实践案例](../04-practice-cases/企业实践案例.md)
+- [企业实践案例](../04-practice-cases/企业实践案例.md) - 按行业分类的企业实践案例
+- [场景主题分类案例](../04-practice-cases/场景主题分类案例.md) - 按场景主题分类的案例深度分析
 - [项目推进计划](../05-roadmap/项目推进计划.md)
 - [性能基准测试](../06-benchmarks/性能基准测试.md)
 - [国际对标分析](../07-international-benchmark/国际对标分析.md)
@@ -84,7 +86,25 @@ docs/
 - [快速开始指南](../09-quickstart/快速开始指南.md)
 - [最佳实践指南](../10-best-practices/最佳实践指南.md)
 - [常见问题解答](../11-faq/常见问题解答.md)
+- [论证思路与策略决策](../12-argumentation-strategy/论证思路与策略决策.md) - 论证方法论和决策框架
+- [后续推进计划与方案](../13-next-steps/后续推进计划与方案.md) - 详细的后续推进计划和实施方案
+- [论证完备性增强](../14-argumentation-enhancement/论证完备性增强.md) - 理论基础完备性、场景归纳、形式化证明增强
+- [论证增强总结](../../ARGUMENTATION_ENHANCEMENT_SUMMARY.md) - 论证完备性增强总结报告
+- [论证完备性最终报告](../../FINAL_ARGUMENTATION_COMPLETE.md) - 论证完备性和充分性最终完成报告
+- [项目最终完成确认](../../PROJECT_FINAL_COMPLETE.md) - 项目100%完成确认报告（v6.0）
+- [最终项目完成报告](../../FINAL_PROJECT_COMPLETION_REPORT.md) - 项目最终完成报告（v6.0）
+- [项目完成状态最终报告](../../PROJECT_COMPLETION_STATUS_FINAL.md) - 项目完成状态最终报告（v6.0）
+- [项目最终完成确认](../../PROJECT_FINAL_COMPLETION.md) - 项目最终完成确认（v6.0）
+- [内容扩展状态报告](../../CONTENT_EXPANSION_STATUS.md) - 内容扩展进度和状态
+- [扩展完成报告](../../FINAL_EXPANSION_COMPLETE.md) - 内容扩展完成报告
+- [项目最终状态](../../PROJECT_FINAL_STATUS.md) - 项目最终完成状态
+- [项目完成最终报告](../../PROJECT_COMPLETE_FINAL.md) - 项目100%完成最终报告
 - [文档导航图](文档导航图.md) - 完整的文档导航和阅读路径
+
+## 文档版本
+
+- **核心文档**：v2.0（已完善，包含目录、思维导图、多维矩阵）
+- **辅助文档**：v1.0
 
 ## 项目状态
 

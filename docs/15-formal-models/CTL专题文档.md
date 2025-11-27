@@ -2134,7 +2134,8 @@ SPEC AG (activities[0] = failed -> EF (activities[0] = running))
 
 ### 12.3 相关资源
 
-- **- **
+- **-**
+
 ### 12.4 文档关联说明
 
 **理论关联**：

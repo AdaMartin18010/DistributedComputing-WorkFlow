@@ -2892,7 +2892,8 @@ Liveness == (workflowState = "Running") => \Diamond (workflowState \in {"Complet
 
 ### 12.3 相关资源
 
-- **- **
+- **-**
+
 ### 12.4 文档关联说明
 
 **理论关联**：
@@ -2900,11 +2901,13 @@ Liveness == (workflowState = "Running") => \Diamond (workflowState \in {"Complet
 - TLA+基于**时序逻辑**，与CTL和LTL相关（参见[CTL专题文档](CTL专题文档.md)和[LTL专题文档](LTL专题文档.md)）
 - TLA+可以用于验证分布式系统的**CAP权衡**（参见[CAP定理专题文档](CAP定理专题文档.md)）
 - TLA+可以用于验证**一致性模型**的实现（参见[一致性模型专题文档](一致性模型专题文档.md)）
+- TLA+的状态层次可以组织为**树形结构**（参见[树形分层结构专题文档](树形分层结构专题文档.md)）
 
 **实践关联**：
 
 - 可以使用TLA+验证Temporal工作流的正确性（参见[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)）
 - 可以使用TLA+验证技术栈组合的正确性（参见[技术栈组合论证](../18-argumentation-enhancement/技术栈组合论证.md)）
 - Temporal实现了Saga模式，可以使用TLA+验证其正确性（参见[Saga模式专题文档](Saga模式专题文档.md)）
+- TLA+可以用于验证树形架构模式的正确性（参见[树形分层结构专题文档](树形分层结构专题文档.md)）
 
 ---

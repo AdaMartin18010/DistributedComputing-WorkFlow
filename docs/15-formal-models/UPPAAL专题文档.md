@@ -1391,7 +1391,6 @@ A[] ((TemporalWorkflow.Completed && workflow_time <= 30) imply not TemporalWorkf
 
 ### 12.3 相关资源
 
-- **- **
 ### 12.4 文档关联说明
 
 **理论关联**：

@@ -688,7 +688,7 @@ func ReserveInventoryHandler(event InventoryReservationRequestedEvent) {
 
 #### 6.3.1 补偿操作设计最佳实践
 
-**实践1：补偿操作的幂等性**
+**实践1：补偿操作的幂等性**:
 
 **重要性**：
 
@@ -744,7 +744,7 @@ func CancelOrderCompensationBad(ctx context.Context, orderID string) error {
 
 ---
 
-**实践2：补偿操作的顺序性**
+**实践2：补偿操作的顺序性**:
 
 **重要性**：
 
@@ -788,7 +788,7 @@ func CompensateSaga(ctx context.Context, saga Saga) error {
 
 ---
 
-**实践3：补偿操作的超时和重试**
+**实践3：补偿操作的超时和重试**:
 
 **重要性**：
 
@@ -838,7 +838,7 @@ func CompensateWithRetry(ctx context.Context, compensation Compensation, maxRetr
 
 #### 6.3.2 Saga协调器实现最佳实践
 
-**实践1：状态管理**
+**实践1：状态管理**:
 
 **重要性**：
 
@@ -891,7 +891,7 @@ func (s *SagaState) MarkTransactionCompleted(transactionID string) {
 
 ---
 
-**实践2：错误处理和恢复**
+**实践2：错误处理和恢复**:
 
 **重要性**：
 
@@ -976,7 +976,7 @@ func (s *Saga) Recover(ctx context.Context) error {
 
 **详细对比**：
 
-**1. Saga vs 2PC（两阶段提交）**
+**1. Saga vs 2PC（两阶段提交）**:
 
 | 特性 | Saga | 2PC | 优势 |
 |------|------|-----|------|
@@ -991,7 +991,7 @@ func (s *Saga) Recover(ctx context.Context) error {
 - **Saga**：长事务、微服务架构、最终一致性可接受
 - **2PC**：短事务、强一致性要求、单机数据库
 
-**2. Saga vs TCC（Try-Confirm-Cancel）**
+**2. Saga vs TCC（Try-Confirm-Cancel）**:
 
 | 特性 | Saga | TCC | 优势 |
 |------|------|-----|------|
@@ -1006,7 +1006,7 @@ func (s *Saga) Recover(ctx context.Context) error {
 - **Saga**：通用场景、业务逻辑简单
 - **TCC**：需要精确控制资源、业务逻辑复杂
 
-**3. Saga vs 本地消息表**
+**3. Saga vs 本地消息表**:
 
 | 特性 | Saga | 本地消息表 | 优势 |
 |------|------|-----------|------|
@@ -1025,7 +1025,7 @@ func (s *Saga) Recover(ctx context.Context) error {
 
 #### 6.3.4 实际场景应用深度分析
 
-**场景1：电商订单处理**
+**场景1：电商订单处理**:
 
 **业务需求**：
 
@@ -1063,7 +1063,7 @@ type OrderSaga struct {
 
 ---
 
-**场景2：金融支付处理**
+**场景2：金融支付处理**:
 
 **业务需求**：
 
@@ -1101,7 +1101,7 @@ type PaymentSaga struct {
 
 ---
 
-**场景3：微服务数据同步**
+**场景3：微服务数据同步**:
 
 **业务需求**：
 
@@ -1861,6 +1861,7 @@ flowchart TD
 此代码示例展示如何实现编排式Saga协调器。
 
 **关键点说明**：
+
 - 实现Saga协调器
 - 实现事务步骤执行
 - 实现补偿操作
@@ -2008,6 +2009,7 @@ def example_orchestration_saga():
 此代码示例展示如何实现协同式Saga（事件驱动）。
 
 **关键点说明**：
+
 - 使用事件驱动架构
 - 每个服务独立处理事件
 - 实现补偿事件
@@ -2128,6 +2130,7 @@ def example_choreography_saga():
 此代码示例展示如何使用Temporal工作流实现Saga模式。
 
 **关键点说明**：
+
 - 使用Temporal工作流作为Saga协调器
 - 使用Activity实现事务步骤
 - 使用补偿Activity实现补偿操作
@@ -2253,6 +2256,7 @@ async def run_saga_workflow():
 ```
 
 **使用说明**：
+
 1. Temporal工作流可以作为Saga协调器
 2. 使用Activity实现事务步骤和补偿操作
 3. 工作流自动处理故障和补偿
@@ -2279,7 +2283,8 @@ async def run_saga_workflow():
 
 ### 12.3 相关资源
 
-- **- **
+- **-**
+
 ### 12.4 文档关联说明
 
 **理论关联**：
@@ -2293,5 +2298,6 @@ async def run_saga_workflow():
 - Temporal实现了Saga模式用于分布式事务管理（参见[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)）
 - PostgreSQL可以作为Saga模式的资源管理器（参见[PostgreSQL选型论证](../18-argumentation-enhancement/PostgreSQL选型论证.md)）
 - Temporal + PostgreSQL技术栈组合如何实现Saga模式（参见[技术栈组合论证](../18-argumentation-enhancement/技术栈组合论证.md)）
+- Saga模式的事务链可以组织为**树形结构**（参见[树形分层结构专题文档](树形分层结构专题文档.md)）
 
 ---

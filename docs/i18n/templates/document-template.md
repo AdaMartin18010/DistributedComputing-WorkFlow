@@ -9,7 +9,7 @@ This template provides a standard structure for translating documents from Chine
 ```markdown
 # Document Title (English)
 
-[English](en-US/...) | [中文](../zh-CN/...)
+\[English\](en-US/...) | \[中文\](../zh-CN/...) （示例格式，请替换为实际路径）
 
 ## Table of Contents
 
@@ -120,8 +120,8 @@ $$ \text{Throughput} = \frac{\text{Workflows}}{\text{Time}} $$
 
 **Example**:
 
-- Chinese: `[快速开始指南](../09-quickstart/快速开始指南.md)`
-- English: `[Quick Start Guide](../09-quickstart/quick-start-guide.md)`
+- Chinese: `\[快速开始指南\](../09-quickstart/快速开始指南.md)` （示例格式）
+- English: `\[Quick Start Guide\](../09-quickstart/quick-start-guide.md)` （示例格式：此文件可能尚未创建）
 
 ---
 

@@ -812,12 +812,12 @@ mindmap
 
 | 大学/课程 | 核心理论 | Temporal对应实现 | 对标程度 |
 |-----------|----------|------------------|----------|
-| **Stanford CS237B**<br>Formal Methods  | LTL/CTL模型检验 | 工作流程隐含CTL语义 | ★★★★☆ |
-| **MIT 6.512**<br>Formal Verification  | 硬件RTL验证 | Activity代码可转换为RTL等价物 | ★★★☆☆ |
-| **CMU 15-811**<br>Model Checking | 符号模型检验 | 事件溯源=符号执行轨迹 | ★★★★☆ |
-| **UT Austin**<br>Distributed Systems | Virtual Time/Sync | Temporal Timer=虚拟时间 | ★★★★☆ |
-| **Princeton**<br>CAP定理研究 | 一致性级别 | 可序列化隔离级别 | ★★★★★ |
-| **中国科大**<br>嵌入式系统  | CTL状态形式化 | 可直接映射工作流状态 | ★★★★★ |
+| **Stanford CS237B** Formal Methods  | LTL/CTL模型检验 | 工作流程隐含CTL语义 | ★★★★☆ |
+| **MIT 6.512** Formal Verification  | 硬件RTL验证 | Activity代码可转换为RTL等价物 | ★★★☆☆ |
+| **CMU 15-811** Model Checking | 符号模型检验 | 事件溯源=符号执行轨迹 | ★★★★☆ |
+| **UT Austin** Distributed Systems | Virtual Time/Sync | Temporal Timer=虚拟时间 | ★★★★☆ |
+| **Princeton** CAP定理研究 | 一致性级别 | 可序列化隔离级别 | ★★★★★ |
+| **中国科大** 嵌入式系统  | CTL状态形式化 | 可直接映射工作流状态 | ★★★★★ |
 
 ---
 
@@ -1109,7 +1109,7 @@ benchmarks:
 
 ### **6.1 研究生级别课程设计**
 
-**课程名称**：《分布式工作流系统的形式化验证》<br>
+**课程名称**：《分布式工作流系统的形式化验证》
 **参考标准**：Stanford CS237B + MIT 6.512 + CMU 15-811
 
 #### **模块1：理论基础（3周）**

@@ -24,7 +24,7 @@ en-US/
 
 ## 🌐 Language Links
 
-- [中文文档](../docs/00-index/README.md) - 中文文档索引
+- [中文文档](../00-index/README.md) - 中文文档索引
 - [English Documentation](./README.md)
 
 ## 📋 Translation Status

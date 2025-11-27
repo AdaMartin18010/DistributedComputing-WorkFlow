@@ -22,9 +22,26 @@ archive/
 
 ### v9.0版本完成报告
 
+- `completion-reports/v9.0/PROJECT_COMPLETE_V9_FINAL.md` - v9.0项目最终完成确认
 - `completion-reports/v9.0/PROJECT_V9_PLAN_SUMMARY.md` - v9.0推进计划总结
 - `completion-reports/v9.0/V9_COMPLETE_SUMMARY.md` - v9.0完成总结
 - `completion-reports/v9.0/V9_ENHANCEMENT_PLAN_COMPLETE.md` - v9.0增强计划完成确认
+- `completion-reports/v9.0/V9.0_FINAL_COMPLETION_REPORT.md` - v9.0最终完成报告
+- `completion-reports/v9.0/P0完成报告.md` - P0优先级完成报告
+- `completion-reports/v9.0/FINAL_COMPLETION_REPORT_V9.md` - v9.0最终完成报告
+
+### v10-v15版本完成报告
+
+归档在 `completion-reports/v10-v15/` 目录：
+- v11.0-v15.0各版本的完成总结和推进计划
+- 各种增强计划的实施和总结文档
+
+### 其他增强报告
+
+归档在 `completion-reports/other/` 目录：
+- 交互性元素增强、代码示例完善
+- 国际化实施、实践案例扩展
+- 性能测试扩展、文档质量优化等各类增强报告
 
 ### v6.0版本完成报告
 
@@ -87,9 +104,11 @@ archive/
 
 ## 📝 最新状态
 
-当前项目的最新完成报告请参考项目根目录的：
+当前项目的最新完成报告已归档在：
 
-- `PROJECT_COMPLETE_V9_FINAL.md` - 最新完成报告（v9.0）
+- `completion-reports/v9.0/PROJECT_COMPLETE_V9_FINAL.md` - 最新完成报告（v9.0）
+
+项目根目录仅保留必要的核心文档。
 
 ## 📅 归档时间
 

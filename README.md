@@ -25,7 +25,7 @@
 - **[思维表征增强计划](docs/17-enhancement-plan/README.md)** - 思维表征增强计划和后续推进任务（v9.0，✅ 已完成，112个思维表征）
 - **[全局知识概念关系图](docs/17-enhancement-plan/全局知识概念关系图.md)** - 所有18个理论模型的全局知识概念关系图
 - **[概念索引](docs/17-enhancement-plan/概念索引.md)** - 所有核心概念按字母顺序和分类的索引
-- **[v9.0最终完成确认](PROJECT_COMPLETE_V9_FINAL.md)** - v9.0项目最终完成确认报告
+- **[归档文档索引](archive/README.md)** - 查看历史版本完成报告（包括v9.0最终完成确认）
 
 ### 🎯 核心发现
 

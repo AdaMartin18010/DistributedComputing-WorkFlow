@@ -1,4 +1,4 @@
-# Petri网专题文档
+﻿# Petri网专题文档
 
 ## 目录
 
@@ -2018,9 +2018,7 @@ def verify_workflow_net(net: PetriNet):
 
 ### 12.3 相关资源
 
-- **[总体推进计划v11.0](../18-argumentation-enhancement/总体推进计划v11.0.md)** - v11.0版本的论证增强计划
-- **[总体推进计划v12.0](../18-argumentation-enhancement/总体推进计划v12.0.md)** - v12.0版本的论证增强计划
-
+- **- **
 ### 12.4 文档关联说明
 
 **理论关联**：

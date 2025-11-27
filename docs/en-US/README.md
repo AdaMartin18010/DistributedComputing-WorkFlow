@@ -24,12 +24,12 @@ en-US/
 
 ## 🌐 Language Links
 
-- [中文文档](../zh-CN/README.md)
+- [中文文档](../docs/00-index/README.md) - 中文文档索引
 - [English Documentation](./README.md)
 
 ## 📋 Translation Status
 
-See [Internationalization Implementation Plan](../18-argumentation-enhancement/国际化实施计划v15.0.md) for translation progress.
+Translation plans have been archived. See [Archive Index](../../archive/README.md) for historical translation documents.
 
 ---
 

@@ -1673,21 +1673,50 @@ class ResilientWorkflow:
 
 ## 十三、相关文档
 
-### 12.1 核心论证文档
+### 13.1 项目内部文档
+
+#### 核心论证文档
 
 - **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - Temporal如何绕过FLP不可能定理
 - **[技术栈组合论证](../18-argumentation-enhancement/技术栈组合论证.md)** - 技术栈组合如何绕过FLP限制
 
-### 12.2 理论模型专题文档
+#### 理论模型专题文档
 
 - **[CAP定理专题文档](CAP定理专题文档.md)** - CAP定理，与FLP不可能定理相关的分布式系统不可能性
 - **[Paxos算法专题文档](Paxos算法专题文档.md)** - Paxos算法，绕过FLP的方法之一
 - **[Raft算法专题文档](Raft算法专题文档.md)** - Raft算法，绕过FLP的方法之一
 - **[拜占庭容错专题文档](拜占庭容错专题文档.md)** - 拜占庭容错，绕过FLP的方法之一
 
-### 12.3 相关资源
+#### 其他相关文档
 
-### 12.4 文档关联说明
+- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - FLP不可能定理的形式化证明
+- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - FLP不可能定理在知识图谱中的位置
+
+### 13.2 外部资源链接
+
+#### Wikipedia资源
+
+- [FLP impossibility result](https://en.wikipedia.org/wiki/FLP_impossibility_result) - FLP不可能定理
+- [FLP不可能定理](https://zh.wikipedia.org/wiki/FLP不可能定理) - FLP不可能定理中文条目
+- [Consensus (computer science)](https://en.wikipedia.org/wiki/Consensus_(computer_science)) - 分布式共识
+- [Distributed computing](https://en.wikipedia.org/wiki/Distributed_computing) - 分布式计算
+
+#### 学术论文
+
+- Fischer, M., Lynch, N., & Paterson, M. (1985). "Impossibility of Distributed Consensus with One Faulty Process". Journal of the ACM.
+
+#### 学术课程
+
+- [MIT 6.824 Distributed Systems](https://pdos.csail.mit.edu/6.824/) - 分布式系统课程（FLP不可能定理章节）
+- [CMU 15-440 Distributed Systems](https://www.cs.cmu.edu/~dga/15-440/) - 分布式系统课程（FLP不可能定理章节）
+
+### 13.3 项目管理文档
+
+- [Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md) - Wikipedia资源对标
+- [学术论文对标](../../structure_control/学术论文对标.md) - 学术论文对标
+- [概念关联网络](../../structure_control/概念关联网络.md) - FLP不可能定理在概念关联网络中的位置
+
+### 13.4 文档关联说明
 
 **理论关联**：
 

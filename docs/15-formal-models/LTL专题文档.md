@@ -1861,21 +1861,48 @@ ltl recovery {
 
 ## 十三、相关文档
 
-### 12.1 核心论证文档
+### 13.1 项目内部文档
+
+#### 核心论证文档
 
 - **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - 可以使用LTL验证Temporal工作流的性质
 
-### 12.2 理论模型专题文档
+#### 理论模型专题文档
 
 - **[CTL专题文档](CTL专题文档.md)** - CTL时序逻辑，与LTL相关的时序逻辑
 - **[CTL-LTL扩展专题文档](CTL-LTL扩展专题文档.md)** - CTL/LTL扩展，LTL的扩展形式
 - **[TLA+专题文档](TLA+专题文档.md)** - TLA+形式化验证方法，基于LTL的时序逻辑
 
-### 12.3 相关资源
+#### 其他相关文档
 
-- **-**
+- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - LTL在形式化验证理论中的位置
+- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - LTL在知识图谱中的位置
 
-### 12.4 文档关联说明
+### 13.2 外部资源链接
+
+#### Wikipedia资源
+
+- [Linear temporal logic](https://en.wikipedia.org/wiki/Linear_temporal_logic) - 线性时序逻辑
+- [线性时序逻辑](https://zh.wikipedia.org/wiki/线性时序逻辑) - 线性时序逻辑中文条目
+- [Temporal logic](https://en.wikipedia.org/wiki/Temporal_logic) - 时序逻辑
+- [Model checking](https://en.wikipedia.org/wiki/Model_checking) - 模型检验
+
+#### 学术论文
+
+- Pnueli, A. (1977). "The Temporal Logic of Programs". Proceedings of the 18th Annual Symposium on Foundations of Computer Science.
+
+#### 学术课程
+
+- [Stanford CS237B Formal Methods](https://web.stanford.edu/class/cs237b/) - 形式化方法课程（LTL章节）
+- [MIT 6.512 Formal Methods](https://ocw.mit.edu/courses/6-512-computer-systems-engineering-spring-2009/) - 形式化方法课程（LTL章节）
+
+### 13.3 项目管理文档
+
+- [Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md) - Wikipedia资源对标
+- [学术论文对标](../../structure_control/学术论文对标.md) - 学术论文对标
+- [概念关联网络](../../structure_control/概念关联网络.md) - LTL在概念关联网络中的位置
+
+### 13.4 文档关联说明
 
 **理论关联**：
 

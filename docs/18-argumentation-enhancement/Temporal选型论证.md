@@ -3116,13 +3116,15 @@ mindmap
 
 ## 十、相关文档
 
-### 9.1 核心论证文档
+### 10.1 项目内部文档
+
+#### 核心论证文档
 
 - **[PostgreSQL选型论证](PostgreSQL选型论证.md)** - PostgreSQL作为Temporal存储后端的完整论证
 - **[技术栈组合论证](技术栈组合论证.md)** - Temporal + PostgreSQL技术栈组合的完整论证
 - **[场景归纳和分类](场景归纳和分类.md)** - 工作流场景的归纳和分类，包含Temporal适用场景分析
 
-### 9.2 理论模型专题文档
+#### 理论模型专题文档
 
 - **[CAP定理专题文档](../15-formal-models/CAP定理专题文档.md)** - CAP定理的详细讲解，Temporal在CAP权衡中的位置
 - **[FLP不可能定理专题文档](../15-formal-models/FLP不可能定理专题文档.md)** - FLP不可能定理的详细讲解，Temporal如何绕过FLP限制
@@ -3130,11 +3132,39 @@ mindmap
 - **[Saga模式专题文档](../15-formal-models/Saga模式专题文档.md)** - Saga模式的详细讲解，Temporal如何实现Saga模式
 - **[工作流模式专题文档](../15-formal-models/工作流模式专题文档.md)** - 工作流模式的详细讲解，Temporal支持的工作流模式
 - **[TLA+专题文档](../15-formal-models/TLA+专题文档.md)** - TLA+形式化验证方法，可用于验证Temporal工作流正确性
+- **[Paxos算法专题文档](../15-formal-models/Paxos算法专题文档.md)** - Paxos算法，Temporal的共识机制
+- **[Raft算法专题文档](../15-formal-models/Raft算法专题文档.md)** - Raft算法，Temporal的共识机制
 
-### 9.3 相关资源
+#### 其他相关文档
 
-- **- **- **
-### 9.4 文档关联说明
+- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - 形式化验证理论
+- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - Temporal在项目知识图谱中的位置
+
+### 10.2 外部资源链接
+
+#### Wikipedia资源
+
+- [Temporal (workflow engine)](https://en.wikipedia.org/wiki/Temporal_(workflow_engine)) - Temporal工作流引擎
+- [Workflow engine](https://en.wikipedia.org/wiki/Workflow_engine) - 工作流引擎
+- [Event sourcing](https://en.wikipedia.org/wiki/Event_sourcing) - 事件溯源
+- [Distributed computing](https://en.wikipedia.org/wiki/Distributed_computing) - 分布式计算
+
+#### 学术论文
+
+- Bernstein, P. A., & Newcomer, E. (2009). "Principles of Transaction Processing". Morgan Kaufmann.
+- Fowler, M. (2005). "Event Sourcing". martinfowler.com.
+
+#### 学术课程
+
+- [MIT 6.824 Distributed Systems](https://pdos.csail.mit.edu/6.824/) - 分布式系统课程（工作流章节）
+
+### 10.3 项目管理文档
+
+- **[Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md)** - Wikipedia资源对标
+- **[学术论文对标](../../structure_control/学术论文对标.md)** - 学术论文对标
+- **[概念关联网络](../../structure_control/概念关联网络.md)** - Temporal在概念关联网络中的位置
+
+### 10.4 文档关联说明
 
 **理论关联**：
 

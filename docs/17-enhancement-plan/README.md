@@ -58,6 +58,37 @@
 
 **创建时间**：2024年
 
+## 八、相关文档
+
+### 8.1 项目内部文档
+
+#### 核心知识文档
+
+- **[项目知识图谱](项目知识图谱.md)** - 项目知识图谱
+- **[全局知识概念关系图](全局知识概念关系图.md)** - 全局知识概念关系图
+- **[知识结构组织方法](知识结构组织方法.md)** - 知识结构组织方法
+
+#### 其他相关文档
+
+- **[思维表征增强计划](思维表征增强计划.md)** - 思维表征增强计划
+- **[后续推进任务v9.0](后续推进任务v9.0.md)** - 后续推进任务
+- **[文档归档计划](文档归档计划.md)** - 文档归档计划
+
+### 8.2 外部资源链接
+
+#### Wikipedia资源
+
+- [Knowledge management](https://en.wikipedia.org/wiki/Knowledge_management) - 知识管理
+- [Documentation](https://en.wikipedia.org/wiki/Documentation) - 文档
+- [Project management](https://en.wikipedia.org/wiki/Project_management) - 项目管理
+
+### 8.3 项目管理文档
+
+- **[Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md)** - Wikipedia资源对标
+- **[概念关联网络](../../structure_control/概念关联网络.md)** - 知识结构组织方法在概念关联网络中的位置
+
+---
+
 **维护者**：项目团队
 
 **状态**：✅ **已完成（100%）**

@@ -94,6 +94,45 @@ P2优先级任务包括两个主要方向：
 - [跨学科整合文档](../18-argumentation-enhancement/跨学科整合-认知科学.md)
 - [新兴技术应用文档](../18-argumentation-enhancement/新兴技术应用-语境图谱.md)
 
+## 八、相关文档
+
+### 8.1 项目内部文档
+
+#### 核心知识文档
+
+- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - 项目知识图谱
+- **[全局知识概念关系图](../17-enhancement-plan/全局知识概念关系图.md)** - 全局知识概念关系图
+
+#### 核心论证文档
+
+- **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - Temporal选型论证
+- **[技术栈组合论证](../18-argumentation-enhancement/技术栈组合论证.md)** - 技术栈组合论证
+
+#### P2相关文档
+
+- **[P2优先级任务计划](P2优先级任务计划.md)** - P2优先级任务计划
+- **[伦理与社会影响-数据隐私与安全](伦理与社会影响-数据隐私与安全.md)** - 数据隐私与安全
+- **[伦理与社会影响-算法公平性与偏见](伦理与社会影响-算法公平性与偏见.md)** - 算法公平性与偏见
+- **[伦理与社会影响-系统透明度与可解释性](伦理与社会影响-系统透明度与可解释性.md)** - 系统透明度与可解释性
+- **[伦理与社会影响-社会责任与可持续发展](伦理与社会影响-社会责任与可持续发展.md)** - 社会责任与可持续发展
+- **[动态知识更新-增量更新机制](动态知识更新-增量更新机制.md)** - 增量更新机制
+- **[动态知识更新-版本管理](动态知识更新-版本管理.md)** - 版本管理
+- **[动态知识更新-一致性维护](动态知识更新-一致性维护.md)** - 一致性维护
+- **[动态知识更新-质量评估](动态知识更新-质量评估.md)** - 质量评估
+
+### 8.2 外部资源链接
+
+#### Wikipedia资源
+
+- [Ethics](https://en.wikipedia.org/wiki/Ethics) - 伦理学
+- [Knowledge management](https://en.wikipedia.org/wiki/Knowledge_management) - 知识管理
+- [Data privacy](https://en.wikipedia.org/wiki/Information_privacy) - 数据隐私
+
+### 8.3 项目管理文档
+
+- **[Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md)** - Wikipedia资源对标
+- **[概念关联网络](../../structure_control/概念关联网络.md)** - P2优先级任务在概念关联网络中的位置
+
 ---
 
 **文档版本**：v1.1

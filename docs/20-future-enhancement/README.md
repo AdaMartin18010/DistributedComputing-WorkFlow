@@ -113,6 +113,39 @@
 - [形式逻辑推理方法](../18-argumentation-enhancement/形式逻辑推理方法.md)
 - [项目知识图谱](../17-enhancement-plan/项目知识图谱.md)
 
+## 八、相关文档
+
+### 8.1 项目内部文档
+
+#### 核心知识文档
+
+- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - 项目知识图谱
+- **[全局知识概念关系图](../17-enhancement-plan/全局知识概念关系图.md)** - 全局知识概念关系图
+
+#### P4/P5相关文档
+
+- **[下一阶段增强计划](下一阶段增强计划.md)** - 下一阶段增强计划
+- **[P4优先级-工具化开发计划](P4优先级-工具化开发计划.md)** - 工具化开发计划
+- **[P5优先级-持续演进机制计划](P5优先级-持续演进机制计划.md)** - 持续演进机制计划
+- **[P4-知识图谱可视化工具-架构设计](P4-知识图谱可视化工具-架构设计.md)** - 知识图谱可视化工具架构设计
+- **[P4-推理方法验证工具-架构设计](P4-推理方法验证工具-架构设计.md)** - 推理方法验证工具架构设计
+- **[P5-知识图谱持续更新机制](P5-知识图谱持续更新机制.md)** - 知识图谱持续更新机制
+- **[P5-新兴技术跟踪清单](P5-新兴技术跟踪清单.md)** - 新兴技术跟踪清单
+- **[P5-技术评估框架](P5-技术评估框架.md)** - 技术评估框架
+
+### 8.2 外部资源链接
+
+#### Wikipedia资源
+
+- [Software development](https://en.wikipedia.org/wiki/Software_development) - 软件开发
+- [Project management](https://en.wikipedia.org/wiki/Project_management) - 项目管理
+- [Continuous improvement](https://en.wikipedia.org/wiki/Continuous_improvement) - 持续改进
+
+### 8.3 项目管理文档
+
+- **[Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md)** - Wikipedia资源对标
+- **[概念关联网络](../../structure_control/概念关联网络.md)** - 下一阶段增强计划在概念关联网络中的位置
+
 ---
 
 **文档版本**：v1.1

@@ -1423,23 +1423,55 @@ Admitted.
 
 ## 十三、相关文档
 
-### 12.1 核心论证文档
+### 13.1 项目内部文档
+
+#### 核心论证文档
 
 - **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - 可以使用Coq/Isabelle验证Temporal工作流的正确性
 
-### 12.2 理论模型专题文档
+#### 理论模型专题文档
 
 - **[TLA+专题文档](TLA+专题文档.md)** - TLA+形式化验证方法，与Coq/Isabelle相关的验证方法
+- **[CTL专题文档](CTL专题文档.md)** - CTL时序逻辑，Coq/Isabelle可以验证CTL性质
+- **[LTL专题文档](LTL专题文档.md)** - LTL时序逻辑，Coq/Isabelle可以验证LTL性质
 
-### 12.3 相关资源
+#### 其他相关文档
 
-- **-**
+- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - Coq/Isabelle在形式化验证理论中的位置
+- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - Coq/Isabelle在知识图谱中的位置
 
-### 12.4 文档关联说明
+### 13.2 外部资源链接
+
+#### Wikipedia资源
+
+- [Coq (proof assistant)](https://en.wikipedia.org/wiki/Coq_(proof_assistant)) - Coq定理证明助手
+- [Coq](https://zh.wikipedia.org/wiki/Coq) - Coq中文条目
+- [Isabelle (proof assistant)](https://en.wikipedia.org/wiki/Isabelle_(proof_assistant)) - Isabelle定理证明助手
+- [Isabelle](https://zh.wikipedia.org/wiki/Isabelle) - Isabelle中文条目
+- [Theorem prover](https://en.wikipedia.org/wiki/Automated_theorem_proving) - 自动定理证明
+
+#### 学术论文
+
+- Bertot, Y., & Castéran, P. (2004). "Interactive Theorem Proving and Program Development: Coq'Art: The Calculus of Inductive Constructions". Springer.
+- Nipkow, T., et al. (2002). "Isabelle/HOL: A Proof Assistant for Higher-Order Logic". Springer.
+
+#### 学术课程
+
+- [Stanford CS237B Formal Methods](https://web.stanford.edu/class/cs237b/) - 形式化方法课程（Coq/Isabelle章节）
+- [MIT 6.512 Formal Methods](https://ocw.mit.edu/courses/6-512-computer-systems-engineering-spring-2009/) - 形式化方法课程（Coq/Isabelle章节）
+
+### 13.3 项目管理文档
+
+- [Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md) - Wikipedia资源对标
+- [学术论文对标](../../structure_control/学术论文对标.md) - 学术论文对标
+- [概念关联网络](../../structure_control/概念关联网络.md) - Coq/Isabelle在概念关联网络中的位置
+
+### 13.4 文档关联说明
 
 **理论关联**：
 
 - Coq/Isabelle与TLA+都是**形式化验证方法**，但Coq/Isabelle是定理证明，TLA+是模型检验（参见[TLA+专题文档](TLA+专题文档.md)）
+- Coq/Isabelle可以验证**CTL**和**LTL**性质（参见[CTL专题文档](CTL专题文档.md)和[LTL专题文档](LTL专题文档.md)）
 
 **实践关联**：
 

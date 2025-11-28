@@ -86,3 +86,37 @@
 **创建时间**：2024年
 
 **维护者**：项目团队
+
+## 八、相关文档
+
+### 8.1 项目内部文档
+
+#### 核心知识文档
+
+- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - 项目知识图谱
+- **[全局知识概念关系图](../17-enhancement-plan/全局知识概念关系图.md)** - 全局知识概念关系图
+
+#### 核心论证文档
+
+- **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - Temporal选型论证
+- **[技术栈组合论证](../18-argumentation-enhancement/技术栈组合论证.md)** - 技术栈组合论证
+
+#### 其他相关文档
+
+- **[理论模型深度扩展计划](理论模型深度扩展计划.md)** - 理论模型深度扩展计划
+- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - 形式化验证理论
+
+### 8.2 外部资源链接
+
+#### Wikipedia资源
+
+- [Formal verification](https://en.wikipedia.org/wiki/Formal_verification) - 形式化验证
+- [Distributed computing](https://en.wikipedia.org/wiki/Distributed_computing) - 分布式计算
+- [Workflow](https://en.wikipedia.org/wiki/Workflow) - 工作流
+
+### 8.3 项目管理文档
+
+- **[Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md)** - Wikipedia资源对标
+- **[学术课程对标](../../structure_control/学术课程对标.md)** - 学术课程对标
+- **[学术论文对标](../../structure_control/学术论文对标.md)** - 学术论文对标
+- **[概念关联网络](../../structure_control/概念关联网络.md)** - 理论模型专题文档在概念关联网络中的位置

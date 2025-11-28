@@ -2286,21 +2286,52 @@ mindmap
 
 ## 十、相关文档
 
-### 8.1 核心论证文档
+### 10.1 项目内部文档
+
+#### 核心论证文档
 
 - **[Temporal选型论证](Temporal选型论证.md)** - Temporal作为工作流框架的完整论证
 - **[技术栈组合论证](技术栈组合论证.md)** - Temporal + PostgreSQL技术栈组合的完整论证
 - **[场景归纳和分类](场景归纳和分类.md)** - 工作流场景的归纳和分类，包含PostgreSQL适用场景分析
 
-### 8.2 理论模型专题文档
+#### 理论模型专题文档
 
 - **[CAP定理专题文档](../15-formal-models/CAP定理专题文档.md)** - CAP定理的详细讲解，PostgreSQL在CAP权衡中的位置（CP系统）
 - **[一致性模型专题文档](../15-formal-models/一致性模型专题文档.md)** - 一致性模型的详细讲解，PostgreSQL的ACID一致性保证
 - **[Saga模式专题文档](../15-formal-models/Saga模式专题文档.md)** - Saga模式的详细讲解，PostgreSQL在分布式事务中的作用
+- **[Paxos算法专题文档](../15-formal-models/Paxos算法专题文档.md)** - Paxos算法，PostgreSQL的共识机制
+- **[Raft算法专题文档](../15-formal-models/Raft算法专题文档.md)** - Raft算法，PostgreSQL的共识机制
 
-### 8.3 相关资源
+#### 其他相关文档
 
-### 8.4 文档关联说明
+- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - 形式化验证理论
+- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - PostgreSQL在项目知识图谱中的位置
+
+### 10.2 外部资源链接
+
+#### Wikipedia资源
+
+- [PostgreSQL](https://en.wikipedia.org/wiki/PostgreSQL) - PostgreSQL数据库
+- [PostgreSQL](https://zh.wikipedia.org/wiki/PostgreSQL) - PostgreSQL中文条目
+- [ACID](https://en.wikipedia.org/wiki/ACID) - ACID事务属性
+- [Relational database](https://en.wikipedia.org/wiki/Relational_database) - 关系型数据库
+
+#### 学术论文
+
+- Stonebraker, M., & Moore, D. (1996). "Object-Relational DBMSs: The Next Great Wave". Morgan Kaufmann.
+- Bernstein, P. A., & Newcomer, E. (2009). "Principles of Transaction Processing". Morgan Kaufmann.
+
+#### 学术课程
+
+- [CMU 15-445 Database Systems](https://15445.courses.cs.cmu.edu/) - 数据库系统课程（PostgreSQL章节）
+
+### 10.3 项目管理文档
+
+- **[Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md)** - Wikipedia资源对标
+- **[学术论文对标](../../structure_control/学术论文对标.md)** - 学术论文对标
+- **[概念关联网络](../../structure_control/概念关联网络.md)** - PostgreSQL在概念关联网络中的位置
+
+### 10.4 文档关联说明
 
 **理论关联**：
 

@@ -246,7 +246,39 @@
 - **促进学习**：可视化的证明流程有助于理解形式化证明的步骤和逻辑
 - **知识整合**：全局知识图谱整合了所有理论模型的知识，提供了统一的知识视图
 
-## 📁 相关文档
+## 八、相关文档
+
+### 8.1 项目内部文档
+
+#### 核心知识文档
+
+- **[项目知识图谱](项目知识图谱.md)** - 项目知识图谱
+- **[全局知识概念关系图](全局知识概念关系图.md)** - 全局知识概念关系图
+- **[知识结构组织方法](知识结构组织方法.md)** - 知识结构组织方法
+
+#### 其他相关文档
+
+- **[思维表征增强计划](思维表征增强计划.md)** - 思维表征增强计划
+- **[后续推进任务v9.0](后续推进任务v9.0.md)** - 后续推进任务
+- **[全部完成报告v9.0](全部完成报告v9.0.md)** - 全部完成报告
+- **[P0完成报告](P0完成报告.md)** - P0完成报告
+
+### 8.2 外部资源链接
+
+#### Wikipedia资源
+
+- [Project management](https://en.wikipedia.org/wiki/Project_management) - 项目管理
+- [Documentation](https://en.wikipedia.org/wiki/Documentation) - 文档
+- [Knowledge management](https://en.wikipedia.org/wiki/Knowledge_management) - 知识管理
+
+### 8.3 项目管理文档
+
+- **[Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md)** - Wikipedia资源对标
+- **[概念关联网络](../../structure_control/概念关联网络.md)** - 最终完成报告在概念关联网络中的位置
+
+---
+
+## 📁 相关文档（旧版，保留兼容性）
 
 - [全部完成报告v9.0](全部完成报告v9.0.md)
 - [P0完成报告](P0完成报告.md)

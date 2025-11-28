@@ -1332,32 +1332,64 @@ class PaxosWorkflow:
 
 ## 十三、相关文档
 
-### 12.1 核心论证文档
+### 13.1 项目内部文档
+
+#### 核心论证文档
 
 - **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - Temporal可以使用Paxos实现共识
 
-### 12.2 理论模型专题文档
+#### 理论模型专题文档
 
 - **[FLP不可能定理专题文档](FLP不可能定理专题文档.md)** - FLP不可能定理，Paxos如何绕过FLP限制
 - **[Raft算法专题文档](Raft算法专题文档.md)** - Raft算法，Paxos的替代方案
 - **[拜占庭容错专题文档](拜占庭容错专题文档.md)** - 拜占庭容错，Paxos的扩展
+- **[CAP定理专题文档](CAP定理专题文档.md)** - CAP定理，Paxos在CAP权衡中的位置
+- **[一致性模型专题文档](一致性模型专题文档.md)** - 一致性模型，Paxos的一致性保证
 
-### 12.3 相关资源
+#### 其他相关文档
 
-- **-**
+- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - Paxos算法的形式化验证
+- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - Paxos算法在知识图谱中的位置
 
-### 12.4 文档关联说明
+### 13.2 外部资源链接
+
+#### Wikipedia资源
+
+- [Paxos (computer science)](https://en.wikipedia.org/wiki/Paxos_(computer_science)) - Paxos算法
+- [Paxos算法](https://zh.wikipedia.org/wiki/Paxos算法) - Paxos算法中文条目
+- [Consensus (computer science)](https://en.wikipedia.org/wiki/Consensus_(computer_science)) - 分布式共识
+- [Distributed computing](https://en.wikipedia.org/wiki/Distributed_computing) - 分布式计算
+
+#### 学术论文
+
+- Lamport, L. (1998). "The Part-Time Parliament". ACM Transactions on Computer Systems.
+- Lamport, L. (2001). "Paxos Made Simple". ACM SIGACT News.
+- Lamport, L. (2005). "Fast Paxos". Distributed Computing.
+
+#### 学术课程
+
+- [MIT 6.824 Distributed Systems](https://pdos.csail.mit.edu/6.824/) - 分布式系统课程（Paxos章节）
+- [CMU 15-440 Distributed Systems](https://www.cs.cmu.edu/~dga/15-440/) - 分布式系统课程（Paxos章节）
+
+### 13.3 项目管理文档
+
+- [Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md) - Wikipedia资源对标
+- [学术论文对标](../../structure_control/学术论文对标.md) - 学术论文对标
+- [概念关联网络](../../structure_control/概念关联网络.md) - Paxos算法在概念关联网络中的位置
+
+### 13.4 文档关联说明
 
 **理论关联**：
 
 - Paxos通过**故障检测器**绕过FLP不可能定理（参见[FLP不可能定理专题文档](FLP不可能定理专题文档.md)）
 - Raft是Paxos的**替代方案**，更易理解（参见[Raft算法专题文档](Raft算法专题文档.md)）
 - 拜占庭容错是Paxos的**扩展**，处理恶意故障（参见[拜占庭容错专题文档](拜占庭容错专题文档.md)）
-- Paxos可以改造为**树形Paxos**，降低消息复杂度（参见[树形分层结构专题文档](树形分层结构专题文档.md)）
+- Paxos在**CAP权衡**中实现共识（参见[CAP定理专题文档](CAP定理专题文档.md)）
+- Paxos保证**一致性模型**的实现（参见[一致性模型专题文档](一致性模型专题文档.md)）
 
 **实践关联**：
 
 - Temporal可以使用Paxos实现共识（参见[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)）
-- 树形Paxos在银行清算场景中的应用（参见[树形分层结构专题文档](树形分层结构专题文档.md)）
+- Paxos可以改造为**树形Paxos**，降低消息复杂度（参见[树形分层结构专题文档](树形分层结构专题文档.md)）
 
 ---

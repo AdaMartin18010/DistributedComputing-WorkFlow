@@ -1380,26 +1380,58 @@ A[] ((TemporalWorkflow.Completed && workflow_time <= 30) imply not TemporalWorkf
 
 ## 十三、相关文档
 
-### 12.1 核心论证文档
+### 13.1 项目内部文档
+
+#### 核心论证文档
 
 - **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - 可以使用UPPAAL验证Temporal实时工作流
 
-### 12.2 理论模型专题文档
+#### 理论模型专题文档
 
 - **[CTL专题文档](CTL专题文档.md)** - CTL时序逻辑，UPPAAL使用CTL进行验证
+- **[LTL专题文档](LTL专题文档.md)** - LTL时序逻辑，UPPAAL使用LTL进行验证
 - **[TLA+专题文档](TLA+专题文档.md)** - TLA+形式化验证方法，与UPPAAL相关的验证方法
+- **[Petri网专题文档](Petri网专题文档.md)** - Petri网建模，与UPPAAL相关的并发建模方法
 
-### 12.3 相关资源
+#### 其他相关文档
 
-### 12.4 文档关联说明
+- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - UPPAAL在形式化验证理论中的位置
+- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - UPPAAL在知识图谱中的位置
+
+### 13.2 外部资源链接
+
+#### Wikipedia资源
+
+- [UPPAAL](https://en.wikipedia.org/wiki/UPPAAL) - UPPAAL实时系统验证工具
+- [UPPAAL](https://zh.wikipedia.org/wiki/UPPAAL) - UPPAAL中文条目
+- [Timed automaton](https://en.wikipedia.org/wiki/Timed_automaton) - 时间自动机
+- [Model checking](https://en.wikipedia.org/wiki/Model_checking) - 模型检验
+
+#### 学术论文
+
+- Bengtsson, J., et al. (1995). "UPPAAL - a Tool Suite for Automatic Verification of Real-Time Systems". Hybrid Systems III.
+
+#### 学术课程
+
+- [Stanford CS237B Formal Methods](https://web.stanford.edu/class/cs237b/) - 形式化方法课程（UPPAAL章节）
+- [MIT 6.512 Formal Methods](https://ocw.mit.edu/courses/6-512-computer-systems-engineering-spring-2009/) - 形式化方法课程（UPPAAL章节）
+
+### 13.3 项目管理文档
+
+- [Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md) - Wikipedia资源对标
+- [学术论文对标](../../structure_control/学术论文对标.md) - 学术论文对标
+- [概念关联网络](../../structure_control/概念关联网络.md) - UPPAAL在概念关联网络中的位置
+
+### 13.4 文档关联说明
 
 **理论关联**：
 
-- UPPAAL使用**CTL**进行实时系统验证（参见[CTL专题文档](CTL专题文档.md)）
-- UPPAAL与TLA+都是**形式化验证方法**（参见[TLA+专题文档](TLA+专题文档.md)）
+- UPPAAL使用**CTL**和**LTL**进行实时系统验证（参见[CTL专题文档](CTL专题文档.md)和[LTL专题文档](LTL专题文档.md)）
+- UPPAAL与TLA+都是**形式化验证工具**（参见[TLA+专题文档](TLA+专题文档.md)）
+- UPPAAL与Petri网都是并发系统建模方法（参见[Petri网专题文档](Petri网专题文档.md)）
 
 **实践关联**：
 
-- 可以使用UPPAAL验证Temporal实时工作流（参见[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)）
+- 可以使用UPPAAL验证Temporal工作流的实时性质（参见[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)）
 
 ---

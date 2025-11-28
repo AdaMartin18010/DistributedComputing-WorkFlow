@@ -165,6 +165,42 @@
 
 **维护者**：项目团队
 
+## 八、相关文档
+
+### 8.1 项目内部文档
+
+#### 核心知识文档
+
+- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - 项目知识图谱
+- **[全局知识概念关系图](../17-enhancement-plan/全局知识概念关系图.md)** - 全局知识概念关系图
+
+#### 核心论证文档
+
+- **[Temporal选型论证](Temporal选型论证.md)** - Temporal选型论证
+- **[PostgreSQL选型论证](PostgreSQL选型论证.md)** - PostgreSQL选型论证
+- **[技术栈组合论证](技术栈组合论证.md)** - 技术栈组合论证
+
+#### 其他相关文档
+
+- **[全局知识关联图](全局知识关联图.md)** - 全局知识关联图
+- **[场景归纳和分类](场景归纳和分类.md)** - 场景归纳和分类
+- **[形式逻辑推理方法](形式逻辑推理方法.md)** - 形式逻辑推理方法
+
+### 8.2 外部资源链接
+
+#### Wikipedia资源
+
+- [Argumentation theory](https://en.wikipedia.org/wiki/Argumentation_theory) - 论证理论
+- [Formal verification](https://en.wikipedia.org/wiki/Formal_verification) - 形式化验证
+- [Decision-making](https://en.wikipedia.org/wiki/Decision-making) - 决策制定
+
+### 8.3 项目管理文档
+
+- **[Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md)** - Wikipedia资源对标
+- **[概念关联网络](../../structure_control/概念关联网络.md)** - 论证全面增强计划在概念关联网络中的位置
+
+---
+
 **状态**：v10.0版本已完成 ✅，v11.0版本已完成 ✅
 
 ## 📋 v11.0版本新增内容

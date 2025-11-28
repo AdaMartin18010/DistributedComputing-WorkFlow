@@ -3135,6 +3135,12 @@ mindmap
 - **[Paxos算法专题文档](../15-formal-models/Paxos算法专题文档.md)** - Paxos算法，Temporal的共识机制
 - **[Raft算法专题文档](../15-formal-models/Raft算法专题文档.md)** - Raft算法，Temporal的共识机制
 
+#### 技术对比和评估文档
+
+- **[技术堆栈对比分析](../02-technology-comparison/技术堆栈对比分析.md)** - 技术堆栈对比分析，Temporal与其他框架的对比
+- **[性能基准测试](../06-benchmarks/性能基准测试.md)** - 性能基准测试，Temporal性能数据来源
+- **[综合评估报告](../08-summary/综合评估报告.md)** - 综合评估报告，Temporal综合评估
+
 #### 其他相关文档
 
 - **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - 形式化验证理论
@@ -3182,6 +3188,11 @@ mindmap
 
 - 可以使用TLA+验证Temporal工作流的正确性（参见[TLA+专题文档](../15-formal-models/TLA+专题文档.md)）
 - Temporal实现了Saga模式用于分布式事务管理（参见[Saga模式专题文档](../15-formal-models/Saga模式专题文档.md)）
+
+**对比关联**：
+
+- Temporal与其他工作流框架的详细对比（参见[技术堆栈对比分析](../02-technology-comparison/技术堆栈对比分析.md)）
+- Temporal的性能数据来自性能基准测试（参见[性能基准测试](../06-benchmarks/性能基准测试.md)）
 
 ---
 

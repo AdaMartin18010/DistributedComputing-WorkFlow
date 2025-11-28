@@ -22,8 +22,39 @@
 
 ---
 
-**文档版本**：1.0
+## 相关文档
+
+### 项目内部文档
+
+#### 理论模型文档
+
+- **[理论模型扩展推进任务](理论模型扩展推进任务.md)** - 理论模型专题文档的详细推进任务和时间表
+- **[理论模型专题文档](../15-formal-models/README.md)** - 理论模型专题文档
+- **[理论模型深度扩展计划](../15-formal-models/理论模型深度扩展计划.md)** - 理论模型深度扩展计划
+
+#### 项目管理文档
+
+- **[项目推进计划](../05-roadmap/项目推进计划.md)** - 项目推进计划
+- **[后续推进计划与方案](../13-next-steps/后续推进计划与方案.md)** - 后续推进计划与方案
+
+### 外部资源链接
+
+#### Wikipedia资源
+
+- [Formal verification](https://en.wikipedia.org/wiki/Formal_verification) - 形式化验证
+- [Model checking](https://en.wikipedia.org/wiki/Model_checking) - 模型检验
+
+### 项目管理文档
+
+- **[Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md)** - Wikipedia资源对标
+- **[概念关联网络](../../structure_control/概念关联网络.md)** - 后续推进阶段文档在概念关联网络中的位置
+
+---
+
+**文档版本**：1.1
 
 **创建时间**：2024年
+
+**最后更新**：2025年11月28日
 
 **维护者**：项目团队

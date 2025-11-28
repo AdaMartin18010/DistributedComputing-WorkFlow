@@ -2302,6 +2302,12 @@ mindmap
 - **[Paxos算法专题文档](../15-formal-models/Paxos算法专题文档.md)** - Paxos算法，PostgreSQL的共识机制
 - **[Raft算法专题文档](../15-formal-models/Raft算法专题文档.md)** - Raft算法，PostgreSQL的共识机制
 
+#### 技术对比和评估文档
+
+- **[技术堆栈对比分析](../02-technology-comparison/技术堆栈对比分析.md)** - 技术堆栈对比分析，技术选型依据
+- **[性能基准测试](../06-benchmarks/性能基准测试.md)** - 性能基准测试，PostgreSQL性能数据来源
+- **[综合评估报告](../08-summary/综合评估报告.md)** - 综合评估报告，PostgreSQL综合评估
+
 #### 其他相关文档
 
 - **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - 形式化验证理论
@@ -2346,6 +2352,9 @@ mindmap
 - 不同场景下的存储后端选择（参见[场景归纳和分类](场景归纳和分类.md)）
 
 **性能关联**：
+
+- PostgreSQL的性能数据来自**性能基准测试**（参见[性能基准测试](../06-benchmarks/性能基准测试.md)）
+- PostgreSQL在性能基准测试中表现优异（写入性能10M events/s，查询性能快10-47倍）
 
 - PostgreSQL在Temporal中的性能表现（参见[Temporal选型论证](Temporal选型论证.md)）
 - PostgreSQL与其他存储后端的性能对比（参见[技术栈组合论证](技术栈组合论证.md)）

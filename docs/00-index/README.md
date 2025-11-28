@@ -153,3 +153,38 @@ docs/
 ## 许可证
 
 本项目采用 MIT 许可证。
+
+---
+
+## 相关文档
+
+### 项目内部文档
+
+#### 索引和导航文档
+
+- **[文档导航图](文档导航图.md)** - 完整的文档导航和阅读路径
+- **[项目结构总览](项目结构总览.md)** - 项目结构总览
+
+#### 核心文档
+
+- **[主题关系分析](../01-theme-analysis/主题关系分析.md)** - 主题关系分析
+- **[技术堆栈对比分析](../02-technology-comparison/技术堆栈对比分析.md)** - 技术堆栈对比分析
+- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - 形式化验证理论
+
+#### 项目管理文档
+
+- **[项目推进计划](../05-roadmap/项目推进计划.md)** - 项目推进计划
+- **[综合评估报告](../08-summary/综合评估报告.md)** - 综合评估报告
+
+### 外部资源链接
+
+#### Wikipedia资源
+
+- [Distributed computing](https://en.wikipedia.org/wiki/Distributed_computing) - 分布式计算
+- [Workflow](https://en.wikipedia.org/wiki/Workflow) - 工作流
+- [Formal verification](https://en.wikipedia.org/wiki/Formal_verification) - 形式化验证
+
+### 项目管理文档
+
+- **[Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md)** - Wikipedia资源对标
+- **[概念关联网络](../../structure_control/概念关联网络.md)** - 项目索引在概念关联网络中的位置

@@ -1141,3 +1141,51 @@ flowchart TD
 - 可以使用CTL/LTL扩展验证Temporal工作流的复杂性质（参见[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)）
 
 ---
+
+## 八、相关文档
+
+### 8.1 项目内部文档
+
+#### 理论模型专题文档
+
+- **[CTL专题文档](CTL专题文档.md)** - CTL专题文档，CTL基础理论
+- **[LTL专题文档](LTL专题文档.md)** - LTL专题文档，LTL基础理论
+- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - 形式化验证理论，理论基础
+
+#### 技术文档
+
+- **[技术堆栈对比分析](../02-technology-comparison/技术堆栈对比分析.md)** - 技术堆栈对比分析，技术选型依据
+- **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - Temporal选型论证，CTL/LTL扩展的应用
+
+#### 跨学科整合文档
+
+- **[跨学科整合-逻辑学](../18-argumentation-enhancement/跨学科整合-逻辑学.md)** - 跨学科整合-逻辑学，逻辑学理论基础
+
+### 8.2 外部资源链接
+
+#### Wikipedia资源
+
+- [Computation tree logic](https://en.wikipedia.org/wiki/Computation_tree_logic) - CTL计算树逻辑
+- [Linear temporal logic](https://en.wikipedia.org/wiki/Linear_temporal_logic) - LTL线性时序逻辑
+- [CTL*](https://en.wikipedia.org/wiki/CTL*) - CTL*扩展逻辑
+- [Modal μ-calculus](https://en.wikipedia.org/wiki/Modal_μ-calculus) - 模态μ-演算
+- [Temporal logic](https://en.wikipedia.org/wiki/Temporal_logic) - 时序逻辑
+
+#### 学术资源
+
+- [Stanford CS237B Formal Methods](https://web.stanford.edu/class/cs237b/) - 形式化方法课程
+- [MIT 6.512 Formal Methods](https://ocw.mit.edu/courses/6-512-computer-systems-engineering-spring-2009/) - 形式化方法课程
+
+### 8.3 项目管理文档
+
+- **[Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md)** - Wikipedia资源对标
+- **[学术课程对标](../../structure_control/学术课程对标.md)** - 学术课程对标
+- **[概念关联网络](../../structure_control/概念关联网络.md)** - CTL/LTL扩展专题文档在概念关联网络中的位置
+
+---
+
+**文档版本**：1.1
+
+**最后更新**：2025年11月28日
+
+**维护者**：项目团队

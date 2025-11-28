@@ -3188,6 +3188,7 @@ mindmap
 
 - 可以使用TLA+验证Temporal工作流的正确性（参见[TLA+专题文档](../15-formal-models/TLA+专题文档.md)）
 - Temporal实现了Saga模式用于分布式事务管理（参见[Saga模式专题文档](../15-formal-models/Saga模式专题文档.md)）
+- Temporal可以使用Chandy-Lamport快照算法实现状态恢复（参见[Chandy-Lamport快照算法专题文档](../15-formal-models/Chandy-Lamport快照算法专题文档.md)）
 
 **对比关联**：
 

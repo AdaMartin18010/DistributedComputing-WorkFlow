@@ -295,12 +295,32 @@
 
 ---
 
-## 六、相关文档
+## 八、相关文档
 
-- [项目总体模型框架与改进计划](项目总体模型框架与改进计划.md)
-- [学术课程对标](学术课程对标.md)
-- [学术论文对标](学术论文对标.md)
-- [项目知识图谱](../docs/17-enhancement-plan/项目知识图谱.md)
+### 8.1 项目内部文档
+
+#### 核心知识文档
+
+- **[项目知识图谱](../docs/17-enhancement-plan/项目知识图谱.md)** - 项目知识图谱
+- **[全局知识概念关系图](../docs/17-enhancement-plan/全局知识概念关系图.md)** - 全局知识概念关系图
+
+#### 其他相关文档
+
+- **[学术课程对标](学术课程对标.md)** - 学术课程对标
+- **[学术论文对标](学术论文对标.md)** - 学术论文对标
+- **[文档关联矩阵](文档关联矩阵.md)** - 文档关联矩阵
+
+### 8.2 外部资源链接
+
+#### Wikipedia资源
+
+- [Wikipedia](https://en.wikipedia.org/wiki/Wikipedia) - Wikipedia
+- [Knowledge base](https://en.wikipedia.org/wiki/Knowledge_base) - 知识库
+- [Reference](https://en.wikipedia.org/wiki/Reference) - 参考
+
+### 8.3 项目管理文档
+
+- **[概念关联网络](概念关联网络.md)** - Wikipedia资源对标在概念关联网络中的位置
 
 ---
 

@@ -2877,31 +2877,72 @@ Liveness == (workflowState = "Running") => \Diamond (workflowState \in {"Complet
 
 ## 十三、相关文档
 
-### 12.1 核心论证文档
+### 13.1 项目内部文档
+
+#### 核心论证文档
 
 - **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - Temporal工作流的TLA+形式化验证
 - **[技术栈组合论证](../18-argumentation-enhancement/技术栈组合论证.md)** - 技术栈组合的TLA+形式化验证
 
-### 12.2 理论模型专题文档
+#### 理论模型专题文档
 
 - **[CTL专题文档](CTL专题文档.md)** - CTL时序逻辑，与TLA+相关的时序逻辑
 - **[LTL专题文档](LTL专题文档.md)** - LTL时序逻辑，TLA+的基础
+- **[Petri网专题文档](Petri网专题文档.md)** - Petri网建模，与TLA+相关的并发建模方法
+- **[UPPAAL专题文档](UPPAAL专题文档.md)** - UPPAAL实时系统验证，与TLA+相关的验证工具
+- **[Coq-Isabelle专题文档](Coq-Isabelle专题文档.md)** - Coq/Isabelle定理证明，与TLA+相关的验证方法
 - **[CAP定理专题文档](CAP定理专题文档.md)** - CAP定理，Temporal在CAP权衡中的位置
 - **[一致性模型专题文档](一致性模型专题文档.md)** - 一致性模型，Temporal的一致性保证
 - **[Saga模式专题文档](Saga模式专题文档.md)** - Saga模式，Temporal如何实现分布式事务
 
-### 12.3 相关资源
+#### 其他相关文档
 
-- **-**
+- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - TLA+在形式化验证理论中的位置
+- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - TLA+在知识图谱中的位置
+- **[形式逻辑推理方法](../18-argumentation-enhancement/形式逻辑推理方法.md)** - TLA+在推理方法中的应用
 
-### 12.4 文档关联说明
+### 13.2 外部资源链接
+
+#### Wikipedia资源
+
+- [TLA+](https://en.wikipedia.org/wiki/TLA%2B) - TLA+英文条目
+- [TLA+](https://zh.wikipedia.org/wiki/TLA%2B) - TLA+中文条目
+- [Temporal logic](https://en.wikipedia.org/wiki/Temporal_logic) - 时序逻辑
+- [Model checking](https://en.wikipedia.org/wiki/Model_checking) - 模型检验
+- [Formal verification](https://en.wikipedia.org/wiki/Formal_verification) - 形式化验证
+- [Linear temporal logic](https://en.wikipedia.org/wiki/Linear_temporal_logic) - 线性时序逻辑
+- [Computation tree logic](https://en.wikipedia.org/wiki/Computation_tree_logic) - 计算树逻辑
+
+#### 学术论文
+
+- Lamport, L. (2002). "Specifying Systems: The TLA+ Language and Tools for Hardware and Software Engineers". Addison-Wesley.
+- Lamport, L. (1994). "The Temporal Logic of Actions". ACM Transactions on Programming Languages and Systems.
+- Lamport, L. (1978). "Time, Clocks, and the Ordering of Events in a Distributed System". Communications of the ACM.
+
+#### 学术课程
+
+- [Stanford CS237B Formal Methods](https://web.stanford.edu/class/cs237b/) - 形式化方法课程（TLA+章节）
+- [MIT 6.512 Formal Methods](https://ocw.mit.edu/courses/6-512-computer-systems-engineering-spring-2009/) - 形式化方法课程（TLA+章节）
+- [CMU 15-811 Formal Methods](https://www.cs.cmu.edu/~aldrich/courses/15-811/) - 形式化方法课程
+
+### 13.3 项目管理文档
+
+- [Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md) - Wikipedia资源对标
+- [学术论文对标](../../structure_control/学术论文对标.md) - 学术论文对标
+- [学术课程对标](../../structure_control/学术课程对标.md) - 学术课程对标
+- [概念关联网络](../../structure_control/概念关联网络.md) - TLA+在概念关联网络中的位置
+- [推理脉络和决策树](../../structure_control/推理脉络和决策树.md) - TLA+在推理路径中的应用
+
+### 13.4 文档关联说明
 
 **理论关联**：
 
 - TLA+基于**时序逻辑**，与CTL和LTL相关（参见[CTL专题文档](CTL专题文档.md)和[LTL专题文档](LTL专题文档.md)）
 - TLA+可以用于验证分布式系统的**CAP权衡**（参见[CAP定理专题文档](CAP定理专题文档.md)）
 - TLA+可以用于验证**一致性模型**的实现（参见[一致性模型专题文档](一致性模型专题文档.md)）
-- TLA+的状态层次可以组织为**树形结构**（参见[树形分层结构专题文档](树形分层结构专题文档.md)）
+- TLA+与Petri网都是并发系统建模方法（参见[Petri网专题文档](Petri网专题文档.md)）
+- TLA+与UPPAAL都是模型检验工具（参见[UPPAAL专题文档](UPPAAL专题文档.md)）
+- TLA+与Coq/Isabelle都是形式化验证方法（参见[Coq-Isabelle专题文档](Coq-Isabelle专题文档.md)）
 
 **实践关联**：
 

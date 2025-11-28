@@ -2059,30 +2059,66 @@ async def create_order(order_id: str) -> dict:
 
 ## 十三、相关文档
 
-### 12.1 核心论证文档
+### 13.1 项目内部文档
+
+#### 核心论证文档
 
 - **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - Temporal在CAP定理中的位置（CP系统）
 - **[PostgreSQL选型论证](../18-argumentation-enhancement/PostgreSQL选型论证.md)** - PostgreSQL在CAP定理中的位置（CP系统）
 - **[技术栈组合论证](../18-argumentation-enhancement/技术栈组合论证.md)** - Temporal + PostgreSQL技术栈组合的CAP权衡
 
-### 12.2 理论模型专题文档
+#### 理论模型专题文档
 
 - **[一致性模型专题文档](一致性模型专题文档.md)** - 一致性模型的详细讲解，CAP定理中的一致性概念
 - **[FLP不可能定理专题文档](FLP不可能定理专题文档.md)** - FLP不可能定理，与CAP定理相关的分布式系统不可能性
 - **[Saga模式专题文档](Saga模式专题文档.md)** - Saga模式，在CAP权衡中实现分布式事务的方法
-- **[树形分层结构专题文档](树形分层结构专题文档.md)** - 树形结构在CAP分区容错中的应用，树形一致性保证
+- **[Paxos算法专题文档](Paxos算法专题文档.md)** - Paxos算法，在CAP权衡中实现共识的方法
+- **[Raft算法专题文档](Raft算法专题文档.md)** - Raft算法，在CAP权衡中实现共识的方法
 
-### 12.3 相关资源
+#### 其他相关文档
 
-- **-**
+- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - CAP定理的形式化验证
+- **[技术堆栈对比分析](../02-technology-comparison/技术堆栈对比分析.md)** - CAP定理在技术选型中的应用
+- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - CAP定理在知识图谱中的位置
 
-### 12.4 文档关联说明
+### 13.2 外部资源链接
+
+#### Wikipedia资源
+
+- [CAP theorem](https://en.wikipedia.org/wiki/CAP_theorem) - CAP定理英文条目
+- [CAP定理](https://zh.wikipedia.org/wiki/CAP定理) - CAP定理中文条目
+- [Consistency model](https://en.wikipedia.org/wiki/Consistency_model) - 一致性模型
+- [Distributed computing](https://en.wikipedia.org/wiki/Distributed_computing) - 分布式计算
+- [Distributed system](https://en.wikipedia.org/wiki/Distributed_system) - 分布式系统
+
+#### 学术论文
+
+- Brewer, E. (2000). "Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services". ACM SIGACT News.
+- Brewer, E. (2012). "CAP Twelve Years Later: How the 'Rules' Have Changed". IEEE Computer.
+- Gilbert, S., & Lynch, N. (2002). "Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services". ACM SIGACT News.
+
+#### 学术课程
+
+- [MIT 6.824 Distributed Systems](https://pdos.csail.mit.edu/6.824/) - 分布式系统课程（CAP定理章节）
+- [CMU 15-440 Distributed Systems](https://www.cs.cmu.edu/~dga/15-440/) - 分布式系统课程（CAP定理章节）
+- [Stanford CS244B Distributed Systems](https://web.stanford.edu/class/cs244b/) - 分布式系统课程
+
+### 13.3 项目管理文档
+
+- [Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md) - Wikipedia资源对标
+- [学术论文对标](../../structure_control/学术论文对标.md) - 学术论文对标
+- [学术课程对标](../../structure_control/学术课程对标.md) - 学术课程对标
+- [概念关联网络](../../structure_control/概念关联网络.md) - CAP定理在概念关联网络中的位置
+- [文档关联矩阵](../../structure_control/文档关联矩阵.md) - CAP定理专题文档的关联关系
+
+### 13.4 文档关联说明
 
 **理论关联**：
 
 - CAP定理中的**一致性**概念与一致性模型相关（参见[一致性模型专题文档](一致性模型专题文档.md)）
 - CAP定理与FLP不可能定理都涉及分布式系统的**不可能性**（参见[FLP不可能定理专题文档](FLP不可能定理专题文档.md)）
 - 在CAP权衡中，可以使用Saga模式实现分布式事务（参见[Saga模式专题文档](Saga模式专题文档.md)）
+- 在CAP权衡中，可以使用Paxos/Raft算法实现共识（参见[Paxos算法专题文档](Paxos算法专题文档.md)和[Raft算法专题文档](Raft算法专题文档.md)）
 
 **实践关联**：
 

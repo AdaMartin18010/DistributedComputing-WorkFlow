@@ -103,10 +103,16 @@
     - [12.4 实际应用示例](#124-实际应用示例)
       - [12.4.1 Temporal工作流CTL验证](#1241-temporal工作流ctl验证)
   - [十三、相关文档](#十三相关文档)
-    - [12.1 核心论证文档](#121-核心论证文档)
-    - [12.2 理论模型专题文档](#122-理论模型专题文档)
-    - [12.3 相关资源](#123-相关资源)
-    - [12.4 文档关联说明](#124-文档关联说明)
+    - [13.1 项目内部文档](#131-项目内部文档)
+      - [核心论证文档](#核心论证文档)
+      - [理论模型专题文档](#理论模型专题文档)
+      - [其他相关文档](#其他相关文档)
+    - [13.2 外部资源链接](#132-外部资源链接)
+      - [Wikipedia资源](#wikipedia资源)
+      - [学术论文](#学术论文)
+      - [学术课程](#学术课程)
+    - [13.3 项目管理文档](#133-项目管理文档)
+    - [13.4 文档关联说明](#134-文档关联说明)
 
 ---
 
@@ -2133,6 +2139,7 @@ SPEC AG (activities[0] = failed -> EF (activities[0] = running))
 - **[CTL-LTL扩展专题文档](CTL-LTL扩展专题文档.md)** - CTL/LTL扩展，CTL的扩展形式
 - **[TLA+专题文档](TLA+专题文档.md)** - TLA+形式化验证方法，与CTL相关的验证方法
 - **[UPPAAL专题文档](UPPAAL专题文档.md)** - UPPAAL实时系统验证工具，使用CTL进行验证
+- **[Coq-Isabelle专题文档](Coq-Isabelle专题文档.md)** - Coq/Isabelle定理证明，可以验证CTL性质
 
 #### 其他相关文档
 
@@ -2175,5 +2182,6 @@ SPEC AG (activities[0] = failed -> EF (activities[0] = running))
 
 - 可以使用CTL验证Temporal工作流的性质（参见[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)）
 - UPPAAL使用CTL进行实时系统验证（参见[UPPAAL专题文档](UPPAAL专题文档.md)）
+- Coq/Isabelle可以验证CTL性质（参见[Coq-Isabelle专题文档](Coq-Isabelle专题文档.md)）
 
 ---

@@ -3302,30 +3302,30 @@ flowchart TD
 flowchart LR
     A[业务需求] --> B[需求分析]
     B --> C{需求类型?}
-    
+
     C -->|长周期业务流程| D[业务流程分析]
     C -->|微服务编排| E[微服务分析]
     C -->|数据管道ETL| F[ETL分析]
-    
+
     D --> G[需要状态管理?]
     G -->|是| H[Temporal选型]
     G -->|否| I[Airflow选型]
-    
+
     E --> J[需要Durable Execution?]
     J -->|是| K[Temporal选型]
     J -->|否| L[Argo选型]
-    
+
     F --> M[调度频率分析]
     M -->|高频| N[Airflow选型]
     M -->|低频| O[Prefect选型]
-    
+
     H --> P[存储选型]
     K --> P
-    
+
     P --> Q{存储需求?}
     Q -->|事务处理| R[PostgreSQL]
     Q -->|大规模写入| S[Cassandra]
-    
+
     R --> T[Temporal + PostgreSQL]
     S --> U[Temporal + Cassandra]
     I --> V[Airflow + PostgreSQL]

@@ -2452,25 +2452,25 @@ flowchart TD
 flowchart LR
     A[存储需求] --> B[需求分析]
     B --> C{需求类型?}
-    
+
     C -->|事务处理| D[事务需求分析]
     C -->|大规模写入| E[写入需求分析]
     C -->|缓存| F[缓存需求分析]
-    
+
     D --> G{一致性要求?}
     G -->|强一致性| H[PostgreSQL选型]
     G -->|最终一致性| I[Cassandra选型]
-    
+
     E --> J{写入规模?}
     J -->|大规模| K[Cassandra选型]
     J -->|中等规模| L[PostgreSQL选型]
-    
+
     F --> M[Redis选型]
-    
+
     H --> N{成本要求?}
     N -->|成本敏感| O[PostgreSQL]
     N -->|性能优先| P[PostgreSQL优化]
-    
+
     O --> Q[存储选型确定]
     P --> Q
     I --> Q

@@ -2269,23 +2269,29 @@ async def run_saga_workflow():
 
 ## 十三、相关文档
 
-### 12.1 核心论证文档
+### 13.1 思维表征与理论模型联系文档
+
+- **[理论模型完整联系体系](../22-mind-representation-integration/理论模型完整联系体系.md)** - Saga模式与其他理论模型的完整联系
+- **[完整知识图谱](../22-mind-representation-integration/完整知识图谱.md)** - Saga模式在完整知识图谱中的位置
+- **[思维表征方法完整整合计划](../22-mind-representation-integration/思维表征方法完整整合计划.md)** - 思维表征方法完整整合计划
+
+### 13.2 核心论证文档
 
 - **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - Temporal如何实现Saga模式
 - **[PostgreSQL选型论证](../18-argumentation-enhancement/PostgreSQL选型论证.md)** - PostgreSQL在Saga模式中的作用
 - **[技术栈组合论证](../18-argumentation-enhancement/技术栈组合论证.md)** - 技术栈组合如何实现分布式事务
 
-### 12.2 理论模型专题文档
+### 13.3 理论模型专题文档
 
 - **[CAP定理专题文档](CAP定理专题文档.md)** - CAP定理，Saga模式在CAP权衡中的位置
 - **[一致性模型专题文档](一致性模型专题文档.md)** - 一致性模型，Saga模式的最终一致性保证
 - **[工作流模式专题文档](工作流模式专题文档.md)** - 工作流模式，Saga模式是一种工作流模式
 
-### 12.3 相关资源
+### 13.4 相关资源
 
 - **-**
 
-### 12.4 文档关联说明
+### 13.5 文档关联说明
 
 **理论关联**：
 

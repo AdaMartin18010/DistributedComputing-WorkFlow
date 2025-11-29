@@ -2901,6 +2901,12 @@ Liveness == (workflowState = "Running") => \Diamond (workflowState \in {"Complet
 - **[一致性模型专题文档](一致性模型专题文档.md)** - 一致性模型，Temporal的一致性保证
 - **[Saga模式专题文档](Saga模式专题文档.md)** - Saga模式，Temporal如何实现分布式事务
 
+#### 思维表征与理论模型联系文档
+
+- **[理论模型完整联系体系](../22-mind-representation-integration/理论模型完整联系体系.md)** - TLA+与其他理论模型的完整联系
+- **[完整知识图谱](../22-mind-representation-integration/完整知识图谱.md)** - TLA+在完整知识图谱中的位置
+- **[思维表征方法完整整合计划](../22-mind-representation-integration/思维表征方法完整整合计划.md)** - 思维表征方法完整整合计划
+
 #### 其他相关文档
 
 - **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - TLA+在形式化验证理论中的位置

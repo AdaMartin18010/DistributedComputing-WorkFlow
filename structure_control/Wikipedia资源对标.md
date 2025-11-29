@@ -324,8 +324,146 @@
 
 ---
 
-**文档版本**：v1.0
+## 九、理论模型与Wikipedia资源的完整关联
+
+### 9.1 理论模型与Wikipedia资源全景思维导图
+
+#### 9.1.1 理论模型与Wikipedia资源的完整知识体系
+
+```mermaid
+mindmap
+  root((理论模型与Wikipedia资源完整体系))
+    理论基础层
+      形式化验证理论
+        TLA+
+          Wikipedia: TLA+
+          Wikipedia: Model checking
+          Wikipedia: Temporal logic
+        CTL/LTL
+          Wikipedia: Computation tree logic
+          Wikipedia: Linear temporal logic
+        Petri网
+          Wikipedia: Petri net
+          Wikipedia: Workflow net
+     分布式系统理论
+        CAP定理
+          Wikipedia: CAP theorem
+          Wikipedia: Consistency model
+        FLP不可能定理
+          Wikipedia: FLP impossibility result
+        Paxos/Raft
+          Wikipedia: Paxos algorithm
+          Wikipedia: Raft algorithm
+      工作流理论
+        工作流网
+          Wikipedia: Workflow net
+          Wikipedia: Workflow patterns
+        Saga模式
+          Wikipedia: Saga pattern
+    Wikipedia资源
+      分布式系统
+        CAP定理
+          项目文档: CAP定理专题文档
+          理论模型: CAP定理
+        FLP不可能定理
+          项目文档: FLP不可能定理专题文档
+          理论模型: FLP不可能定理
+      形式化验证
+        TLA+
+          项目文档: TLA+专题文档
+          理论模型: TLA+
+        Petri网
+          项目文档: Petri网专题文档
+          理论模型: Petri网
+      工作流
+        工作流网
+          项目文档: 工作流网专题文档
+          理论模型: 工作流网
+```
+
+### 9.2 理论模型与Wikipedia资源的多维关联矩阵
+
+#### 9.2.1 理论模型 × Wikipedia资源关联矩阵
+
+| 理论模型 | Wikipedia条目 | 中文条目 | 项目文档 | 关联度 | 理论模型应用 | 状态 |
+|---------|--------------|---------|---------|--------|------------|------|
+| **TLA+** | [TLA+](https://en.wikipedia.org/wiki/TLA%2B) | [TLA+](https://zh.wikipedia.org/wiki/TLA%2B) | [TLA+专题文档](../docs/15-formal-models/TLA+专题文档.md) | ⭐⭐⭐⭐⭐ | 系统级规约、状态机验证 | ✅ |
+| **CAP定理** | [CAP theorem](https://en.wikipedia.org/wiki/CAP_theorem) | [CAP定理](https://zh.wikipedia.org/wiki/CAP定理) | [CAP定理专题文档](../docs/15-formal-models/CAP定理专题文档.md) | ⭐⭐⭐⭐⭐ | 一致性/可用性权衡 | ✅ |
+| **FLP不可能定理** | [FLP impossibility result](https://en.wikipedia.org/wiki/FLP_impossibility_result) | [FLP不可能定理](https://zh.wikipedia.org/wiki/FLP不可能定理) | [FLP不可能定理专题文档](../docs/15-formal-models/FLP不可能定理专题文档.md) | ⭐⭐⭐⭐⭐ | 异步系统限制 | ✅ |
+| **一致性模型** | [Consistency model](https://en.wikipedia.org/wiki/Consistency_model) | [一致性模型](https://zh.wikipedia.org/wiki/一致性模型) | [一致性模型专题文档](../docs/15-formal-models/一致性模型专题文档.md) | ⭐⭐⭐⭐⭐ | 数据一致性保证 | ✅ |
+| **Petri网** | [Petri net](https://en.wikipedia.org/wiki/Petri_net) | [Petri网](https://zh.wikipedia.org/wiki/Petri网) | [Petri网专题文档](../docs/15-formal-models/Petri网专题文档.md) | ⭐⭐⭐⭐⭐ | 并发系统建模 | ✅ |
+| **工作流网** | [Workflow net](https://en.wikipedia.org/wiki/Workflow_net) | [工作流网](https://zh.wikipedia.org/wiki/工作流网) | [工作流网专题文档](../docs/15-formal-models/工作流网专题文档.md) | ⭐⭐⭐⭐⭐ | 工作流建模 | ✅ |
+| **Saga模式** | [Saga pattern](https://en.wikipedia.org/wiki/Saga_pattern) | [Saga模式](https://zh.wikipedia.org/wiki/Saga模式) | [Saga模式专题文档](../docs/15-formal-models/Saga模式专题文档.md) | ⭐⭐⭐⭐ | 分布式事务 | ✅ |
+
+### 9.3 理论模型在Wikipedia资源中的应用说明
+
+#### 9.3.1 CAP定理：Wikipedia条目与项目文档的完整关联
+
+**Wikipedia资源**：
+
+- **英文条目**：[CAP theorem](https://en.wikipedia.org/wiki/CAP_theorem)
+- **中文条目**：[CAP定理](https://zh.wikipedia.org/wiki/CAP定理)
+
+**项目文档关联**：
+
+- **专题文档**：[CAP定理专题文档](../docs/15-formal-models/CAP定理专题文档.md)
+- **应用文档**：
+  - [技术堆栈对比分析](../docs/02-technology-comparison/技术堆栈对比分析.md)
+  - [企业实践案例](../docs/04-practice-cases/企业实践案例.md)
+  - [性能基准测试](../docs/06-benchmarks/性能基准测试.md)
+
+**理论模型应用**：
+
+- ✅ 指导分布式系统设计
+- ✅ 指导技术选型（CP vs AP）
+- ✅ 指导性能优化
+- ✅ 指导成本权衡
+
+#### 9.3.2 TLA+：Wikipedia条目与项目文档的完整关联
+
+**Wikipedia资源**：
+
+- **英文条目**：[TLA+](https://en.wikipedia.org/wiki/TLA%2B)
+- **中文条目**：[TLA+](https://zh.wikipedia.org/wiki/TLA%2B)
+
+**项目文档关联**：
+
+- **专题文档**：[TLA+专题文档](../docs/15-formal-models/TLA+专题文档.md)
+- **应用文档**：
+  - [形式化验证理论](../docs/03-formal-verification/形式化验证理论.md)
+  - [分布式计算堆栈全面论证与推进计划](../docs/21-tech-stack-2025/分布式计算堆栈全面论证与推进计划.md)
+
+**理论模型应用**：
+
+- ✅ 系统级形式化规约
+- ✅ 状态机验证
+- ✅ 工作流正确性验证
+
+### 9.4 理论模型专题文档与Wikipedia资源的完整关联索引
+
+#### 9.4.1 理论模型专题文档索引
+
+| 理论模型 | 专题文档 | Wikipedia条目 | 关联度 | 状态 |
+|---------|---------|--------------|--------|------|
+| **TLA+** | [TLA+专题文档](../docs/15-formal-models/TLA+专题文档.md) | [TLA+](https://en.wikipedia.org/wiki/TLA%2B) | ⭐⭐⭐⭐⭐ | ✅ |
+| **CAP定理** | [CAP定理专题文档](../docs/15-formal-models/CAP定理专题文档.md) | [CAP theorem](https://en.wikipedia.org/wiki/CAP_theorem) | ⭐⭐⭐⭐⭐ | ✅ |
+| **FLP不可能定理** | [FLP不可能定理专题文档](../docs/15-formal-models/FLP不可能定理专题文档.md) | [FLP impossibility result](https://en.wikipedia.org/wiki/FLP_impossibility_result) | ⭐⭐⭐⭐⭐ | ✅ |
+| **一致性模型** | [一致性模型专题文档](../docs/15-formal-models/一致性模型专题文档.md) | [Consistency model](https://en.wikipedia.org/wiki/Consistency_model) | ⭐⭐⭐⭐⭐ | ✅ |
+| **Petri网** | [Petri网专题文档](../docs/15-formal-models/Petri网专题文档.md) | [Petri net](https://en.wikipedia.org/wiki/Petri_net) | ⭐⭐⭐⭐⭐ | ✅ |
+| **工作流网** | [工作流网专题文档](../docs/15-formal-models/工作流网专题文档.md) | [Workflow net](https://en.wikipedia.org/wiki/Workflow_net) | ⭐⭐⭐⭐⭐ | ✅ |
+
+---
+
+**文档版本**：v1.1
 **创建时间**：2025年11月28日
-**最后更新**：2025年11月28日
+**最后更新**：2025年1月（理论模型整合完成）
 **维护者**：项目团队
-**状态**：🔄 进行中
+**状态**：✅ **理论模型整合完成**
+
+**v1.1更新内容**：
+
+- ✅ 新增"九、理论模型与Wikipedia资源的完整关联"章节
+- ✅ 创建理论模型与Wikipedia资源全景思维导图
+- ✅ 创建理论模型与Wikipedia资源的多维关联矩阵
+- ✅ 建立理论模型在Wikipedia资源中的应用说明
+- ✅ 建立理论模型专题文档与Wikipedia资源的完整关联索引

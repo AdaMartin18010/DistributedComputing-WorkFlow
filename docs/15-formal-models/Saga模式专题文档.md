@@ -109,7 +109,8 @@
 
 ### 1.1 Saga模式简介
 
-**Saga模式（Saga Pattern）** 是一种用于管理分布式长事务的设计模式。它由Hector Garcia-Molina和Kenneth Salem在1987年提出，通过将长事务分解为一系列本地事务，并使用补偿操作来处理故障，从而在分布式系统中实现最终一致性。
+**Saga模式（Saga Pattern）** 是一种用于管理分布式长事务的设计模式。
+它由Hector Garcia-Molina和Kenneth Salem在1987年提出，通过将长事务分解为一系列本地事务，并使用补偿操作来处理故障，从而在分布式系统中实现最终一致性。
 
 **来源**：基于Garcia-Molina & Salem的原始论文和相关理论
 

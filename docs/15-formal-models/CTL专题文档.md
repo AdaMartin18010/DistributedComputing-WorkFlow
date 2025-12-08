@@ -59,6 +59,8 @@
       - [案例1：Coinbase - TLA+和CTL验证支付系统](#案例1coinbase---tla和ctl验证支付系统)
       - [案例2：Intel - CTL验证处理器设计](#案例2intel---ctl验证处理器设计)
       - [案例3：IBM - CTL验证系统协议](#案例3ibm---ctl验证系统协议)
+      - [案例4：Microsoft - CTL验证Azure服务](#案例4microsoft---ctl验证azure服务)
+      - [案例5：Google - CTL验证分布式系统](#案例5google---ctl验证分布式系统)
     - [8.2 学术界案例](#82-学术界案例)
       - [案例1：缓存一致性协议验证](#案例1缓存一致性协议验证)
       - [案例2：互斥算法验证](#案例2互斥算法验证)

@@ -1056,7 +1056,7 @@ $$
 
 **推理依据**：超时机制的定义
 
-**步骤16：Temporal的超时机制**
+**步骤16：Temporal的超时机制**:
 
 Temporal为不同操作设置超时：
 
@@ -1066,21 +1066,21 @@ Temporal为不同操作设置超时：
 
 **推理依据**：Temporal的超时配置
 
-**步骤17：超时机制避免无限等待**
+**步骤17：超时机制避免无限等待**:
 
 通过超时机制，系统可以在有限时间内检测到故障或超时，避免无限等待：
 $$ \forall \text{Operation}: \exists T: \text{Timeout}(T, t) \implies \text{Action} $$
 
 **推理依据**：超时机制的性质
 
-**步骤18：状态恢复机制**
+**步骤18：状态恢复机制**:
 
 Temporal从事件历史恢复状态：
 $$ \text{State}(w, t) = \text{Replay}(\{e \in \mathcal{H}: e.workflow = w \land e.timestamp \le t\}) $$
 
 **推理依据**：事件溯源（Event Sourcing）理论
 
-**步骤19：Temporal绕过FLP的完整机制**
+**步骤19：Temporal绕过FLP的完整机制**:
 
 Temporal通过以下机制绕过FLP不可能定理：
 $$ \text{TemporalFaultTolerance} = \text{FaultDetection} \land \text{Timeout} \land \text{StateRecovery} $$
@@ -1093,13 +1093,13 @@ $$ \text{TemporalFaultTolerance} = \text{FaultDetection} \land \text{Timeout} \l
 
 **推理依据**：步骤12-18
 
-**步骤20：绕过FLP的证明**
+**步骤20：绕过FLP的证明**:
 
 由于Temporal使用故障检测器和超时机制，可以在有限时间内检测故障并采取行动，避免了FLP定理中的无限等待问题，从而实现了容错。
 
 **推理依据**：步骤10（绕过方法）、步骤19（完整机制）
 
-**步骤21：最终结论**
+**步骤21：最终结论**:
 
 Temporal通过故障检测和超时机制成功绕过了FLP不可能定理，实现了分布式系统的容错。□
 
@@ -1484,7 +1484,7 @@ $$ \Delta T = T_{Database} - T_{Cache} = 30\text{ms} - 1\text{ms} = 29\text{ms} 
 
 #### 2.3.1 Worker性能优化策略
 
-**策略1：Worker池大小优化**
+**策略1：Worker池大小优化**:
 
 **优化原理**：
 
@@ -1536,7 +1536,7 @@ $$ W_{optimal} = 10 \times 1.3 = 13 \text{ workers} $$
 
 ---
 
-**策略2：Activity超时优化**
+**策略2：Activity超时优化**:
 
 **优化原理**：
 
@@ -1569,7 +1569,7 @@ Activity超时设置影响系统性能和可靠性：
 
 ---
 
-**策略3：批量操作优化**
+**策略3：批量操作优化**:
 
 **优化原理**：
 
@@ -1611,7 +1611,7 @@ $$ \text{Speedup} = \frac{N \times T_{Single}}{T_{Batch} + T_{Overhead}} $$
 
 #### 2.3.2 数据库性能优化策略
 
-**策略1：连接池优化**
+**策略1：连接池优化**:
 
 **优化原理**：
 
@@ -1642,7 +1642,7 @@ $$ \text{PoolSize} = \frac{\text{ConcurrentRequests} \times \text{AvgQueryTime}}
 
 ---
 
-**策略2：索引优化**
+**策略2：索引优化**:
 
 **优化原理**：
 
@@ -1675,7 +1675,7 @@ $$ \text{Speedup} = \frac{T_{FullScan}}{T_{IndexScan}} = \frac{O(n)}{O(\log n)} 
 
 ---
 
-**策略3：分区优化**
+**策略3：分区优化**:
 
 **优化原理**：
 
@@ -1708,7 +1708,7 @@ $$ \text{Speedup} = \frac{T_{FullScan}}{T_{IndexScan}} = \frac{O(n)}{O(\log n)} 
 
 #### 2.3.3 网络性能优化策略
 
-**策略1：压缩优化**
+**策略1：压缩优化**:
 
 **优化原理**：
 
@@ -1736,7 +1736,7 @@ $$ \text{Speedup} = \frac{T_{Uncompressed}}{T_{Compressed}} = \frac{S_{Uncompres
 
 ---
 
-**策略2：CDN优化**
+**策略2：CDN优化**:
 
 **优化原理**：
 

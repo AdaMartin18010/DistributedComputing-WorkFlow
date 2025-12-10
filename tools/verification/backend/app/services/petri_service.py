@@ -4,6 +4,7 @@ Petri网分析服务
 
 from typing import Optional, Dict
 from app.api.petri import PetriAnalyzeResponse
+from app.engines.petri_engine import PetriEngine
 
 
 class PetriService:
@@ -11,8 +12,7 @@ class PetriService:
     
     def __init__(self):
         """初始化服务"""
-        # TODO: 初始化Petri网分析库
-        pass
+        self.engine = PetriEngine()
     
     async def analyze(
         self,
@@ -31,13 +31,11 @@ class PetriService:
         Returns:
             PetriAnalyzeResponse对象
         """
-        # TODO: 实现Petri网分析逻辑
-        # 1. 解析Petri网模型
-        # 2. 根据analysis_type执行相应的分析
-        # 3. 返回分析结果
+        # 调用分析引擎
+        result = self.engine.analyze(model, analysis_type, config)
         
         return PetriAnalyzeResponse(
-            status="pending",
-            result=None,
-            error=None
+            status=result["status"],
+            result=result.get("result"),
+            error=result.get("error")
         )

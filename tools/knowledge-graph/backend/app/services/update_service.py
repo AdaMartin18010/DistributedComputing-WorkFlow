@@ -3,7 +3,9 @@
 """
 
 from typing import Dict
+import uuid as uuid_module
 from app.api.update import NodeCreate, NodeUpdate, EdgeCreate
+from app.db.neo4j_client import neo4j_client
 
 
 class UpdateService:
@@ -11,8 +13,7 @@ class UpdateService:
     
     def __init__(self):
         """初始化服务"""
-        # TODO: 初始化数据库连接
-        pass
+        self.db = neo4j_client
     
     async def create_node(self, node: NodeCreate) -> Dict:
         """
@@ -24,8 +25,14 @@ class UpdateService:
         Returns:
             创建结果
         """
-        # TODO: 实现节点创建逻辑
-        return {"id": node.id or "new_node_id", "status": "created"}
+        node_id = node.id or str(uuid_module.uuid4())
+        result = self.db.create_node(
+            node_id=node_id,
+            node_type=node.type,
+            label=node.label,
+            properties=node.properties
+        )
+        return {"id": result["id"], "status": "created", "data": result}
     
     async def update_node(self, node_id: str, node: NodeUpdate) -> Dict:
         """
@@ -38,8 +45,12 @@ class UpdateService:
         Returns:
             更新结果
         """
-        # TODO: 实现节点更新逻辑
-        return {"id": node_id, "status": "updated"}
+        result = self.db.update_node(
+            node_id=node_id,
+            label=node.label,
+            properties=node.properties
+        )
+        return {"id": node_id, "status": "updated", "data": result}
     
     async def delete_node(self, node_id: str) -> Dict:
         """
@@ -51,8 +62,8 @@ class UpdateService:
         Returns:
             删除结果
         """
-        # TODO: 实现节点删除逻辑（需要同时删除相关边）
-        return {"id": node_id, "status": "deleted"}
+        success = self.db.delete_node(node_id)
+        return {"id": node_id, "status": "deleted" if success else "not_found"}
     
     async def create_edge(self, edge: EdgeCreate) -> Dict:
         """
@@ -64,8 +75,13 @@ class UpdateService:
         Returns:
             创建结果
         """
-        # TODO: 实现边创建逻辑
-        return {"id": "new_edge_id", "status": "created"}
+        result = self.db.create_edge(
+            source=edge.source,
+            target=edge.target,
+            edge_type=edge.type,
+            properties=edge.properties
+        )
+        return {"id": str(result["id"]), "status": "created", "data": result}
     
     async def delete_edge(self, edge_id: str) -> Dict:
         """
@@ -77,5 +93,5 @@ class UpdateService:
         Returns:
             删除结果
         """
-        # TODO: 实现边删除逻辑
-        return {"id": edge_id, "status": "deleted"}
+        success = self.db.delete_edge(int(edge_id))
+        return {"id": edge_id, "status": "deleted" if success else "not_found"}

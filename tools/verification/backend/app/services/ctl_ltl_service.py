@@ -4,6 +4,7 @@ CTL/LTL验证服务
 
 from typing import Optional, Dict
 from app.api.ctl_ltl import CTLLTLVerifyResponse
+from app.engines.ctl_ltl_engine import CTLLTLEngine
 
 
 class CTLLTLService:
@@ -11,8 +12,7 @@ class CTLLTLService:
     
     def __init__(self):
         """初始化服务"""
-        # TODO: 初始化NuSMV和SPIN工具连接
-        pass
+        self.engine = CTLLTLEngine()
     
     async def verify(
         self,
@@ -33,16 +33,12 @@ class CTLLTLService:
         Returns:
             CTLLTLVerifyResponse对象
         """
-        # TODO: 实现CTL/LTL验证逻辑
-        # 1. 根据logic_type和tool选择验证工具
-        # 2. 保存模型和公式到临时文件
-        # 3. 调用NuSMV或SPIN进行验证
-        # 4. 解析验证结果
-        # 5. 返回验证响应
+        # 调用验证引擎
+        result = self.engine.verify(model, formula, logic_type, tool)
         
         return CTLLTLVerifyResponse(
-            status="pending",
-            result=None,
-            error=None,
-            counter_example=None
+            status=result["status"],
+            result=result.get("result"),
+            error=result.get("error"),
+            counter_example=result.get("counter_example")
         )

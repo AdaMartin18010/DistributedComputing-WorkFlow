@@ -4,6 +4,7 @@
 
 from typing import Optional, List, Dict
 from app.models.graph import Node, Edge, Graph
+from app.db.neo4j_client import neo4j_client
 
 
 class GraphService:
@@ -11,8 +12,7 @@ class GraphService:
     
     def __init__(self):
         """初始化服务"""
-        # TODO: 初始化数据库连接
-        pass
+        self.db = neo4j_client
     
     async def get_graph(
         self,
@@ -31,9 +31,33 @@ class GraphService:
         Returns:
             Graph对象
         """
-        # TODO: 实现图谱查询逻辑
-        # 这里应该从数据库（Neo4j或PostgreSQL）查询数据
-        return Graph(nodes=[], edges=[])
+        # 从Neo4j获取节点和边
+        nodes_data = self.db.get_nodes(limit=limit, node_types=node_types)
+        edges_data = self.db.get_edges(edge_types=edge_types)
+        
+        # 转换为模型对象
+        nodes = [
+            Node(
+                id=node["id"],
+                type=node["type"],
+                label=node["label"],
+                properties=node.get("properties", {})
+            )
+            for node in nodes_data
+        ]
+        
+        edges = [
+            Edge(
+                id=str(edge["id"]),
+                source=edge["source"],
+                target=edge["target"],
+                type=edge["type"],
+                properties=edge.get("properties", {})
+            )
+            for edge in edges_data
+        ]
+        
+        return Graph(nodes=nodes, edges=edges)
     
     async def get_node(self, node_id: str) -> Optional[Node]:
         """
@@ -45,8 +69,16 @@ class GraphService:
         Returns:
             Node对象或None
         """
-        # TODO: 实现节点查询逻辑
-        return None
+        node_data = self.db.get_node(node_id)
+        if not node_data:
+            return None
+        
+        return Node(
+            id=node_data["id"],
+            type=node_data["type"],
+            label=node_data["label"],
+            properties=node_data.get("properties", {})
+        )
     
     async def get_neighbors(
         self,
@@ -65,8 +97,30 @@ class GraphService:
         Returns:
             Graph对象
         """
-        # TODO: 实现邻居查询逻辑
-        return Graph(nodes=[], edges=[])
+        result = self.db.get_neighbors(node_id, depth=depth, limit=limit)
+        
+        nodes = [
+            Node(
+                id=node["id"],
+                type=node["type"],
+                label=node["label"],
+                properties=node.get("properties", {})
+            )
+            for node in result["nodes"]
+        ]
+        
+        edges = [
+            Edge(
+                id=str(edge["id"]),
+                source=edge["source"],
+                target=edge["target"],
+                type=edge["type"],
+                properties=edge.get("properties", {})
+            )
+            for edge in result["edges"]
+        ]
+        
+        return Graph(nodes=nodes, edges=edges)
     
     async def get_path(
         self,
@@ -85,5 +139,13 @@ class GraphService:
         Returns:
             路径节点列表
         """
-        # TODO: 实现路径查询逻辑（可以使用BFS或DFS）
-        return []
+        path_ids = self.db.get_path(source, target, max_depth=max_depth)
+        
+        # 获取路径上的所有节点
+        nodes = []
+        for node_id in path_ids:
+            node = await self.get_node(node_id)
+            if node:
+                nodes.append(node)
+        
+        return nodes

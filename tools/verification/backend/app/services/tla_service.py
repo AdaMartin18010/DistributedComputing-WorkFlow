@@ -4,6 +4,7 @@ TLA+验证服务
 
 from typing import Optional, Dict, List
 from app.api.tla import TLAVerifyResponse
+from app.engines.tla_engine import TLAEngine
 
 
 class TLAService:
@@ -11,8 +12,8 @@ class TLAService:
     
     def __init__(self):
         """初始化服务"""
-        # TODO: 初始化TLA+ Toolbox连接
-        pass
+        self.engine = TLAEngine()
+        self.tasks = {}  # 任务存储（实际应该使用数据库或Redis）
     
     async def verify(
         self,
@@ -31,17 +32,14 @@ class TLAService:
         Returns:
             TLAVerifyResponse对象
         """
-        # TODO: 实现TLA+验证逻辑
-        # 1. 保存模型到临时文件
-        # 2. 调用TLC或Apalache进行验证
-        # 3. 解析验证结果
-        # 4. 返回验证响应
+        # 调用验证引擎
+        result = self.engine.verify(model, properties, config)
         
         return TLAVerifyResponse(
-            status="pending",
-            result=None,
-            error=None,
-            counter_example=None
+            status=result["status"],
+            result=result.get("result"),
+            error=result.get("error"),
+            counter_example=result.get("counter_example")
         )
     
     async def get_status(self, task_id: str) -> Dict:
@@ -54,5 +52,6 @@ class TLAService:
         Returns:
             任务状态
         """
-        # TODO: 实现任务状态查询逻辑
-        return {"status": "pending", "progress": 0}
+        # 从任务存储中获取状态
+        task = self.tasks.get(task_id, {"status": "not_found", "progress": 0})
+        return task

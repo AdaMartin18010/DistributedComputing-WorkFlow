@@ -74,6 +74,11 @@
       - [案例1：Coinbase - PostgreSQL（CP系统）](#案例1coinbase---postgresqlcp系统)
       - [案例2：Netflix - Cassandra（AP系统）](#案例2netflix---cassandraap系统)
       - [案例3：Temporal + PostgreSQL（CP系统）](#案例3temporal--postgresqlcp系统)
+      - [案例4：Stripe - PostgreSQL（CP系统）](#案例4stripe---postgresqlcp系统)
+      - [案例5：Uber - Cassandra（AP系统）](#案例5uber---cassandraap系统)
+      - [案例6：Airbnb - PostgreSQL（CP系统）](#案例6airbnb---postgresqlcp系统)
+      - [案例7：Amazon DynamoDB - AP系统](#案例7amazon-dynamodb---ap系统)
+      - [案例8：Google Spanner - CP系统](#案例8google-spanner---cp系统)
     - [8.2 学术界案例](#82-学术界案例)
       - [案例1：CAP定理的形式化证明](#案例1cap定理的形式化证明)
     - [8.3 实践案例总结](#83-实践案例总结)
@@ -87,9 +92,12 @@
     - [10.1 经典文献](#101-经典文献)
       - [原始论文](#原始论文-1)
       - [原始演讲](#原始演讲)
+      - [重要论文](#重要论文)
     - [10.2 在线资源](#102-在线资源)
       - [Wikipedia](#wikipedia)
       - [经典著作](#经典著作-1)
+      - [大学课程](#大学课程)
+      - [在线教程和博客](#在线教程和博客)
   - [十一、思维表征](#十一思维表征)
     - [11.1 知识体系思维导图](#111-知识体系思维导图)
     - [11.2 多维知识对比矩阵](#112-多维知识对比矩阵)
@@ -112,6 +120,11 @@
       - [12.3.1 系统选择决策](#1231-系统选择决策)
     - [12.4 Temporal在CAP中的实现](#124-temporal在cap中的实现)
       - [12.4.1 Temporal CP系统实现](#1241-temporal-cp系统实现)
+    - [12.2 工具使用示例](#122-工具使用示例)
+      - [12.2.1 CAP系统测试工具使用示例](#1221-cap系统测试工具使用示例)
+    - [12.3 形式化证明示例](#123-形式化证明示例)
+      - [12.3.1 CAP定理证明](#1231-cap定理证明)
+      - [12.3.2 CP系统一致性证明](#1232-cp系统一致性证明)
   - [十三、相关文档](#十三相关文档)
     - [13.1 项目内部文档](#131-项目内部文档)
       - [核心论证文档](#核心论证文档)
@@ -1632,7 +1645,19 @@ Gilbert & Lynch在2002年形式化证明了CAP定理，为分布式系统设计�
    - 作者：Martin Kleppmann
    - 出版社：O'Reilly Media
    - 出版年份：2017
-   - **推荐理由**：包含CAP定理的详细讲解
+   - **推荐理由**：包含CAP定理的详细讲解和实际应用案例，是学习CAP定理的重要参考
+
+2. **"Distributed Systems: Concepts and Design"**
+   - 作者：George Coulouris, Jean Dollimore, Tim Kindberg, Gordon Blair
+   - 出版社：Pearson
+   - 出版年份：2011
+   - **推荐理由**：分布式系统经典教材，包含CAP定理的详细讲解
+
+3. **"Introduction to Reliable and Secure Distributed Programming"**
+   - 作者：Christian Cachin, Rachid Guerraoui, Luís Rodrigues
+   - 出版社：Springer
+   - 出版年份：2011
+   - **推荐理由**：分布式编程经典教材，包含CAP定理的理论基础
 
 #### 原始论文
 
@@ -1640,7 +1665,19 @@ Gilbert & Lynch在2002年形式化证明了CAP定理，为分布式系统设计�
    - 作者：Seth Gilbert, Nancy Lynch
    - 期刊：ACM SIGACT News
    - 年份：2002
-   - **推荐理由**：CAP定理的形式化证明
+   - **推荐理由**：CAP定理的形式化证明，证明了CAP定理的正确性，是理解CAP定理的基础
+
+2. **"Towards Robust Distributed Systems"**
+   - 作者：Eric Brewer
+   - 会议：ACM Symposium on Principles of Distributed Computing (PODC)
+   - 年份：2000
+   - **推荐理由**：CAP定理的原始提出，首次阐述了CAP权衡的概念
+
+3. **"CAP Twelve Years Later: How the 'Rules' Have Changed"**
+   - 作者：Eric Brewer
+   - 期刊：IEEE Computer
+   - 年份：2012
+   - **推荐理由**：CAP定理提出12年后的回顾，讨论了CAP定理的发展和实际应用
 
 ### 9.2 学习路径
 
@@ -1666,24 +1703,86 @@ Gilbert & Lynch在2002年形式化证明了CAP定理，为分布式系统设计�
 
 1. **Gilbert, S., & Lynch, N. (2002). "Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services"**
    - 期刊：ACM SIGACT News
-   - **重要性**：CAP定理的形式化证明
+   - **重要性**：CAP定理的形式化证明，证明了CAP定理的正确性
 
 #### 原始演讲
 
 1. **Brewer, E. (2000). "Towards Robust Distributed Systems"**
    - 会议：ACM Symposium on Principles of Distributed Computing (PODC)
-   - **重要性**：CAP定理的原始提出
+   - **重要性**：CAP定理的原始提出，首次阐述了CAP权衡的概念
+
+#### 重要论文
+
+1. **Abadi, M. (2012). "Consistency Tradeoffs in Modern Distributed Database System Design: CAP is Only Part of the Story"**
+   - 期刊：IEEE Computer
+   - **重要性**：CAP定理的扩展和实际应用，讨论了CAP权衡在实际系统中的复杂性
+
+2. **Kleppmann, M. (2015). "A Critique of the CAP Theorem"**
+   - 网站：martin.kleppmann.com
+   - **重要性**：对CAP定理的批判性分析，讨论了CAP定理的局限性和误解
+
+3. **Pritchett, D. (2008). "BASE: An ACID Alternative"**
+   - 期刊：ACM Queue
+   - **重要性**：BASE原则的提出，与CAP定理相关，讨论了最终一致性的应用
+
+4. **Stonebraker, M. (2012). "Errors in Database Systems, Eventual Consistency, and the CAP Theorem"**
+   - 期刊：Communications of the ACM
+   - **重要性**：对CAP定理和最终一致性的深入分析
+
+5. **Brewer, E. (2012). "CAP Twelve Years Later: How the 'Rules' Have Changed"**
+   - 期刊：IEEE Computer
+   - **重要性**：CAP定理提出12年后的回顾，讨论了CAP定理的发展和实际应用
 
 ### 10.2 在线资源
 
 #### Wikipedia
 
-- [CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem)
-- [Eric Brewer](https://en.wikipedia.org/wiki/Eric_Brewer_(computer_scientist))
+- [CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem) - CAP定理详细说明
+- [Eric Brewer](https://en.wikipedia.org/wiki/Eric_Brewer_(computer_scientist)) - Eric Brewer简介
+- [Consistency Model](https://en.wikipedia.org/wiki/Consistency_model) - 一致性模型概述
+- [Distributed Computing](https://en.wikipedia.org/wiki/Distributed_computing) - 分布式计算概述
 
 #### 经典著作
 
-- **"Designing Data-Intensive Applications"** by Martin Kleppmann (2017)
+1. **"Designing Data-Intensive Applications"** by Martin Kleppmann (2017)
+   - 出版社：O'Reilly Media
+   - **推荐理由**：包含CAP定理的详细讲解和实际应用案例，是学习CAP定理的重要参考
+
+2. **"Distributed Systems: Concepts and Design"** by George Coulouris, et al. (2011)
+   - 出版社：Pearson
+   - **推荐理由**：分布式系统经典教材，包含CAP定理的详细讲解
+
+3. **"Introduction to Reliable and Secure Distributed Programming"** by Christian Cachin, et al. (2011)
+   - 出版社：Springer
+   - **推荐理由**：分布式编程经典教材，包含CAP定理的理论基础
+
+#### 大学课程
+
+1. **MIT 6.824: Distributed Systems**
+   - 课程链接：<https://pdos.csail.mit.edu/6.824/>
+   - **推荐理由**：MIT分布式系统课程，包含CAP定理的详细讲解
+
+2. **CMU 15-440: Distributed Systems**
+   - 课程链接：<https://www.cs.cmu.edu/~dga/15-440/>
+   - **推荐理由**：CMU分布式系统课程，包含CAP定理的详细讲解
+
+3. **Stanford CS244B: Distributed Systems**
+   - 课程链接：<https://web.stanford.edu/class/cs244b/>
+   - **推荐理由**：Stanford分布式系统课程，包含CAP定理的详细讲解
+
+#### 在线教程和博客
+
+1. **Martin Kleppmann's Blog**
+   - 网站：<https://martin.kleppmann.com/>
+   - **推荐理由**：包含大量关于CAP定理和分布式系统的文章，包括对CAP定理的批判性分析
+
+2. **Jepsen: Distributed Systems Safety**
+   - 网站：<https://jepsen.io/>
+   - **推荐理由**：分布式系统一致性测试和分析工具，包含CAP定理的实际测试案例
+
+3. **Aphyr's Blog**
+   - 网站：<https://aphyr.com/>
+   - **推荐理由**：包含大量关于分布式系统和CAP定理的文章，包括实际系统的测试和分析
 
 ---
 
@@ -2514,11 +2613,13 @@ async def create_order(order_id: str) -> dict:
 **使用步骤**：
 
 1. **安装依赖**：
+
 ```bash
 pip install pytest
 ```
 
-2. **编写测试代码**：
+1. **编写测试代码**：
+
 ```python
 import pytest
 from cap_system import CPSystem, APSystem
@@ -2526,17 +2627,17 @@ from cap_system import CPSystem, APSystem
 def test_cp_system_consistency():
     """测试CP系统的一致性"""
     system = CPSystem()
-    
+
     # 写入操作
     system.write("key1", "value1")
-    
+
     # 读取操作应该立即看到写入（强一致性）
     value = system.read("key1")
     assert value == "value1"
-    
+
     # 模拟网络分区
     system.partition()
-    
+
     # CP系统在网络分区时可能不可用
     # 但保证一致性
     try:
@@ -2548,20 +2649,21 @@ def test_cp_system_consistency():
 def test_ap_system_availability():
     """测试AP系统的可用性"""
     system = APSystem()
-    
+
     # 写入操作
     system.write("key1", "value1")
-    
+
     # 模拟网络分区
     system.partition()
-    
+
     # AP系统在网络分区时仍然可用
     system.write("key2", "value2")
     value = system.read("key2")
     assert value == "value2"  # 可能暂时不一致，但最终一致
 ```
 
-3. **运行测试**：
+1. **运行测试**：
+
 ```bash
 pytest test_cap.py -v
 ```
@@ -2584,6 +2686,7 @@ pytest test_cap.py -v
 **形式化表述**：
 
 设：
+
 - $Consistent$：系统满足一致性
 - $Available$：系统满足可用性
 - $PartitionTolerant$：系统满足分区容错性
@@ -2629,6 +2732,7 @@ $$\neg (Consistent \land Available \land PartitionTolerant)$$
 **形式化表述**：
 
 设：
+
 - $CP$：CP系统
 - $Consistent(CP)$：CP系统满足一致性
 - $Available(CP)$：CP系统满足可用性

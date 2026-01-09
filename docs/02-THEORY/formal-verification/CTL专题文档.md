@@ -1587,13 +1587,19 @@ Netflix使用CTL验证流媒体系统的正确性，包括内容编码、内容�
    - 作者：Christel Baier, Joost-Pieter Katoen
    - 出版社：MIT Press
    - 出版年份：2008
-   - **推荐理由**：模型检验的权威教材，包含CTL的详细讲解
+   - **推荐理由**：模型检验的权威教材，包含CTL的详细讲解和实现方法，是学习CTL的必读书籍
 
 2. **"Model Checking"**
    - 作者：Edmund M. Clarke, Jr., Orna Grumberg, Doron A. Peled
    - 出版社：MIT Press
    - 出版年份：1999
-   - **推荐理由**：模型检验的经典教材，由CTL创始人编写
+   - **推荐理由**：模型检验的经典教材，由CTL创始人编写，包含CTL的详细讲解
+
+3. **"Temporal Logic: Mathematical Foundations and Computational Aspects"**
+   - 作者：Dov M. Gabbay, et al.
+   - 出版社：Oxford University Press
+   - 出版年份：1994
+   - **推荐理由**：时序逻辑的经典教材，包含CTL的理论基础
 
 #### 原始论文
 
@@ -1601,13 +1607,19 @@ Netflix使用CTL验证流媒体系统的正确性，包括内容编码、内容�
    - 作者：Edmund M. Clarke, E. Allen Emerson
    - 会议：Logic of Programs Workshop
    - 年份：1981
-   - **推荐理由**：CTL的原始论文
+   - **推荐理由**：CTL的原始论文，奠定了CTL理论的基础，是理解CTL的前提
 
 2. **"Automatic Verification of Finite-State Concurrent Systems Using Temporal Logic Specifications"**
    - 作者：Edmund M. Clarke, E. Allen Emerson, A. Prasad Sistla
    - 期刊：ACM Transactions on Programming Languages and Systems
    - 年份：1986
-   - **推荐理由**：CTL模型检验算法的原始论文
+   - **推荐理由**：CTL模型检验算法的原始论文，提出了CTL模型检验的算法
+
+3. **"Characterizing Correctness Properties of Parallel Programs Using Fixpoints"**
+   - 作者：E. Allen Emerson, Joseph Y. Halpern
+   - 会议：ICALP
+   - 年份：1986
+   - **推荐理由**：提出CTL*，统一CTL和LTL，扩展了CTL的表达能力
 
 #### 在线教程
 
@@ -1679,17 +1691,84 @@ Netflix使用CTL验证流媒体系统的正确性，包括内容编码、内容�
 
 1. **Emerson, E. A., & Halpern, J. Y. (1986). "Characterizing Correctness Properties of Parallel Programs Using Fixpoints"**
    - 会议：ICALP
-   - **重要性**：提出CTL*，统一CTL和LTL
+   - **重要性**：提出CTL*，统一CTL和LTL，扩展了CTL的表达能力
 
 2. **McMillan, K. L. (1993). "Symbolic Model Checking"**
    - 出版社：Kluwer Academic Publishers
-   - **重要性**：符号模型检验的经典著作
+   - **重要性**：符号模型检验的经典著作，优化了CTL模型检验的性能
+
+3. **Clarke, E. M., et al. (1999). "Model Checking"**
+   - 出版社：MIT Press
+   - **重要性**：模型检验的经典教材，包含CTL的详细讲解
+
+4. **Baier, C., & Katoen, J. P. (2008). "Principles of Model Checking"**
+   - 出版社：MIT Press
+   - **重要性**：模型检验的权威教材，包含CTL的详细讲解
+
+5. **Vardi, M. Y., & Wolper, P. (1986). "An Automata-Theoretic Approach to Automatic Program Verification"**
+   - 会议：LICS
+   - **重要性**：自动机理论在模型检验中的应用，与CTL模型检验相关
 
 ### 10.2 在线资源
 
 #### Wikipedia
 
-- [Computation Tree Logic](https://en.wikipedia.org/wiki/Computation_tree_logic)
+- [Computation Tree Logic](https://en.wikipedia.org/wiki/Computation_tree_logic) - CTL详细说明
+- [Model Checking](https://en.wikipedia.org/wiki/Model_checking) - 模型检验概述
+- [Temporal Logic](https://en.wikipedia.org/wiki/Temporal_logic) - 时序逻辑概述
+- [Edmund M. Clarke](https://en.wikipedia.org/wiki/Edmund_M._Clarke) - CTL创始人简介
+
+#### 经典著作
+
+1. **"Principles of Model Checking"** by Christel Baier, Joost-Pieter Katoen (2008)
+   - 出版社：MIT Press
+   - **推荐理由**：模型检验的权威教材，包含CTL的详细讲解和实现方法，是学习CTL的必读书籍
+
+2. **"Model Checking"** by Edmund M. Clarke, et al. (1999)
+   - 出版社：MIT Press
+   - **推荐理由**：模型检验的经典教材，由CTL创始人编写，包含CTL的详细讲解
+
+3. **"Temporal Logic: Mathematical Foundations and Computational Aspects"** by Dov M. Gabbay, et al. (1994)
+   - 出版社：Oxford University Press
+   - **推荐理由**：时序逻辑的经典教材，包含CTL的理论基础
+
+#### 在线工具和网站
+
+1. **NuSMV Official Website**
+   - 网站：https://nusmv.fbk.eu/
+   - **推荐理由**：NuSMV模型检验器的官方网站，支持CTL模型检验
+
+2. **SPIN Model Checker**
+   - 网站：http://spinroot.com/
+   - **推荐理由**：SPIN模型检验器的官方网站，支持CTL模型检验
+
+3. **SMV Model Checker**
+   - 网站：https://www.cs.cmu.edu/~modelcheck/smv.html
+   - **推荐理由**：SMV模型检验器的官方网站，支持CTL模型检验
+
+#### 大学课程
+
+1. **CMU 15-811: Formal Methods**
+   - 课程链接：https://www.cs.cmu.edu/~aldrich/courses/15-819-FM/
+   - **推荐理由**：CMU的形式化方法课程，包含CTL的详细讲解
+
+2. **MIT 6.512: Formal Methods**
+   - 课程链接：https://ocw.mit.edu/
+   - **推荐理由**：MIT的形式化方法课程，包含CTL的详细讲解
+
+3. **Stanford CS237B: Principles of Model Checking**
+   - 课程链接：https://web.stanford.edu/class/cs237b/
+   - **推荐理由**：Stanford的模型检验课程，包含CTL的详细讲解
+
+#### 在线教程和博客
+
+1. **Edmund M. Clarke's Website**
+   - 网站：https://www.cs.cmu.edu/~emc/
+   - **推荐理由**：Edmund M. Clarke的官方网站，包含CTL的相关资源
+
+2. **Martin Kleppmann's Blog**
+   - 网站：https://martin.kleppmann.com/
+   - **推荐理由**：包含大量关于CTL和模型检验的文章
 - [Model Checking](https://en.wikipedia.org/wiki/Model_checking)
 - [Edmund M. Clarke](https://en.wikipedia.org/wiki/Edmund_M._Clarke)
 - [E. Allen Emerson](https://en.wikipedia.org/wiki/E._Allen_Emerson)

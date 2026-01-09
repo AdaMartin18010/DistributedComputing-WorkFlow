@@ -1424,26 +1424,86 @@ LinkedIn使用Petri网建模职业网络流程，包括连接请求、消息传�
 #### 原始论文
 
 1. **Petri, C. A. (1962). "Kommunikation mit Automaten"**
-   - **重要性**：Petri网的原始论文
+   - **重要性**：Petri网的原始论文，奠定了Petri网理论的基础
 
 #### 重要论文
 
 1. **van der Aalst, W. M. P. (1998). "The Application of Petri Nets to Workflow Management"**
    - 期刊：The Journal of Circuits, Systems and Computers
-   - **重要性**：工作流网的原始论文
+   - **重要性**：工作流网的原始论文，将Petri网应用于工作流管理
+
+2. **Reisig, W. (1985). "Petri Nets: An Introduction"**
+   - 出版社：Springer
+   - **重要性**：Petri网的经典教材，系统介绍了Petri网的理论和应用
+
+3. **Murata, T. (1989). "Petri Nets: Properties, Analysis and Applications"**
+   - 期刊：Proceedings of the IEEE
+   - **重要性**：Petri网的性质、分析和应用的重要论文
+
+4. **Jensen, K., & Kristensen, L. M. (2009). "Coloured Petri Nets: Modelling and Validation of Concurrent Systems"**
+   - 出版社：Springer
+   - **重要性**：着色Petri网的权威教材，扩展了Petri网的应用
+
+5. **Desel, J., & Esparza, J. (1995). "Free Choice Petri Nets"**
+   - 出版社：Cambridge University Press
+   - **重要性**：自由选择Petri网的经典教材
 
 ### 10.2 在线资源
 
 #### Wikipedia
 
-- [Petri Net](https://en.wikipedia.org/wiki/Petri_net)
-- [Carl Adam Petri](https://en.wikipedia.org/wiki/Carl_Adam_Petri)
-- [Workflow Net](https://en.wikipedia.org/wiki/Workflow_net)
+- [Petri Net](https://en.wikipedia.org/wiki/Petri_net) - Petri网详细说明
+- [Carl Adam Petri](https://en.wikipedia.org/wiki/Carl_Adam_Petri) - Carl Adam Petri简介
+- [Workflow Net](https://en.wikipedia.org/wiki/Workflow_net) - 工作流网详细说明
+- [Coloured Petri Net](https://en.wikipedia.org/wiki/Coloured_Petri_net) - 着色Petri网概述
 
-#### 工具文档
+#### 经典著作
 
-- **CPN Tools文档**：CPN Tools官方网站
-- **PIPE文档**：PIPE官方网站
+1. **"Petri Nets: An Introduction"** by Wolfgang Reisig (1985)
+   - 出版社：Springer
+   - **推荐理由**：Petri网的经典教材，系统介绍了Petri网的理论和应用，是学习Petri网的必读书籍
+
+2. **"Coloured Petri Nets: Modelling and Validation of Concurrent Systems"** by Kurt Jensen, Lars M. Kristensen (2009)
+   - 出版社：Springer
+   - **推荐理由**：着色Petri网的权威教材，扩展了Petri网的应用
+
+3. **"Workflow Management: Models, Methods, and Systems"** by Wil van der Aalst, Kees van Hee (2004)
+   - 出版社：MIT Press
+   - **推荐理由**：工作流管理的权威教材，包含Petri网在工作流中的应用
+
+#### 在线工具和网站
+
+1. **CPN Tools**
+   - 网站：http://cpntools.org/
+   - **推荐理由**：CPN Tools的官方网站，用于建模和分析Petri网
+
+2. **PIPE (Platform Independent Petri Net Editor)**
+   - 网站：http://pipe2.sourceforge.net/
+   - **推荐理由**：PIPE的官方网站，用于建模和分析Petri网
+
+3. **ProM (Process Mining Framework)**
+   - 网站：http://www.promtools.org/
+   - **推荐理由**：流程挖掘框架，支持Petri网的分析和验证
+
+#### 大学课程
+
+1. **TU/e Petri Net Course**
+   - 课程链接：https://www.tue.nl/en/education/graduate-school/
+   - **推荐理由**：TU/e的Petri网课程，包含Petri网的详细讲解
+
+2. **MIT Formal Methods Course**
+   - 课程链接：https://ocw.mit.edu/
+   - **推荐理由**：MIT的形式化方法课程，包含Petri网的详细讲解
+
+#### 在线教程和博客
+
+1. **Wil van der Aalst's Website**
+   - 网站：https://www.win.tue.nl/~wvdaalst/
+   - **推荐理由**：Wil van der Aalst的官方网站，包含Petri网的相关资源
+
+2. **Petri Net World**
+   - 网站：http://www.informatik.uni-hamburg.de/TGI/PetriNets/
+   - **推荐理由**：Petri网的世界网站，包含Petri网的相关资源
 
 ---
 

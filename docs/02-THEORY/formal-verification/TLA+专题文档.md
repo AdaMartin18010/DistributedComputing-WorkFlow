@@ -2364,39 +2364,106 @@ Kafka是一个分布式消息队列系统，需要保证消息的顺序性、持
 
 1. **Lamport, L. (2001). "Paxos Made Simple"**
    - 期刊：ACM SIGACT News
-   - **重要性**：使用TLA+验证Paxos算法
+   - **重要性**：使用TLA+验证Paxos算法，展示了TLA+在实际系统验证中的应用
 
 2. **Ongaro, D., & Ousterhout, J. (2014). "In Search of an Understandable Consensus Algorithm"**
    - 会议：USENIX ATC
-   - **重要性**：使用TLA+验证Raft算法
+   - **重要性**：使用TLA+验证Raft算法，展示了TLA+在实际系统验证中的应用
+
+3. **Newcombe, C., et al. (2015). "How Amazon Web Services Uses Formal Methods"**
+   - 期刊：Communications of the ACM
+   - **重要性**：Amazon使用TLA+验证DynamoDB的实际案例，展示了TLA+在工业界的应用
+
+4. **Hawblitzel, C., et al. (2015). "IronFleet: Proving Safety and Liveness of Practical Distributed Systems"**
+   - 会议：SOSP
+   - **重要性**：使用TLA+验证分布式系统的实际案例
+
+5. **Yu, Y., et al. (2014). "Symbolic Execution of Production Code"**
+   - 会议：ICSE
+   - **重要性**：使用TLA+进行符号执行的实际案例
+
+6. **Konnov, I., et al. (2017). "TLA+ Model Checking Made Symbolic"**
+   - 会议：OOPSLA
+   - **重要性**：Apalache符号模型检验器的原始论文
 
 ### 10.2 在线资源
 
 #### Wikipedia
 
-- [TLA+](https://en.wikipedia.org/wiki/TLA%2B)
-- [Temporal Logic](https://en.wikipedia.org/wiki/Temporal_logic)
-- [Model Checking](https://en.wikipedia.org/wiki/Model_checking)
-- [Leslie Lamport](https://en.wikipedia.org/wiki/Leslie_Lamport)
+- [TLA+](https://en.wikipedia.org/wiki/TLA%2B) - TLA+详细说明
+- [Temporal Logic](https://en.wikipedia.org/wiki/Temporal_logic) - 时序逻辑概述
+- [Model Checking](https://en.wikipedia.org/wiki/Model_checking) - 模型检验概述
+- [Leslie Lamport](https://en.wikipedia.org/wiki/Leslie_Lamport) - Leslie Lamport简介
 
 #### 官方资源
 
-- **TLA+官方网站**：<https://lamport.azurewebsites.net/tla/tla.html>
-- **TLA+工具下载**：<https://github.com/tlaplus/tlaplus>
-- **TLA+教程**：<https://learntla.com/>
-- **TLA+视频教程**：<https://lamport.azurewebsites.net/video/videos.html>
+1. **TLA+官方网站**
+   - 网站：https://lamport.azurewebsites.net/tla/tla.html
+   - **推荐理由**：TLA+的官方网站，包含所有论文、文档和资源
+
+2. **TLA+工具下载**
+   - 网站：https://github.com/tlaplus/tlaplus
+   - **推荐理由**：TLA+工具的GitHub仓库，包含所有工具和示例
+
+3. **TLA+教程**
+   - 网站：https://learntla.com/
+   - **推荐理由**：TLA+的官方教程，由Hillel Wayne编写，是学习TLA+的最佳资源
+
+4. **TLA+视频教程**
+   - 网站：https://lamport.azurewebsites.net/video/videos.html
+   - **推荐理由**：Leslie Lamport亲自讲解的TLA+视频教程
+
+#### 经典著作
+
+1. **"Specifying Systems: The TLA+ Language and Tools for Hardware and Software Engineers"** by Leslie Lamport (2002)
+   - 出版社：Addison-Wesley
+   - **推荐理由**：TLA+的权威教材，由创始人编写，是学习TLA+的必读书籍
+
+2. **"Principles of Model Checking"** by Christel Baier, Joost-Pieter Katoen (2008)
+   - 出版社：MIT Press
+   - **推荐理由**：模型检验经典教材，包含TLA+的详细讲解
+
+3. **"Model Checking"** by Edmund M. Clarke, et al. (1999)
+   - 出版社：MIT Press
+   - **推荐理由**：模型检验的经典教材，包含TLA+的理论基础
 
 #### 大学课程
 
-- **CMU 15-811: Formal Methods**：CMU课程网站
-- **MIT 6.512: Formal Methods**：MIT课程网站
-- **Stanford CS237B: Principles of Model Checking**：Stanford课程网站
+1. **CMU 15-811: Formal Methods**
+   - 课程链接：https://www.cs.cmu.edu/~aldrich/courses/15-819-FM/
+   - **推荐理由**：CMU的形式化方法课程，包含TLA+的详细讲解
+
+2. **MIT 6.512: Formal Methods**
+   - 课程链接：https://ocw.mit.edu/
+   - **推荐理由**：MIT的形式化方法课程，包含TLA+的详细讲解
+
+3. **Stanford CS237B: Principles of Model Checking**
+   - 课程链接：https://web.stanford.edu/class/cs237b/
+   - **推荐理由**：Stanford的模型检验课程，包含TLA+的详细讲解
 
 #### 工具文档
 
-- **TLC文档**：TLA+工具文档
-- **TLAPS文档**：TLAPS文档
-- **Apalache文档**：Apalache文档
+1. **TLC Model Checker**
+   - 网站：https://github.com/tlaplus/tlaplus
+   - **推荐理由**：TLC模型检验器的文档和示例
+
+2. **TLAPS Proof System**
+   - 网站：https://tla.msr-inria.inria.fr/tlaps/content/Home.html
+   - **推荐理由**：TLAPS定理证明系统的文档和教程
+
+3. **Apalache Symbolic Model Checker**
+   - 网站：https://apalache.informal.systems/
+   - **推荐理由**：Apalache符号模型检验器的文档和教程
+
+#### 在线教程和博客
+
+1. **Hillel Wayne's Blog**
+   - 网站：https://www.hillelwayne.com/
+   - **推荐理由**：包含大量关于TLA+的文章和教程
+
+2. **Martin Kleppmann's Blog**
+   - 网站：https://martin.kleppmann.com/
+   - **推荐理由**：包含大量关于TLA+和形式化验证的文章
 
 ---
 

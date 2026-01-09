@@ -1101,7 +1101,19 @@ ZooKeeper使用故障检测器实现分布式协调服务的高可用性，需�
    - 作者：Christian Cachin, Rachid Guerraoui, Luís Rodrigues
    - 出版社：Springer
    - 出版年份：2011
-   - **推荐理由**：包含FLP不可能定理的详细讲解
+   - **推荐理由**：分布式编程经典教材，包含FLP不可能定理的详细讲解和绕过方法，是学习FLP不可能定理的必读书籍
+
+2. **"Distributed Computing: Fundamentals, Simulations, and Advanced Topics"**
+   - 作者：Hagit Attiya, Jennifer Welch
+   - 出版社：Wiley
+   - 出版年份：2004
+   - **推荐理由**：分布式计算经典教材，包含FLP不可能定理的详细讲解
+
+3. **"Distributed Algorithms"**
+   - 作者：Nancy A. Lynch
+   - 出版社：Morgan Kaufmann
+   - 出版年份：1996
+   - **推荐理由**：分布式算法经典教材，包含FLP不可能定理的详细讲解
 
 #### 原始论文
 
@@ -1109,7 +1121,19 @@ ZooKeeper使用故障检测器实现分布式协调服务的高可用性，需�
    - 作者：Michael J. Fischer, Nancy A. Lynch, Michael S. Paterson
    - 期刊：Journal of the ACM
    - 年份：1985
-   - **推荐理由**：FLP不可能定理的原始论文
+   - **推荐理由**：FLP不可能定理的原始论文，证明了在异步系统中确定性共识的不可能性，是理解分布式系统限制的基础
+
+2. **"Unreliable Failure Detectors for Reliable Distributed Systems"**
+   - 作者：Tushar Deepak Chandra, Sam Toueg
+   - 期刊：Journal of the ACM
+   - 年份：1996
+   - **推荐理由**：故障检测器的原始论文，提出了绕过FLP不可能定理的方法
+
+3. **"Another Advantage of Free Choice: Completely Asynchronous Agreement Protocols"**
+   - 作者：Michael Ben-Or
+   - 会议：PODC
+   - 年份：1983
+   - **推荐理由**：随机化共识算法的原始论文，提出了绕过FLP不可能定理的另一种方法
 
 ### 9.2 学习路径
 
@@ -1137,24 +1161,76 @@ ZooKeeper使用故障检测器实现分布式协调服务的高可用性，需�
    - 期刊：Journal of the ACM
    - 卷号：32, 2
    - 页码：374-382
-   - **重要性**：FLP不可能定理的原始论文
+   - **重要性**：FLP不可能定理的原始论文，证明了在异步系统中确定性共识的不可能性
 
 #### 重要论文
 
 1. **Chandra, T. D., & Toueg, S. (1996). "Unreliable Failure Detectors for Reliable Distributed Systems"**
    - 期刊：Journal of the ACM
-   - **重要性**：故障检测器的原始论文
+   - **重要性**：故障检测器的原始论文，提出了绕过FLP不可能定理的方法
+
+2. **Ben-Or, M. (1983). "Another Advantage of Free Choice: Completely Asynchronous Agreement Protocols"**
+   - 会议：PODC
+   - **重要性**：随机化共识算法的原始论文，提出了绕过FLP不可能定理的另一种方法
+
+3. **Dwork, C., Lynch, N., & Stockmeyer, L. (1988). "Consensus in the Presence of Partial Synchrony"**
+   - 期刊：Journal of the ACM
+   - **重要性**：部分同步模型下的共识算法，提出了绕过FLP不可能定理的第三种方法
+
+4. **Attiya, H., & Welch, J. (2004). "Distributed Computing: Fundamentals, Simulations, and Advanced Topics"**
+   - 出版社：Wiley
+   - **重要性**：分布式计算经典教材，包含FLP不可能定理的详细讲解
+
+5. **Lynch, N. A. (1996). "Distributed Algorithms"**
+   - 出版社：Morgan Kaufmann
+   - **重要性**：分布式算法经典教材，包含FLP不可能定理的详细讲解
 
 ### 10.2 在线资源
 
 #### Wikipedia
 
-- [FLP Impossibility](https://en.wikipedia.org/wiki/Consensus_(computer_science)#FLP_impossibility_result)
-- [Distributed Consensus](https://en.wikipedia.org/wiki/Consensus_(computer_science))
+- [FLP Impossibility](https://en.wikipedia.org/wiki/Consensus_(computer_science)#FLP_impossibility_result) - FLP不可能定理详细说明
+- [Distributed Consensus](https://en.wikipedia.org/wiki/Consensus_(computer_science)) - 分布式共识概述
+- [Asynchronous System](https://en.wikipedia.org/wiki/Asynchronous_system) - 异步系统概述
+- [Failure Detector](https://en.wikipedia.org/wiki/Failure_detector) - 故障检测器概述
 
 #### 经典著作
 
-- **"Introduction to Reliable and Secure Distributed Programming"** by Cachin, Guerraoui & Rodrigues (2011)
+1. **"Introduction to Reliable and Secure Distributed Programming"** by Christian Cachin, Rachid Guerraoui, Luís Rodrigues (2011)
+   - 出版社：Springer
+   - **推荐理由**：分布式编程经典教材，包含FLP不可能定理的详细讲解和绕过方法
+
+2. **"Distributed Computing: Fundamentals, Simulations, and Advanced Topics"** by Hagit Attiya, Jennifer Welch (2004)
+   - 出版社：Wiley
+   - **推荐理由**：分布式计算经典教材，包含FLP不可能定理的详细讲解
+
+3. **"Distributed Algorithms"** by Nancy A. Lynch (1996)
+   - 出版社：Morgan Kaufmann
+   - **推荐理由**：分布式算法经典教材，包含FLP不可能定理的详细讲解
+
+#### 大学课程
+
+1. **MIT 6.824: Distributed Systems**
+   - 课程链接：https://pdos.csail.mit.edu/6.824/
+   - **推荐理由**：MIT分布式系统课程，包含FLP不可能定理的详细讲解
+
+2. **CMU 15-440: Distributed Systems**
+   - 课程链接：https://www.cs.cmu.edu/~dga/15-440/
+   - **推荐理由**：CMU分布式系统课程，包含FLP不可能定理的详细讲解
+
+3. **Stanford CS244B: Distributed Systems**
+   - 课程链接：https://web.stanford.edu/class/cs244b/
+   - **推荐理由**：Stanford分布式系统课程，包含FLP不可能定理的详细讲解
+
+#### 在线教程和博客
+
+1. **Martin Kleppmann's Blog**
+   - 网站：https://martin.kleppmann.com/
+   - **推荐理由**：包含大量关于FLP不可能定理和共识算法的文章
+
+2. **Jepsen: Distributed Systems Safety**
+   - 网站：https://jepsen.io/
+   - **推荐理由**：分布式系统一致性测试和分析工具，包含FLP不可能定理的实际应用案例
 
 ---
 

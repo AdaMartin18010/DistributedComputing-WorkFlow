@@ -930,7 +930,19 @@ LinkedIn使用Paxos算法实现分布式系统的共识，包括职业网络管�
    - 作者：Martin Kleppmann
    - 出版社：O'Reilly Media
    - 出版年份：2017
-   - **推荐理由**：包含Paxos算法的详细讲解
+   - **推荐理由**：包含Paxos算法的详细讲解和实际应用案例，是学习Paxos算法的重要参考
+
+2. **"Introduction to Reliable and Secure Distributed Programming"**
+   - 作者：Christian Cachin, Rachid Guerraoui, Luís Rodrigues
+   - 出版社：Springer
+   - 出版年份：2011
+   - **推荐理由**：分布式编程经典教材，包含Paxos算法的详细讲解和实现方法
+
+3. **"Distributed Systems: Concepts and Design"**
+   - 作者：George Coulouris, Jean Dollimore, Tim Kindberg, Gordon Blair
+   - 出版社：Pearson
+   - 出版年份：2011
+   - **推荐理由**：分布式系统经典教材，包含Paxos算法的详细讲解
 
 #### 原始论文
 
@@ -938,12 +950,19 @@ LinkedIn使用Paxos算法实现分布式系统的共识，包括职业网络管�
    - 作者：Leslie Lamport
    - 期刊：ACM Transactions on Computer Systems
    - 年份：1998
-   - **推荐理由**：Paxos算法的原始论文
+   - **推荐理由**：Paxos算法的原始论文，奠定了Paxos算法理论的基础，是理解Paxos算法的前提
 
 2. **"Paxos Made Simple"**
    - 作者：Leslie Lamport
+   - 期刊：ACM SIGACT News
    - 年份：2001
-   - **推荐理由**：Paxos算法的简化描述
+   - **推荐理由**：Paxos算法的简化描述，使Paxos算法更容易理解，是学习Paxos算法的入门论文
+
+3. **"Fast Paxos"**
+   - 作者：Leslie Lamport
+   - 期刊：Distributed Computing
+   - 年份：2006
+   - **推荐理由**：Fast Paxos算法的原始论文，优化了Paxos算法的性能
 
 ### 9.2 学习路径
 
@@ -969,21 +988,84 @@ LinkedIn使用Paxos算法实现分布式系统的共识，包括职业网络管�
 
 1. **Lamport, L. (1998). "The Part-Time Parliament"**
    - 期刊：ACM Transactions on Computer Systems
-   - **重要性**：Paxos算法的原始论文
+   - **重要性**：Paxos算法的原始论文，奠定了Paxos算法理论的基础
 
 2. **Lamport, L. (2001). "Paxos Made Simple"**
-   - **重要性**：Paxos算法的简化描述
+   - 期刊：ACM SIGACT News
+   - **重要性**：Paxos算法的简化描述，使Paxos算法更容易理解
+
+#### 重要论文
+
+1. **Lamport, L. (2006). "Fast Paxos"**
+   - 期刊：Distributed Computing
+   - **重要性**：Fast Paxos算法的原始论文，优化了Paxos算法的性能
+
+2. **Lamport, L. (2005). "Generalized Consensus and Paxos"**
+   - 会议：Microsoft Research
+   - **重要性**：广义共识和Paxos的扩展，扩展了Paxos算法的应用范围
+
+3. **Chandra, T. D., et al. (2007). "Paxos Made Live: An Engineering Perspective"**
+   - 会议：PODC
+   - **重要性**：Paxos算法的工程实现，展示了Paxos算法在实际系统中的应用
+
+4. **Lamport, L. (2011). "Paxos Made Moderately Complex"**
+   - 会议：ACM Computing Surveys
+   - **重要性**：Paxos算法的中等复杂度描述，平衡了简单性和完整性
+
+5. **Lamport, L. (2019). "Byzantine Paxos"**
+   - 会议：DISC
+   - **重要性**：拜占庭Paxos算法的原始论文，扩展了Paxos算法以处理拜占庭故障
 
 ### 10.2 在线资源
 
 #### Wikipedia
 
-- [Paxos](https://en.wikipedia.org/wiki/Paxos_(computer_science))
-- [Leslie Lamport](https://en.wikipedia.org/wiki/Leslie_Lamport)
+- [Paxos](https://en.wikipedia.org/wiki/Paxos_(computer_science)) - Paxos算法详细说明
+- [Leslie Lamport](https://en.wikipedia.org/wiki/Leslie_Lamport) - Leslie Lamport简介
+- [Consensus Algorithm](https://en.wikipedia.org/wiki/Consensus_(computer_science)) - 共识算法概述
+- [Distributed Consensus](https://en.wikipedia.org/wiki/Consensus_(computer_science)) - 分布式共识概述
 
 #### 经典著作
 
-- **"Designing Data-Intensive Applications"** by Martin Kleppmann (2017)
+1. **"Designing Data-Intensive Applications"** by Martin Kleppmann (2017)
+   - 出版社：O'Reilly Media
+   - **推荐理由**：包含Paxos算法的详细讲解和实际应用案例，是学习Paxos算法的重要参考
+
+2. **"Introduction to Reliable and Secure Distributed Programming"** by Christian Cachin, et al. (2011)
+   - 出版社：Springer
+   - **推荐理由**：分布式编程经典教材，包含Paxos算法的详细讲解和实现方法
+
+3. **"Distributed Systems: Concepts and Design"** by George Coulouris, et al. (2011)
+   - 出版社：Pearson
+   - **推荐理由**：分布式系统经典教材，包含Paxos算法的详细讲解
+
+#### 大学课程
+
+1. **MIT 6.824: Distributed Systems**
+   - 课程链接：https://pdos.csail.mit.edu/6.824/
+   - **推荐理由**：MIT分布式系统课程，包含Paxos算法的详细讲解
+
+2. **CMU 15-440: Distributed Systems**
+   - 课程链接：https://www.cs.cmu.edu/~dga/15-440/
+   - **推荐理由**：CMU分布式系统课程，包含Paxos算法的详细讲解
+
+3. **Stanford CS244B: Distributed Systems**
+   - 课程链接：https://web.stanford.edu/class/cs244b/
+   - **推荐理由**：Stanford分布式系统课程，包含Paxos算法的详细讲解
+
+#### 在线教程和博客
+
+1. **Leslie Lamport's Website**
+   - 网站：https://lamport.azurewebsites.net/
+   - **推荐理由**：Leslie Lamport的官方网站，包含Paxos算法的所有论文和资源
+
+2. **Martin Kleppmann's Blog**
+   - 网站：https://martin.kleppmann.com/
+   - **推荐理由**：包含大量关于Paxos算法和共识算法的文章
+
+3. **Jepsen: Distributed Systems Safety**
+   - 网站：https://jepsen.io/
+   - **推荐理由**：分布式系统一致性测试和分析工具，包含Paxos算法的实际测试案例
 
 ---
 

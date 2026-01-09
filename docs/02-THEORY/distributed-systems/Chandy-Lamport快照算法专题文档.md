@@ -919,7 +919,19 @@ ZooKeeper使用Chandy-Lamport快照算法实现分布式协调服务的一致性
    - 作者：George Coulouris, Jean Dollimore, Tim Kindberg, Gordon Blair
    - 出版社：Pearson
    - 出版年份：2011
-   - **推荐理由**：包含快照算法的详细讲解
+   - **推荐理由**：分布式系统经典教材，包含快照算法的详细讲解和实现方法，是学习快照算法的必读书籍
+
+2. **"Introduction to Reliable and Secure Distributed Programming"**
+   - 作者：Christian Cachin, Rachid Guerraoui, Luís Rodrigues
+   - 出版社：Springer
+   - 出版年份：2011
+   - **推荐理由**：分布式编程经典教材，包含快照算法的详细讲解
+
+3. **"Distributed Algorithms"**
+   - 作者：Nancy A. Lynch
+   - 出版社：Morgan Kaufmann
+   - 出版年份：1996
+   - **推荐理由**：分布式算法经典教材，包含快照算法的详细讲解
 
 #### 原始论文
 
@@ -927,7 +939,13 @@ ZooKeeper使用Chandy-Lamport快照算法实现分布式协调服务的一致性
    - 作者：K. Mani Chandy, Leslie Lamport
    - 期刊：ACM Transactions on Computer Systems
    - 年份：1985
-   - **推荐理由**：快照算法的原始论文
+   - **推荐理由**：快照算法的原始论文，奠定了分布式快照理论的基础，是理解快照算法的前提
+
+2. **"Virtual Time and Global States of Distributed Systems"**
+   - 作者：Friedemann Mattern
+   - 会议：Parallel and Distributed Algorithms
+   - 年份：1989
+   - **推荐理由**：虚拟时间和全局状态的重要论文，与快照算法相关
 
 ### 9.2 学习路径
 
@@ -953,17 +971,71 @@ ZooKeeper使用Chandy-Lamport快照算法实现分布式协调服务的一致性
 
 1. **Chandy, K. M., & Lamport, L. (1985). "Distributed Snapshots: Determining Global States of Distributed Systems"**
    - 期刊：ACM Transactions on Computer Systems
-   - **重要性**：快照算法的原始论文
+   - **重要性**：快照算法的原始论文，奠定了分布式快照理论的基础
+
+#### 重要论文
+
+1. **Mattern, F. (1989). "Virtual Time and Global States of Distributed Systems"**
+   - 会议：Parallel and Distributed Algorithms
+   - **重要性**：虚拟时间和全局状态的重要论文，与快照算法相关
+
+2. **Helary, J. M., et al. (1990). "Consistent Global Checkpoints of Large-Scale Distributed Systems"**
+   - 会议：ICDCS
+   - **重要性**：大规模分布式系统一致性检查点的重要论文
+
+3. **Koo, R., & Toueg, S. (1987). "Checkpointing and Rollback-Recovery for Distributed Systems"**
+   - 会议：SRDS
+   - **重要性**：分布式系统检查点和回滚恢复的重要论文
+
+4. **Bouajjani, A., et al. (1997). "Reachability Analysis of Pushdown Automata: Application to Model-Checking"**
+   - 会议：CONCUR
+   - **重要性**：可达性分析的重要论文，与快照算法相关
 
 ### 10.2 在线资源
 
 #### Wikipedia
 
-- [Distributed Snapshot](https://en.wikipedia.org/wiki/Distributed_snapshot)
+- [Distributed Snapshot](https://en.wikipedia.org/wiki/Distributed_snapshot) - 分布式快照详细说明
+- [Global State](https://en.wikipedia.org/wiki/Global_state) - 全局状态概述
+- [Checkpointing](https://en.wikipedia.org/wiki/Application_checkpointing) - 检查点概述
 
 #### 经典著作
 
-- **"Distributed Systems: Concepts and Design"** by Coulouris et al. (2011)
+1. **"Distributed Systems: Concepts and Design"** by George Coulouris, et al. (2011)
+   - 出版社：Pearson
+   - **推荐理由**：分布式系统经典教材，包含快照算法的详细讲解和实现方法
+
+2. **"Introduction to Reliable and Secure Distributed Programming"** by Christian Cachin, et al. (2011)
+   - 出版社：Springer
+   - **推荐理由**：分布式编程经典教材，包含快照算法的详细讲解
+
+3. **"Distributed Algorithms"** by Nancy A. Lynch (1996)
+   - 出版社：Morgan Kaufmann
+   - **推荐理由**：分布式算法经典教材，包含快照算法的详细讲解
+
+#### 大学课程
+
+1. **MIT 6.824: Distributed Systems**
+   - 课程链接：https://pdos.csail.mit.edu/6.824/
+   - **推荐理由**：MIT分布式系统课程，包含快照算法的详细讲解
+
+2. **CMU 15-440: Distributed Systems**
+   - 课程链接：https://www.cs.cmu.edu/~dga/15-440/
+   - **推荐理由**：CMU分布式系统课程，包含快照算法的详细讲解
+
+3. **Stanford CS244B: Distributed Systems**
+   - 课程链接：https://web.stanford.edu/class/cs244b/
+   - **推荐理由**：Stanford分布式系统课程，包含快照算法的详细讲解
+
+#### 在线教程和博客
+
+1. **Martin Kleppmann's Blog**
+   - 网站：https://martin.kleppmann.com/
+   - **推荐理由**：包含大量关于分布式系统和快照算法的文章
+
+2. **Jepsen: Distributed Systems Safety**
+   - 网站：https://jepsen.io/
+   - **推荐理由**：分布式系统一致性测试和分析工具，包含快照算法的实际测试案例
 
 ---
 

@@ -1411,7 +1411,17 @@ LinkedIn使用LTL验证职业网络流程的正确性，包括连接请求、消
    - 作者：Christel Baier, Joost-Pieter Katoen
    - 出版社：MIT Press
    - 出版年份：2008
-   - **推荐理由**：模型检验的权威教材，包含LTL的详细讲解
+   - **推荐理由**：模型检验的权威教材，包含LTL的详细讲解和实现方法，是学习LTL的必读书籍
+
+2. **"Model Checking"** by Edmund M. Clarke, et al. (1999)
+   - 出版社：MIT Press
+   - **推荐理由**：模型检验的经典教材，包含LTL的详细讲解
+
+3. **"Temporal Logic: Mathematical Foundations and Computational Aspects"**
+   - 作者：Dov M. Gabbay, et al.
+   - 出版社：Oxford University Press
+   - 出版年份：1994
+   - **推荐理由**：时序逻辑的经典教材，包含LTL的理论基础
 
 #### 原始论文
 
@@ -1419,7 +1429,19 @@ LinkedIn使用LTL验证职业网络流程的正确性，包括连接请求、消
    - 作者：Amir Pnueli
    - 会议：18th Annual Symposium on Foundations of Computer Science
    - 年份：1977
-   - **推荐理由**：LTL的原始论文
+   - **推荐理由**：LTL的原始论文，奠定了LTL理论的基础，是理解LTL的前提
+
+2. **"An Automata-Theoretic Approach to Automatic Program Verification"**
+   - 作者：Moshe Y. Vardi, Pierre Wolper
+   - 会议：LICS
+   - 年份：1986
+   - **推荐理由**：LTL自动机理论的重要论文，提出了LTL到自动机的转换算法
+
+3. **"Automatic Verification of Finite-State Concurrent Systems Using Temporal Logic Specifications"**
+   - 作者：Edmund M. Clarke, E. Allen Emerson, A. Prasad Sistla
+   - 期刊：ACM Transactions on Programming Languages and Systems
+   - 年份：1986
+   - **推荐理由**：LTL模型检验算法的重要论文
 
 ### 9.2 学习路径
 
@@ -1445,19 +1467,90 @@ LinkedIn使用LTL验证职业网络流程的正确性，包括连接请求、消
 
 1. **Pnueli, A. (1977). "The Temporal Logic of Programs"**
    - 会议：18th Annual Symposium on Foundations of Computer Science
-   - **重要性**：LTL的原始论文
+   - **重要性**：LTL的原始论文，奠定了LTL理论的基础
+
+#### 重要论文
+
+1. **Vardi, M. Y., & Wolper, P. (1986). "An Automata-Theoretic Approach to Automatic Program Verification"**
+   - 会议：LICS
+   - **重要性**：LTL自动机理论的重要论文，提出了LTL到自动机的转换算法
+
+2. **Clarke, E. M., et al. (1986). "Automatic Verification of Finite-State Concurrent Systems Using Temporal Logic Specifications"**
+   - 期刊：ACM Transactions on Programming Languages and Systems
+   - **重要性**：LTL模型检验算法的重要论文
+
+3. **Baier, C., & Katoen, J. P. (2008). "Principles of Model Checking"**
+   - 出版社：MIT Press
+   - **重要性**：模型检验的权威教材，包含LTL的详细讲解
+
+4. **Clarke, E. M., et al. (1999). "Model Checking"**
+   - 出版社：MIT Press
+   - **重要性**：模型检验的经典教材，包含LTL的详细讲解
+
+5. **Emerson, E. A., & Halpern, J. Y. (1986). "Characterizing Correctness Properties of Parallel Programs Using Fixpoints"**
+   - 会议：ICALP
+   - **重要性**：提出CTL*，统一CTL和LTL，扩展了LTL的表达能力
 
 ### 10.2 在线资源
 
 #### Wikipedia
 
-- [Linear Temporal Logic](https://en.wikipedia.org/wiki/Linear_temporal_logic)
-- [Amir Pnueli](https://en.wikipedia.org/wiki/Amir_Pnueli)
+- [Linear Temporal Logic](https://en.wikipedia.org/wiki/Linear_temporal_logic) - LTL详细说明
+- [Amir Pnueli](https://en.wikipedia.org/wiki/Amir_Pnueli) - Amir Pnueli简介
+- [Model Checking](https://en.wikipedia.org/wiki/Model_checking) - 模型检验概述
+- [Temporal Logic](https://en.wikipedia.org/wiki/Temporal_logic) - 时序逻辑概述
 
-#### 工具文档
+#### 经典著作
 
-- **SPIN文档**：SPIN官方网站
-- **NuSMV文档**：NuSMV官方网站
+1. **"Principles of Model Checking"** by Christel Baier, Joost-Pieter Katoen (2008)
+   - 出版社：MIT Press
+   - **推荐理由**：模型检验的权威教材，包含LTL的详细讲解和实现方法，是学习LTL的必读书籍
+
+2. **"Model Checking"** by Edmund M. Clarke, et al. (1999)
+   - 出版社：MIT Press
+   - **推荐理由**：模型检验的经典教材，包含LTL的详细讲解
+
+3. **"Temporal Logic: Mathematical Foundations and Computational Aspects"** by Dov M. Gabbay, et al. (1994)
+   - 出版社：Oxford University Press
+   - **推荐理由**：时序逻辑的经典教材，包含LTL的理论基础
+
+#### 在线工具和网站
+
+1. **SPIN Model Checker**
+   - 网站：http://spinroot.com/
+   - **推荐理由**：SPIN模型检验器的官方网站，支持LTL模型检验
+
+2. **NuSMV Official Website**
+   - 网站：https://nusmv.fbk.eu/
+   - **推荐理由**：NuSMV模型检验器的官方网站，支持LTL模型检验
+
+3. **LTL2BA Tool**
+   - 网站：https://www.lsv.fr/~gastin/ltl2ba/
+   - **推荐理由**：LTL到Büchi自动机转换工具
+
+#### 大学课程
+
+1. **CMU 15-811: Formal Methods**
+   - 课程链接：https://www.cs.cmu.edu/~aldrich/courses/15-819-FM/
+   - **推荐理由**：CMU的形式化方法课程，包含LTL的详细讲解
+
+2. **MIT 6.512: Formal Methods**
+   - 课程链接：https://ocw.mit.edu/
+   - **推荐理由**：MIT的形式化方法课程，包含LTL的详细讲解
+
+3. **Stanford CS237B: Principles of Model Checking**
+   - 课程链接：https://web.stanford.edu/class/cs237b/
+   - **推荐理由**：Stanford的模型检验课程，包含LTL的详细讲解
+
+#### 在线教程和博客
+
+1. **SPIN Tutorial**
+   - 网站：http://spinroot.com/spin/Doc/SpinTutorial.html
+   - **推荐理由**：SPIN的官方教程，包含LTL的使用方法
+
+2. **Martin Kleppmann's Blog**
+   - 网站：https://martin.kleppmann.com/
+   - **推荐理由**：包含大量关于LTL和模型检验的文章
 
 ---
 

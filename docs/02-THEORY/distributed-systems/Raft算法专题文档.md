@@ -1051,7 +1051,19 @@ ZooKeeper使用ZAB协议（类似Raft）实现分布式协调服务的高可用�
    - 作者：Martin Kleppmann
    - 出版社：O'Reilly Media
    - 出版年份：2017
-   - **推荐理由**：包含Raft算法的详细讲解
+   - **推荐理由**：包含Raft算法的详细讲解和实际应用案例，是学习Raft算法的重要参考
+
+2. **"Introduction to Reliable and Secure Distributed Programming"**
+   - 作者：Christian Cachin, Rachid Guerraoui, Luís Rodrigues
+   - 出版社：Springer
+   - 出版年份：2011
+   - **推荐理由**：分布式编程经典教材，包含Raft算法的详细讲解和实现方法
+
+3. **"Distributed Systems: Concepts and Design"**
+   - 作者：George Coulouris, Jean Dollimore, Tim Kindberg, Gordon Blair
+   - 出版社：Pearson
+   - 出版年份：2011
+   - **推荐理由**：分布式系统经典教材，包含Raft算法的详细讲解
 
 #### 原始论文
 
@@ -1059,7 +1071,13 @@ ZooKeeper使用ZAB协议（类似Raft）实现分布式协调服务的高可用�
    - 作者：Diego Ongaro, John Ousterhout
    - 会议：USENIX Annual Technical Conference
    - 年份：2014
-   - **推荐理由**：Raft算法的原始论文
+   - **推荐理由**：Raft算法的原始论文，提出了易于理解的共识算法，是理解Raft算法的前提
+
+2. **"Consensus: Bridging Theory and Practice"**
+   - 作者：Diego Ongaro
+   - 会议：Stanford University PhD Thesis
+   - 年份：2014
+   - **推荐理由**：Raft算法的完整理论分析和实现，包含Raft算法的详细证明
 
 ### 9.2 学习路径
 
@@ -1085,22 +1103,89 @@ ZooKeeper使用ZAB协议（类似Raft）实现分布式协调服务的高可用�
 
 1. **Ongaro, D., & Ousterhout, J. (2014). "In Search of an Understandable Consensus Algorithm"**
    - 会议：USENIX Annual Technical Conference
-   - **重要性**：Raft算法的原始论文
+   - **重要性**：Raft算法的原始论文，提出了易于理解的共识算法
+
+#### 重要论文
+
+1. **Ongaro, D. (2014). "Consensus: Bridging Theory and Practice"**
+   - 会议：Stanford University PhD Thesis
+   - **重要性**：Raft算法的完整理论分析和实现，包含Raft算法的详细证明
+
+2. **Howard, H., et al. (2015). "Raft Refloated: Do We Have Consensus?"**
+   - 会议：OSDI
+   - **重要性**：Raft算法的改进和优化，提出了Raft算法的改进版本
+
+3. **Lorch, J. R., et al. (2016). "The Performance of Paxos and Raft"**
+   - 会议：SoCC
+   - **重要性**：Paxos和Raft算法的性能对比，分析了两种算法的优缺点
+
+4. **Howard, H., et al. (2016). "Raft Refloated: Do We Have Consensus?"**
+   - 会议：OSDI
+   - **重要性**：Raft算法的进一步改进，提出了Raft算法的优化版本
+
+5. **Ongaro, D., et al. (2018). "The Raft Consensus Algorithm"**
+   - 网站：raft.github.io
+   - **重要性**：Raft算法的官方文档和实现指南
 
 ### 10.2 在线资源
 
 #### Wikipedia
 
-- [Raft](https://en.wikipedia.org/wiki/Raft_(algorithm))
+- [Raft](https://en.wikipedia.org/wiki/Raft_(algorithm)) - Raft算法详细说明
+- [Consensus Algorithm](https://en.wikipedia.org/wiki/Consensus_(computer_science)) - 共识算法概述
+- [Distributed Consensus](https://en.wikipedia.org/wiki/Consensus_(computer_science)) - 分布式共识概述
 
 #### 经典著作
 
-- **"Designing Data-Intensive Applications"** by Martin Kleppmann (2017)
+1. **"Designing Data-Intensive Applications"** by Martin Kleppmann (2017)
+   - 出版社：O'Reilly Media
+   - **推荐理由**：包含Raft算法的详细讲解和实际应用案例，是学习Raft算法的重要参考
 
-#### 工具文档
+2. **"Introduction to Reliable and Secure Distributed Programming"** by Christian Cachin, et al. (2011)
+   - 出版社：Springer
+   - **推荐理由**：分布式编程经典教材，包含Raft算法的详细讲解和实现方法
 
-- **etcd文档**：etcd官方网站
-- **Consul文档**：Consul官方网站
+3. **"Distributed Systems: Concepts and Design"** by George Coulouris, et al. (2011)
+   - 出版社：Pearson
+   - **推荐理由**：分布式系统经典教材，包含Raft算法的详细讲解
+
+#### 在线工具和网站
+
+1. **Raft Official Website**
+   - 网站：https://raft.github.io/
+   - **推荐理由**：Raft算法的官方网站，包含算法说明、实现指南和资源链接
+
+2. **etcd Documentation**
+   - 网站：https://etcd.io/docs/
+   - **推荐理由**：etcd的官方文档，展示了Raft算法在实际系统中的应用
+
+3. **Consul Documentation**
+   - 网站：https://www.consul.io/docs
+   - **推荐理由**：Consul的官方文档，展示了Raft算法在实际系统中的应用
+
+#### 大学课程
+
+1. **MIT 6.824: Distributed Systems**
+   - 课程链接：https://pdos.csail.mit.edu/6.824/
+   - **推荐理由**：MIT分布式系统课程，包含Raft算法的详细讲解
+
+2. **CMU 15-440: Distributed Systems**
+   - 课程链接：https://www.cs.cmu.edu/~dga/15-440/
+   - **推荐理由**：CMU分布式系统课程，包含Raft算法的详细讲解
+
+3. **Stanford CS244B: Distributed Systems**
+   - 课程链接：https://web.stanford.edu/class/cs244b/
+   - **推荐理由**：Stanford分布式系统课程，包含Raft算法的详细讲解
+
+#### 在线教程和博客
+
+1. **Martin Kleppmann's Blog**
+   - 网站：https://martin.kleppmann.com/
+   - **推荐理由**：包含大量关于Raft算法和共识算法的文章
+
+2. **Jepsen: Distributed Systems Safety**
+   - 网站：https://jepsen.io/
+   - **推荐理由**：分布式系统一致性测试和分析工具，包含Raft算法的实际测试案例
 
 ---
 

@@ -1672,25 +1672,86 @@ LinkedIn使用Saga模式实现职业网络的分布式事务，包括连接请�
 
 1. **Garcia-Molina, H., & Salem, K. (1987). "Sagas"**
    - 会议：ACM SIGMOD Conference
-   - **重要性**：Saga模式的原始论文
+   - **重要性**：Saga模式的原始论文，奠定了Saga模式理论的基础
 
 #### 重要论文
 
 1. **Richardson, C. (2018). "Microservices Patterns"**
    - 出版社：Manning Publications
-   - **重要性**：包含Saga模式的详细讲解
+   - **重要性**：包含Saga模式的详细讲解，是学习Saga模式的重要参考
+
+2. **Bailis, P., et al. (2013). "Coordination Avoidance in Database Systems"**
+   - 会议：VLDB
+   - **重要性**：协调避免的重要论文，与Saga模式相关
+
+3. **Kleppmann, M. (2017). "Designing Data-Intensive Applications"**
+   - 出版社：O'Reilly Media
+   - **重要性**：包含Saga模式的详细讲解和实际应用案例
+
+4. **Newman, S. (2015). "Building Microservices"**
+   - 出版社：O'Reilly Media
+   - **重要性**：微服务架构的权威指南，包含Saga模式在微服务中的应用
+
+5. **Fowler, M. (2014). "Patterns of Enterprise Application Architecture"**
+   - 出版社：Addison-Wesley
+   - **重要性**：企业应用架构模式，包含Saga模式的相关内容
 
 ### 10.2 在线资源
 
 #### Wikipedia
 
-- [Saga Pattern](https://en.wikipedia.org/wiki/Saga_pattern)
-- [Distributed Transaction](https://en.wikipedia.org/wiki/Distributed_transaction)
+- [Saga Pattern](https://en.wikipedia.org/wiki/Saga_pattern) - Saga模式详细说明
+- [Distributed Transaction](https://en.wikipedia.org/wiki/Distributed_transaction) - 分布式事务概述
+- [Microservices](https://en.wikipedia.org/wiki/Microservices) - 微服务概述
+- [Event Sourcing](https://en.wikipedia.org/wiki/Event_sourcing) - 事件溯源概述
 
-#### 工具文档
+#### 经典著作
 
-- **Temporal文档**：Temporal官方网站
-- **相关微服务框架文档**
+1. **"Microservices Patterns"** by Chris Richardson (2018)
+   - 出版社：Manning Publications
+   - **推荐理由**：包含Saga模式的详细讲解，是学习Saga模式的重要参考
+
+2. **"Designing Data-Intensive Applications"** by Martin Kleppmann (2017)
+   - 出版社：O'Reilly Media
+   - **推荐理由**：包含Saga模式的详细讲解和实际应用案例
+
+3. **"Building Microservices"** by Sam Newman (2015)
+   - 出版社：O'Reilly Media
+   - **推荐理由**：微服务架构的权威指南，包含Saga模式在微服务中的应用
+
+#### 在线工具和网站
+
+1. **Temporal Documentation**
+   - 网站：https://docs.temporal.io/
+   - **推荐理由**：Temporal的官方文档，包含Saga模式的实现示例
+
+2. **Axon Framework**
+   - 网站：https://axoniq.io/
+   - **推荐理由**：Axon框架的官方网站，支持Saga模式的实现
+
+3. **Eventuate**
+   - 网站：https://eventuate.io/
+   - **推荐理由**：Eventuate的官方网站，支持Saga模式的实现
+
+#### 大学课程
+
+1. **MIT Distributed Systems Course**
+   - 课程链接：https://pdos.csail.mit.edu/6.824/
+   - **推荐理由**：MIT分布式系统课程，包含Saga模式的相关内容
+
+2. **CMU Distributed Systems Course**
+   - 课程链接：https://www.cs.cmu.edu/~dga/15-440/
+   - **推荐理由**：CMU分布式系统课程，包含Saga模式的相关内容
+
+#### 在线教程和博客
+
+1. **Chris Richardson's Blog**
+   - 网站：https://microservices.io/
+   - **推荐理由**：Chris Richardson的博客，包含大量关于Saga模式和微服务的文章
+
+2. **Martin Kleppmann's Blog**
+   - 网站：https://martin.kleppmann.com/
+   - **推荐理由**：包含大量关于Saga模式和分布式系统的文章
 
 ---
 

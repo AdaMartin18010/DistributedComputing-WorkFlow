@@ -1176,19 +1176,100 @@ Amazon使用Coq形式化验证AWS服务的正确性，确保服务满足安全�
 
 #### 原始论文
 
-1. **相关Coq和Isabelle的原始论文**
+1. **Coquand, T., & Huet, G. (1988). "The Calculus of Constructions"**
+   - 期刊：Information and Computation
+   - **重要性**：构造演算的原始论文，Coq的理论基础
+
+2. **Paulson, L. C. (1989). "The Foundation of a Generic Theorem Prover"**
+   - 期刊：Journal of Automated Reasoning
+   - **重要性**：Isabelle的原始论文，奠定了Isabelle的理论基础
+
+#### 重要论文
+
+1. **Bertot, Y., & Castéran, P. (2004). "Interactive Theorem Proving and Program Development: Coq'Art: The Calculus of Inductive Constructions"**
+   - 出版社：Springer
+   - **重要性**：Coq的权威教材，系统介绍了Coq的理论和应用
+
+2. **Nipkow, T., et al. (2002). "Isabelle/HOL: A Proof Assistant for Higher-Order Logic"**
+   - 出版社：Springer
+   - **重要性**：Isabelle/HOL的权威教材，系统介绍了Isabelle的理论和应用
+
+3. **Pierce, B. C., et al. (2010). "Software Foundations"**
+   - 网站：https://softwarefoundations.cis.upenn.edu/
+   - **重要性**：Coq的经典教程，是学习Coq的重要资源
+
+4. **Nipkow, T., & Klein, G. (2014). "Concrete Semantics: With Isabelle/HOL"**
+   - 出版社：Springer
+   - **重要性**：Isabelle的经典教程，是学习Isabelle的重要资源
+
+5. **Chlipala, A. (2013). "Certified Programming with Dependent Types"**
+   - 出版社：MIT Press
+   - **重要性**：依赖类型编程的权威教材，使用Coq进行形式化验证
 
 ### 10.2 在线资源
 
 #### Wikipedia
 
-- [Coq](https://en.wikipedia.org/wiki/Coq)
-- [Isabelle](https://en.wikipedia.org/wiki/Isabelle_(proof_assistant))
+- [Coq](https://en.wikipedia.org/wiki/Coq) - Coq详细说明
+- [Isabelle](https://en.wikipedia.org/wiki/Isabelle_(proof_assistant)) - Isabelle详细说明
+- [Proof Assistant](https://en.wikipedia.org/wiki/Proof_assistant) - 证明助手概述
+- [Dependent Type](https://en.wikipedia.org/wiki/Dependent_type) - 依赖类型概述
 
-#### 工具文档
+#### 经典著作
 
-- **Coq文档**：Coq官方网站
-- **Isabelle文档**：Isabelle官方网站
+1. **"Interactive Theorem Proving and Program Development: Coq'Art: The Calculus of Inductive Constructions"** by Yves Bertot, Pierre Castéran (2004)
+   - 出版社：Springer
+   - **推荐理由**：Coq的权威教材，系统介绍了Coq的理论和应用，是学习Coq的必读书籍
+
+2. **"Isabelle/HOL: A Proof Assistant for Higher-Order Logic"** by Tobias Nipkow, et al. (2002)
+   - 出版社：Springer
+   - **推荐理由**：Isabelle/HOL的权威教材，系统介绍了Isabelle的理论和应用，是学习Isabelle的必读书籍
+
+3. **"Software Foundations"** by Benjamin C. Pierce, et al. (2010)
+   - 网站：https://softwarefoundations.cis.upenn.edu/
+   - **推荐理由**：Coq的经典教程，是学习Coq的重要资源
+
+4. **"Concrete Semantics: With Isabelle/HOL"** by Tobias Nipkow, Gerwin Klein (2014)
+   - 出版社：Springer
+   - **推荐理由**：Isabelle的经典教程，是学习Isabelle的重要资源
+
+#### 在线工具和网站
+
+1. **Coq Official Website**
+   - 网站：https://coq.inria.fr/
+   - **推荐理由**：Coq的官方网站，包含所有文档和资源
+
+2. **Isabelle Official Website**
+   - 网站：https://isabelle.in.tum.de/
+   - **推荐理由**：Isabelle的官方网站，包含所有文档和资源
+
+3. **Software Foundations**
+   - 网站：https://softwarefoundations.cis.upenn.edu/
+   - **推荐理由**：Coq的经典教程网站
+
+#### 大学课程
+
+1. **CMU 15-811: Formal Methods**
+   - 课程链接：https://www.cs.cmu.edu/~aldrich/courses/15-819-FM/
+   - **推荐理由**：CMU的形式化方法课程，包含Coq和Isabelle的详细讲解
+
+2. **MIT 6.512: Formal Methods**
+   - 课程链接：https://ocw.mit.edu/
+   - **推荐理由**：MIT的形式化方法课程，包含Coq和Isabelle的详细讲解
+
+3. **Stanford CS242: Programming Languages**
+   - 课程链接：https://web.stanford.edu/class/cs242/
+   - **推荐理由**：Stanford的编程语言课程，包含Coq和Isabelle的相关内容
+
+#### 在线教程和博客
+
+1. **Coq Community**
+   - 网站：https://coq.discourse.group/
+   - **推荐理由**：Coq的社区论坛，包含大量教程和讨论
+
+2. **Isabelle Community**
+   - 网站：https://isabelle-users.cl.cam.ac.uk/
+   - **推荐理由**：Isabelle的社区论坛，包含大量教程和讨论
 
 ---
 

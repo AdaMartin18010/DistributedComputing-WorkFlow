@@ -71,6 +71,7 @@
       - [案例8：LinkedIn - LTL验证职业网络流程](#案例8linkedin---ltl验证职业网络流程)
     - [8.2 学术界案例](#82-学术界案例)
       - [案例1：并发程序验证](#案例1并发程序验证)
+    - [8.3 实践案例总结](#83-实践案例总结)
   - [九、学习资源](#九学习资源)
     - [9.1 推荐阅读](#91-推荐阅读)
       - [经典教材](#经典教材)
@@ -1407,6 +1408,57 @@ LinkedIn使用LTL验证职业网络流程的正确性，包括连接请求、消
 
 **来源**：相关学术论文
 
+### 8.3 实践案例总结
+
+**案例统计**：
+
+- **工业界案例**：8个
+  - 金融科技：2个（Coinbase、Stripe）
+  - 工作流框架：1个（Temporal）
+  - 内容服务：2个（Netflix、Spotify）
+  - 共享经济：2个（Uber、Airbnb）
+  - 职业网络：1个（LinkedIn）
+- **学术界案例**：1个（并发程序验证）
+
+**案例覆盖**：
+
+- ✅ 支付协议验证（Coinbase、Stripe）
+- ✅ 工作流性质验证（Temporal）
+- ✅ 内容编码流程验证（Netflix）
+- ✅ 数据中心部署流程验证（Uber）
+- ✅ 房源管理流程验证（Airbnb）
+- ✅ 推荐流程验证（Spotify）
+- ✅ 职业网络流程验证（LinkedIn）
+- ✅ 并发程序验证
+
+**最佳实践总结**：
+
+1. **LTL性质编写**：
+   - 编写LTL公式表达系统性质
+   - 使用时序算子（G：全局，F：未来，X：下一个，U：直到）
+   - 表达线性时序路径上的性质
+
+2. **模型检验**：
+   - 使用SPIN、NuSMV等工具验证LTL性质
+   - 检查所有执行路径是否满足LTL公式
+   - 检查是否存在违反LTL公式的执行路径
+
+3. **问题修复**：
+   - 发现并修复系统中的问题
+   - 改进系统的正确性
+   - 提高系统可靠性
+
+4. **系统设计建议**：
+   - 理解LTL的线性时序逻辑
+   - 使用LTL验证系统的路径性质
+   - 注意LTL模型检验的路径搜索复杂度
+
+**案例价值**：
+
+- **理论验证**：验证LTL在实际系统中的应用和效果
+- **选型指导**：为类似场景提供时序逻辑验证方法选择参考
+- **问题预防**：提供常见问题和解决方案（路径搜索优化、状态空间爆炸等）
+
 ---
 
 ## 九、学习资源
@@ -1525,39 +1577,39 @@ LinkedIn使用LTL验证职业网络流程的正确性，包括连接请求、消
 #### 在线工具和网站
 
 1. **SPIN Model Checker**
-   - 网站：http://spinroot.com/
+   - 网站：<http://spinroot.com/>
    - **推荐理由**：SPIN模型检验器的官方网站，支持LTL模型检验
 
 2. **NuSMV Official Website**
-   - 网站：https://nusmv.fbk.eu/
+   - 网站：<https://nusmv.fbk.eu/>
    - **推荐理由**：NuSMV模型检验器的官方网站，支持LTL模型检验
 
 3. **LTL2BA Tool**
-   - 网站：https://www.lsv.fr/~gastin/ltl2ba/
+   - 网站：<https://www.lsv.fr/~gastin/ltl2ba/>
    - **推荐理由**：LTL到Büchi自动机转换工具
 
 #### 大学课程
 
 1. **CMU 15-811: Formal Methods**
-   - 课程链接：https://www.cs.cmu.edu/~aldrich/courses/15-819-FM/
+   - 课程链接：<https://www.cs.cmu.edu/~aldrich/courses/15-819-FM/>
    - **推荐理由**：CMU的形式化方法课程，包含LTL的详细讲解
 
 2. **MIT 6.512: Formal Methods**
-   - 课程链接：https://ocw.mit.edu/
+   - 课程链接：<https://ocw.mit.edu/>
    - **推荐理由**：MIT的形式化方法课程，包含LTL的详细讲解
 
 3. **Stanford CS237B: Principles of Model Checking**
-   - 课程链接：https://web.stanford.edu/class/cs237b/
+   - 课程链接：<https://web.stanford.edu/class/cs237b/>
    - **推荐理由**：Stanford的模型检验课程，包含LTL的详细讲解
 
 #### 在线教程和博客
 
 1. **SPIN Tutorial**
-   - 网站：http://spinroot.com/spin/Doc/SpinTutorial.html
+   - 网站：<http://spinroot.com/spin/Doc/SpinTutorial.html>
    - **推荐理由**：SPIN的官方教程，包含LTL的使用方法
 
 2. **Martin Kleppmann's Blog**
-   - 网站：https://martin.kleppmann.com/
+   - 网站：<https://martin.kleppmann.com/>
    - **推荐理由**：包含大量关于LTL和模型检验的文章
 
 ---

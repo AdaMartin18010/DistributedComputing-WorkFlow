@@ -57,6 +57,9 @@
       - [案例1：Raft算法理论研究](#案例1raft算法理论研究)
       - [案例4：CockroachDB - Raft算法实现](#案例4cockroachdb---raft算法实现)
       - [案例5：Kubernetes - etcd的Raft实现](#案例5kubernetes---etcd的raft实现)
+      - [案例6：MongoDB - Raft算法实现](#案例6mongodb---raft算法实现)
+      - [案例7：Redis Sentinel - Raft算法实现](#案例7redis-sentinel---raft算法实现)
+      - [案例8：ZooKeeper - ZAB协议实现（类似Raft）](#案例8zookeeper---zab协议实现类似raft)
     - [8.3 实践案例总结](#83-实践案例总结)
     - [8.4 工业界案例](#84-工业界案例)
       - [案例1：etcd](#案例1etcd)
@@ -72,10 +75,13 @@
   - [十、参考文献](#十参考文献)
     - [10.1 经典文献](#101-经典文献)
       - [原始论文](#原始论文-1)
+      - [重要论文](#重要论文)
     - [10.2 在线资源](#102-在线资源)
       - [Wikipedia](#wikipedia)
       - [经典著作](#经典著作-1)
-      - [工具文档](#工具文档)
+      - [在线工具和网站](#在线工具和网站)
+      - [大学课程](#大学课程)
+      - [在线教程和博客](#在线教程和博客)
   - [十一、思维表征](#十一思维表征)
     - [11.1 知识体系思维导图](#111-知识体系思维导图)
     - [11.2 多维知识对比矩阵](#112-多维知识对比矩阵)
@@ -95,6 +101,12 @@
       - [12.2.1 日志复制和提交](#1221-日志复制和提交)
     - [12.3 Temporal使用Raft实现](#123-temporal使用raft实现)
       - [12.3.1 Temporal工作流状态复制](#1231-temporal工作流状态复制)
+    - [12.2 工具使用示例](#122-工具使用示例)
+      - [12.2.1 Raft算法测试工具使用示例](#1221-raft算法测试工具使用示例)
+      - [12.2.2 Raft算法性能测试工具使用示例](#1222-raft算法性能测试工具使用示例)
+    - [12.3 形式化证明示例](#123-形式化证明示例)
+      - [12.3.1 Raft算法安全性证明](#1231-raft算法安全性证明)
+      - [12.3.2 Raft算法活性证明](#1232-raft算法活性证明)
   - [十三、相关文档](#十三相关文档)
     - [13.1 项目内部文档](#131-项目内部文档)
       - [核心论证文档](#核心论证文档)
@@ -2020,18 +2032,18 @@ from raft import RaftNode
 async def test_raft_leader_election():
     """测试Raft算法Leader选举"""
     nodes = [RaftNode(i, [0, 1, 2, 3, 4]) for i in range(5)]
-    
+
     # 启动所有节点
     for node in nodes:
         await node.start()
-    
+
     # 等待Leader选举
     await asyncio.sleep(2.0)
-    
+
     # 检查是否有Leader
     leaders = [node for node in nodes if node.is_leader()]
     assert len(leaders) == 1
-    
+
     leader = leaders[0]
     assert leader.current_term > 0
 
@@ -2039,24 +2051,24 @@ async def test_raft_leader_election():
 async def test_raft_log_replication():
     """测试Raft算法日志复制"""
     nodes = [RaftNode(i, [0, 1, 2, 3, 4]) for i in range(5)]
-    
+
     # 启动所有节点
     for node in nodes:
         await node.start()
-    
+
     # 等待Leader选举
     await asyncio.sleep(2.0)
-    
+
     # 找到Leader
     leader = next(node for node in nodes if node.is_leader())
-    
+
     # 提交命令
     result = await leader.append_entry("command1")
     assert result == True
-    
+
     # 等待日志复制
     await asyncio.sleep(1.0)
-    
+
     # 检查所有节点日志一致
     log_lengths = [len(node.log) for node in nodes]
     assert all(length == log_lengths[0] for length in log_lengths)
@@ -2092,27 +2104,27 @@ async def performance_test():
     """Raft算法性能测试"""
     cluster = RaftCluster(size=5)
     await cluster.start()
-    
+
     # 等待Leader选举
     await asyncio.sleep(2.0)
-    
+
     # 性能测试
     start_time = time.time()
     num_operations = 1000
-    
+
     for i in range(num_operations):
         await cluster.append_entry(f"command{i}")
-    
+
     end_time = time.time()
     duration = end_time - start_time
-    
+
     # 计算性能指标
     throughput = num_operations / duration
     latency = duration / num_operations * 1000  # ms
-    
+
     print(f"Throughput: {throughput:.2f} ops/s")
     print(f"Latency: {latency:.2f} ms")
-    
+
     await cluster.stop()
 
 asyncio.run(performance_test())

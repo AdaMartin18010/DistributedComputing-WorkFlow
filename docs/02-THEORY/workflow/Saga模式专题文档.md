@@ -62,6 +62,8 @@
       - [案例4：Uber - 数据中心部署的Saga实现](#案例4uber---数据中心部署的saga实现)
       - [案例5：Netflix - 内容编码的Saga实现](#案例5netflix---内容编码的saga实现)
       - [案例6：Airbnb - 房源管理的Saga实现](#案例6airbnb---房源管理的saga实现)
+      - [案例7：Spotify - 推荐系统的Saga实现](#案例7spotify---推荐系统的saga实现)
+      - [案例8：LinkedIn - 职业网络的Saga实现](#案例8linkedin---职业网络的saga实现)
     - [8.2 学术界案例](#82-学术界案例)
       - [案例1：Saga模式理论研究](#案例1saga模式理论研究)
   - [九、学习资源](#九学习资源)
@@ -76,7 +78,10 @@
       - [重要论文](#重要论文)
     - [10.2 在线资源](#102-在线资源)
       - [Wikipedia](#wikipedia)
-      - [工具文档](#工具文档)
+      - [经典著作](#经典著作-1)
+      - [在线工具和网站](#在线工具和网站)
+      - [大学课程](#大学课程)
+      - [在线教程和博客](#在线教程和博客)
   - [十一、思维表征](#十一思维表征)
     - [11.1 知识体系思维导图](#111-知识体系思维导图)
     - [11.2 多维知识对比矩阵](#112-多维知识对比矩阵)
@@ -96,7 +101,14 @@
       - [12.2.1 事件驱动的Saga实现](#1221-事件驱动的saga实现)
     - [12.3 Temporal Saga实现示例](#123-temporal-saga实现示例)
       - [12.3.1 Temporal工作流实现Saga模式](#1231-temporal工作流实现saga模式)
+    - [12.4 工具使用示例](#124-工具使用示例)
+      - [12.4.1 Saga模式测试工具使用示例](#1241-saga模式测试工具使用示例)
+      - [12.4.2 Saga模式性能测试工具使用示例](#1242-saga模式性能测试工具使用示例)
+    - [12.5 形式化证明示例](#125-形式化证明示例)
+      - [12.5.1 Saga模式一致性证明](#1251-saga模式一致性证明)
+      - [12.5.2 Saga模式活性证明](#1252-saga模式活性证明)
   - [十三、相关文档](#十三相关文档)
+  - [十三、相关文档](#十三相关文档-1)
     - [13.1 思维表征与理论模型联系文档](#131-思维表征与理论模型联系文档)
     - [13.2 核心论证文档](#132-核心论证文档)
     - [13.3 理论模型专题文档](#133-理论模型专题文档)
@@ -2613,12 +2625,12 @@ from saga import SagaOrchestrator, SagaStep
 async def test_saga_execution():
     """测试Saga执行"""
     orchestrator = SagaOrchestrator()
-    
+
     # 定义Saga步骤
     step1 = SagaStep("create_order", "cancel_order")
     step2 = SagaStep("reserve_inventory", "release_inventory")
     step3 = SagaStep("process_payment", "refund_payment")
-    
+
     # 执行Saga
     result = await orchestrator.execute([step1, step2, step3])
     assert result.success == True
@@ -2627,14 +2639,14 @@ async def test_saga_execution():
 async def test_saga_compensation():
     """测试Saga补偿"""
     orchestrator = SagaOrchestrator()
-    
+
     # 定义Saga步骤
     step1 = SagaStep("create_order", "cancel_order")
     step2 = SagaStep("reserve_inventory", "release_inventory")
-    
+
     # 模拟步骤2失败
     step2.should_fail = True
-    
+
     # 执行Saga
     result = await orchestrator.execute([step1, step2])
     assert result.success == False
@@ -2670,21 +2682,21 @@ from saga import SagaOrchestrator
 async def performance_test():
     """Saga模式性能测试"""
     orchestrator = SagaOrchestrator()
-    
+
     # 性能测试
     start_time = time.time()
     num_sagas = 1000
-    
+
     for i in range(num_sagas):
         await orchestrator.execute_saga(f"saga_{i}")
-    
+
     end_time = time.time()
     duration = end_time - start_time
-    
+
     # 计算性能指标
     throughput = num_sagas / duration
     latency = duration / num_sagas * 1000  # ms
-    
+
     print(f"Throughput: {throughput:.2f} sagas/s")
     print(f"Latency: {latency:.2f} ms")
 

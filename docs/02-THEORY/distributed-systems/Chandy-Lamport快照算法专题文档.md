@@ -53,6 +53,9 @@
       - [案例3：Kubernetes - Chandy-Lamport快照算法应用](#案例3kubernetes---chandy-lamport快照算法应用)
       - [案例4：CockroachDB - Chandy-Lamport快照算法应用](#案例4cockroachdb---chandy-lamport快照算法应用)
       - [案例5：TiKV - Chandy-Lamport快照算法应用](#案例5tikv---chandy-lamport快照算法应用)
+      - [案例6：MongoDB - Chandy-Lamport快照算法应用](#案例6mongodb---chandy-lamport快照算法应用)
+      - [案例7：Redis Sentinel - Chandy-Lamport快照算法应用](#案例7redis-sentinel---chandy-lamport快照算法应用)
+      - [案例8：ZooKeeper - Chandy-Lamport快照算法应用](#案例8zookeeper---chandy-lamport快照算法应用)
     - [8.2 学术界案例](#82-学术界案例)
       - [案例1：快照算法理论研究](#案例1快照算法理论研究)
   - [九、学习资源](#九学习资源)
@@ -64,9 +67,12 @@
   - [十、参考文献](#十参考文献)
     - [10.1 经典文献](#101-经典文献)
       - [原始论文](#原始论文-1)
+      - [重要论文](#重要论文)
     - [10.2 在线资源](#102-在线资源)
       - [Wikipedia](#wikipedia)
       - [经典著作](#经典著作-1)
+      - [大学课程](#大学课程)
+      - [在线教程和博客](#在线教程和博客)
   - [十一、思维表征](#十一思维表征)
     - [11.1 知识体系思维导图](#111-知识体系思维导图)
     - [11.2 多维知识对比矩阵](#112-多维知识对比矩阵)
@@ -86,6 +92,11 @@
       - [12.2.1 收集所有节点的快照](#1221-收集所有节点的快照)
     - [12.3 Temporal快照实现](#123-temporal快照实现)
       - [12.3.1 Temporal使用快照算法实现状态恢复](#1231-temporal使用快照算法实现状态恢复)
+    - [12.2 工具使用示例](#122-工具使用示例)
+      - [12.2.1 快照算法测试工具使用示例](#1221-快照算法测试工具使用示例)
+    - [12.3 形式化证明示例](#123-形式化证明示例)
+      - [12.3.1 快照算法一致性证明](#1231-快照算法一致性证明)
+      - [12.3.2 快照算法终止性证明](#1232-快照算法终止性证明)
   - [十三、相关文档](#十三相关文档)
     - [12.1 核心论证文档](#121-核心论证文档)
     - [12.2 理论模型专题文档](#122-理论模型专题文档)
@@ -1016,25 +1027,25 @@ ZooKeeper使用Chandy-Lamport快照算法实现分布式协调服务的一致性
 #### 大学课程
 
 1. **MIT 6.824: Distributed Systems**
-   - 课程链接：https://pdos.csail.mit.edu/6.824/
+   - 课程链接：<https://pdos.csail.mit.edu/6.824/>
    - **推荐理由**：MIT分布式系统课程，包含快照算法的详细讲解
 
 2. **CMU 15-440: Distributed Systems**
-   - 课程链接：https://www.cs.cmu.edu/~dga/15-440/
+   - 课程链接：<https://www.cs.cmu.edu/~dga/15-440/>
    - **推荐理由**：CMU分布式系统课程，包含快照算法的详细讲解
 
 3. **Stanford CS244B: Distributed Systems**
-   - 课程链接：https://web.stanford.edu/class/cs244b/
+   - 课程链接：<https://web.stanford.edu/class/cs244b/>
    - **推荐理由**：Stanford分布式系统课程，包含快照算法的详细讲解
 
 #### 在线教程和博客
 
 1. **Martin Kleppmann's Blog**
-   - 网站：https://martin.kleppmann.com/
+   - 网站：<https://martin.kleppmann.com/>
    - **推荐理由**：包含大量关于分布式系统和快照算法的文章
 
 2. **Jepsen: Distributed Systems Safety**
-   - 网站：https://jepsen.io/
+   - 网站：<https://jepsen.io/>
    - **推荐理由**：分布式系统一致性测试和分析工具，包含快照算法的实际测试案例
 
 ---
@@ -1790,11 +1801,13 @@ class SnapshotWorkflow:
 **使用步骤**：
 
 1. **安装依赖**：
+
 ```bash
 pip install pytest pytest-asyncio
 ```
 
-2. **编写测试代码**：
+1. **编写测试代码**：
+
 ```python
 import pytest
 import asyncio
@@ -1805,13 +1818,13 @@ async def test_snapshot_consistency():
     """测试快照算法的一致性"""
     processes = [Process(i) for i in range(5)]
     snapshot = SnapshotAlgorithm(processes)
-    
+
     # 启动快照
     await snapshot.initiate_snapshot(processes[0])
-    
+
     # 等待快照完成
     await asyncio.sleep(2.0)
-    
+
     # 检查快照一致性
     snapshot_state = snapshot.get_snapshot()
     assert snapshot_state is not None
@@ -1822,26 +1835,27 @@ async def test_snapshot_non_blocking():
     """测试快照算法的非阻塞性"""
     processes = [Process(i) for i in range(5)]
     snapshot = SnapshotAlgorithm(processes)
-    
+
     # 启动快照
     snapshot_task = asyncio.create_task(
         snapshot.initiate_snapshot(processes[0])
     )
-    
+
     # 继续正常操作
     await processes[0].send_message(processes[1], "message1")
     await processes[1].send_message(processes[2], "message2")
-    
+
     # 等待快照完成
     await snapshot_task
-    
+
     # 检查快照包含所有消息
     snapshot_state = snapshot.get_snapshot()
     assert "message1" in snapshot_state.messages
     assert "message2" in snapshot_state.messages
 ```
 
-3. **运行测试**：
+1. **运行测试**：
+
 ```bash
 pytest test_snapshot.py -v
 ```
@@ -1864,6 +1878,7 @@ pytest test_snapshot.py -v
 **形式化表述**：
 
 设：
+
 - $S$：快照中的全局状态
 - $S_i$：进程$i$的局部状态
 - $C_{ij}$：从进程$i$到进程$j$的通道状态
@@ -1902,6 +1917,7 @@ $$\exists t: S = RealState(t)$$
 **形式化表述**：
 
 设：
+
 - $StronglyConnected(G)$：图$G$是强连通的
 - $Eventually(Terminate)$：最终终止
 

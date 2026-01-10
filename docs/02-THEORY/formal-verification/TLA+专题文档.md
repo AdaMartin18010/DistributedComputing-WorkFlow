@@ -40,6 +40,18 @@
     - [5.2 重要定理](#52-重要定理)
       - [定理1：规约蕴含定理（完整证明）](#定理1规约蕴含定理完整证明)
       - [定理2：组合定理](#定理2组合定理)
+  - [五、算法复杂度分析](#五算法复杂度分析)
+    - [5.1 TLA+模型检验算法复杂度](#51-tla模型检验算法复杂度)
+      - [5.1.1 TLC模型检验算法复杂度](#511-tlc模型检验算法复杂度)
+      - [5.1.2 符号模型检验算法复杂度](#512-符号模型检验算法复杂度)
+      - [5.1.3 TLAPS证明系统复杂度](#513-tlaps证明系统复杂度)
+    - [5.2 TLA+规约复杂度](#52-tla规约复杂度)
+      - [5.2.1 规约大小复杂度](#521-规约大小复杂度)
+      - [5.2.2 状态空间复杂度](#522-状态空间复杂度)
+    - [5.3 TLA+工具性能对比](#53-tla工具性能对比)
+    - [5.4 TLA+复杂度优化方法](#54-tla复杂度优化方法)
+      - [5.4.1 状态空间优化](#541-状态空间优化)
+      - [5.4.2 规约优化](#542-规约优化)
   - [六、算法与工具](#六算法与工具)
     - [6.1 模型检验算法](#61-模型检验算法)
       - [算法1：TLC模型检验算法](#算法1tlc模型检验算法)
@@ -82,6 +94,9 @@
       - [案例10：LinkedIn - Kafka消息队列验证](#案例10linkedin---kafka消息队列验证)
       - [案例11：阿里巴巴 - 分布式事务验证](#案例11阿里巴巴---分布式事务验证)
       - [案例12：字节跳动 - 推荐系统验证](#案例12字节跳动---推荐系统验证)
+      - [案例13：腾讯 - 微信支付系统验证](#案例13腾讯---微信支付系统验证)
+      - [案例14：华为 - 5G网络切片验证](#案例14华为---5g网络切片验证)
+      - [案例15：百度 - 自动驾驶系统验证](#案例15百度---自动驾驶系统验证)
   - [九、学习资源](#九学习资源)
     - [9.1 推荐阅读](#91-推荐阅读)
       - [经典教材](#经典教材)
@@ -98,8 +113,10 @@
     - [10.2 在线资源](#102-在线资源)
       - [Wikipedia](#wikipedia)
       - [官方资源](#官方资源)
+      - [经典著作](#经典著作)
       - [大学课程](#大学课程-1)
       - [工具文档](#工具文档)
+      - [在线教程和博客](#在线教程和博客)
   - [十一、思维表征](#十一思维表征)
     - [11.1 知识体系思维导图](#111-知识体系思维导图)
     - [11.2 多维知识对比矩阵](#112-多维知识对比矩阵)
@@ -134,9 +151,16 @@
       - [12.5.1 TLC模型检验器实际应用示例](#1251-tlc模型检验器实际应用示例)
       - [12.5.2 TLAPS定理证明实际应用示例](#1252-tlaps定理证明实际应用示例)
       - [12.5.3 Apalache符号模型检验实际应用示例](#1253-apalache符号模型检验实际应用示例)
+      - [12.5.4 TLA+ Toolbox完整使用示例](#1254-tla-toolbox完整使用示例)
+      - [12.5.5 TLC高级配置示例](#1255-tlc高级配置示例)
+      - [12.5.6 TLAPS高级证明示例](#1256-tlaps高级证明示例)
     - [12.6 更多形式化证明示例](#126-更多形式化证明示例)
       - [12.6.1 安全性证明示例](#1261-安全性证明示例)
       - [12.6.2 活性证明示例](#1262-活性证明示例)
+      - [12.6.3 规约蕴含证明示例](#1263-规约蕴含证明示例)
+      - [12.6.4 互斥性证明示例](#1264-互斥性证明示例)
+      - [12.6.5 最终一致性证明示例](#1265-最终一致性证明示例)
+      - [12.6.2 活性证明示例](#1262-活性证明示例-1)
       - [12.6.3 组合系统证明示例](#1263-组合系统证明示例)
   - [十三、相关文档](#十三相关文档)
     - [13.1 项目内部文档](#131-项目内部文档)
@@ -2398,19 +2422,19 @@ Kafka是一个分布式消息队列系统，需要保证消息的顺序性、持
 #### 官方资源
 
 1. **TLA+官方网站**
-   - 网站：https://lamport.azurewebsites.net/tla/tla.html
+   - 网站：<https://lamport.azurewebsites.net/tla/tla.html>
    - **推荐理由**：TLA+的官方网站，包含所有论文、文档和资源
 
 2. **TLA+工具下载**
-   - 网站：https://github.com/tlaplus/tlaplus
+   - 网站：<https://github.com/tlaplus/tlaplus>
    - **推荐理由**：TLA+工具的GitHub仓库，包含所有工具和示例
 
 3. **TLA+教程**
-   - 网站：https://learntla.com/
+   - 网站：<https://learntla.com/>
    - **推荐理由**：TLA+的官方教程，由Hillel Wayne编写，是学习TLA+的最佳资源
 
 4. **TLA+视频教程**
-   - 网站：https://lamport.azurewebsites.net/video/videos.html
+   - 网站：<https://lamport.azurewebsites.net/video/videos.html>
    - **推荐理由**：Leslie Lamport亲自讲解的TLA+视频教程
 
 #### 经典著作
@@ -2430,39 +2454,39 @@ Kafka是一个分布式消息队列系统，需要保证消息的顺序性、持
 #### 大学课程
 
 1. **CMU 15-811: Formal Methods**
-   - 课程链接：https://www.cs.cmu.edu/~aldrich/courses/15-819-FM/
+   - 课程链接：<https://www.cs.cmu.edu/~aldrich/courses/15-819-FM/>
    - **推荐理由**：CMU的形式化方法课程，包含TLA+的详细讲解
 
 2. **MIT 6.512: Formal Methods**
-   - 课程链接：https://ocw.mit.edu/
+   - 课程链接：<https://ocw.mit.edu/>
    - **推荐理由**：MIT的形式化方法课程，包含TLA+的详细讲解
 
 3. **Stanford CS237B: Principles of Model Checking**
-   - 课程链接：https://web.stanford.edu/class/cs237b/
+   - 课程链接：<https://web.stanford.edu/class/cs237b/>
    - **推荐理由**：Stanford的模型检验课程，包含TLA+的详细讲解
 
 #### 工具文档
 
 1. **TLC Model Checker**
-   - 网站：https://github.com/tlaplus/tlaplus
+   - 网站：<https://github.com/tlaplus/tlaplus>
    - **推荐理由**：TLC模型检验器的文档和示例
 
 2. **TLAPS Proof System**
-   - 网站：https://tla.msr-inria.inria.fr/tlaps/content/Home.html
+   - 网站：<https://tla.msr-inria.inria.fr/tlaps/content/Home.html>
    - **推荐理由**：TLAPS定理证明系统的文档和教程
 
 3. **Apalache Symbolic Model Checker**
-   - 网站：https://apalache.informal.systems/
+   - 网站：<https://apalache.informal.systems/>
    - **推荐理由**：Apalache符号模型检验器的文档和教程
 
 #### 在线教程和博客
 
 1. **Hillel Wayne's Blog**
-   - 网站：https://www.hillelwayne.com/
+   - 网站：<https://www.hillelwayne.com/>
    - **推荐理由**：包含大量关于TLA+的文章和教程
 
 2. **Martin Kleppmann's Blog**
-   - 网站：https://martin.kleppmann.com/
+   - 网站：<https://martin.kleppmann.com/>
    - **推荐理由**：包含大量关于TLA+和形式化验证的文章
 
 ---
@@ -4126,7 +4150,7 @@ Init ==
     /\ counter = 0
 
 Next ==
-    \/ \E i \in 1..N : nodes[i] < MaxValue /\ 
+    \/ \E i \in 1..N : nodes[i] < MaxValue /\
        nodes' = [nodes EXCEPT ![i] = nodes[i] + 1] /\
        counter' = counter + 1
     \/ counter < N * MaxValue /\ UNCHANGED <<nodes, counter>>

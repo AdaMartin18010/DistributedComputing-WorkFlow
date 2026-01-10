@@ -79,9 +79,13 @@
   - [十、参考文献](#十参考文献)
     - [10.1 经典文献](#101-经典文献)
       - [原始论文](#原始论文)
+      - [重要论文](#重要论文)
     - [10.2 在线资源](#102-在线资源)
       - [Wikipedia](#wikipedia)
-      - [工具文档](#工具文档)
+      - [经典著作](#经典著作-1)
+      - [在线工具和网站](#在线工具和网站)
+      - [大学课程](#大学课程)
+      - [在线教程和博客](#在线教程和博客)
   - [十一、思维表征](#十一思维表征)
     - [11.1 知识体系思维导图](#111-知识体系思维导图)
     - [11.2 多维知识对比矩阵](#112-多维知识对比矩阵)
@@ -1195,7 +1199,7 @@ Amazon使用Coq形式化验证AWS服务的正确性，确保服务满足安全�
    - **重要性**：Isabelle/HOL的权威教材，系统介绍了Isabelle的理论和应用
 
 3. **Pierce, B. C., et al. (2010). "Software Foundations"**
-   - 网站：https://softwarefoundations.cis.upenn.edu/
+   - 网站：<https://softwarefoundations.cis.upenn.edu/>
    - **重要性**：Coq的经典教程，是学习Coq的重要资源
 
 4. **Nipkow, T., & Klein, G. (2014). "Concrete Semantics: With Isabelle/HOL"**
@@ -1226,7 +1230,7 @@ Amazon使用Coq形式化验证AWS服务的正确性，确保服务满足安全�
    - **推荐理由**：Isabelle/HOL的权威教材，系统介绍了Isabelle的理论和应用，是学习Isabelle的必读书籍
 
 3. **"Software Foundations"** by Benjamin C. Pierce, et al. (2010)
-   - 网站：https://softwarefoundations.cis.upenn.edu/
+   - 网站：<https://softwarefoundations.cis.upenn.edu/>
    - **推荐理由**：Coq的经典教程，是学习Coq的重要资源
 
 4. **"Concrete Semantics: With Isabelle/HOL"** by Tobias Nipkow, Gerwin Klein (2014)
@@ -1236,39 +1240,39 @@ Amazon使用Coq形式化验证AWS服务的正确性，确保服务满足安全�
 #### 在线工具和网站
 
 1. **Coq Official Website**
-   - 网站：https://coq.inria.fr/
+   - 网站：<https://coq.inria.fr/>
    - **推荐理由**：Coq的官方网站，包含所有文档和资源
 
 2. **Isabelle Official Website**
-   - 网站：https://isabelle.in.tum.de/
+   - 网站：<https://isabelle.in.tum.de/>
    - **推荐理由**：Isabelle的官方网站，包含所有文档和资源
 
 3. **Software Foundations**
-   - 网站：https://softwarefoundations.cis.upenn.edu/
+   - 网站：<https://softwarefoundations.cis.upenn.edu/>
    - **推荐理由**：Coq的经典教程网站
 
 #### 大学课程
 
 1. **CMU 15-811: Formal Methods**
-   - 课程链接：https://www.cs.cmu.edu/~aldrich/courses/15-819-FM/
+   - 课程链接：<https://www.cs.cmu.edu/~aldrich/courses/15-819-FM/>
    - **推荐理由**：CMU的形式化方法课程，包含Coq和Isabelle的详细讲解
 
 2. **MIT 6.512: Formal Methods**
-   - 课程链接：https://ocw.mit.edu/
+   - 课程链接：<https://ocw.mit.edu/>
    - **推荐理由**：MIT的形式化方法课程，包含Coq和Isabelle的详细讲解
 
 3. **Stanford CS242: Programming Languages**
-   - 课程链接：https://web.stanford.edu/class/cs242/
+   - 课程链接：<https://web.stanford.edu/class/cs242/>
    - **推荐理由**：Stanford的编程语言课程，包含Coq和Isabelle的相关内容
 
 #### 在线教程和博客
 
 1. **Coq Community**
-   - 网站：https://coq.discourse.group/
+   - 网站：<https://coq.discourse.group/>
    - **推荐理由**：Coq的社区论坛，包含大量教程和讨论
 
 2. **Isabelle Community**
-   - 网站：https://isabelle-users.cl.cam.ac.uk/
+   - 网站：<https://isabelle-users.cl.cam.ac.uk/>
    - **推荐理由**：Isabelle的社区论坛，包含大量教程和讨论
 
 ---

@@ -55,6 +55,9 @@
       - [案例3：etcd - Raft算法实现（Paxos的替代）](#案例3etcd---raft算法实现paxos的替代)
       - [案例4：Amazon - DynamoDB的Multi-Paxos实现](#案例4amazon---dynamodb的multi-paxos实现)
       - [案例5：Microsoft - Azure的Paxos实现](#案例5microsoft---azure的paxos实现)
+      - [案例6：Facebook - Paxos算法实现](#案例6facebook---paxos算法实现)
+      - [案例7：Twitter - Paxos算法实现](#案例7twitter---paxos算法实现)
+      - [案例8：LinkedIn - Paxos算法实现](#案例8linkedin---paxos算法实现)
     - [8.2 学术界案例](#82-学术界案例)
       - [案例1：Paxos算法理论研究](#案例1paxos算法理论研究)
   - [九、学习资源](#九学习资源)
@@ -66,9 +69,12 @@
   - [十、参考文献](#十参考文献)
     - [10.1 经典文献](#101-经典文献)
       - [原始论文](#原始论文-1)
+      - [重要论文](#重要论文)
     - [10.2 在线资源](#102-在线资源)
       - [Wikipedia](#wikipedia)
       - [经典著作](#经典著作-1)
+      - [大学课程](#大学课程)
+      - [在线教程和博客](#在线教程和博客)
   - [十一、思维表征](#十一思维表征)
     - [11.1 知识体系思维导图](#111-知识体系思维导图)
     - [11.2 多维知识对比矩阵](#112-多维知识对比矩阵)
@@ -86,6 +92,12 @@
       - [12.2.1 Multi-Paxos算法](#1221-multi-paxos算法)
     - [12.3 Temporal使用Paxos实现](#123-temporal使用paxos实现)
       - [12.3.1 Temporal工作流状态共识](#1231-temporal工作流状态共识)
+    - [12.2 工具使用示例](#122-工具使用示例)
+      - [12.2.1 Paxos算法测试工具使用示例](#1221-paxos算法测试工具使用示例)
+      - [12.2.2 Multi-Paxos优化工具使用示例](#1222-multi-paxos优化工具使用示例)
+    - [12.3 形式化证明示例](#123-形式化证明示例)
+      - [12.3.1 Paxos算法安全性证明](#1231-paxos算法安全性证明)
+      - [12.3.2 Paxos算法活性证明](#1232-paxos算法活性证明)
   - [十三、相关文档](#十三相关文档)
     - [13.1 项目内部文档](#131-项目内部文档)
       - [核心论证文档](#核心论证文档)
@@ -1707,11 +1719,11 @@ async def test_paxos_consensus():
     acceptors = [Acceptor(i) for i in range(5)]
     proposer = Proposer(0, acceptors)
     learner = Learner(acceptors)
-    
+
     # 提议值
     result = await proposer.propose("value1")
     assert result == True
-    
+
     # 学习值
     learned_value = await learner.learn()
     assert learned_value == "value1"
@@ -1721,11 +1733,11 @@ async def test_paxos_fault_tolerance():
     """测试Paxos算法的容错性"""
     acceptors = [Acceptor(i) for i in range(5)]
     proposer = Proposer(0, acceptors)
-    
+
     # 模拟2个节点故障
     acceptors[0].fail()
     acceptors[1].fail()
-    
+
     # 仍然可以达成共识（需要3/5多数）
     result = await proposer.propose("value1")
     assert result == True

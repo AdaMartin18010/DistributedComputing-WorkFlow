@@ -72,6 +72,9 @@
       - [案例3：IBM - CTL验证系统协议](#案例3ibm---ctl验证系统协议)
       - [案例4：Microsoft - CTL验证Azure服务](#案例4microsoft---ctl验证azure服务)
       - [案例5：Google - CTL验证分布式系统](#案例5google---ctl验证分布式系统)
+      - [案例6：Facebook - CTL验证社交网络系统](#案例6facebook---ctl验证社交网络系统)
+      - [案例7：Amazon - CTL验证电商系统](#案例7amazon---ctl验证电商系统)
+      - [案例8：Netflix - CTL验证流媒体系统](#案例8netflix---ctl验证流媒体系统)
     - [8.2 学术界案例](#82-学术界案例)
       - [案例1：缓存一致性协议验证](#案例1缓存一致性协议验证)
       - [案例2：互斥算法验证](#案例2互斥算法验证)
@@ -90,8 +93,12 @@
       - [重要论文](#重要论文)
     - [10.2 在线资源](#102-在线资源)
       - [Wikipedia](#wikipedia)
-      - [工具文档](#工具文档)
+      - [经典著作](#经典著作)
+      - [在线工具和网站](#在线工具和网站)
       - [大学课程](#大学课程)
+      - [在线教程和博客](#在线教程和博客)
+      - [工具文档](#工具文档)
+      - [大学课程](#大学课程-1)
   - [十一、思维表征](#十一思维表征)
     - [11.1 知识体系思维导图](#111-知识体系思维导图)
     - [11.2 多维知识对比矩阵](#112-多维知识对比矩阵)
@@ -115,6 +122,10 @@
       - [12.3.2 工作流性质验证](#1232-工作流性质验证)
     - [12.4 实际应用示例](#124-实际应用示例)
       - [12.4.1 Temporal工作流CTL验证](#1241-temporal工作流ctl验证)
+    - [12.4 CTL工具完整使用示例](#124-ctl工具完整使用示例)
+      - [12.4.1 NuSMV完整使用流程](#1241-nusmv完整使用流程)
+      - [12.4.2 SPIN完整使用流程](#1242-spin完整使用流程)
+      - [12.4.3 CTL形式化证明示例](#1243-ctl形式化证明示例)
   - [十三、相关文档](#十三相关文档)
     - [13.1 项目内部文档](#131-项目内部文档)
       - [核心论证文档](#核心论证文档)
@@ -1735,40 +1746,41 @@ Netflix使用CTL验证流媒体系统的正确性，包括内容编码、内容�
 #### 在线工具和网站
 
 1. **NuSMV Official Website**
-   - 网站：https://nusmv.fbk.eu/
+   - 网站：<https://nusmv.fbk.eu/>
    - **推荐理由**：NuSMV模型检验器的官方网站，支持CTL模型检验
 
 2. **SPIN Model Checker**
-   - 网站：http://spinroot.com/
+   - 网站：<http://spinroot.com/>
    - **推荐理由**：SPIN模型检验器的官方网站，支持CTL模型检验
 
 3. **SMV Model Checker**
-   - 网站：https://www.cs.cmu.edu/~modelcheck/smv.html
+   - 网站：<https://www.cs.cmu.edu/~modelcheck/smv.html>
    - **推荐理由**：SMV模型检验器的官方网站，支持CTL模型检验
 
 #### 大学课程
 
 1. **CMU 15-811: Formal Methods**
-   - 课程链接：https://www.cs.cmu.edu/~aldrich/courses/15-819-FM/
+   - 课程链接：<https://www.cs.cmu.edu/~aldrich/courses/15-819-FM/>
    - **推荐理由**：CMU的形式化方法课程，包含CTL的详细讲解
 
 2. **MIT 6.512: Formal Methods**
-   - 课程链接：https://ocw.mit.edu/
+   - 课程链接：<https://ocw.mit.edu/>
    - **推荐理由**：MIT的形式化方法课程，包含CTL的详细讲解
 
 3. **Stanford CS237B: Principles of Model Checking**
-   - 课程链接：https://web.stanford.edu/class/cs237b/
+   - 课程链接：<https://web.stanford.edu/class/cs237b/>
    - **推荐理由**：Stanford的模型检验课程，包含CTL的详细讲解
 
 #### 在线教程和博客
 
 1. **Edmund M. Clarke's Website**
-   - 网站：https://www.cs.cmu.edu/~emc/
+   - 网站：<https://www.cs.cmu.edu/~emc/>
    - **推荐理由**：Edmund M. Clarke的官方网站，包含CTL的相关资源
 
 2. **Martin Kleppmann's Blog**
-   - 网站：https://martin.kleppmann.com/
+   - 网站：<https://martin.kleppmann.com/>
    - **推荐理由**：包含大量关于CTL和模型检验的文章
+
 - [Model Checking](https://en.wikipedia.org/wiki/Model_checking)
 - [Edmund M. Clarke](https://en.wikipedia.org/wiki/Edmund_M._Clarke)
 - [E. Allen Emerson](https://en.wikipedia.org/wiki/E._Allen_Emerson)

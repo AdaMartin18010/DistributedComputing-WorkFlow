@@ -1291,39 +1291,39 @@ ZooKeeper使用ZAB协议（类似Raft）实现分布式协调服务的高可用�
 #### 在线工具和网站
 
 1. **Raft Official Website**
-   - 网站：https://raft.github.io/
+   - 网站：<https://raft.github.io/>
    - **推荐理由**：Raft算法的官方网站，包含算法说明、实现指南和资源链接
 
 2. **etcd Documentation**
-   - 网站：https://etcd.io/docs/
+   - 网站：<https://etcd.io/docs/>
    - **推荐理由**：etcd的官方文档，展示了Raft算法在实际系统中的应用
 
 3. **Consul Documentation**
-   - 网站：https://www.consul.io/docs
+   - 网站：<https://www.consul.io/docs>
    - **推荐理由**：Consul的官方文档，展示了Raft算法在实际系统中的应用
 
 #### 大学课程
 
 1. **MIT 6.824: Distributed Systems**
-   - 课程链接：https://pdos.csail.mit.edu/6.824/
+   - 课程链接：<https://pdos.csail.mit.edu/6.824/>
    - **推荐理由**：MIT分布式系统课程，包含Raft算法的详细讲解
 
 2. **CMU 15-440: Distributed Systems**
-   - 课程链接：https://www.cs.cmu.edu/~dga/15-440/
+   - 课程链接：<https://www.cs.cmu.edu/~dga/15-440/>
    - **推荐理由**：CMU分布式系统课程，包含Raft算法的详细讲解
 
 3. **Stanford CS244B: Distributed Systems**
-   - 课程链接：https://web.stanford.edu/class/cs244b/
+   - 课程链接：<https://web.stanford.edu/class/cs244b/>
    - **推荐理由**：Stanford分布式系统课程，包含Raft算法的详细讲解
 
 #### 在线教程和博客
 
 1. **Martin Kleppmann's Blog**
-   - 网站：https://martin.kleppmann.com/
+   - 网站：<https://martin.kleppmann.com/>
    - **推荐理由**：包含大量关于Raft算法和共识算法的文章
 
 2. **Jepsen: Distributed Systems Safety**
-   - 网站：https://jepsen.io/
+   - 网站：<https://jepsen.io/>
    - **推荐理由**：分布式系统一致性测试和分析工具，包含Raft算法的实际测试案例
 
 ---
@@ -2145,11 +2145,13 @@ class RaftWorkflow:
 **使用步骤**：
 
 1. **安装依赖**：
+
 ```bash
 pip install pytest pytest-asyncio
 ```
 
-2. **编写测试代码**：
+1. **编写测试代码**：
+
 ```python
 import pytest
 import asyncio
@@ -2201,7 +2203,8 @@ async def test_raft_log_replication():
     assert all(length == log_lengths[0] for length in log_lengths)
 ```
 
-3. **运行测试**：
+1. **运行测试**：
+
 ```bash
 pytest test_raft.py -v
 ```
@@ -2222,6 +2225,7 @@ pytest test_raft.py -v
 **使用步骤**：
 
 1. **创建性能测试脚本**：
+
 ```python
 import asyncio
 import time
@@ -2257,7 +2261,8 @@ async def performance_test():
 asyncio.run(performance_test())
 ```
 
-2. **运行性能测试**：
+1. **运行性能测试**：
+
 ```bash
 python performance_test.py
 ```
@@ -2280,6 +2285,7 @@ python performance_test.py
 **形式化表述**：
 
 设：
+
 - $Log[i]$：索引$i$的日志条目
 - $Term(e)$：条目$e$的Term
 - $Index(e)$：条目$e$的索引
@@ -2316,6 +2322,7 @@ $$\forall i, e_1, e_2: (Index(e_1) = Index(e_2) = i) \land (Term(e_1) = Term(e_2
 **形式化表述**：
 
 设：
+
 - $Available(N)$：节点集合$N$可用
 - $Majority(N)$：$N$是多数集合
 - $Eventually(Leader)$：最终选出Leader

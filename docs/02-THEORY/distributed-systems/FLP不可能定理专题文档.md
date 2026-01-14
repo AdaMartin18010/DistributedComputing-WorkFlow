@@ -2322,20 +2322,30 @@ $$Perfect(FD) \implies \exists Deterministic: Consensus$$
 
 #### 核心论证文档
 
-- **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - Temporal如何绕过FLP不可能定理
-- **[技术栈组合论证](../18-argumentation-enhancement/技术栈组合论证.md)** - 技术栈组合如何绕过FLP限制
+- **[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)** - Temporal如何绕过FLP不可能定理
+- **[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)** - 技术栈组合如何绕过FLP限制
+- **[技术堆栈对比分析](../../03-TECHNOLOGY/技术堆栈对比分析.md)** - FLP不可能定理在技术选型中的应用
 
 #### 理论模型专题文档
 
 - **[CAP定理专题文档](CAP定理专题文档.md)** - CAP定理，与FLP不可能定理相关的分布式系统不可能性
+- **[一致性模型专题文档](一致性模型专题文档.md)** - 一致性模型，FLP限制下的权衡
 - **[Paxos算法专题文档](Paxos算法专题文档.md)** - Paxos算法，绕过FLP的方法之一
 - **[Raft算法专题文档](Raft算法专题文档.md)** - Raft算法，绕过FLP的方法之一
 - **[拜占庭容错专题文档](拜占庭容错专题文档.md)** - 拜占庭容错，绕过FLP的方法之一
+- **[TLA+专题文档](../formal-verification/TLA+专题文档.md)** - TLA+形式化验证，FLP不可能定理的形式化表述
+
+#### 实践案例文档
+
+- **[企业实践案例](../../04-PRACTICE/企业实践案例.md)** - FLP不可能定理在企业实践中的应用案例
+- **[国际对标分析](../../06-ANALYSIS/国际对标分析.md)** - FLP不可能定理在国际对标中的应用
 
 #### 其他相关文档
 
-- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - FLP不可能定理的形式化证明
-- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - FLP不可能定理在知识图谱中的位置
+- **[形式化验证理论](../../01-FOUNDATION/形式化验证理论.md)** - FLP不可能定理的形式化证明
+- **[主题关系分析](../../01-FOUNDATION/主题关系分析.md)** - FLP不可能定理在主题关系中的位置
+- **[项目知识图谱](../../07-KNOWLEDGE/项目知识图谱.md)** - FLP不可能定理在知识图谱中的位置
+- **[理论模型与项目内容完整整合文档](../../07-KNOWLEDGE/理论模型与项目内容完整整合文档.md)** - FLP不可能定理与项目内容的完整关联
 
 ### 13.2 外部资源链接
 
@@ -2348,30 +2358,49 @@ $$Perfect(FD) \implies \exists Deterministic: Consensus$$
 
 #### 学术论文
 
-- Fischer, M., Lynch, N., & Paterson, M. (1985). "Impossibility of Distributed Consensus with One Faulty Process". Journal of the ACM.
+- Fischer, M., Lynch, N., & Paterson, M. (1985). "Impossibility of Distributed Consensus with One Faulty Process". Journal of the ACM. [PDF](https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf)
+- Chandra, T. D., & Toueg, S. (1996). "Unreliable Failure Detectors for Reliable Distributed Systems". Journal of the ACM. [PDF](https://www.cs.utexas.edu/~lorenzo/corsi/cs380d/papers/chandra96unreliable.pdf)
+- Dwork, C., Lynch, N., & Stockmeyer, L. (1988). "Consensus in the Presence of Partial Synchrony". Journal of the ACM. [PDF](https://groups.csail.mit.edu/tds/papers/Lynch/jacm88.pdf)
 
 #### 学术课程
 
 - [MIT 6.824 Distributed Systems](https://pdos.csail.mit.edu/6.824/) - 分布式系统课程（FLP不可能定理章节）
 - [CMU 15-440 Distributed Systems](https://www.cs.cmu.edu/~dga/15-440/) - 分布式系统课程（FLP不可能定理章节）
+- [Stanford CS244B Distributed Systems](https://web.stanford.edu/class/cs244b/) - 分布式系统课程（FLP不可能定理章节）
+- [UC Berkeley CS 162 Operating Systems](https://cs162.eecs.berkeley.edu/) - 操作系统课程（分布式系统章节）
 
 ### 13.3 项目管理文档
 
 - [Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md) - Wikipedia资源对标
 - [学术论文对标](../../structure_control/学术论文对标.md) - 学术论文对标
+- [学术课程对标](../../structure_control/学术课程对标.md) - 学术课程对标
 - [概念关联网络](../../structure_control/概念关联网络.md) - FLP不可能定理在概念关联网络中的位置
+- [文档关联矩阵](../../structure_control/文档关联矩阵.md) - FLP不可能定理专题文档的关联关系
 
 ### 13.4 文档关联说明
 
 **理论关联**：
 
 - FLP不可能定理与CAP定理都涉及分布式系统的**不可能性**（参见[CAP定理专题文档](CAP定理专题文档.md)）
+- FLP不可能定理与一致性模型相关（参见[一致性模型专题文档](一致性模型专题文档.md)）
 - 共识算法（Paxos、Raft）通过**故障检测器**绕过FLP限制（参见[Paxos算法专题文档](Paxos算法专题文档.md)和[Raft算法专题文档](Raft算法专题文档.md)）
 - 拜占庭容错算法也涉及绕过FLP的方法（参见[拜占庭容错专题文档](拜占庭容错专题文档.md)）
 
 **实践关联**：
 
-- Temporal通过**故障检测器**绕过FLP不可能定理（参见[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)）
-- 技术栈组合如何绕过FLP限制（参见[技术栈组合论证](../18-argumentation-enhancement/技术栈组合论证.md)）
+- Temporal通过**故障检测器**绕过FLP不可能定理（参见[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)）
+- 技术栈组合如何绕过FLP限制（参见[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)）
+- 更多FLP不可能定理应用案例参见[企业实践案例](../../04-PRACTICE/企业实践案例.md)和[国际对标分析](../../06-ANALYSIS/国际对标分析.md)
+
+### 13.9 双向链接说明
+
+**已建立的双向链接**：
+
+- ✅ **FLP不可能定理 ↔ CAP定理**：两个文档已相互链接，都涉及分布式系统的**不可能性**
+- ✅ **FLP不可能定理 ↔ 一致性模型**：两个文档已相互链接，FLP限制影响一致性模型的选择
+- ✅ **FLP不可能定理 ↔ Paxos/Raft**：已建立双向链接，Paxos/Raft通过**故障检测器**绕过FLP限制
+- ✅ **FLP不可能定理 ↔ 拜占庭容错**：已建立双向链接，拜占庭容错也涉及绕过FLP的方法
+- ✅ **FLP不可能定理 ↔ Temporal选型论证**：已建立双向链接，Temporal通过故障检测器绕过FLP限制
+- ✅ **FLP不可能定理 ↔ 技术栈组合论证**：已建立双向链接，技术栈组合如何绕过FLP限制
 
 ---

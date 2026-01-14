@@ -2364,7 +2364,9 @@ $$Majority(N) \land Available(N) \implies Eventually(Leader) \land Eventually(Co
 
 #### 核心论证文档
 
-- **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - Temporal可以使用Raft实现共识
+- **[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)** - Temporal可以使用Raft实现共识
+- **[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)** - 技术栈组合的Raft应用
+- **[技术堆栈对比分析](../../03-TECHNOLOGY/技术堆栈对比分析.md)** - Raft在技术选型中的应用
 
 #### 理论模型专题文档
 
@@ -2373,11 +2375,21 @@ $$Majority(N) \land Available(N) \implies Eventually(Leader) \land Eventually(Co
 - **[拜占庭容错专题文档](拜占庭容错专题文档.md)** - 拜占庭容错，Raft的扩展
 - **[CAP定理专题文档](CAP定理专题文档.md)** - CAP定理，Raft在CAP权衡中的位置
 - **[一致性模型专题文档](一致性模型专题文档.md)** - 一致性模型，Raft的一致性保证
+- **[向量时钟专题文档](向量时钟专题文档.md)** - 向量时钟，事件排序
+- **[Chandy-Lamport快照算法专题文档](Chandy-Lamport快照算法专题文档.md)** - Chandy-Lamport快照算法
+- **[TLA+专题文档](../formal-verification/TLA+专题文档.md)** - TLA+形式化验证，Raft的形式化表述
+
+#### 实践案例文档
+
+- **[企业实践案例](../../04-PRACTICE/企业实践案例.md)** - Raft在企业实践中的应用案例
+- **[国际对标分析](../../06-ANALYSIS/国际对标分析.md)** - Raft在国际对标中的应用
 
 #### 其他相关文档
 
-- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - Raft算法的形式化验证
-- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - Raft算法在知识图谱中的位置
+- **[形式化验证理论](../../01-FOUNDATION/形式化验证理论.md)** - Raft算法的形式化验证
+- **[主题关系分析](../../01-FOUNDATION/主题关系分析.md)** - Raft在主题关系中的位置
+- **[项目知识图谱](../../07-KNOWLEDGE/项目知识图谱.md)** - Raft算法在知识图谱中的位置
+- **[理论模型与项目内容完整整合文档](../../07-KNOWLEDGE/理论模型与项目内容完整整合文档.md)** - Raft与项目内容的完整关联
 
 ### 13.2 外部资源链接
 
@@ -2390,18 +2402,24 @@ $$Majority(N) \land Available(N) \implies Eventually(Leader) \land Eventually(Co
 
 #### 学术论文
 
-- Ongaro, D., & Ousterhout, J. (2014). "In Search of an Understandable Consensus Algorithm". USENIX Annual Technical Conference.
+- Ongaro, D., & Ousterhout, J. (2014). "In Search of an Understandable Consensus Algorithm". USENIX Annual Technical Conference. [PDF](https://raft.github.io/raft.pdf)
+- Ongaro, D. (2014). "Consensus: Bridging Theory and Practice". Ph.D. Thesis, Stanford University. [PDF](https://github.com/ongardie/dissertation)
+- Howard, H., et al. (2016). "Raft Refloated: Do We Have Consensus?". ACM SIGOPS Operating Systems Review. [PDF](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-857.pdf)
 
 #### 学术课程
 
 - [MIT 6.824 Distributed Systems](https://pdos.csail.mit.edu/6.824/) - 分布式系统课程（Raft章节）
 - [CMU 15-440 Distributed Systems](https://www.cs.cmu.edu/~dga/15-440/) - 分布式系统课程（Raft章节）
+- [Stanford CS244B Distributed Systems](https://web.stanford.edu/class/cs244b/) - 分布式系统课程（Raft章节）
+- [UC Berkeley CS 162 Operating Systems](https://cs162.eecs.berkeley.edu/) - 操作系统课程（分布式系统章节）
 
 ### 13.3 项目管理文档
 
 - [Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md) - Wikipedia资源对标
 - [学术论文对标](../../structure_control/学术论文对标.md) - 学术论文对标
+- [学术课程对标](../../structure_control/学术课程对标.md) - 学术课程对标
 - [概念关联网络](../../structure_control/概念关联网络.md) - Raft算法在概念关联网络中的位置
+- [文档关联矩阵](../../structure_control/文档关联矩阵.md) - Raft算法专题文档的关联关系
 
 ### 13.4 文档关联说明
 
@@ -2412,10 +2430,25 @@ $$Majority(N) \land Available(N) \implies Eventually(Leader) \land Eventually(Co
 - 拜占庭容错是Raft的**扩展**，处理恶意故障（参见[拜占庭容错专题文档](拜占庭容错专题文档.md)）
 - Raft在**CAP权衡**中实现共识（参见[CAP定理专题文档](CAP定理专题文档.md)）
 - Raft保证**一致性模型**的实现（参见[一致性模型专题文档](一致性模型专题文档.md)）
+- Raft可以改造为**树形Raft**，降低消息复杂度（参见[树形分层结构专题文档](../architecture/树形分层结构专题文档.md)）
 
 **实践关联**：
 
-- Temporal可以使用Raft实现共识（参见[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)）
-- Raft可以改造为**树形Raft**，降低消息复杂度（参见[树形分层结构专题文档](树形分层结构专题文档.md)）
+- Temporal可以使用Raft实现共识（参见[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)）
+- 可以使用Raft验证技术栈组合的正确性（参见[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)）
+- 更多Raft应用案例参见[企业实践案例](../../04-PRACTICE/企业实践案例.md)和[国际对标分析](../../06-ANALYSIS/国际对标分析.md)
+
+### 13.9 双向链接说明
+
+**已建立的双向链接**：
+
+- ✅ **Raft ↔ FLP不可能定理**：已建立双向链接，Raft通过**故障检测器**绕过FLP限制
+- ✅ **Raft ↔ Paxos**：已建立双向链接，Raft是Paxos的**替代方案**，更易理解
+- ✅ **Raft ↔ 拜占庭容错**：已建立双向链接，拜占庭容错是Raft的**扩展**，处理恶意故障
+- ✅ **Raft ↔ CAP定理**：已建立双向链接，Raft在**CAP权衡**中实现共识
+- ✅ **Raft ↔ 一致性模型**：已建立双向链接，Raft保证**一致性模型**的实现
+- ✅ **Raft ↔ 树形分层结构**：已建立双向链接，Raft可以改造为**树形Raft**，降低消息复杂度
+- ✅ **Raft ↔ Temporal选型论证**：已建立双向链接，Temporal可以使用Raft实现共识
+- ✅ **Raft ↔ 技术栈组合论证**：已建立双向链接，可以使用Raft验证技术栈组合的正确性
 
 ---

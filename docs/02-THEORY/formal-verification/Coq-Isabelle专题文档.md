@@ -2295,18 +2295,88 @@ Admitted.
 
 #### 核心论证文档
 
-- **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - 可以使用Coq/Isabelle验证Temporal工作流的正确性
+- **[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)** - 可以使用Coq/Isabelle验证Temporal工作流的正确性
+- **[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)** - 技术栈组合的Coq/Isabelle验证
+- **[技术堆栈对比分析](../../03-TECHNOLOGY/技术堆栈对比分析.md)** - Coq/Isabelle在技术选型中的应用
 
 #### 理论模型专题文档
 
 - **[TLA+专题文档](TLA+专题文档.md)** - TLA+形式化验证方法，与Coq/Isabelle相关的验证方法
 - **[CTL专题文档](CTL专题文档.md)** - CTL时序逻辑，Coq/Isabelle可以验证CTL性质
 - **[LTL专题文档](LTL专题文档.md)** - LTL时序逻辑，Coq/Isabelle可以验证LTL性质
+- **[CTL-LTL扩展专题文档](CTL-LTL扩展专题文档.md)** - CTL/LTL扩展，Coq/Isabelle可以验证扩展性质
+- **[Petri网专题文档](Petri网专题文档.md)** - Petri网建模
+- **[UPPAAL专题文档](UPPAAL专题文档.md)** - UPPAAL实时系统验证
+
+#### 实践案例文档
+
+- **[企业实践案例](../../04-PRACTICE/企业实践案例.md)** - Coq/Isabelle在企业实践中的应用案例
+- **[国际对标分析](../../06-ANALYSIS/国际对标分析.md)** - Coq/Isabelle在国际对标中的应用
 
 #### 其他相关文档
 
-- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - Coq/Isabelle在形式化验证理论中的位置
-- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - Coq/Isabelle在知识图谱中的位置
+- **[形式化验证理论](../../01-FOUNDATION/形式化验证理论.md)** - Coq/Isabelle在形式化验证理论中的位置
+- **[主题关系分析](../../01-FOUNDATION/主题关系分析.md)** - Coq/Isabelle在主题关系中的位置
+- **[项目知识图谱](../../07-KNOWLEDGE/项目知识图谱.md)** - Coq/Isabelle在知识图谱中的位置
+- **[理论模型与项目内容完整整合文档](../../07-KNOWLEDGE/理论模型与项目内容完整整合文档.md)** - Coq/Isabelle与项目内容的完整关联
+
+### 13.2 外部资源链接
+
+#### Wikipedia资源
+
+- [Coq (proof assistant)](https://en.wikipedia.org/wiki/Coq_(proof_assistant)) - Coq定理证明助手
+- [Coq](https://zh.wikipedia.org/wiki/Coq) - Coq中文条目
+- [Isabelle (proof assistant)](https://en.wikipedia.org/wiki/Isabelle_(proof_assistant)) - Isabelle定理证明助手
+- [Isabelle](https://zh.wikipedia.org/wiki/Isabelle) - Isabelle中文条目
+- [Theorem Prover](https://en.wikipedia.org/wiki/Automated_theorem_proving) - 自动定理证明
+- [Type Theory](https://en.wikipedia.org/wiki/Type_theory) - 类型理论
+- [Higher-Order Logic](https://en.wikipedia.org/wiki/Higher-order_logic) - 高阶逻辑
+
+#### 学术论文
+
+- Bertot, Y., & Castéran, P. (2004). "Interactive Theorem Proving and Program Development: Coq'Art: The Calculus of Inductive Constructions". Springer.
+- Nipkow, T., et al. (2002). "Isabelle/HOL: A Proof Assistant for Higher-Order Logic". Springer.
+- Leroy, X. (2009). "Formal Verification of a Realistic Compiler". Communications of the ACM. [PDF](https://xavierleroy.org/publi/compcert-CACM.pdf)
+
+#### 学术课程
+
+- [Stanford CS237B Formal Methods](https://web.stanford.edu/class/cs237b/) - 形式化方法课程（Coq/Isabelle章节）
+- [MIT 6.512 Formal Methods](https://ocw.mit.edu/courses/6-512-computer-systems-engineering-spring-2009/) - 形式化方法课程（Coq/Isabelle章节）
+- [CMU 15-811 Formal Methods](https://www.cs.cmu.edu/~aldrich/courses/15-811/) - 形式化方法课程（Coq/Isabelle章节）
+
+### 13.3 项目管理文档
+
+- [Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md) - Wikipedia资源对标
+- [学术论文对标](../../structure_control/学术论文对标.md) - 学术论文对标
+- [学术课程对标](../../structure_control/学术课程对标.md) - 学术课程对标
+- [概念关联网络](../../structure_control/概念关联网络.md) - Coq/Isabelle在概念关联网络中的位置
+- [文档关联矩阵](../../structure_control/文档关联矩阵.md) - Coq/Isabelle专题文档的关联关系
+
+### 13.4 文档关联说明
+
+**理论关联**：
+
+- Coq/Isabelle与TLA+都是**形式化验证方法**，但Coq/Isabelle是定理证明，TLA+是模型检验（参见[TLA+专题文档](TLA+专题文档.md)）
+- Coq/Isabelle可以验证**CTL**和**LTL**性质（参见[CTL专题文档](CTL专题文档.md)和[LTL专题文档](LTL专题文档.md)）
+- Coq/Isabelle可以验证CTL-LTL扩展性质（参见[CTL-LTL扩展专题文档](CTL-LTL扩展专题文档.md)）
+- Coq/Isabelle与Petri网、UPPAAL都是形式化验证方法（参见[Petri网专题文档](Petri网专题文档.md)和[UPPAAL专题文档](UPPAAL专题文档.md)）
+
+**实践关联**：
+
+- 可以使用Coq/Isabelle验证Temporal工作流的正确性（参见[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)）
+- 可以使用Coq/Isabelle验证技术栈组合的正确性（参见[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)）
+- 更多Coq/Isabelle应用案例参见[企业实践案例](../../04-PRACTICE/企业实践案例.md)和[国际对标分析](../../06-ANALYSIS/国际对标分析.md)
+
+### 13.9 双向链接说明
+
+**已建立的双向链接**：
+
+- ✅ **Coq/Isabelle ↔ TLA+**：已建立双向链接，Coq/Isabelle与TLA+都是**形式化验证方法**，但Coq/Isabelle是定理证明，TLA+是模型检验
+- ✅ **Coq/Isabelle ↔ CTL/LTL**：已建立双向链接，Coq/Isabelle可以验证**CTL**和**LTL**性质
+- ✅ **Coq/Isabelle ↔ CTL-LTL扩展**：已建立双向链接，Coq/Isabelle可以验证CTL-LTL扩展性质
+- ✅ **Coq/Isabelle ↔ Petri网/UPPAAL**：已建立双向链接，Coq/Isabelle与Petri网、UPPAAL都是形式化验证方法
+- ✅ **Coq/Isabelle ↔ Temporal选型论证**：已建立双向链接，可以使用Coq/Isabelle验证Temporal工作流的正确性
+- ✅ **Coq/Isabelle ↔ 技术栈组合论证**：已建立双向链接，可以使用Coq/Isabelle验证技术栈组合的正确性
 
 ### 13.2 外部资源链接
 

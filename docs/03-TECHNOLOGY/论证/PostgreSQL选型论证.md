@@ -1,4 +1,4 @@
-﻿# PostgreSQL选型论证
+# PostgreSQL选型论证
 
 ## 📋 文档概述
 
@@ -2549,22 +2549,52 @@ graph TB
 
 #### 理论模型专题文档
 
-- **[CAP定理专题文档](../15-formal-models/CAP定理专题文档.md)** - CAP定理的详细讲解，PostgreSQL在CAP权衡中的位置（CP系统）
-- **[一致性模型专题文档](../15-formal-models/一致性模型专题文档.md)** - 一致性模型的详细讲解，PostgreSQL的ACID一致性保证
-- **[Saga模式专题文档](../15-formal-models/Saga模式专题文档.md)** - Saga模式的详细讲解，PostgreSQL在分布式事务中的作用
-- **[Paxos算法专题文档](../15-formal-models/Paxos算法专题文档.md)** - Paxos算法，PostgreSQL的共识机制
-- **[Raft算法专题文档](../15-formal-models/Raft算法专题文档.md)** - Raft算法，PostgreSQL的共识机制
+- **[CAP定理专题文档](../../02-THEORY/distributed-systems/CAP定理专题文档.md)** - CAP定理的详细讲解，PostgreSQL在CAP权衡中的位置（CP系统）
+- **[一致性模型专题文档](../../02-THEORY/distributed-systems/一致性模型专题文档.md)** - 一致性模型的详细讲解，PostgreSQL的ACID一致性保证
+- **[FLP不可能定理专题文档](../../02-THEORY/distributed-systems/FLP不可能定理专题文档.md)** - FLP不可能定理，PostgreSQL如何绕过FLP限制
+- **[向量时钟专题文档](../../02-THEORY/distributed-systems/向量时钟专题文档.md)** - 向量时钟，事件排序
+- **[Paxos算法专题文档](../../02-THEORY/distributed-systems/Paxos算法专题文档.md)** - Paxos算法，PostgreSQL的共识机制
+- **[Raft算法专题文档](../../02-THEORY/distributed-systems/Raft算法专题文档.md)** - Raft算法，PostgreSQL的共识机制
+- **[拜占庭容错专题文档](../../02-THEORY/distributed-systems/拜占庭容错专题文档.md)** - 拜占庭容错，PostgreSQL的容错机制
+- **[Chandy-Lamport快照算法专题文档](../../02-THEORY/distributed-systems/Chandy-Lamport快照算法专题文档.md)** - Chandy-Lamport快照算法，PostgreSQL的状态恢复机制
+- **[Saga模式专题文档](../../02-THEORY/workflow/Saga模式专题文档.md)** - Saga模式的详细讲解，PostgreSQL在分布式事务中的作用
+- **[工作流网专题文档](../../02-THEORY/workflow/工作流网专题文档.md)** - 工作流网建模
+- **[工作流模式专题文档](../../02-THEORY/workflow/工作流模式专题文档.md)** - 工作流设计模式
+- **[TLA+专题文档](../../02-THEORY/formal-verification/TLA+专题文档.md)** - TLA+形式化验证，PostgreSQL的形式化表述
+- **[树形分层结构专题文档](../../02-THEORY/architecture/树形分层结构专题文档.md)** - 树形分层结构，PostgreSQL的数据组织结构
 
 #### 技术对比和评估文档
 
-- **[技术堆栈对比分析](../02-technology-comparison/技术堆栈对比分析.md)** - 技术堆栈对比分析，技术选型依据
-- **[性能基准测试](../06-benchmarks/性能基准测试.md)** - 性能基准测试，PostgreSQL性能数据来源
-- **[综合评估报告](../08-summary/综合评估报告.md)** - 综合评估报告，PostgreSQL综合评估
+- **[技术堆栈对比分析](../技术堆栈对比分析.md)** - 技术堆栈对比分析，技术选型依据
+- **[性能基准测试](../性能基准测试.md)** - 性能基准测试，PostgreSQL性能数据来源
+- **[综合评估报告](../../06-ANALYSIS/综合评估报告.md)** - 综合评估报告，PostgreSQL综合评估
+- **[国际对标分析](../../06-ANALYSIS/国际对标分析.md)** - 国际对标分析，PostgreSQL与国际先进系统的对标
+- **[技术成熟度深度评估报告](../../06-ANALYSIS/技术成熟度深度评估报告.md)** - 技术成熟度评估，PostgreSQL的技术成熟度
+- **[竞争力分析报告](../../06-ANALYSIS/竞争力分析报告.md)** - 竞争力分析，PostgreSQL的竞争力
+- **[性能深度分析报告](../../06-ANALYSIS/性能深度分析报告.md)** - 性能深度分析，PostgreSQL的性能
+- **[成本效益深度分析报告](../../06-ANALYSIS/成本效益深度分析报告.md)** - 成本效益深度分析，PostgreSQL的成本效益
+- **[风险评估深度分析报告](../../06-ANALYSIS/风险评估深度分析报告.md)** - 风险评估，PostgreSQL的风险评估
+- **[趋势分析与预测报告](../../06-ANALYSIS/趋势分析与预测报告.md)** - 趋势分析与预测，PostgreSQL的趋势分析
+- **[创新点与差异化分析报告](../../06-ANALYSIS/创新点与差异化分析报告.md)** - 创新点与差异化分析，PostgreSQL的创新分析
+- **[行业应用前景分析报告](../../06-ANALYSIS/行业应用前景分析报告.md)** - 行业应用前景分析，PostgreSQL的行业应用前景
+
+#### 实践案例文档
+
+- **[企业实践案例](../../04-PRACTICE/企业实践案例.md)** - 企业实践案例，PostgreSQL在企业中的应用
+- **[场景主题分类案例](../../04-PRACTICE/场景主题分类案例.md)** - 场景主题分类案例，PostgreSQL的应用场景
+
+#### 知识体系文档
+
+- **[项目知识图谱](../../07-KNOWLEDGE/项目知识图谱.md)** - 项目知识图谱，PostgreSQL在知识图谱中的位置
+- **[理论模型与项目内容完整整合文档](../../07-KNOWLEDGE/理论模型与项目内容完整整合文档.md)** - 理论模型与项目内容完整整合文档，PostgreSQL与项目内容的完整关联
+- **[完整知识图谱](../../07-KNOWLEDGE/完整知识图谱.md)** - 完整知识图谱，PostgreSQL的完整知识关联
+- **[全局知识概念关系图](../../07-KNOWLEDGE/全局知识概念关系图.md)** - 全局知识概念关系图，PostgreSQL的概念关系
+- **[概念索引](../../07-KNOWLEDGE/概念索引.md)** - 概念索引，PostgreSQL相关概念的索引
 
 #### 其他相关文档
 
-- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - 形式化验证理论
-- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - PostgreSQL在项目知识图谱中的位置
+- **[形式化验证理论](../../01-FOUNDATION/形式化验证理论.md)** - 形式化验证理论，PostgreSQL的理论基础
+- **[主题关系分析](../../01-FOUNDATION/主题关系分析.md)** - 主题关系分析，PostgreSQL在主题关系中的位置
 
 ### 10.2 外部资源链接
 
@@ -2577,40 +2607,50 @@ graph TB
 
 #### 学术论文
 
-- Stonebraker, M., & Moore, D. (1996). "Object-Relational DBMSs: The Next Great Wave". Morgan Kaufmann.
-- Bernstein, P. A., & Newcomer, E. (2009). "Principles of Transaction Processing". Morgan Kaufmann.
+- Stonebraker, M., & Moore, D. (1996). "Object-Relational DBMSs: The Next Great Wave". Morgan Kaufmann. [PDF](https://www.morgan-kaufmann.com/store/object-relational-dbmss-the-next-great-wave-9781558603974)
+- Bernstein, P. A., & Newcomer, E. (2009). "Principles of Transaction Processing". Morgan Kaufmann. [PDF](https://www.morgan-kaufmann.com/store/principles-of-transaction-processing-9781558606234)
+- Gray, J., & Reuter, A. (1993). "Transaction Processing: Concepts and Techniques". Morgan Kaufmann. [PDF](https://www.morgan-kaufmann.com/store/transaction-processing-concepts-and-techniques-9781558601901)
 
 #### 学术课程
 
 - [CMU 15-445 Database Systems](https://15445.courses.cs.cmu.edu/) - 数据库系统课程（PostgreSQL章节）
+- [MIT 6.824 Distributed Systems](https://pdos.csail.mit.edu/6.824/) - 分布式系统课程（数据库章节）
+- [Stanford CS145 Introduction to Databases](https://cs145.stanford.edu/) - 数据库系统课程（PostgreSQL章节）
 
 ### 10.3 项目管理文档
 
-- **[Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md)** - Wikipedia资源对标
-- **[学术论文对标](../../structure_control/学术论文对标.md)** - 学术论文对标
-- **[概念关联网络](../../structure_control/概念关联网络.md)** - PostgreSQL在概念关联网络中的位置
+- **[学术论文对标](../../structure_control/学术论文对标.md)** - 学术论文对标，PostgreSQL选型的学术研究对标
+- **[学术课程对标](../../structure_control/学术课程对标.md)** - 学术课程对标，PostgreSQL选型的学术课程对标
+- **[文档关联矩阵](../../structure_control/文档关联矩阵.md)** - 文档关联矩阵，PostgreSQL选型的文档关联
+- **[Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md)** - Wikipedia资源对标，PostgreSQL选型的Wikipedia资源对标
+- **[概念关联网络](../../structure_control/概念关联网络.md)** - 概念关联网络，PostgreSQL在概念关联网络中的位置
 
 ### 10.4 文档关联说明
 
 **理论关联**：
 
-- PostgreSQL是**CP系统**（一致性+分区容错性），在CAP定理中提供强一致性保证（参见[CAP定理专题文档](../15-formal-models/CAP定理专题文档.md)）
-- PostgreSQL提供**ACID事务**保证，属于强一致性模型（参见[一致性模型专题文档](../15-formal-models/一致性模型专题文档.md)）
-- PostgreSQL可以作为Saga模式的**资源管理器**（参见[Saga模式专题文档](../15-formal-models/Saga模式专题文档.md)）
+- PostgreSQL是**CP系统**（一致性+分区容错性），在CAP定理中提供强一致性保证（参见[CAP定理专题文档](../../02-THEORY/distributed-systems/CAP定理专题文档.md)）
+- PostgreSQL提供**ACID事务**保证，属于强一致性模型（参见[一致性模型专题文档](../../02-THEORY/distributed-systems/一致性模型专题文档.md)）
+- PostgreSQL通过**故障检测器**绕过FLP不可能定理（参见[FLP不可能定理专题文档](../../02-THEORY/distributed-systems/FLP不可能定理专题文档.md)）
+- PostgreSQL可以使用**向量时钟**实现事件排序（参见[向量时钟专题文档](../../02-THEORY/distributed-systems/向量时钟专题文档.md)）
+- PostgreSQL可以使用**Paxos/Raft**实现共识（参见[Paxos算法专题文档](../../02-THEORY/distributed-systems/Paxos算法专题文档.md)和[Raft算法专题文档](../../02-THEORY/distributed-systems/Raft算法专题文档.md)）
+- PostgreSQL可以作为Saga模式的**资源管理器**（参见[Saga模式专题文档](../../02-THEORY/workflow/Saga模式专题文档.md)）
+- PostgreSQL可以使用**树形分层结构**组织数据（参见[树形分层结构专题文档](../../02-THEORY/architecture/树形分层结构专题文档.md)）
 
 **实践关联**：
 
 - PostgreSQL是Temporal的**推荐存储后端**（参见[Temporal选型论证](Temporal选型论证.md)）
 - Temporal + PostgreSQL是最佳技术栈组合（参见[技术栈组合论证](技术栈组合论证.md)）
-- 不同场景下的存储后端选择（参见[场景归纳和分类](场景归纳和分类.md)）
+- 更多PostgreSQL应用案例参见[企业实践案例](../../04-PRACTICE/企业实践案例.md)和[场景主题分类案例](../../04-PRACTICE/场景主题分类案例.md)
 
 **性能关联**：
 
-- PostgreSQL的性能数据来自**性能基准测试**（参见[性能基准测试](../06-benchmarks/性能基准测试.md)）
+- PostgreSQL的性能数据来自**性能基准测试**（参见[性能基准测试](../性能基准测试.md)）
 - PostgreSQL在性能基准测试中表现优异（写入性能10M events/s，查询性能快10-47倍）
-
 - PostgreSQL在Temporal中的性能表现（参见[Temporal选型论证](Temporal选型论证.md)）
 - PostgreSQL与其他存储后端的性能对比（参见[技术栈组合论证](技术栈组合论证.md)）
+- PostgreSQL的综合评估结果（参见[综合评估报告](../../06-ANALYSIS/综合评估报告.md)）
+- PostgreSQL与国际先进系统的对标（参见[国际对标分析](../../06-ANALYSIS/国际对标分析.md)）
 
 ---
 

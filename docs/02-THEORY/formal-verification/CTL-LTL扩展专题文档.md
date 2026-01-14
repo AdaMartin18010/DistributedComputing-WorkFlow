@@ -1264,29 +1264,29 @@ LinkedIn使用CTL*验证社交网络系统的复杂性质，包括社交网络�
 #### 在线工具和网站
 
 1. **NuSMV Official Website**
-   - 网站：https://nusmv.fbk.eu/
+   - 网站：<https://nusmv.fbk.eu/>
    - **推荐理由**：NuSMV模型检验器的官方网站，支持CTL*模型检验
 
 2. **mCRL2 Official Website**
-   - 网站：https://www.mcrl2.org/
+   - 网站：<https://www.mcrl2.org/>
    - **推荐理由**：mCRL2模型检验器的官方网站，支持模态μ-演算模型检验
 
 3. **SPIN Model Checker**
-   - 网站：http://spinroot.com/
+   - 网站：<http://spinroot.com/>
    - **推荐理由**：SPIN模型检验器的官方网站，支持LTL模型检验
 
 #### 大学课程
 
 1. **CMU 15-811: Formal Methods**
-   - 课程链接：https://www.cs.cmu.edu/~aldrich/courses/15-819-FM/
+   - 课程链接：<https://www.cs.cmu.edu/~aldrich/courses/15-819-FM/>
    - **推荐理由**：CMU的形式化方法课程，包含CTL*和模态μ-演算的详细讲解
 
 2. **MIT 6.512: Formal Methods**
-   - 课程链接：https://ocw.mit.edu/
+   - 课程链接：<https://ocw.mit.edu/>
    - **推荐理由**：MIT的形式化方法课程，包含CTL*和模态μ-演算的详细讲解
 
 3. **Stanford CS237B: Principles of Model Checking**
-   - 课程链接：https://web.stanford.edu/class/cs237b/
+   - 课程链接：<https://web.stanford.edu/class/cs237b/>
    - **推荐理由**：Stanford的模型检验课程，包含CTL*和模态μ-演算的详细讲解
 
 ---
@@ -1926,13 +1926,39 @@ $$CTL^* \subseteq \mu\text{-calculus}$$
 ### 8.3 项目管理文档
 
 - **[Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md)** - Wikipedia资源对标
+- **[学术论文对标](../../structure_control/学术论文对标.md)** - 学术论文对标
 - **[学术课程对标](../../structure_control/学术课程对标.md)** - 学术课程对标
-- **[概念关联网络](../../structure_control/概念关联网络.md)** - CTL/LTL扩展专题文档在概念关联网络中的位置
+- **[概念关联网络](../../structure_control/概念关联网络.md)** - CTL/LTL扩展在概念关联网络中的位置
+- **[文档关联矩阵](../../structure_control/文档关联矩阵.md)** - CTL/LTL扩展专题文档的关联关系
+
+### 8.4 文档关联说明
+
+**理论关联**：
+
+- CTL/LTL扩展基于**CTL**和**LTL**（参见[CTL专题文档](CTL专题文档.md)和[LTL专题文档](LTL专题文档.md)）
+- CTL/LTL扩展与TLA+相关（参见[TLA+专题文档](TLA+专题文档.md)）
+- CTL/LTL扩展与UPPAAL相关（参见[UPPAAL专题文档](UPPAAL专题文档.md)）
+- CTL/LTL扩展可以使用Coq/Isabelle进行定理证明（参见[Coq-Isabelle专题文档](Coq-Isabelle专题文档.md)）
+
+**实践关联**：
+
+- 可以使用CTL/LTL扩展验证Temporal工作流的性质（参见[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)）
+- 可以使用CTL/LTL扩展验证技术栈组合的正确性（参见[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)）
+- 更多CTL/LTL扩展应用案例参见[企业实践案例](../../04-PRACTICE/企业实践案例.md)和[国际对标分析](../../06-ANALYSIS/国际对标分析.md)
+
+### 13.9 双向链接说明
+
+**已建立的双向链接**：
+
+- ✅ **CTL-LTL扩展 ↔ CTL**：已建立双向链接，CTL-LTL扩展基于CTL，提供了更强的表达能力
+- ✅ **CTL-LTL扩展 ↔ LTL**：已建立双向链接，CTL-LTL扩展基于LTL，提供了更强的表达能力
+- ✅ **CTL-LTL扩展 ↔ Temporal选型论证**：已建立双向链接，可以使用CTL/LTL扩展验证Temporal工作流的复杂性质
+- ✅ **CTL-LTL扩展 ↔ 技术栈组合论证**：已建立双向链接，可以使用CTL/LTL扩展验证技术栈组合的正确性
 
 ---
 
-**文档版本**：1.1
+**文档版本**：1.2
 
-**最后更新**：2025年11月28日
+**最后更新**：2025年1月
 
 **维护者**：项目团队

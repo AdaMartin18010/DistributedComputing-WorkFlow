@@ -2765,13 +2765,118 @@ $$Partition \implies Consistent(CP) \land \neg Available(CP)$$
 
 ## 十三、相关文档
 
-### 13.1 项目内部文档
+### 13.1 核心论证文档
+
+- **[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)** - Temporal选型论证，CAP定理的技术选型依据
+- **[PostgreSQL选型论证](../../03-TECHNOLOGY/论证/PostgreSQL选型论证.md)** - PostgreSQL选型论证，CAP定理的存储选型依据
+- **[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)** - 技术栈组合论证，CAP定理的技术栈组合依据
+- **[技术堆栈对比分析](../../03-TECHNOLOGY/技术堆栈对比分析.md)** - 技术堆栈对比分析，CAP定理的技术对比
+
+### 13.2 理论模型专题文档
+
+- **[一致性模型专题文档](一致性模型专题文档.md)** - 一致性模型，CAP定理的一致性理论基础
+- **[FLP不可能定理专题文档](FLP不可能定理专题文档.md)** - FLP不可能定理，CAP定理的共识理论基础
+- **[向量时钟专题文档](向量时钟专题文档.md)** - 向量时钟，CAP定理的事件排序理论基础
+- **[Paxos算法专题文档](Paxos算法专题文档.md)** - Paxos算法，CAP定理的共识算法实现
+- **[Raft算法专题文档](Raft算法专题文档.md)** - Raft算法，CAP定理的共识算法实现
+- **[拜占庭容错专题文档](拜占庭容错专题文档.md)** - 拜占庭容错，CAP定理的容错理论基础
+- **[Chandy-Lamport快照算法专题文档](Chandy-Lamport快照算法专题文档.md)** - Chandy-Lamport快照算法，CAP定理的快照理论基础
+- **[TLA+专题文档](../formal-verification/TLA+专题文档.md)** - TLA+形式化验证，CAP定理的验证方法
+
+### 13.3 实践案例文档
+
+- **[实践案例层README](../../04-PRACTICE/README.md)** - 实践案例层，CAP定理的实践案例
+- **[国际对标分析](../../06-ANALYSIS/国际对标分析.md)** - 国际对标分析，CAP定理的国际对标
+
+### 13.4 分析评估文档
+
+- **[综合评估报告](../../06-ANALYSIS/综合评估报告.md)** - 综合评估报告，CAP定理的综合评估
+- **[技术成熟度深度评估报告](../../06-ANALYSIS/技术成熟度深度评估报告.md)** - 技术成熟度评估，CAP定理的技术成熟度分析
+- **[竞争力分析报告](../../06-ANALYSIS/竞争力分析报告.md)** - 竞争力分析，CAP定理的竞争力分析
+- **[趋势分析与预测报告](../../06-ANALYSIS/趋势分析与预测报告.md)** - 趋势分析，CAP定理的趋势预测
+- **[性能深度分析报告](../../06-ANALYSIS/性能深度分析报告.md)** - 性能分析，CAP定理的性能分析
+- **[成本效益深度分析报告](../../06-ANALYSIS/成本效益深度分析报告.md)** - 成本效益分析，CAP定理的成本效益分析
+- **[风险评估深度分析报告](../../06-ANALYSIS/风险评估深度分析报告.md)** - 风险评估，CAP定理的风险评估
+- **[创新点与差异化分析报告](../../06-ANALYSIS/创新点与差异化分析报告.md)** - 创新分析，CAP定理的创新点分析
+- **[行业应用前景分析报告](../../06-ANALYSIS/行业应用前景分析报告.md)** - 行业应用前景，CAP定理的行业应用前景
+
+### 13.5 知识体系文档
+
+- **[项目知识图谱](../../07-KNOWLEDGE/项目知识图谱.md)** - 项目知识图谱，CAP定理在知识图谱中的位置
+- **[理论模型与项目内容完整整合文档](../../07-KNOWLEDGE/理论模型与项目内容完整整合文档.md)** - 理论模型与项目内容完整整合文档，CAP定理与项目内容的完整关联
+- **[完整知识图谱](../../07-KNOWLEDGE/完整知识图谱.md)** - 完整知识图谱，CAP定理在知识图谱中的位置
+- **[全局知识概念关系图](../../07-KNOWLEDGE/全局知识概念关系图.md)** - 全局知识概念关系图，CAP定理的概念关系
+- **[概念索引](../../07-KNOWLEDGE/概念索引.md)** - 概念索引，CAP定理的概念索引
+
+### 13.6 其他相关文档
+
+- **[形式化验证理论](../../01-FOUNDATION/形式化验证理论.md)** - 形式化验证理论，CAP定理的理论基础
+- **[主题关系分析](../../01-FOUNDATION/主题关系分析.md)** - 主题关系分析，CAP定理在主题关系中的位置
+- **[最佳实践指南](../../05-GUIDES/最佳实践指南.md)** - 最佳实践指南，CAP定理的最佳实践
+- **[快速开始指南](../../05-GUIDES/快速开始指南.md)** - 快速开始指南，CAP定理的快速开始
+
+### 13.7 外部资源链接
+
+#### Wikipedia
+
+- [CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem) - CAP定理的Wikipedia说明
+- [Consistency Model](https://en.wikipedia.org/wiki/Consistency_model) - 一致性模型的Wikipedia说明
+- [Distributed Computing](https://en.wikipedia.org/wiki/Distributed_computing) - 分布式计算的Wikipedia说明
+
+#### 学术论文
+
+1. **Brewer, E. (2000). "Towards Robust Distributed Systems"**
+   - 论文链接：<https://www.cs.berkeley.edu/~brewer/cs262b-2004/PODC-keynote.pdf>
+   - **重要性**：CAP定理的原始论文
+
+2. **Gilbert, S., & Lynch, N. (2002). "Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-tolerant Web Services"**
+   - 论文链接：<https://dl.acm.org/doi/10.1145/564585.564601>
+   - **重要性**：CAP定理的形式化证明
+
+#### 学术课程
+
+- [MIT 6.824: Distributed Systems](https://pdos.csail.mit.edu/6.824/) - MIT分布式系统课程
+- [CMU 15-440: Distributed Systems](https://www.cs.cmu.edu/~dga/15-440/S14/) - CMU分布式系统课程
+
+### 13.8 文档关联说明
+
+**理论关联**：
+
+- CAP定理与一致性模型关联，分析一致性模型的理论特征
+- CAP定理与FLP不可能定理关联，分析共识问题的理论限制
+- CAP定理与Paxos、Raft算法关联，分析共识算法的实现机制
+
+**实践关联**：
+
+- CAP定理与企业实践案例关联，通过实际案例验证CAP定理
+- CAP定理与技术堆栈对比分析关联，分析技术栈的CAP特征
+- CAP定理与性能、成本效益、风险评估等分析报告关联，综合评估CAP选择
+
+**评估关联**：
+
+- CAP定理与技术成熟度、竞争力分析、趋势分析等报告关联，全面评估CAP定理的市场竞争力
+- CAP定理与国际对标分析、综合评估报告关联，评估CAP定理的国际竞争力
+
+### 13.9 双向链接说明
+
+**已建立的双向链接**：
+
+- ✅ **CAP定理 ↔ 一致性模型**：CAP定理文档已链接到一致性模型文档，一致性模型文档已链接到CAP定理文档
+- ✅ **CAP定理 ↔ FLP不可能定理**：两个文档已相互链接
+- ✅ **CAP定理 ↔ Paxos/Raft**：已建立双向链接
+- ✅ **CAP定理 ↔ Temporal选型论证**：已建立双向链接
+- ✅ **CAP定理 ↔ PostgreSQL选型论证**：已建立双向链接
+- ✅ **CAP定理 ↔ 技术堆栈对比分析**：已建立双向链接
+- ✅ **CAP定理 ↔ Temporal选型论证**：已建立双向链接（CAP定理文档已链接到Temporal选型论证文档，Temporal选型论证文档已链接到CAP定理文档）
+
+---
 
 #### 核心论证文档
 
-- **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - Temporal在CAP定理中的位置（CP系统）
-- **[PostgreSQL选型论证](../18-argumentation-enhancement/PostgreSQL选型论证.md)** - PostgreSQL在CAP定理中的位置（CP系统）
-- **[技术栈组合论证](../18-argumentation-enhancement/技术栈组合论证.md)** - Temporal + PostgreSQL技术栈组合的CAP权衡
+- **[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)** - Temporal在CAP定理中的位置（CP系统）
+- **[PostgreSQL选型论证](../../03-TECHNOLOGY/论证/PostgreSQL选型论证.md)** - PostgreSQL在CAP定理中的位置（CP系统）
+- **[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)** - Temporal + PostgreSQL技术栈组合的CAP权衡
+- **[技术堆栈对比分析](../../03-TECHNOLOGY/技术堆栈对比分析.md)** - CAP定理在技术选型中的应用
 
 #### 理论模型专题文档
 
@@ -2783,15 +2888,16 @@ $$Partition \implies Consistent(CP) \land \neg Available(CP)$$
 
 #### 思维表征与理论模型联系文档
 
-- **[理论模型完整联系体系](../22-mind-representation-integration/理论模型完整联系体系.md)** - CAP定理与其他理论模型的完整联系
-- **[完整知识图谱](../22-mind-representation-integration/完整知识图谱.md)** - CAP定理在完整知识图谱中的位置
-- **[思维表征方法完整整合计划](../22-mind-representation-integration/思维表征方法完整整合计划.md)** - 思维表征方法完整整合计划
+- **[理论模型与项目内容完整整合文档](../../07-KNOWLEDGE/理论模型与项目内容完整整合文档.md)** - CAP定理与其他理论模型的完整联系
+- **[项目知识图谱](../../07-KNOWLEDGE/项目知识图谱.md)** - CAP定理在完整知识图谱中的位置
 
 #### 其他相关文档
 
-- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - CAP定理的形式化验证
-- **[技术堆栈对比分析](../02-technology-comparison/技术堆栈对比分析.md)** - CAP定理在技术选型中的应用
-- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - CAP定理在知识图谱中的位置
+- **[形式化验证理论](../../01-FOUNDATION/形式化验证理论.md)** - CAP定理的形式化验证
+- **[主题关系分析](../../01-FOUNDATION/主题关系分析.md)** - CAP定理在主题关系中的位置
+- **[项目知识图谱](../../07-KNOWLEDGE/项目知识图谱.md)** - CAP定理在知识图谱中的位置
+- **[企业实践案例](../../04-PRACTICE/企业实践案例.md)** - CAP定理在企业实践中的应用案例
+- **[国际对标分析](../../06-ANALYSIS/国际对标分析.md)** - CAP定理在国际对标中的应用
 
 ### 13.2 外部资源链接
 
@@ -2834,9 +2940,10 @@ $$Partition \implies Consistent(CP) \land \neg Available(CP)$$
 
 **实践关联**：
 
-- Temporal是**CP系统**（一致性+分区容错性），在CAP定理中的位置（参见[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)）
-- PostgreSQL是**CP系统**，提供强一致性保证（参见[PostgreSQL选型论证](../18-argumentation-enhancement/PostgreSQL选型论证.md)）
-- Temporal + PostgreSQL技术栈组合的CAP权衡（参见[技术栈组合论证](../18-argumentation-enhancement/技术栈组合论证.md)）
+- Temporal是**CP系统**（一致性+分区容错性），在CAP定理中的位置（参见[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)）
+- PostgreSQL是**CP系统**，提供强一致性保证（参见[PostgreSQL选型论证](../../03-TECHNOLOGY/论证/PostgreSQL选型论证.md)）
+- Temporal + PostgreSQL技术栈组合的CAP权衡（参见[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)）
+- 更多CAP定理应用案例参见[企业实践案例](../../04-PRACTICE/企业实践案例.md)和[国际对标分析](../../06-ANALYSIS/国际对标分析.md)
 
 ---
 
@@ -2844,7 +2951,7 @@ $$Partition \implies Consistent(CP) \land \neg Available(CP)$$
 
 - [↑ 返回目录](#目录)
 - [← 上一章：十一、思维表征](#十一思维表征)
-- **相关文档**：[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md) | [PostgreSQL选型论证](../18-argumentation-enhancement/PostgreSQL选型论证.md) | [一致性模型专题文档](一致性模型专题文档.md)
+- **相关文档**：[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md) | [PostgreSQL选型论证](../../03-TECHNOLOGY/论证/PostgreSQL选型论证.md) | [一致性模型专题文档](一致性模型专题文档.md) | [技术堆栈对比分析](../../03-TECHNOLOGY/技术堆栈对比分析.md)
 
 ---
 

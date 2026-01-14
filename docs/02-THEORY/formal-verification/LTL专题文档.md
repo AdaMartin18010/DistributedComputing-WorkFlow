@@ -2660,20 +2660,30 @@ $$ G(p \to X q) \equiv \forall \pi: \forall i \ge 0: (p(\pi[i]) \to q(\pi[i+1]))
 
 #### 核心论证文档
 
-- **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - 可以使用LTL验证Temporal工作流的性质
+- **[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)** - 可以使用LTL验证Temporal工作流的性质
+- **[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)** - 技术栈组合的LTL验证
+- **[技术堆栈对比分析](../../03-TECHNOLOGY/技术堆栈对比分析.md)** - LTL在技术选型中的应用
 
 #### 理论模型专题文档
 
 - **[CTL专题文档](CTL专题文档.md)** - CTL时序逻辑，与LTL相关的时序逻辑
 - **[CTL-LTL扩展专题文档](CTL-LTL扩展专题文档.md)** - CTL/LTL扩展，LTL的扩展形式
 - **[TLA+专题文档](TLA+专题文档.md)** - TLA+形式化验证方法，基于LTL的时序逻辑
+- **[Petri网专题文档](Petri网专题文档.md)** - Petri网建模，与LTL相关的并发建模方法
 - **[UPPAAL专题文档](UPPAAL专题文档.md)** - UPPAAL实时系统验证工具，使用LTL进行验证
 - **[Coq-Isabelle专题文档](Coq-Isabelle专题文档.md)** - Coq/Isabelle定理证明，可以验证LTL性质
 
+#### 实践案例文档
+
+- **[企业实践案例](../../04-PRACTICE/企业实践案例.md)** - LTL在企业实践中的应用案例
+- **[国际对标分析](../../06-ANALYSIS/国际对标分析.md)** - LTL在国际对标中的应用
+
 #### 其他相关文档
 
-- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - LTL在形式化验证理论中的位置
-- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - LTL在知识图谱中的位置
+- **[形式化验证理论](../../01-FOUNDATION/形式化验证理论.md)** - LTL在形式化验证理论中的位置
+- **[主题关系分析](../../01-FOUNDATION/主题关系分析.md)** - LTL在主题关系中的位置
+- **[项目知识图谱](../../07-KNOWLEDGE/项目知识图谱.md)** - LTL在知识图谱中的位置
+- **[理论模型与项目内容完整整合文档](../../07-KNOWLEDGE/理论模型与项目内容完整整合文档.md)** - LTL与项目内容的完整关联
 
 ### 13.2 外部资源链接
 
@@ -2711,6 +2721,20 @@ $$ G(p \to X q) \equiv \forall \pi: \forall i \ge 0: (p(\pi[i]) \to q(\pi[i+1]))
 
 **实践关联**：
 
-- 可以使用LTL验证Temporal工作流的性质（参见[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)）
+- 可以使用LTL验证Temporal工作流的性质（参见[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)）
+- 可以使用LTL验证技术栈组合的正确性（参见[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)）
+- 更多LTL应用案例参见[企业实践案例](../../04-PRACTICE/企业实践案例.md)和[国际对标分析](../../06-ANALYSIS/国际对标分析.md)
+
+### 13.9 双向链接说明
+
+**已建立的双向链接**：
+
+- ✅ **LTL ↔ CTL**：已建立双向链接，LTL与CTL都是**时序逻辑**，但LTL是线性时序逻辑，CTL是分支时序逻辑
+- ✅ **LTL ↔ CTL-LTL扩展**：已建立双向链接，CTL/LTL扩展提供了更强的表达能力
+- ✅ **LTL ↔ TLA+**：已建立双向链接，TLA+基于LTL的时序逻辑
+- ✅ **LTL ↔ UPPAAL**：已建立双向链接，UPPAAL使用LTL进行实时系统验证
+- ✅ **LTL ↔ Coq/Isabelle**：已建立双向链接，Coq/Isabelle可以验证LTL性质
+- ✅ **LTL ↔ Temporal选型论证**：已建立双向链接，可以使用LTL验证Temporal工作流的性质
+- ✅ **LTL ↔ 技术栈组合论证**：已建立双向链接，可以使用LTL验证技术栈组合的正确性
 
 ---

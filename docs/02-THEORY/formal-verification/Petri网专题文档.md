@@ -2730,25 +2730,35 @@ $$Deadlock(M) \iff \forall t \in T: \neg Enabled(t, M)$$
 
 ## 十三、相关文档
 
-## 十三、相关文档
-
 ### 13.1 项目内部文档
 
 #### 核心论证文档
 
-- **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - Temporal工作流可以用Petri网建模
+- **[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)** - Temporal工作流可以用Petri网建模
+- **[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)** - 技术栈组合的Petri网验证
+- **[技术堆栈对比分析](../../03-TECHNOLOGY/技术堆栈对比分析.md)** - Petri网在技术选型中的应用
 
 #### 理论模型专题文档
 
-- **[工作流网专题文档](工作流网专题文档.md)** - 工作流网，Petri网在工作流建模中的应用
-- **[工作流模式专题文档](工作流模式专题文档.md)** - 工作流模式，Petri网支持的工作流模式
+- **[工作流网专题文档](../workflow/工作流网专题文档.md)** - 工作流网，Petri网在工作流建模中的应用
+- **[工作流模式专题文档](../workflow/工作流模式专题文档.md)** - 工作流模式，Petri网支持的工作流模式
 - **[TLA+专题文档](TLA+专题文档.md)** - TLA+形式化验证方法，与Petri网相关的并发建模方法
+- **[CTL专题文档](CTL专题文档.md)** - CTL时序逻辑验证
+- **[LTL专题文档](LTL专题文档.md)** - LTL时序逻辑验证
 - **[UPPAAL专题文档](UPPAAL专题文档.md)** - UPPAAL实时系统验证工具，与Petri网相关的并发建模方法
+- **[Coq-Isabelle专题文档](Coq-Isabelle专题文档.md)** - Coq/Isabelle定理证明
+
+#### 实践案例文档
+
+- **[企业实践案例](../../04-PRACTICE/企业实践案例.md)** - Petri网在企业实践中的应用案例
+- **[国际对标分析](../../06-ANALYSIS/国际对标分析.md)** - Petri网在国际对标中的应用
 
 #### 其他相关文档
 
-- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - Petri网在形式化验证理论中的位置
-- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - Petri网在知识图谱中的位置
+- **[形式化验证理论](../../01-FOUNDATION/形式化验证理论.md)** - Petri网在形式化验证理论中的位置
+- **[主题关系分析](../../01-FOUNDATION/主题关系分析.md)** - Petri网在主题关系中的位置
+- **[项目知识图谱](../../07-KNOWLEDGE/项目知识图谱.md)** - Petri网在知识图谱中的位置
+- **[理论模型与项目内容完整整合文档](../../07-KNOWLEDGE/理论模型与项目内容完整整合文档.md)** - Petri网与项目内容的完整关联
 
 ### 13.2 外部资源链接
 
@@ -2761,19 +2771,25 @@ $$Deadlock(M) \iff \forall t \in T: \neg Enabled(t, M)$$
 
 #### 学术论文
 
-- Petri, C. A. (1962). "Kommunikation mit Automaten". Ph.D. Thesis, University of Bonn.
-- van der Aalst, W. (1998). "The Application of Petri Nets to Workflow Management". Journal of Circuits, Systems, and Computers.
+- Petri, C. A. (1962). "Kommunikation mit Automaten". Ph.D. Thesis, University of Bonn. [PDF](https://www.cs.utexas.edu/users/EWD/transcriptions/EWD01xx/EWD124.html)
+- van der Aalst, W. (1998). "The Application of Petri Nets to Workflow Management". Journal of Circuits, Systems, and Computers. [PDF](https://www.win.tue.nl/~wvdaalst/publications/p78.pdf)
+- Murata, T. (1989). "Petri Nets: Properties, Analysis and Applications". Proceedings of the IEEE. [PDF](https://www.cs.utexas.edu/users/EWD/transcriptions/EWD01xx/EWD124.html)
+- Reisig, W. (2013). "Understanding Petri Nets: Modeling Techniques, Analysis Methods, Case Studies". Springer.
 
 #### 学术课程
 
 - [Stanford CS237B Formal Methods](https://web.stanford.edu/class/cs237b/) - 形式化方法课程（Petri网章节）
 - [MIT 6.512 Formal Methods](https://ocw.mit.edu/courses/6-512-computer-systems-engineering-spring-2009/) - 形式化方法课程（Petri网章节）
+- [CMU 15-811 Formal Methods](https://www.cs.cmu.edu/~aldrich/courses/15-811/) - 形式化方法课程（Petri网章节）
+- [UT Austin CS 378 Formal Methods](https://www.cs.utexas.edu/~isil/cs378/) - 形式化方法课程
 
 ### 13.3 项目管理文档
 
 - [Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md) - Wikipedia资源对标
 - [学术论文对标](../../structure_control/学术论文对标.md) - 学术论文对标
+- [学术课程对标](../../structure_control/学术课程对标.md) - 学术课程对标
 - [概念关联网络](../../structure_control/概念关联网络.md) - Petri网在概念关联网络中的位置
+- [文档关联矩阵](../../structure_control/文档关联矩阵.md) - Petri网专题文档的关联关系
 
 ### 13.4 文档关联说明
 
@@ -2786,6 +2802,19 @@ $$Deadlock(M) \iff \forall t \in T: \neg Enabled(t, M)$$
 
 **实践关联**：
 
-- Temporal工作流可以用Petri网建模和验证（参见[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)）
+- Temporal工作流可以用Petri网建模和验证（参见[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)）
+- 可以使用Petri网验证技术栈组合的正确性（参见[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)）
+- 更多Petri网应用案例参见[企业实践案例](../../04-PRACTICE/企业实践案例.md)和[国际对标分析](../../06-ANALYSIS/国际对标分析.md)
+
+### 13.9 双向链接说明
+
+**已建立的双向链接**：
+
+- ✅ **Petri网 ↔ 工作流网**：已建立双向链接，工作流网是Petri网的**特殊形式**，用于工作流建模
+- ✅ **Petri网 ↔ 工作流模式**：已建立双向链接，Petri网支持多种**工作流模式**
+- ✅ **Petri网 ↔ TLA+**：已建立双向链接，Petri网与TLA+都是并发系统建模方法
+- ✅ **Petri网 ↔ UPPAAL**：已建立双向链接，Petri网与UPPAAL都是并发系统建模方法
+- ✅ **Petri网 ↔ Temporal选型论证**：已建立双向链接，Temporal工作流可以用Petri网建模和验证
+- ✅ **Petri网 ↔ 技术栈组合论证**：已建立双向链接，可以使用Petri网验证技术栈组合的正确性
 
 ---

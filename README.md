@@ -136,56 +136,88 @@
 | Ray | 分布式Actor | 机器学习 | ⭐⭐⭐⭐ | v2.9+ |
 | Dask | 并行计算 | 科学计算 | ⭐⭐⭐ | v2024.1+ |
 
-**详细对比分析**：参见[分布式计算堆栈全面论证与推进计划（2024-2025）](docs/21-tech-stack-2025/分布式计算堆栈全面论证与推进计划.md)
+**详细对比分析**：
+
+- [技术堆栈对比分析](docs/03-TECHNOLOGY/技术堆栈对比分析.md) - 全面对比Temporal、Airflow、Flink等框架
+- [分布式计算堆栈全面论证与推进计划（2024-2025）](docs/03-TECHNOLOGY/分布式计算堆栈全面论证与推进计划.md) - 基于2024-2025年最新技术堆栈的全面论证
+- [性能基准测试](docs/03-TECHNOLOGY/性能基准测试.md) - 详细的性能测试报告和对比分析
 
 ## 企业实践案例
 
 ### 按行业分类（15+个行业，30+个案例）
 
-**金融科技**：Coinbase、Stripe、PayPal
-**共享经济**：Uber、Airbnb
-**流媒体**：Netflix、Spotify
-**科研计算**：CERN、NIH
-**医疗健康**：Epic Systems、Cerner
-**物联网**：AWS IoT Core
-**游戏行业**：Riot Games
-**制造业**：智能制造系统
-**零售电商**：Amazon、Alibaba、字节跳动（抖音）、腾讯看点
-**广告营销**：Google Ads、Facebook Ads、某广告公司（实时ETL）
-**游戏行业**：某游戏公司（实时数据写入200万+ TPS）
-**汽车行业**：某头部车企（智驾看板数据洪峰）、某新能源汽车企业（车联网实时监控）
-**影视短剧**：某短剧平台（实时数据入湖）
-**供应链**：Walmart
-**保险**：Allstate
-**房地产**：Zillow
-**交通出行**：Didi
-**农业科技**：John Deere
+**金融科技**：Coinbase、Stripe、PayPal（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**共享经济**：Uber、Airbnb（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**流媒体**：Netflix、Spotify（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**科研计算**：CERN、NIH（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**医疗健康**：Epic Systems、Cerner（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**物联网**：AWS IoT Core（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**游戏行业**：Riot Games（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**制造业**：智能制造系统（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**零售电商**：Amazon、Alibaba、字节跳动（抖音）、腾讯看点（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**广告营销**：Google Ads、Facebook Ads、某广告公司（实时ETL）（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**游戏行业**：某游戏公司（实时数据写入200万+ TPS）（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**汽车行业**：某头部车企（智驾看板数据洪峰）、某新能源汽车企业（车联网实时监控）（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**影视短剧**：某短剧平台（实时数据入湖）（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**供应链**：Walmart（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**保险**：Allstate（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**房地产**：Zillow（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**交通出行**：Didi（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+**农业科技**：John Deere（参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)）
+
+**更多案例**：参见[企业实践案例](docs/04-PRACTICE/企业实践案例.md)和[国际对标分析](docs/06-ANALYSIS/国际对标分析.md)（包含70+个国际企业案例）
 
 ### 按场景主题分类（7个场景主题）
 
-1. **订单处理场景**：Amazon、Alibaba、Uber、Didi
-2. **支付处理场景**：Coinbase、Stripe、Amazon支付
-3. **数据处理管道场景**：Netflix、CERN、Datadog
-4. **实时系统场景**：Google Ads、Spotify、Riot Games
-5. **业务流程自动化场景**：Allstate、Zillow、Walmart
-6. **设备协调场景**：Uber、AWS IoT、制造业、John Deere
-7. **数据隐私与合规场景**：Epic Systems、Coinbase合规
+1. **订单处理场景**：Amazon、Alibaba、Uber、Didi（参见[场景主题分类案例](docs/04-PRACTICE/场景主题分类案例.md)）
+2. **支付处理场景**：Coinbase、Stripe、Amazon支付（参见[场景主题分类案例](docs/04-PRACTICE/场景主题分类案例.md)）
+3. **数据处理管道场景**：Netflix、CERN、Datadog（参见[场景主题分类案例](docs/04-PRACTICE/场景主题分类案例.md)）
+4. **实时系统场景**：Google Ads、Spotify、Riot Games（参见[场景主题分类案例](docs/04-PRACTICE/场景主题分类案例.md)）
+5. **业务流程自动化场景**：Allstate、Zillow、Walmart（参见[场景主题分类案例](docs/04-PRACTICE/场景主题分类案例.md)）
+6. **设备协调场景**：Uber、AWS IoT、制造业、John Deere（参见[场景主题分类案例](docs/04-PRACTICE/场景主题分类案例.md)）
+7. **数据隐私与合规场景**：Epic Systems、Coinbase合规（参见[场景主题分类案例](docs/04-PRACTICE/场景主题分类案例.md)）
+
+**详细分析**：参见[场景主题分类案例](docs/04-PRACTICE/场景主题分类案例.md)（15个场景主题，40+个案例）
 
 ## 形式化验证
 
 ### 验证方法
 
-- **TLA+** - 系统设计验证
-- **CTL/LTL** - 时序逻辑验证
-- **Petri网** - 死锁检测
-- **UPPAAL** - 时间自动机验证
+- **[TLA+](docs/02-THEORY/formal-verification/TLA+专题文档.md)** - 系统设计验证
+- **[CTL](docs/02-THEORY/formal-verification/CTL专题文档.md)** / **[LTL](docs/02-THEORY/formal-verification/LTL专题文档.md)** - 时序逻辑验证
+- **[Petri网](docs/02-THEORY/formal-verification/Petri网专题文档.md)** - 死锁检测
+- **[UPPAAL](docs/02-THEORY/formal-verification/UPPAAL专题文档.md)** - 时间自动机验证
+- **[Coq/Isabelle](docs/02-THEORY/formal-verification/Coq-Isabelle专题文档.md)** - 定理证明
+
+**详细内容**：参见[形式化验证理论](docs/01-FOUNDATION/形式化验证理论.md)
 
 ### 验证性质
 
-- 支付原子性
-- 资金守恒
-- 时序一致性
-- 死锁自由性
+- 支付原子性（参见[TLA+专题文档](docs/02-THEORY/formal-verification/TLA+专题文档.md#性质与定理)）
+- 资金守恒（参见[TLA+专题文档](docs/02-THEORY/formal-verification/TLA+专题文档.md#性质与定理)）
+- 时序一致性（参见[一致性模型专题文档](docs/02-THEORY/distributed-systems/一致性模型专题文档.md)）
+- 死锁自由性（参见[Petri网专题文档](docs/02-THEORY/formal-verification/Petri网专题文档.md)）
+
+### 分布式系统理论
+
+- **[CAP定理](docs/02-THEORY/distributed-systems/CAP定理专题文档.md)** - 一致性、可用性、分区容错性权衡
+- **[FLP不可能定理](docs/02-THEORY/distributed-systems/FLP不可能定理专题文档.md)** - 异步系统共识限制
+- **[一致性模型](docs/02-THEORY/distributed-systems/一致性模型专题文档.md)** - 线性一致性、顺序一致性、最终一致性等
+- **[向量时钟](docs/02-THEORY/distributed-systems/向量时钟专题文档.md)** - 事件排序和因果关系
+- **[Paxos算法](docs/02-THEORY/distributed-systems/Paxos算法专题文档.md)** - 分布式共识算法
+- **[Raft算法](docs/02-THEORY/distributed-systems/Raft算法专题文档.md)** - 可理解的共识算法
+- **[拜占庭容错](docs/02-THEORY/distributed-systems/拜占庭容错专题文档.md)** - 恶意节点容错
+- **[Chandy-Lamport快照算法](docs/02-THEORY/distributed-systems/Chandy-Lamport快照算法专题文档.md)** - 分布式快照
+
+### 工作流理论
+
+- **[工作流网](docs/02-THEORY/workflow/工作流网专题文档.md)** - 工作流建模
+- **[工作流模式](docs/02-THEORY/workflow/工作流模式专题文档.md)** - 工作流设计模式
+- **[Saga模式](docs/02-THEORY/workflow/Saga模式专题文档.md)** - 分布式事务模式
+
+### 架构理论
+
+- **[树形分层结构](docs/02-THEORY/architecture/树形分层结构专题文档.md)** - 树形架构模式
 
 ## 项目推进计划
 

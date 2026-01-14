@@ -1,4 +1,4 @@
-﻿# Temporal选型论证
+# Temporal选型论证
 
 ## 📋 文档概述
 
@@ -3405,26 +3405,56 @@ graph TB
 
 #### 理论模型专题文档
 
-- **[CAP定理专题文档](../15-formal-models/CAP定理专题文档.md)** - CAP定理的详细讲解，Temporal在CAP权衡中的位置
-- **[FLP不可能定理专题文档](../15-formal-models/FLP不可能定理专题文档.md)** - FLP不可能定理的详细讲解，Temporal如何绕过FLP限制
-- **[一致性模型专题文档](../15-formal-models/一致性模型专题文档.md)** - 一致性模型的详细讲解，Temporal的一致性保证
-- **[Saga模式专题文档](../15-formal-models/Saga模式专题文档.md)** - Saga模式的详细讲解，Temporal如何实现Saga模式
-- **[工作流模式专题文档](../15-formal-models/工作流模式专题文档.md)** - 工作流模式的详细讲解，Temporal支持的工作流模式
-- **[TLA+专题文档](../15-formal-models/TLA+专题文档.md)** - TLA+形式化验证方法，可用于验证Temporal工作流正确性
-- **[Paxos算法专题文档](../15-formal-models/Paxos算法专题文档.md)** - Paxos算法，Temporal的共识机制
-- **[Raft算法专题文档](../15-formal-models/Raft算法专题文档.md)** - Raft算法，Temporal的共识机制
+- **[CAP定理专题文档](../../02-THEORY/distributed-systems/CAP定理专题文档.md)** - CAP定理的详细讲解，Temporal在CAP权衡中的位置
+- **[FLP不可能定理专题文档](../../02-THEORY/distributed-systems/FLP不可能定理专题文档.md)** - FLP不可能定理的详细讲解，Temporal如何绕过FLP限制
+- **[一致性模型专题文档](../../02-THEORY/distributed-systems/一致性模型专题文档.md)** - 一致性模型的详细讲解，Temporal的一致性保证
+- **[向量时钟专题文档](../../02-THEORY/distributed-systems/向量时钟专题文档.md)** - 向量时钟，事件排序
+- **[Paxos算法专题文档](../../02-THEORY/distributed-systems/Paxos算法专题文档.md)** - Paxos算法，Temporal的共识机制
+- **[Raft算法专题文档](../../02-THEORY/distributed-systems/Raft算法专题文档.md)** - Raft算法，Temporal的共识机制
+- **[拜占庭容错专题文档](../../02-THEORY/distributed-systems/拜占庭容错专题文档.md)** - 拜占庭容错，Temporal的容错机制
+- **[Chandy-Lamport快照算法专题文档](../../02-THEORY/distributed-systems/Chandy-Lamport快照算法专题文档.md)** - Chandy-Lamport快照算法，Temporal的状态恢复机制
+- **[Saga模式专题文档](../../02-THEORY/workflow/Saga模式专题文档.md)** - Saga模式的详细讲解，Temporal如何实现Saga模式
+- **[工作流网专题文档](../../02-THEORY/workflow/工作流网专题文档.md)** - 工作流网，Temporal工作流的建模方法
+- **[工作流模式专题文档](../../02-THEORY/workflow/工作流模式专题文档.md)** - 工作流模式的详细讲解，Temporal支持的工作流模式
+- **[TLA+专题文档](../../02-THEORY/formal-verification/TLA+专题文档.md)** - TLA+形式化验证方法，可用于验证Temporal工作流正确性
+- **[CTL专题文档](../../02-THEORY/formal-verification/CTL专题文档.md)** - CTL时序逻辑验证
+- **[LTL专题文档](../../02-THEORY/formal-verification/LTL专题文档.md)** - LTL时序逻辑验证
+- **[Petri网专题文档](../../02-THEORY/formal-verification/Petri网专题文档.md)** - Petri网建模
+- **[UPPAAL专题文档](../../02-THEORY/formal-verification/UPPAAL专题文档.md)** - UPPAAL实时系统验证
+- **[树形分层结构专题文档](../../02-THEORY/architecture/树形分层结构专题文档.md)** - 树形分层结构，Temporal工作流的组织结构
 
 #### 技术对比和评估文档
 
-- **[技术堆栈对比分析](../02-technology-comparison/技术堆栈对比分析.md)** - 技术堆栈对比分析，Temporal与其他框架的对比
-- **[分布式计算堆栈全面论证与推进计划（2024-2025）](../21-tech-stack-2025/分布式计算堆栈全面论证与推进计划.md)** - 基于2024-2025年最新技术堆栈的全面论证，包含Temporal最新技术趋势和行业应用
-- **[性能基准测试](../06-benchmarks/性能基准测试.md)** - 性能基准测试，Temporal性能数据来源
-- **[综合评估报告](../08-summary/综合评估报告.md)** - 综合评估报告，Temporal综合评估
+- **[技术堆栈对比分析](../技术堆栈对比分析.md)** - 技术堆栈对比分析，Temporal与其他框架的对比
+- **[性能基准测试](../性能基准测试.md)** - 性能基准测试，Temporal性能数据来源
+- **[综合评估报告](../../06-ANALYSIS/综合评估报告.md)** - 综合评估报告，Temporal综合评估
+- **[国际对标分析](../../06-ANALYSIS/国际对标分析.md)** - 国际对标分析，Temporal与国际先进系统的对标
+- **[技术成熟度深度评估报告](../../06-ANALYSIS/技术成熟度深度评估报告.md)** - 技术成熟度评估，Temporal的技术成熟度
+- **[竞争力分析报告](../../06-ANALYSIS/竞争力分析报告.md)** - 竞争力分析，Temporal的竞争力
+- **[性能深度分析报告](../../06-ANALYSIS/性能深度分析报告.md)** - 性能深度分析，Temporal的性能
+- **[成本效益深度分析报告](../../06-ANALYSIS/成本效益深度分析报告.md)** - 成本效益深度分析，Temporal的成本效益
+- **[风险评估深度分析报告](../../06-ANALYSIS/风险评估深度分析报告.md)** - 风险评估，Temporal的风险评估
+- **[趋势分析与预测报告](../../06-ANALYSIS/趋势分析与预测报告.md)** - 趋势分析与预测，Temporal的趋势分析
+- **[创新点与差异化分析报告](../../06-ANALYSIS/创新点与差异化分析报告.md)** - 创新点与差异化分析，Temporal的创新分析
+- **[行业应用前景分析报告](../../06-ANALYSIS/行业应用前景分析报告.md)** - 行业应用前景分析，Temporal的行业应用前景
+
+#### 实践案例文档
+
+- **[企业实践案例](../../04-PRACTICE/企业实践案例.md)** - 企业实践案例，Temporal在企业中的应用
+- **[场景主题分类案例](../../04-PRACTICE/场景主题分类案例.md)** - 场景主题分类案例，Temporal的应用场景
+
+#### 知识体系文档
+
+- **[项目知识图谱](../../07-KNOWLEDGE/项目知识图谱.md)** - 项目知识图谱，Temporal在知识图谱中的位置
+- **[理论模型与项目内容完整整合文档](../../07-KNOWLEDGE/理论模型与项目内容完整整合文档.md)** - 理论模型与项目内容完整整合文档，Temporal与项目内容的完整关联
+- **[完整知识图谱](../../07-KNOWLEDGE/完整知识图谱.md)** - 完整知识图谱，Temporal的完整知识关联
+- **[全局知识概念关系图](../../07-KNOWLEDGE/全局知识概念关系图.md)** - 全局知识概念关系图，Temporal的概念关系
+- **[概念索引](../../07-KNOWLEDGE/概念索引.md)** - 概念索引，Temporal相关概念的索引
 
 #### 其他相关文档
 
-- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - 形式化验证理论
-- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - Temporal在项目知识图谱中的位置
+- **[形式化验证理论](../../01-FOUNDATION/形式化验证理论.md)** - 形式化验证理论，Temporal的理论基础
+- **[主题关系分析](../../01-FOUNDATION/主题关系分析.md)** - 主题关系分析，Temporal在主题关系中的位置
 
 ### 10.2 外部资源链接
 
@@ -3437,43 +3467,76 @@ graph TB
 
 #### 学术论文
 
-- Bernstein, P. A., & Newcomer, E. (2009). "Principles of Transaction Processing". Morgan Kaufmann.
-- Fowler, M. (2005). "Event Sourcing". martinfowler.com.
+- Bernstein, P. A., & Newcomer, E. (2009). "Principles of Transaction Processing". Morgan Kaufmann. [PDF](https://www.morgan-kaufmann.com/store/principles-of-transaction-processing-9781558606234)
+- Fowler, M. (2005). "Event Sourcing". martinfowler.com. [Link](https://martinfowler.com/eaaDev/EventSourcing.html)
+- Lamport, L. (1978). "Time, Clocks, and the Ordering of Events in a Distributed System". Communications of the ACM. [PDF](https://lamport.azurewebsites.net/pubs/time-clocks.pdf)
+- Chandy, K. M., & Lamport, L. (1985). "Distributed Snapshots: Determining Global States of Distributed Systems". ACM Transactions on Computer Systems. [PDF](https://lamport.azurewebsites.net/pubs/chandy.pdf)
 
 #### 学术课程
 
 - [MIT 6.824 Distributed Systems](https://pdos.csail.mit.edu/6.824/) - 分布式系统课程（工作流章节）
+- [CMU 15-445 Database Systems](https://15445.courses.cs.cmu.edu/) - 数据库系统课程（分布式事务章节）
+- [Stanford CS244B Distributed Systems](https://web.stanford.edu/class/cs244b/) - 分布式系统课程（工作流章节）
 
 ### 10.3 项目管理文档
 
-- **[Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md)** - Wikipedia资源对标
-- **[学术论文对标](../../structure_control/学术论文对标.md)** - 学术论文对标
-- **[概念关联网络](../../structure_control/概念关联网络.md)** - Temporal在概念关联网络中的位置
+- **[学术论文对标](../../structure_control/学术论文对标.md)** - 学术论文对标，Temporal选型的学术研究对标
+- **[学术课程对标](../../structure_control/学术课程对标.md)** - 学术课程对标，Temporal选型的学术课程对标
+- **[文档关联矩阵](../../structure_control/文档关联矩阵.md)** - 文档关联矩阵，Temporal选型的文档关联
+- **[Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md)** - Wikipedia资源对标，Temporal选型的Wikipedia资源对标
+- **[概念关联网络](../../structure_control/概念关联网络.md)** - 概念关联网络，Temporal在概念关联网络中的位置
 
 ### 10.4 文档关联说明
 
 **理论关联**：
 
-- Temporal的Durable Execution机制基于**事件溯源理论**（参见[一致性模型专题文档](../15-formal-models/一致性模型专题文档.md)）
-- Temporal在CAP定理中的位置是**CP系统**（参见[CAP定理专题文档](../15-formal-models/CAP定理专题文档.md)）
-- Temporal通过**故障检测器**绕过FLP不可能定理（参见[FLP不可能定理专题文档](../15-formal-models/FLP不可能定理专题文档.md)）
+- Temporal的Durable Execution机制基于**事件溯源理论**（参见[一致性模型专题文档](../../02-THEORY/distributed-systems/一致性模型专题文档.md)）
+- Temporal在CAP定理中的位置是**CP系统**（参见[CAP定理专题文档](../../02-THEORY/distributed-systems/CAP定理专题文档.md)）
+- Temporal通过**故障检测器**绕过FLP不可能定理（参见[FLP不可能定理专题文档](../../02-THEORY/distributed-systems/FLP不可能定理专题文档.md)）
+- Temporal使用**向量时钟**实现事件排序（参见[向量时钟专题文档](../../02-THEORY/distributed-systems/向量时钟专题文档.md)）
+- Temporal可以使用**Paxos/Raft**实现共识（参见[Paxos算法专题文档](../../02-THEORY/distributed-systems/Paxos算法专题文档.md)和[Raft算法专题文档](../../02-THEORY/distributed-systems/Raft算法专题文档.md)）
+- Temporal支持**Saga模式**用于分布式事务管理（参见[Saga模式专题文档](../../02-THEORY/workflow/Saga模式专题文档.md)）
+- Temporal工作流可以用**工作流网**建模（参见[工作流网专题文档](../../02-THEORY/workflow/工作流网专题文档.md)）
+- Temporal支持多种**工作流模式**（参见[工作流模式专题文档](../../02-THEORY/workflow/工作流模式专题文档.md)）
+- Temporal可以使用**树形分层结构**组织工作流（参见[树形分层结构专题文档](../../02-THEORY/architecture/树形分层结构专题文档.md)）
 
 **实践关联**：
 
 - Temporal + PostgreSQL是最佳技术栈组合（参见[技术栈组合论证](技术栈组合论证.md)）
 - PostgreSQL作为存储后端提供强一致性保证（参见[PostgreSQL选型论证](PostgreSQL选型论证.md)）
-- 不同场景下的技术栈选择（参见[场景归纳和分类](场景归纳和分类.md)）
+- 更多Temporal应用案例参见[企业实践案例](../../04-PRACTICE/企业实践案例.md)和[场景主题分类案例](../../04-PRACTICE/场景主题分类案例.md)
 
 **验证关联**：
 
-- 可以使用TLA+验证Temporal工作流的正确性（参见[TLA+专题文档](../15-formal-models/TLA+专题文档.md)）
-- Temporal实现了Saga模式用于分布式事务管理（参见[Saga模式专题文档](../15-formal-models/Saga模式专题文档.md)）
-- Temporal可以使用Chandy-Lamport快照算法实现状态恢复（参见[Chandy-Lamport快照算法专题文档](../15-formal-models/Chandy-Lamport快照算法专题文档.md)）
+- 可以使用**TLA+**验证Temporal工作流的正确性（参见[TLA+专题文档](../../02-THEORY/formal-verification/TLA+专题文档.md)）
+- 可以使用**CTL/LTL**验证Temporal工作流的时序性质（参见[CTL专题文档](../../02-THEORY/formal-verification/CTL专题文档.md)和[LTL专题文档](../../02-THEORY/formal-verification/LTL专题文档.md)）
+- 可以使用**Petri网**建模Temporal工作流（参见[Petri网专题文档](../../02-THEORY/formal-verification/Petri网专题文档.md)）
+- 可以使用**UPPAAL**验证Temporal工作流的实时性质（参见[UPPAAL专题文档](../../02-THEORY/formal-verification/UPPAAL专题文档.md)）
+- Temporal可以使用**Chandy-Lamport快照算法**实现状态恢复（参见[Chandy-Lamport快照算法专题文档](../../02-THEORY/distributed-systems/Chandy-Lamport快照算法专题文档.md)）
 
 **对比关联**：
 
-- Temporal与其他工作流框架的详细对比（参见[技术堆栈对比分析](../02-technology-comparison/技术堆栈对比分析.md)）
-- Temporal的性能数据来自性能基准测试（参见[性能基准测试](../06-benchmarks/性能基准测试.md)）
+- Temporal与其他工作流框架的详细对比（参见[技术堆栈对比分析](../技术堆栈对比分析.md)）
+- Temporal的性能数据来自性能基准测试（参见[性能基准测试](../性能基准测试.md)）
+- Temporal的综合评估结果（参见[综合评估报告](../../06-ANALYSIS/综合评估报告.md)）
+- Temporal与国际先进系统的对标（参见[国际对标分析](../../06-ANALYSIS/国际对标分析.md)）
+
+### 10.5 双向链接说明
+
+**已建立的双向链接**：
+
+- ✅ **Temporal选型论证 ↔ CAP定理**：Temporal选型论证文档已链接到CAP定理文档，CAP定理文档已链接到Temporal选型论证文档
+- ✅ **Temporal选型论证 ↔ 一致性模型**：Temporal选型论证文档已链接到一致性模型文档，一致性模型文档已链接到Temporal选型论证文档
+- ✅ **Temporal选型论证 ↔ FLP不可能定理**：已建立双向链接
+- ✅ **Temporal选型论证 ↔ 向量时钟**：已建立双向链接
+- ✅ **Temporal选型论证 ↔ Paxos/Raft**：已建立双向链接
+- ✅ **Temporal选型论证 ↔ Saga模式**：已建立双向链接
+- ✅ **Temporal选型论证 ↔ 工作流网**：已建立双向链接
+- ✅ **Temporal选型论证 ↔ 工作流模式**：已建立双向链接
+- ✅ **Temporal选型论证 ↔ 树形分层结构**：已建立双向链接
+- ✅ **Temporal选型论证 ↔ TLA+/CTL/LTL/Petri网/UPPAAL**：已建立双向链接
+- ✅ **Temporal选型论证 ↔ PostgreSQL选型论证**：已建立双向链接
+- ✅ **Temporal选型论证 ↔ 技术堆栈对比分析**：已建立双向链接
 
 ---
 

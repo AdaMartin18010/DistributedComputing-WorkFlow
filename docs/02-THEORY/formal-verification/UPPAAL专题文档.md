@@ -114,6 +114,7 @@
     - [13.1 项目内部文档](#131-项目内部文档)
       - [核心论证文档](#核心论证文档)
       - [理论模型专题文档](#理论模型专题文档)
+      - [实践案例文档](#实践案例文档)
       - [其他相关文档](#其他相关文档)
     - [13.2 外部资源链接](#132-外部资源链接)
       - [Wikipedia资源](#wikipedia资源)
@@ -121,6 +122,12 @@
       - [学术课程](#学术课程)
     - [13.3 项目管理文档](#133-项目管理文档)
     - [13.4 文档关联说明](#134-文档关联说明)
+    - [13.2 外部资源链接](#132-外部资源链接-1)
+      - [Wikipedia资源](#wikipedia资源-1)
+      - [学术论文](#学术论文-1)
+      - [学术课程](#学术课程-1)
+    - [13.3 项目管理文档](#133-项目管理文档-1)
+    - [13.4 文档关联说明](#134-文档关联说明-1)
 
 ---
 
@@ -1308,29 +1315,29 @@ Siemens使用UPPAAL验证工业控制系统的时间性质，包括PLC控制系�
 #### 在线工具和网站
 
 1. **UPPAAL Official Website**
-   - 网站：https://uppaal.org/
+   - 网站：<https://uppaal.org/>
    - **推荐理由**：UPPAAL的官方网站，包含工具下载、文档、教程和示例
 
 2. **UPPAAL Documentation**
-   - 网站：https://uppaal.org/documentation/
+   - 网站：<https://uppaal.org/documentation/>
    - **推荐理由**：UPPAAL的官方文档，包含详细的使用说明和API文档
 
 3. **UPPAAL Examples**
-   - 网站：https://uppaal.org/examples/
+   - 网站：<https://uppaal.org/examples/>
    - **推荐理由**：UPPAAL的示例集合，包含各种实际应用案例
 
 #### 大学课程
 
 1. **Aalborg University: Real-Time Systems**
-   - 课程链接：https://www.aau.dk/
+   - 课程链接：<https://www.aau.dk/>
    - **推荐理由**：Aalborg University的实时系统课程，UPPAAL的开发者所在大学，包含UPPAAL的详细讲解
 
 2. **Uppsala University: Model Checking**
-   - 课程链接：https://www.uu.se/
+   - 课程链接：<https://www.uu.se/>
    - **推荐理由**：Uppsala University的模型检验课程，包含UPPAAL的详细讲解
 
 3. **CMU 15-811: Formal Methods**
-   - 课程链接：https://www.cs.cmu.edu/~aldrich/courses/15-819-FM/
+   - 课程链接：<https://www.cs.cmu.edu/~aldrich/courses/15-819-FM/>
    - **推荐理由**：CMU的形式化方法课程，包含时间自动机和UPPAAL的详细讲解
 
 ---
@@ -2073,6 +2080,7 @@ A[] ((TemporalWorkflow.Completed && workflow_time <= 30) imply not TemporalWorkf
 **使用步骤**：
 
 1. **安装UPPAAL**：
+
 ```bash
 # 下载UPPAAL
 wget https://uppaal.org/download/uppaal-4.1.26-linux64.tar.gz
@@ -2080,7 +2088,8 @@ tar -xzf uppaal-4.1.26-linux64.tar.gz
 cd uppaal-4.1.26
 ```
 
-2. **创建UPPAAL模型**：
+1. **创建UPPAAL模型**：
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.docs.uppaal.org/flat-1_1.dtd'>
@@ -2112,7 +2121,8 @@ cd uppaal-4.1.26
 </nta>
 ```
 
-3. **验证模型**：
+1. **验证模型**：
+
 ```bash
 # 在UPPAAL中打开模型文件
 # 使用Query验证属性
@@ -2135,6 +2145,7 @@ cd uppaal-4.1.26
 **使用步骤**：
 
 1. **定义验证查询**：
+
 ```bash
 # 安全性查询：系统永远不会进入错误状态
 A[] not Process.Error
@@ -2146,7 +2157,8 @@ E<> Process.End
 A[] Process.End imply t <= 10
 ```
 
-2. **运行验证**：
+1. **运行验证**：
+
 ```bash
 # 在UPPAAL中运行验证
 # 查看验证结果
@@ -2170,6 +2182,7 @@ A[] Process.End imply t <= 10
 **形式化表述**：
 
 设：
+
 - $A$：时间自动机
 - $S$：状态集合
 - $Error$：错误状态
@@ -2206,6 +2219,7 @@ $$\forall s \in S: Reachable(s) \implies s \notin Error$$
 **形式化表述**：
 
 设：
+
 - $A$：时间自动机
 - $t$：时钟变量
 - $T$：时间约束
@@ -2240,19 +2254,87 @@ $$\forall s \in Complete: Reachable(s) \implies t \leq T$$
 
 #### 核心论证文档
 
-- **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - 可以使用UPPAAL验证Temporal实时工作流
+- **[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)** - 可以使用UPPAAL验证Temporal实时工作流
+- **[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)** - 技术栈组合的UPPAAL验证
+- **[技术堆栈对比分析](../../03-TECHNOLOGY/技术堆栈对比分析.md)** - UPPAAL在技术选型中的应用
 
 #### 理论模型专题文档
 
 - **[CTL专题文档](CTL专题文档.md)** - CTL时序逻辑，UPPAAL使用CTL进行验证
 - **[LTL专题文档](LTL专题文档.md)** - LTL时序逻辑，UPPAAL使用LTL进行验证
+- **[CTL-LTL扩展专题文档](CTL-LTL扩展专题文档.md)** - CTL/LTL扩展，UPPAAL的扩展形式
 - **[TLA+专题文档](TLA+专题文档.md)** - TLA+形式化验证方法，与UPPAAL相关的验证方法
 - **[Petri网专题文档](Petri网专题文档.md)** - Petri网建模，与UPPAAL相关的并发建模方法
+- **[Coq-Isabelle专题文档](Coq-Isabelle专题文档.md)** - Coq/Isabelle定理证明
+
+#### 实践案例文档
+
+- **[企业实践案例](../../04-PRACTICE/企业实践案例.md)** - UPPAAL在企业实践中的应用案例
+- **[国际对标分析](../../06-ANALYSIS/国际对标分析.md)** - UPPAAL在国际对标中的应用
 
 #### 其他相关文档
 
-- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - UPPAAL在形式化验证理论中的位置
-- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - UPPAAL在知识图谱中的位置
+- **[形式化验证理论](../../01-FOUNDATION/形式化验证理论.md)** - UPPAAL在形式化验证理论中的位置
+- **[主题关系分析](../../01-FOUNDATION/主题关系分析.md)** - UPPAAL在主题关系中的位置
+- **[项目知识图谱](../../07-KNOWLEDGE/项目知识图谱.md)** - UPPAAL在知识图谱中的位置
+- **[理论模型与项目内容完整整合文档](../../07-KNOWLEDGE/理论模型与项目内容完整整合文档.md)** - UPPAAL与项目内容的完整关联
+
+### 13.2 外部资源链接
+
+#### Wikipedia资源
+
+- [UPPAAL](https://en.wikipedia.org/wiki/UPPAAL) - UPPAAL实时系统验证工具
+- [UPPAAL](https://zh.wikipedia.org/wiki/UPPAAL) - UPPAAL中文条目
+- [Timed Automaton](https://en.wikipedia.org/wiki/Timed_automaton) - 时间自动机
+- [Model Checking](https://en.wikipedia.org/wiki/Model_checking) - 模型检验
+- [Real-Time Systems](https://en.wikipedia.org/wiki/Real-time_computing) - 实时系统
+
+#### 学术论文
+
+- Bengtsson, J., et al. (1995). "UPPAAL - a Tool Suite for Automatic Verification of Real-Time Systems". Hybrid Systems III. [PDF](https://www.it.uu.se/research/group/darts/papers/texts/bengtsson-yi-uppaal.pdf)
+- Larsen, K. G., et al. (1997). "UPPAAL in a Nutshell". International Journal on Software Tools for Technology Transfer. [PDF](https://www.it.uu.se/research/group/darts/papers/texts/larsen-pettersson-yi-uppaal.pdf)
+
+#### 学术课程
+
+- [Stanford CS237B Formal Methods](https://web.stanford.edu/class/cs237b/) - 形式化方法课程（UPPAAL章节）
+- [MIT 6.512 Formal Methods](https://ocw.mit.edu/courses/6-512-computer-systems-engineering-spring-2009/) - 形式化方法课程（UPPAAL章节）
+- [CMU 15-811 Formal Methods](https://www.cs.cmu.edu/~aldrich/courses/15-811/) - 形式化方法课程（UPPAAL章节）
+
+### 13.3 项目管理文档
+
+- [Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md) - Wikipedia资源对标
+- [学术论文对标](../../structure_control/学术论文对标.md) - 学术论文对标
+- [学术课程对标](../../structure_control/学术课程对标.md) - 学术课程对标
+- [概念关联网络](../../structure_control/概念关联网络.md) - UPPAAL在概念关联网络中的位置
+- [文档关联矩阵](../../structure_control/文档关联矩阵.md) - UPPAAL专题文档的关联关系
+
+### 13.4 文档关联说明
+
+**理论关联**：
+
+- UPPAAL使用**CTL**和**LTL**进行实时系统验证（参见[CTL专题文档](CTL专题文档.md)和[LTL专题文档](LTL专题文档.md)）
+- UPPAAL与CTL-LTL扩展相关（参见[CTL-LTL扩展专题文档](CTL-LTL扩展专题文档.md)）
+- UPPAAL与TLA+都是**形式化验证工具**（参见[TLA+专题文档](TLA+专题文档.md)）
+- UPPAAL与Petri网都是并发系统建模方法（参见[Petri网专题文档](Petri网专题文档.md)）
+- UPPAAL与Coq/Isabelle都是形式化验证方法（参见[Coq-Isabelle专题文档](Coq-Isabelle专题文档.md)）
+
+**实践关联**：
+
+- 可以使用UPPAAL验证Temporal工作流的实时性质（参见[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)）
+- 可以使用UPPAAL验证技术栈组合的正确性（参见[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)）
+- 更多UPPAAL应用案例参见[企业实践案例](../../04-PRACTICE/企业实践案例.md)和[国际对标分析](../../06-ANALYSIS/国际对标分析.md)
+
+### 13.9 双向链接说明
+
+**已建立的双向链接**：
+
+- ✅ **UPPAAL ↔ CTL/LTL**：已建立双向链接，UPPAAL使用**CTL**和**LTL**进行实时系统验证
+- ✅ **UPPAAL ↔ CTL-LTL扩展**：已建立双向链接，UPPAAL与CTL-LTL扩展相关
+- ✅ **UPPAAL ↔ TLA+**：已建立双向链接，UPPAAL与TLA+都是**形式化验证工具**
+- ✅ **UPPAAL ↔ Petri网**：已建立双向链接，UPPAAL与Petri网都是并发系统建模方法
+- ✅ **UPPAAL ↔ Coq/Isabelle**：已建立双向链接，UPPAAL与Coq/Isabelle都是形式化验证方法
+- ✅ **UPPAAL ↔ Temporal选型论证**：已建立双向链接，可以使用UPPAAL验证Temporal工作流的实时性质
+- ✅ **UPPAAL ↔ 技术栈组合论证**：已建立双向链接，可以使用UPPAAL验证技术栈组合的正确性
 
 ### 13.2 外部资源链接
 

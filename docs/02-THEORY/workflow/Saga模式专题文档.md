@@ -2950,43 +2950,92 @@ $$\forall s \in S: CanExecute(s) \implies Eventually(Complete(S))$$
 
 ## 十三、相关文档
 
-## 十三、相关文档
+### 13.1 项目内部文档
 
-### 13.1 思维表征与理论模型联系文档
+#### 核心论证文档
 
-- **[理论模型完整联系体系](../22-mind-representation-integration/理论模型完整联系体系.md)** - Saga模式与其他理论模型的完整联系
-- **[完整知识图谱](../22-mind-representation-integration/完整知识图谱.md)** - Saga模式在完整知识图谱中的位置
-- **[思维表征方法完整整合计划](../22-mind-representation-integration/思维表征方法完整整合计划.md)** - 思维表征方法完整整合计划
+- **[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)** - Temporal如何实现Saga模式
+- **[PostgreSQL选型论证](../../03-TECHNOLOGY/论证/PostgreSQL选型论证.md)** - PostgreSQL在Saga模式中的作用
+- **[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)** - 技术栈组合如何实现分布式事务
+- **[技术堆栈对比分析](../../03-TECHNOLOGY/技术堆栈对比分析.md)** - Saga模式在技术选型中的应用
 
-### 13.2 核心论证文档
+#### 理论模型专题文档
 
-- **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - Temporal如何实现Saga模式
-- **[PostgreSQL选型论证](../18-argumentation-enhancement/PostgreSQL选型论证.md)** - PostgreSQL在Saga模式中的作用
-- **[技术栈组合论证](../18-argumentation-enhancement/技术栈组合论证.md)** - 技术栈组合如何实现分布式事务
-
-### 13.3 理论模型专题文档
-
-- **[CAP定理专题文档](CAP定理专题文档.md)** - CAP定理，Saga模式在CAP权衡中的位置
-- **[一致性模型专题文档](一致性模型专题文档.md)** - 一致性模型，Saga模式的最终一致性保证
+- **[CAP定理专题文档](../distributed-systems/CAP定理专题文档.md)** - CAP定理，Saga模式在CAP权衡中的位置
+- **[一致性模型专题文档](../distributed-systems/一致性模型专题文档.md)** - 一致性模型，Saga模式的最终一致性保证
+- **[工作流网专题文档](工作流网专题文档.md)** - 工作流网建模
 - **[工作流模式专题文档](工作流模式专题文档.md)** - 工作流模式，Saga模式是一种工作流模式
+- **[向量时钟专题文档](../distributed-systems/向量时钟专题文档.md)** - 向量时钟，事件排序
+- **[TLA+专题文档](../formal-verification/TLA+专题文档.md)** - TLA+形式化验证，Saga模式的形式化表述
 
-### 13.4 相关资源
+#### 实践案例文档
 
-- **-**
+- **[企业实践案例](../../04-PRACTICE/企业实践案例.md)** - Saga模式在企业实践中的应用案例
+- **[国际对标分析](../../06-ANALYSIS/国际对标分析.md)** - Saga模式在国际对标中的应用
 
-### 13.5 文档关联说明
+#### 其他相关文档
+
+- **[形式化验证理论](../../01-FOUNDATION/形式化验证理论.md)** - Saga模式在形式化验证理论中的位置
+- **[主题关系分析](../../01-FOUNDATION/主题关系分析.md)** - Saga模式在主题关系中的位置
+- **[项目知识图谱](../../07-KNOWLEDGE/项目知识图谱.md)** - Saga模式在知识图谱中的位置
+- **[理论模型与项目内容完整整合文档](../../07-KNOWLEDGE/理论模型与项目内容完整整合文档.md)** - Saga模式与项目内容的完整关联
+
+### 13.2 外部资源链接
+
+#### Wikipedia资源
+
+- [Saga Pattern](https://en.wikipedia.org/wiki/Saga_pattern) - Saga模式
+- [Distributed Transaction](https://en.wikipedia.org/wiki/Distributed_transaction) - 分布式事务
+- [Eventual Consistency](https://en.wikipedia.org/wiki/Eventual_consistency) - 最终一致性
+- [Compensating Transaction](https://en.wikipedia.org/wiki/Compensating_transaction) - 补偿事务
+- [Workflow](https://en.wikipedia.org/wiki/Workflow) - 工作流
+
+#### 学术论文
+
+- Garcia-Molina, H., & Salem, K. (1987). "Sagas". ACM SIGMOD Record. [PDF](https://www.cs.cornell.edu/andru/cs711/2002fa/reading/sagas.pdf)
+- Richardson, C. (2018). "Pattern: Saga". Microservices Patterns. [Book](https://microservices.io/patterns/data/saga.html)
+- Fowler, M. (2011). "Saga Pattern". [Blog Post](https://microservices.io/patterns/data/saga.html)
+
+#### 学术课程
+
+- [MIT 6.824 Distributed Systems](https://pdos.csail.mit.edu/6.824/) - 分布式系统课程（分布式事务章节）
+- [CMU 15-445 Database Systems](https://15445.courses.cs.cmu.edu/) - 数据库系统课程（分布式事务章节）
+- [Stanford CS145 Introduction to Databases](https://cs145.stanford.edu/) - 数据库系统课程（分布式事务章节）
+
+### 13.3 项目管理文档
+
+- [Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md) - Wikipedia资源对标
+- [学术论文对标](../../structure_control/学术论文对标.md) - 学术论文对标
+- [学术课程对标](../../structure_control/学术课程对标.md) - 学术课程对标
+- [概念关联网络](../../structure_control/概念关联网络.md) - Saga模式在概念关联网络中的位置
+- [文档关联矩阵](../../structure_control/文档关联矩阵.md) - Saga模式专题文档的关联关系
+
+### 13.4 文档关联说明
 
 **理论关联**：
 
-- Saga模式在CAP定理中的位置是**AP系统**（可用性+分区容错性）（参见[CAP定理专题文档](CAP定理专题文档.md)）
-- Saga模式提供**最终一致性**保证（参见[一致性模型专题文档](一致性模型专题文档.md)）
+- Saga模式在CAP定理中的位置是**AP系统**（可用性+分区容错性）（参见[CAP定理专题文档](../distributed-systems/CAP定理专题文档.md)）
+- Saga模式提供**最终一致性**保证（参见[一致性模型专题文档](../distributed-systems/一致性模型专题文档.md)）
 - Saga模式是一种**工作流模式**（参见[工作流模式专题文档](工作流模式专题文档.md)）
+- Saga模式可以组织为**树形结构**（参见[树形分层结构专题文档](../architecture/树形分层结构专题文档.md)）
 
 **实践关联**：
 
-- Temporal实现了Saga模式用于分布式事务管理（参见[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)）
-- PostgreSQL可以作为Saga模式的资源管理器（参见[PostgreSQL选型论证](../18-argumentation-enhancement/PostgreSQL选型论证.md)）
-- Temporal + PostgreSQL技术栈组合如何实现Saga模式（参见[技术栈组合论证](../18-argumentation-enhancement/技术栈组合论证.md)）
-- Saga模式的事务链可以组织为**树形结构**（参见[树形分层结构专题文档](树形分层结构专题文档.md)）
+- Temporal实现了Saga模式用于分布式事务管理（参见[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)）
+- PostgreSQL可以作为Saga模式的资源管理器（参见[PostgreSQL选型论证](../../03-TECHNOLOGY/论证/PostgreSQL选型论证.md)）
+- Temporal + PostgreSQL技术栈组合如何实现Saga模式（参见[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)）
+- 更多Saga模式应用案例参见[企业实践案例](../../04-PRACTICE/企业实践案例.md)和[国际对标分析](../../06-ANALYSIS/国际对标分析.md)
+
+### 13.9 双向链接说明
+
+**已建立的双向链接**：
+
+- ✅ **Saga模式 ↔ CAP定理**：已建立双向链接，Saga模式在CAP定理中的位置是**AP系统**（可用性+分区容错性）
+- ✅ **Saga模式 ↔ 一致性模型**：已建立双向链接，Saga模式提供**最终一致性**保证
+- ✅ **Saga模式 ↔ 工作流模式**：已建立双向链接，Saga模式是一种**工作流模式**
+- ✅ **Saga模式 ↔ 树形分层结构**：已建立双向链接，Saga模式可以组织为**树形结构**
+- ✅ **Saga模式 ↔ Temporal选型论证**：已建立双向链接，Temporal实现了Saga模式用于分布式事务管理
+- ✅ **Saga模式 ↔ PostgreSQL选型论证**：已建立双向链接，PostgreSQL可以作为Saga模式的资源管理器
+- ✅ **Saga模式 ↔ 技术栈组合论证**：已建立双向链接，Temporal + PostgreSQL技术栈组合如何实现Saga模式
 
 ---

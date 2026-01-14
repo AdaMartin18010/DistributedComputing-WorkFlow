@@ -2209,28 +2209,87 @@ $$StronglyConnected(G) \implies Eventually(Terminate)$$
 
 ## 十三、相关文档
 
-### 12.1 核心论证文档
+### 13.1 项目内部文档
 
-- **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - Temporal可以使用快照算法实现状态恢复
+#### 核心论证文档
 
-### 12.2 理论模型专题文档
+- **[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)** - Temporal可以使用快照算法实现状态恢复
+- **[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)** - 技术栈组合的快照算法应用
+- **[技术堆栈对比分析](../../03-TECHNOLOGY/技术堆栈对比分析.md)** - 快照算法在技术选型中的应用
 
+#### 理论模型专题文档
+
+- **[一致性模型专题文档](一致性模型专题文档.md)** - 一致性模型，快照算法提供一致性保证
+- **[CAP定理专题文档](CAP定理专题文档.md)** - CAP定理，快照算法在CAP权衡中的应用
 - **[向量时钟专题文档](向量时钟专题文档.md)** - 向量时钟，快照算法可以使用向量时钟
-- **[一致性模型专题文档](一致性模型专题文档.md)** - 一致性模型，快照算法的一致性保证
+- **[工作流网专题文档](../workflow/工作流网专题文档.md)** - 工作流网建模
+- **[TLA+专题文档](../formal-verification/TLA+专题文档.md)** - TLA+形式化验证，快照算法的形式化表述
 
-### 12.3 相关资源
+#### 实践案例文档
 
-- **-**
+- **[企业实践案例](../../04-PRACTICE/企业实践案例.md)** - 快照算法在企业实践中的应用案例
+- **[国际对标分析](../../06-ANALYSIS/国际对标分析.md)** - 快照算法在国际对标中的应用
 
-### 12.4 文档关联说明
+#### 其他相关文档
+
+- **[形式化验证理论](../../01-FOUNDATION/形式化验证理论.md)** - 快照算法在形式化验证理论中的位置
+- **[主题关系分析](../../01-FOUNDATION/主题关系分析.md)** - 快照算法在主题关系中的位置
+- **[项目知识图谱](../../07-KNOWLEDGE/项目知识图谱.md)** - 快照算法在知识图谱中的位置
+- **[理论模型与项目内容完整整合文档](../../07-KNOWLEDGE/理论模型与项目内容完整整合文档.md)** - 快照算法与项目内容的完整关联
+
+### 13.2 外部资源链接
+
+#### Wikipedia资源
+
+- [Chandy-Lamport Algorithm](https://en.wikipedia.org/wiki/Chandy%E2%80%93Lamport_algorithm) - Chandy-Lamport快照算法
+- [Distributed Snapshot](https://en.wikipedia.org/wiki/Distributed_snapshot) - 分布式快照
+- [Global State](https://en.wikipedia.org/wiki/Global_state) - 全局状态
+- [Consistency Model](https://en.wikipedia.org/wiki/Consistency_model) - 一致性模型
+- [Distributed Computing](https://en.wikipedia.org/wiki/Distributed_computing) - 分布式计算
+
+#### 学术论文
+
+- Chandy, K. M., & Lamport, L. (1985). "Distributed Snapshots: Determining Global States of Distributed Systems". ACM Transactions on Computer Systems. [PDF](https://lamport.azurewebsites.net/pubs/chandy.pdf)
+- Mattern, F. (1989). "Virtual Time and Global States of Distributed Systems". Parallel and Distributed Algorithms. [PDF](https://www.vs.inf.ethz.ch/pubs/papers/Mattern89virtual.pdf)
+
+#### 学术课程
+
+- [MIT 6.824 Distributed Systems](https://pdos.csail.mit.edu/6.824/) - 分布式系统课程（快照算法章节）
+- [CMU 15-440 Distributed Systems](https://www.cs.cmu.edu/~dga/15-440/) - 分布式系统课程（快照算法章节）
+- [Stanford CS244B Distributed Systems](https://web.stanford.edu/class/cs244b/) - 分布式系统课程（快照算法章节）
+
+### 13.3 项目管理文档
+
+- [Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md) - Wikipedia资源对标
+- [学术论文对标](../../structure_control/学术论文对标.md) - 学术论文对标
+- [学术课程对标](../../structure_control/学术课程对标.md) - 学术课程对标
+- [概念关联网络](../../structure_control/概念关联网络.md) - 快照算法在概念关联网络中的位置
+- [文档关联矩阵](../../structure_control/文档关联矩阵.md) - 快照算法专题文档的关联关系
+
+### 13.4 文档关联说明
 
 **理论关联**：
 
-- 快照算法可以使用**向量时钟**实现事件排序（参见[向量时钟专题文档](向量时钟专题文档.md)）
 - 快照算法提供**一致性**保证（参见[一致性模型专题文档](一致性模型专题文档.md)）
+- 快照算法在CAP定理中的应用（参见[CAP定理专题文档](CAP定理专题文档.md)）
+- 快照算法可以使用**向量时钟**（参见[向量时钟专题文档](向量时钟专题文档.md)）
+- 快照算法在工作流建模中的应用（参见[工作流网专题文档](../workflow/工作流网专题文档.md)）
 
 **实践关联**：
 
-- Temporal可以使用快照算法实现状态恢复（参见[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)）
+- Temporal可以使用快照算法实现状态恢复（参见[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)）
+- 可以使用快照算法验证技术栈组合的正确性（参见[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)）
+- 更多快照算法应用案例参见[企业实践案例](../../04-PRACTICE/企业实践案例.md)和[国际对标分析](../../06-ANALYSIS/国际对标分析.md)
+
+### 13.9 双向链接说明
+
+**已建立的双向链接**：
+
+- ✅ **Chandy-Lamport快照算法 ↔ 一致性模型**：已建立双向链接，快照算法提供**一致性**保证
+- ✅ **Chandy-Lamport快照算法 ↔ CAP定理**：已建立双向链接，快照算法在CAP定理中的应用
+- ✅ **Chandy-Lamport快照算法 ↔ 向量时钟**：已建立双向链接，快照算法可以使用**向量时钟**
+- ✅ **Chandy-Lamport快照算法 ↔ 工作流网**：已建立双向链接，快照算法在工作流建模中的应用
+- ✅ **Chandy-Lamport快照算法 ↔ Temporal选型论证**：已建立双向链接，Temporal可以使用快照算法实现状态恢复
+- ✅ **Chandy-Lamport快照算法 ↔ 技术栈组合论证**：已建立双向链接，可以使用快照算法验证技术栈组合的正确性
 
 ---

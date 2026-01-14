@@ -1104,29 +1104,29 @@ LinkedIn使用Paxos算法实现分布式系统的共识，包括职业网络管�
 #### 大学课程
 
 1. **MIT 6.824: Distributed Systems**
-   - 课程链接：https://pdos.csail.mit.edu/6.824/
+   - 课程链接：<https://pdos.csail.mit.edu/6.824/>
    - **推荐理由**：MIT分布式系统课程，包含Paxos算法的详细讲解
 
 2. **CMU 15-440: Distributed Systems**
-   - 课程链接：https://www.cs.cmu.edu/~dga/15-440/
+   - 课程链接：<https://www.cs.cmu.edu/~dga/15-440/>
    - **推荐理由**：CMU分布式系统课程，包含Paxos算法的详细讲解
 
 3. **Stanford CS244B: Distributed Systems**
-   - 课程链接：https://web.stanford.edu/class/cs244b/
+   - 课程链接：<https://web.stanford.edu/class/cs244b/>
    - **推荐理由**：Stanford分布式系统课程，包含Paxos算法的详细讲解
 
 #### 在线教程和博客
 
 1. **Leslie Lamport's Website**
-   - 网站：https://lamport.azurewebsites.net/
+   - 网站：<https://lamport.azurewebsites.net/>
    - **推荐理由**：Leslie Lamport的官方网站，包含Paxos算法的所有论文和资源
 
 2. **Martin Kleppmann's Blog**
-   - 网站：https://martin.kleppmann.com/
+   - 网站：<https://martin.kleppmann.com/>
    - **推荐理由**：包含大量关于Paxos算法和共识算法的文章
 
 3. **Jepsen: Distributed Systems Safety**
-   - 网站：https://jepsen.io/
+   - 网站：<https://jepsen.io/>
    - **推荐理由**：分布式系统一致性测试和分析工具，包含Paxos算法的实际测试案例
 
 ---
@@ -1829,11 +1829,13 @@ class PaxosWorkflow:
 **使用步骤**：
 
 1. **安装依赖**：
+
 ```bash
 pip install pytest pytest-asyncio
 ```
 
-2. **编写测试代码**：
+1. **编写测试代码**：
+
 ```python
 import pytest
 import asyncio
@@ -1869,7 +1871,8 @@ async def test_paxos_fault_tolerance():
     assert result == True
 ```
 
-3. **运行测试**：
+1. **运行测试**：
+
 ```bash
 pytest test_paxos.py -v
 ```
@@ -1890,6 +1893,7 @@ pytest test_paxos.py -v
 **使用步骤**：
 
 1. **创建Multi-Paxos实例**：
+
 ```python
 from paxos import MultiPaxos
 
@@ -1903,7 +1907,8 @@ multi_paxos = MultiPaxos(
 await multi_paxos.start()
 ```
 
-2. **提交命令**：
+1. **提交命令**：
+
 ```python
 # 提交命令到日志
 result = await multi_paxos.propose("command1")
@@ -1913,7 +1918,8 @@ assert result == True
 await multi_paxos.wait_for_replication()
 ```
 
-3. **性能监控**：
+1. **性能监控**：
+
 ```python
 # 获取性能指标
 metrics = multi_paxos.get_metrics()
@@ -1939,6 +1945,7 @@ print(f"Latency: {metrics['latency']} ms")
 **形式化表述**：
 
 设：
+
 - $P(n)$：编号为n的提议
 - $V(n)$：编号为n的提议的值
 - $Chosen(v)$：值v被选定
@@ -1974,6 +1981,7 @@ $$\forall n, m: (n < m) \land Chosen(V(n)) \implies V(m) = V(n)$$
 **形式化表述**：
 
 设：
+
 - $Available(A)$：Acceptor集合$A$可用
 - $Majority(A)$：$A$是多数集合
 - $Eventually(Consensus)$：最终达成共识
@@ -2014,7 +2022,9 @@ $$Majority(A) \land Available(A) \implies Eventually(Consensus)$$
 
 #### 核心论证文档
 
-- **[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)** - Temporal可以使用Paxos实现共识
+- **[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)** - Temporal可以使用Paxos实现共识
+- **[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)** - 技术栈组合的Paxos应用
+- **[技术堆栈对比分析](../../03-TECHNOLOGY/技术堆栈对比分析.md)** - Paxos在技术选型中的应用
 
 #### 理论模型专题文档
 
@@ -2023,11 +2033,21 @@ $$Majority(A) \land Available(A) \implies Eventually(Consensus)$$
 - **[拜占庭容错专题文档](拜占庭容错专题文档.md)** - 拜占庭容错，Paxos的扩展
 - **[CAP定理专题文档](CAP定理专题文档.md)** - CAP定理，Paxos在CAP权衡中的位置
 - **[一致性模型专题文档](一致性模型专题文档.md)** - 一致性模型，Paxos的一致性保证
+- **[向量时钟专题文档](向量时钟专题文档.md)** - 向量时钟，事件排序
+- **[Chandy-Lamport快照算法专题文档](Chandy-Lamport快照算法专题文档.md)** - Chandy-Lamport快照算法
+- **[TLA+专题文档](../formal-verification/TLA+专题文档.md)** - TLA+形式化验证，Paxos的形式化表述
+
+#### 实践案例文档
+
+- **[企业实践案例](../../04-PRACTICE/企业实践案例.md)** - Paxos在企业实践中的应用案例
+- **[国际对标分析](../../06-ANALYSIS/国际对标分析.md)** - Paxos在国际对标中的应用
 
 #### 其他相关文档
 
-- **[形式化验证理论](../03-formal-verification/形式化验证理论.md)** - Paxos算法的形式化验证
-- **[项目知识图谱](../17-enhancement-plan/项目知识图谱.md)** - Paxos算法在知识图谱中的位置
+- **[形式化验证理论](../../01-FOUNDATION/形式化验证理论.md)** - Paxos算法的形式化验证
+- **[主题关系分析](../../01-FOUNDATION/主题关系分析.md)** - Paxos在主题关系中的位置
+- **[项目知识图谱](../../07-KNOWLEDGE/项目知识图谱.md)** - Paxos算法在知识图谱中的位置
+- **[理论模型与项目内容完整整合文档](../../07-KNOWLEDGE/理论模型与项目内容完整整合文档.md)** - Paxos与项目内容的完整关联
 
 ### 13.2 外部资源链接
 
@@ -2040,20 +2060,25 @@ $$Majority(A) \land Available(A) \implies Eventually(Consensus)$$
 
 #### 学术论文
 
-- Lamport, L. (1998). "The Part-Time Parliament". ACM Transactions on Computer Systems.
-- Lamport, L. (2001). "Paxos Made Simple". ACM SIGACT News.
-- Lamport, L. (2005). "Fast Paxos". Distributed Computing.
+- Lamport, L. (1998). "The Part-Time Parliament". ACM Transactions on Computer Systems. [PDF](https://lamport.azurewebsites.net/pubs/lamport-paxos.pdf)
+- Lamport, L. (2001). "Paxos Made Simple". ACM SIGACT News. [PDF](https://lamport.azurewebsites.net/pubs/paxos-simple.pdf)
+- Lamport, L. (2005). "Fast Paxos". Distributed Computing. [PDF](https://lamport.azurewebsites.net/pubs/fast-paxos.pdf)
+- Chandra, T. D., et al. (2007). "Paxos Made Live: An Engineering Perspective". PODC 2007. [PDF](https://www.cs.utexas.edu/users/lorenzo/corsi/cs380d/papers/paper2.1.pdf)
 
 #### 学术课程
 
 - [MIT 6.824 Distributed Systems](https://pdos.csail.mit.edu/6.824/) - 分布式系统课程（Paxos章节）
 - [CMU 15-440 Distributed Systems](https://www.cs.cmu.edu/~dga/15-440/) - 分布式系统课程（Paxos章节）
+- [Stanford CS244B Distributed Systems](https://web.stanford.edu/class/cs244b/) - 分布式系统课程（Paxos章节）
+- [UC Berkeley CS 162 Operating Systems](https://cs162.eecs.berkeley.edu/) - 操作系统课程（分布式系统章节）
 
 ### 13.3 项目管理文档
 
 - [Wikipedia资源对标](../../structure_control/Wikipedia资源对标.md) - Wikipedia资源对标
 - [学术论文对标](../../structure_control/学术论文对标.md) - 学术论文对标
+- [学术课程对标](../../structure_control/学术课程对标.md) - 学术课程对标
 - [概念关联网络](../../structure_control/概念关联网络.md) - Paxos算法在概念关联网络中的位置
+- [文档关联矩阵](../../structure_control/文档关联矩阵.md) - Paxos算法专题文档的关联关系
 
 ### 13.4 文档关联说明
 
@@ -2064,10 +2089,25 @@ $$Majority(A) \land Available(A) \implies Eventually(Consensus)$$
 - 拜占庭容错是Paxos的**扩展**，处理恶意故障（参见[拜占庭容错专题文档](拜占庭容错专题文档.md)）
 - Paxos在**CAP权衡**中实现共识（参见[CAP定理专题文档](CAP定理专题文档.md)）
 - Paxos保证**一致性模型**的实现（参见[一致性模型专题文档](一致性模型专题文档.md)）
+- Paxos可以改造为**树形Paxos**，降低消息复杂度（参见[树形分层结构专题文档](../architecture/树形分层结构专题文档.md)）
 
 **实践关联**：
 
-- Temporal可以使用Paxos实现共识（参见[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md)）
-- Paxos可以改造为**树形Paxos**，降低消息复杂度（参见[树形分层结构专题文档](树形分层结构专题文档.md)）
+- Temporal可以使用Paxos实现共识（参见[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)）
+- 可以使用Paxos验证技术栈组合的正确性（参见[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)）
+- 更多Paxos应用案例参见[企业实践案例](../../04-PRACTICE/企业实践案例.md)和[国际对标分析](../../06-ANALYSIS/国际对标分析.md)
+
+### 13.9 双向链接说明
+
+**已建立的双向链接**：
+
+- ✅ **Paxos ↔ FLP不可能定理**：已建立双向链接，Paxos通过**故障检测器**绕过FLP限制
+- ✅ **Paxos ↔ Raft**：已建立双向链接，Raft是Paxos的**替代方案**，更易理解
+- ✅ **Paxos ↔ 拜占庭容错**：已建立双向链接，拜占庭容错是Paxos的**扩展**，处理恶意故障
+- ✅ **Paxos ↔ CAP定理**：已建立双向链接，Paxos在**CAP权衡**中实现共识
+- ✅ **Paxos ↔ 一致性模型**：已建立双向链接，Paxos保证**一致性模型**的实现
+- ✅ **Paxos ↔ 树形分层结构**：已建立双向链接，Paxos可以改造为**树形Paxos**，降低消息复杂度
+- ✅ **Paxos ↔ Temporal选型论证**：已建立双向链接，Temporal可以使用Paxos实现共识
+- ✅ **Paxos ↔ 技术栈组合论证**：已建立双向链接，可以使用Paxos验证技术栈组合的正确性
 
 ---

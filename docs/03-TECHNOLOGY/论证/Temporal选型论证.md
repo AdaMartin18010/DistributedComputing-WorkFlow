@@ -6,9 +6,11 @@
 
 **快速导航**：
 
-- [↑ 返回目录](#目录)
-- [核心文档](#核心文档快速链接)：[PostgreSQL选型论证](PostgreSQL选型论证.md) | [技术栈组合论证](技术栈组合论证.md)
-- [理论模型](#理论模型快速链接)：[CAP定理专题文档](../15-formal-models/CAP定理专题文档.md) | [TLA+专题文档](../15-formal-models/TLA+专题文档.md) | [Saga模式专题文档](../15-formal-models/Saga模式专题文档.md)
+- [↑ 返回目录](../../README.md)
+- [核心文档](#核心文档快速链接)：[PostgreSQL选型论证](PostgreSQL选型论证.md) | [技术栈组合论证](技术栈组合论证.md) | [技术堆栈对比分析](../技术堆栈对比分析.md) | [性能基准测试](../性能基准测试.md)
+- [理论模型](#理论模型快速链接)：[CAP定理专题文档](../../02-THEORY/distributed-systems/CAP定理专题文档.md) | [TLA+专题文档](../../02-THEORY/formal-verification/TLA+专题文档.md) | [Saga模式专题文档](../../02-THEORY/workflow/Saga模式专题文档.md) | [一致性模型专题文档](../../02-THEORY/distributed-systems/一致性模型专题文档.md) | [工作流模式专题文档](../../02-THEORY/workflow/工作流模式专题文档.md)
+- [实践案例](#实践案例快速链接)：[企业实践案例](../../04-PRACTICE/企业实践案例.md) | [场景主题分类案例](../../04-PRACTICE/场景主题分类案例.md)
+- [分析评估](#分析评估快速链接)：[综合评估报告](../../06-ANALYSIS/综合评估报告.md) | [国际对标分析](../../06-ANALYSIS/国际对标分析.md) | [技术成熟度深度评估报告](../../06-ANALYSIS/技术成熟度深度评估报告.md)
 
 ---
 
@@ -18,7 +20,7 @@
 
 #### 1.1.1 事件溯源（Event Sourcing）理论
 
-**理论基础**：Temporal的Durable Execution基于事件溯源（Event Sourcing）理论。
+**理论基础**：Temporal的Durable Execution基于事件溯源（Event Sourcing）理论（参见[形式化验证理论](../../01-FOUNDATION/形式化验证理论.md#13-事件溯源一致性定义)和[向量时钟专题文档](../../02-THEORY/distributed-systems/向量时钟专题文档.md)）。
 
 **形式化定义**：
 
@@ -46,7 +48,7 @@ $$ \text{State}(t) = \text{Replay}(\mathcal{H}(t)) = \text{Replay}(\langle e_1, 
 
 #### 1.1.2 状态机理论
 
-**理论基础**：Temporal的Workflow执行基于有限状态机（Finite State Machine）理论。
+**理论基础**：Temporal的Workflow执行基于有限状态机（Finite State Machine）理论（参见[工作流网专题文档](../../02-THEORY/workflow/工作流网专题文档.md)和[Petri网专题文档](../../02-THEORY/formal-verification/Petri网专题文档.md)）。
 
 **形式化定义**：
 
@@ -83,7 +85,7 @@ $$ \forall q \in Q, \forall e \in \Sigma: \delta(q, e) \text{ is deterministic} 
 
 #### 1.2.1 Temporal一致性保证的完整证明
 
-**证明目标**：证明Temporal在PostgreSQL存储后端下提供强一致性保证
+**证明目标**：证明Temporal在PostgreSQL存储后端下提供强一致性保证（参见[PostgreSQL选型论证](PostgreSQL选型论证.md)和[CAP定理专题文档](../../02-THEORY/distributed-systems/CAP定理专题文档.md)）
 
 **形式化表述**：
 
@@ -93,10 +95,10 @@ $$ \text{TemporalConsistency} = \forall w_1, w_2 \in \text{Workflows}, \forall t
 
 **前提条件**：
 
-1. PostgreSQL使用可序列化隔离级别（Serializable Isolation Level）
-2. 事件历史 $\mathcal{H}$ 存储在PostgreSQL中
-3. 所有状态读取都基于事件历史重建
-4. PostgreSQL的ACID事务保证
+1. PostgreSQL使用可序列化隔离级别（Serializable Isolation Level）（参见[PostgreSQL选型论证](PostgreSQL选型论证.md)和[一致性模型专题文档](../../02-THEORY/distributed-systems/一致性模型专题文档.md#611-线性一致性linearizability)）
+2. 事件历史 $\mathcal{H}$ 存储在PostgreSQL中（参见[形式化验证理论](../../01-FOUNDATION/形式化验证理论.md#13-事件溯源一致性定义)）
+3. 所有状态读取都基于事件历史重建（参见[向量时钟专题文档](../../02-THEORY/distributed-systems/向量时钟专题文档.md)）
+4. PostgreSQL的ACID事务保证（参见[PostgreSQL选型论证](PostgreSQL选型论证.md)）
 
 **证明策略**：从ACID事务保证推导一致性保证
 
@@ -3466,6 +3468,15 @@ graph TB
 - [Distributed computing](https://en.wikipedia.org/wiki/Distributed_computing) - 分布式计算
 
 #### 学术论文
+
+**最新最佳实践（2024-2025年）**：
+
+- **Temporal官方最佳实践指南** (2024-2025). [Temporal Best Practices](https://docs.temporal.io/best-practices) - Temporal官方最佳实践，包括工作流设计、Activity设计、安全性和合规性、可扩展性和性能、AI/ML集成等
+- **Workflow Orchestration Patterns** (2025). [Claude Plugins](https://claude-plugins.dev/skills/%40wshobson/agents/workflow-orchestration-patterns) - 工作流编排模式，包括确定性执行、幂等性、错误处理等最佳实践
+- **State of Workflow Orchestration Ecosystem 2025** (2025). [PracData](https://www.pracdata.io/p/state-of-workflow-orchestration-ecosystem-2025) - 2025年工作流编排生态系统状态，包括资源管理、监控和可观测性等
+- **Best Practices Using Workflow Orchestration Tools in 2025 and Beyond** (2025). [UMA Technology](https://umatechnology.org/best-practices-using-workflow-orchestration-tools-in-2025-and-beyond/) - 2025年及以后使用工作流编排工具的最佳实践，包括模块化结构、AI驱动工作流、多智能体协调等
+
+#### 学术论文（经典文献）
 
 - Bernstein, P. A., & Newcomer, E. (2009). "Principles of Transaction Processing". Morgan Kaufmann. [PDF](https://www.morgan-kaufmann.com/store/principles-of-transaction-processing-9781558606234)
 - Fowler, M. (2005). "Event Sourcing". martinfowler.com. [Link](https://martinfowler.com/eaaDev/EventSourcing.html)

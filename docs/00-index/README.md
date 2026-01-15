@@ -97,9 +97,9 @@ docs/
 
 ### 技术选型结论
 
-1. **Temporal**在Workflow-as-Code领域处于国际领先地位
-2. **PostgreSQL**在大多数场景下优于Cassandra（成本节省90%，性能提升5.4倍）
-3. **形式化验证**是确保系统正确性的关键手段
+1. **Temporal**在Workflow-as-Code领域处于国际领先地位（参见[Temporal选型论证](../03-TECHNOLOGY/论证/Temporal选型论证.md)和[综合评估报告](../06-ANALYSIS/综合评估报告.md)）
+2. **PostgreSQL**在大多数场景下优于Cassandra（成本节省90%，性能提升5.4倍）（参见[PostgreSQL选型论证](../03-TECHNOLOGY/论证/PostgreSQL选型论证.md)和[成本效益深度分析报告](../06-ANALYSIS/成本效益深度分析报告.md)）
+3. **形式化验证**是确保系统正确性的关键手段（参见[形式化验证理论](../01-FOUNDATION/形式化验证理论.md)和[TLA+专题文档](../02-THEORY/formal-verification/TLA+专题文档.md)）
 
 ## 相关资源
 
@@ -123,16 +123,16 @@ docs/
 
 ### 性能指标
 
-- **吞吐量**：847 tasks/s（PostgreSQL）
-- **延迟**：P99 < 200ms
-- **可用性**：99.99%
-- **故障恢复**：< 5秒
+- **吞吐量**：847 tasks/s（PostgreSQL）（参见[性能基准测试](../03-TECHNOLOGY/性能基准测试.md)）
+- **延迟**：P99 < 200ms（参见[性能深度分析报告](../06-ANALYSIS/性能深度分析报告.md)）
+- **可用性**：99.99%（参见[风险评估深度分析报告](../06-ANALYSIS/风险评估深度分析报告.md)）
+- **故障恢复**：< 5秒（参见[FLP不可能定理专题文档](../02-THEORY/distributed-systems/FLP不可能定理专题文档.md)）
 
 ### 成本效益
 
-- PostgreSQL vs Cassandra：成本节省90%
-- 查询性能：提升10-47倍
-- 写入性能：提升5.4倍
+- PostgreSQL vs Cassandra：成本节省90%（参见[成本效益深度分析报告](../06-ANALYSIS/成本效益深度分析报告.md)）
+- 查询性能：提升10-47倍（参见[性能基准测试](../03-TECHNOLOGY/性能基准测试.md)）
+- 写入性能：提升5.4倍（参见[性能深度分析报告](../06-ANALYSIS/性能深度分析报告.md)）
 
 ## 快速导航
 

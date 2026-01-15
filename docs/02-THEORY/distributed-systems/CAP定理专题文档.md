@@ -2,9 +2,11 @@
 
 **快速导航**：
 
-- [↑ 返回目录](#目录)
-- [核心文档](#核心文档快速链接)：[Temporal选型论证](../18-argumentation-enhancement/Temporal选型论证.md) | [PostgreSQL选型论证](../18-argumentation-enhancement/PostgreSQL选型论证.md)
-- [相关理论模型](#相关理论模型快速链接)：[一致性模型专题文档](一致性模型专题文档.md) | [FLP不可能定理专题文档](FLP不可能定理专题文档.md) | [Saga模式专题文档](Saga模式专题文档.md)
+- [↑ 返回目录](../README.md)
+- [核心文档](#核心文档快速链接)：[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md) | [PostgreSQL选型论证](../../03-TECHNOLOGY/论证/PostgreSQL选型论证.md) | [技术堆栈对比分析](../../03-TECHNOLOGY/技术堆栈对比分析.md) | [性能基准测试](../../03-TECHNOLOGY/性能基准测试.md)
+- [相关理论模型](#相关理论模型快速链接)：[一致性模型专题文档](一致性模型专题文档.md) | [FLP不可能定理专题文档](FLP不可能定理专题文档.md) | [向量时钟专题文档](向量时钟专题文档.md) | [Paxos算法专题文档](Paxos算法专题文档.md) | [Raft算法专题文档](Raft算法专题文档.md) | [Saga模式专题文档](../workflow/Saga模式专题文档.md)
+- [实践案例](#实践案例快速链接)：[企业实践案例](../../04-PRACTICE/企业实践案例.md) | [场景主题分类案例](../../04-PRACTICE/场景主题分类案例.md)
+- [分析评估](#分析评估快速链接)：[综合评估报告](../../06-ANALYSIS/综合评估报告.md) | [国际对标分析](../../06-ANALYSIS/国际对标分析.md)
 
 ## 目录
 
@@ -181,15 +183,15 @@ CAP定理涉及三个性质：
 在分布式系统中，最多只能同时满足三个性质中的两个：
 
 - **CA系统**：一致性和可用性，但不能容忍网络分区（如传统数据库）
-- **CP系统**：一致性和分区容错性，但可能不可用（如分布式数据库）
-- **AP系统**：可用性和分区容错性，但可能不一致（如最终一致性系统）
+- **CP系统**：一致性和分区容错性，但可能不可用（如分布式数据库，参见[一致性模型专题文档](一致性模型专题文档.md)）
+- **AP系统**：可用性和分区容错性，但可能不一致（如最终一致性系统，参见[一致性模型专题文档](一致性模型专题文档.md)和[Saga模式专题文档](../workflow/Saga模式专题文档.md)）
 
 **核心思想3：实际选择**:
 
 在实际分布式系统中：
 
-- **P通常是必需的**：网络分区是不可避免的
-- **因此实际选择是C和A之间的权衡**：选择CP或AP
+- **P通常是必需的**：网络分区是不可避免的（参见[FLP不可能定理专题文档](FLP不可能定理专题文档.md)关于异步系统的限制）
+- **因此实际选择是C和A之间的权衡**：选择CP或AP（参见[一致性模型专题文档](一致性模型专题文档.md)了解不同一致性级别的选择）
 
 ### 1.3 应用领域
 
@@ -241,14 +243,14 @@ $$ \text{TemporalCAP} = \text{C} \land \neg\text{A} \land \text{P} \text{ (网�
 **应用论证**：
 
 - **正常情况**：
-  - **一致性（C）**：PostgreSQL可序列化隔离级别保证强一致性
-  - **可用性（A）**：多副本和故障转移保证高可用性
+  - **一致性（C）**：PostgreSQL可序列化隔离级别保证强一致性（参见[PostgreSQL选型论证](../../03-TECHNOLOGY/论证/PostgreSQL选型论证.md)和[一致性模型专题文档](一致性模型专题文档.md)）
+  - **可用性（A）**：多副本和故障转移保证高可用性（参见[技术堆栈对比分析](../../03-TECHNOLOGY/技术堆栈对比分析.md)）
   - **分区容忍（P）**：不要求，因为假设网络正常
 
 - **网络分区情况**：
-  - **一致性（C）**：优先保证，拒绝不一致的写入
-  - **可用性（A）**：可能降低，等待分区恢复
-  - **分区容忍（P）**：容忍分区，但优先保证一致性
+  - **一致性（C）**：优先保证，拒绝不一致的写入（参见[一致性模型专题文档](一致性模型专题文档.md)）
+  - **可用性（A）**：可能降低，等待分区恢复（参见[FLP不可能定理专题文档](FLP不可能定理专题文档.md)）
+  - **分区容忍（P）**：容忍分区，但优先保证一致性（参见[向量时钟专题文档](向量时钟专题文档.md)）
 
 **应用2：存储后端选择**:
 
@@ -256,21 +258,21 @@ CAP定理指导存储后端选择：
 
 **PostgreSQL（CP系统）**：
 
-- **一致性（C）**：✅ 强一致性（可序列化隔离级别）
-- **可用性（A）**：✅ 高可用性（主从复制）
-- **分区容忍（P）**：✅ 容忍网络分区（优先保证一致性）
+- **一致性（C）**：✅ 强一致性（可序列化隔离级别）（参见[PostgreSQL选型论证](../../03-TECHNOLOGY/论证/PostgreSQL选型论证.md)和[一致性模型专题文档](一致性模型专题文档.md#611-线性一致性linearizability)）
+- **可用性（A）**：✅ 高可用性（主从复制）（参见[技术堆栈对比分析](../../03-TECHNOLOGY/技术堆栈对比分析.md)）
+- **分区容忍（P）**：✅ 容忍网络分区（优先保证一致性）（参见[向量时钟专题文档](向量时钟专题文档.md)）
 
 **Cassandra（AP系统）**：
 
-- **一致性（C）**：❌ 最终一致性
-- **可用性（A）**：✅ 高可用性
-- **分区容忍（P）**：✅ 容忍网络分区（优先保证可用性）
+- **一致性（C）**：❌ 最终一致性（参见[一致性模型专题文档](一致性模型专题文档.md#631-最终一致性eventual-consistency)）
+- **可用性（A）**：✅ 高可用性（参见[技术堆栈对比分析](../../03-TECHNOLOGY/技术堆栈对比分析.md)）
+- **分区容忍（P）**：✅ 容忍网络分区（优先保证可用性）（参见[FLP不可能定理专题文档](FLP不可能定理专题文档.md)）
 
 **选择依据**：
 
-- **Temporal需求**：需要强一致性保证工作流状态的正确性
-- **CAP定理指导**：选择CP系统（PostgreSQL）满足一致性需求
-- **实践验证**：Coinbase等企业使用PostgreSQL验证有效性
+- **Temporal需求**：需要强一致性保证工作流状态的正确性（参见[Temporal选型论证](../../03-TECHNOLOGY/论证/Temporal选型论证.md)）
+- **CAP定理指导**：选择CP系统（PostgreSQL）满足一致性需求（参见[技术栈组合论证](../../03-TECHNOLOGY/论证/技术栈组合论证.md)）
+- **实践验证**：Coinbase等企业使用PostgreSQL验证有效性（参见[企业实践案例](../../04-PRACTICE/企业实践案例.md)）
 
 **理论模型的选择依据**：
 
@@ -310,54 +312,94 @@ CAP定理指导存储后端选择：
 
 ### 2.1 发展历史
 
+**1990年代**：分布式系统理论发展
+
+- **背景**：随着互联网和分布式系统的发展，需要理论指导系统设计
+- **问题**：如何在一致性、可用性和分区容错性之间做出权衡
+- **研究**：学术界和工业界开始研究分布式系统的性质权衡
+
 **2000年**：CAP定理提出
 
 - **演讲**："Towards Robust Distributed Systems" by Eric Brewer
 - **会议**：ACM Symposium on Principles of Distributed Computing (PODC)
-- **贡献**：提出了CAP定理的直觉表述
+- **贡献**：提出了CAP定理的直觉表述，指出在分布式系统中，一致性（Consistency）、可用性（Availability）和分区容错性（Partition tolerance）三个性质不能同时满足
+- **影响**：引发了分布式系统设计的重要讨论
 
 **2002年**：CAP定理形式化证明
 
 - **论文**："Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services" by Seth Gilbert and Nancy Lynch
 - **期刊**：ACM SIGACT News
-- **贡献**：形式化证明了CAP定理
+- **贡献**：形式化证明了CAP定理，为CAP定理提供了严格的数学基础
+- **影响**：确立了CAP定理在分布式系统理论中的重要地位
 
-**2010年代**：CAP定理讨论
+**2000-2010年**：CAP定理应用
 
-- **争议**：关于CAP定理的准确性和适用性的讨论
-- **澄清**：Brewer澄清了CAP定理的含义和应用
+- **工业界采用**：NoSQL数据库（如Cassandra、MongoDB）基于CAP定理设计
+- **系统设计指导**：CAP定理成为分布式系统设计的重要指导原则
+- **实践验证**：大量企业使用CAP定理指导系统架构设计
 
-**来源**：Wikipedia [CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem) 和相关论文
+**2012年**：CAP定理澄清
+
+- **论文**："CAP Twelve Years Later: How the 'Rules' Have Changed" by Eric Brewer
+- **贡献**：Brewer澄清了CAP定理的含义和应用，指出CAP定理不是简单的"三选二"，而是更复杂的权衡
+- **影响**：澄清了CAP定理的误解，提供了更准确的理解
+
+**2010年代至今**：CAP定理持续影响
+
+- **理论发展**：CAP定理的扩展和变种（如PACELC定理）
+- **工业应用**：继续指导分布式系统设计
+- **学术研究**：持续的研究和改进
+
+**来源**：Wikipedia [CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem)、Brewer的原始演讲、Gilbert & Lynch的证明论文，以及相关学术论文
 
 ### 2.2 重要人物
 
 **Eric Brewer（1964-）**:
 
-- **身份**：CAP定理的提出者
-- **背景**：美国计算机科学家，Google副总裁
+- **身份**：CAP定理的提出者，Inktomi和Google的联合创始人
+- **背景**：美国计算机科学家，加州大学伯克利分校教授，Google副总裁
 - **贡献**：
-  - 提出CAP定理
-  - 在分布式系统领域做出重要贡献
+  - 2000年提出CAP定理，为分布式系统设计提供重要指导
+  - 2012年发表"CAP Twelve Years Later"，澄清CAP定理的含义
+  - 在分布式系统、搜索引擎、云计算领域做出重要贡献
+  - 开发了Inktomi搜索引擎（后被Yahoo收购）
+- **荣誉**：在分布式系统和互联网技术领域享有盛誉
 
-**来源**：Wikipedia [Eric Brewer](https://en.wikipedia.org/wiki/Eric_Brewer_(computer_scientist))
+**Seth Gilbert（1975-）**:
 
-**Seth Gilbert & Nancy Lynch**:
-
-- **身份**：CAP定理的形式化证明者
-- **背景**：美国计算机科学家，MIT教授
+- **身份**：CAP定理的形式化证明者之一
+- **背景**：美国计算机科学家，新加坡国立大学教授
 - **贡献**：
-  - 形式化证明了CAP定理
-  - 在分布式系统理论方面做出重要贡献
+  - 与Nancy Lynch共同形式化证明了CAP定理
+  - 在分布式系统理论和算法领域做出重要贡献
+  - 研究分布式算法、一致性协议等
 
-**来源**：Wikipedia和相关论文
+**Nancy Lynch（1948-）**:
+
+- **身份**：CAP定理的形式化证明者之一，分布式系统理论权威
+- **背景**：美国计算机科学家，MIT教授，美国国家工程院院士
+- **贡献**：
+  - 与Seth Gilbert共同形式化证明了CAP定理
+  - 在分布式系统理论、形式化方法领域做出重要贡献
+  - 编写了分布式系统理论的经典教材
+  - 研究分布式算法、一致性协议、容错系统等
+- **荣誉**：
+  - 2001年Dijkstra奖（分布式计算领域最高奖）
+  - 2007年IEEE Emanuel R. Piore奖
+  - 2010年ACM SIGACT杰出服务奖
+
+**来源**：Wikipedia [Eric Brewer](https://en.wikipedia.org/wiki/Eric_Brewer_(computer_scientist))、[Nancy Lynch](https://en.wikipedia.org/wiki/Nancy_Lynch)，以及相关学术论文
 
 ### 2.3 重要里程碑
 
 | 时间 | 里程碑 | 影响 |
 |------|--------|------|
-| **2000** | CAP定理提出 | 建立分布式系统设计指导 |
-| **2002** | 形式化证明 | 提供理论基础 |
-| **2010** | 讨论和澄清 | 明确应用范围 |
+| **2000** | CAP定理提出 | 建立分布式系统设计指导原则 |
+| **2002** | CAP定理形式化证明 | 提供严格的理论基础 |
+| **2000-2010** | 工业界广泛采用 | 证明CAP定理的实用性 |
+| **2012** | CAP定理澄清 | 明确CAP定理的准确含义和应用 |
+| **2010年代** | 理论扩展（PACELC等） | 扩展CAP定理的应用范围 |
+| **2020年代** | 持续影响 | 继续指导分布式系统设计 |
 
 ---
 
@@ -367,37 +409,129 @@ CAP定理指导存储后端选择：
 
 #### 概念1：一致性（Consistency）
 
-**定义**：一致性是指所有节点同时看到相同的数据。
+**定义**：一致性是指所有节点同时看到相同的数据。在CAP定理中，一致性意味着每次读取都能获得最近写入的值。
 
 **形式化定义**：
 
 对于分布式系统中的任意两个节点 $N_1$ 和 $N_2$，如果它们都读取同一个数据项 $x$，则它们应该看到相同的值：
 
-$$ \forall N_1, N_2, x: \text{Read}(N_1, x) = \text{Read}(N_2, x) $$
+$$ \forall N_1, N_2, x, t: \text{Read}(N_1, x, t) = \text{Read}(N_2, x, t) $$
 
-**来源**：Gilbert & Lynch, "Brewer's Conjecture" (2002)
+其中 $t$ 是时间点。
+
+**更强的一致性定义（线性一致性）**：
+
+线性一致性要求所有操作看起来像是在单一副本上按某种顺序执行：
+
+$$ \forall \text{op}_1, \text{op}_2: \text{op}_1 \prec \text{op}_2 \implies \text{Response}(\text{op}_1) \prec \text{Start}(\text{op}_2) $$
+
+其中 $\prec$ 表示全局顺序关系。
+
+**一致性的类型**：
+
+1. **强一致性（Strong Consistency）**：
+   - 所有节点立即看到相同的值
+   - 形式化：$\forall N_1, N_2, x: \text{Read}(N_1, x) = \text{Read}(N_2, x)$
+
+2. **最终一致性（Eventual Consistency）**：
+   - 如果没有新的写入，最终所有节点会看到相同的值
+   - 形式化：$\lim_{t \to \infty} \forall N_1, N_2, x: \text{Read}(N_1, x, t) = \text{Read}(N_2, x, t)$
+
+3. **弱一致性（Weak Consistency）**：
+   - 不保证一致性，但提供其他保证（如因果一致性）
+
+**一致性的代价**：
+
+- **性能代价**：强一致性需要同步，可能降低性能
+- **可用性代价**：在网络分区时，强一致性可能降低可用性
+- **复杂度代价**：实现强一致性需要复杂的协议
+
+**来源**：Gilbert & Lynch, "Brewer's Conjecture" (2002)、Herlihy & Wing, "Linearizability" (1990)
 
 #### 概念2：可用性（Availability）
 
-**定义**：可用性是指系统持续可用，每个请求都能得到响应。
+**定义**：可用性是指系统持续可用，每个请求都能得到响应（不一定是错误响应）。在CAP定理中，可用性意味着系统在正常和分区情况下都能响应请求。
 
 **形式化定义**：
 
-对于系统中的任意节点 $N$ 和任意请求 $r$，系统必须在有限时间内响应：
+对于分布式系统中的任意节点 $N$ 和请求 $r$，系统应该在有限时间内响应：
 
 $$ \forall N, r: \exists t < \infty: \text{Response}(N, r, t) \neq \bot $$
+
+其中 $\bot$ 表示无响应。
+
+**更强的可用性定义**：
+
+可用性要求每个非故障节点都能在有限时间内响应请求：
+
+$$ \forall N \in \text{NonFaulty}, r: \exists t < T_{\max}: \text{Response}(N, r, t) \in \{\text{Success}, \text{Error}\} $$
+
+其中 $T_{\max}$ 是最大响应时间。
+
+**可用性的度量**：
+
+1. **可用性百分比**：
+   $$ \text{Availability} = \frac{\text{Uptime}}{\text{Uptime} + \text{Downtime}} \times 100\% $$
+
+2. **MTBF（平均故障间隔时间）**：
+   $$ \text{MTBF} = \frac{\text{Total Uptime}}{\text{Number of Failures}} $$
+
+3. **MTTR（平均修复时间）**：
+   $$ \text{MTTR} = \frac{\text{Total Downtime}}{\text{Number of Failures}} $$
+
+**可用性的级别**：
+
+- **99%可用性**：每年约87.6小时不可用
+- **99.9%可用性**：每年约8.76小时不可用
+- **99.99%可用性**：每年约52.56分钟不可用
+- **99.999%可用性**：每年约5.26分钟不可用
+
+**可用性的代价**：
+
+- **一致性代价**：高可用性可能需要牺牲一致性（如最终一致性）
+- **性能代价**：高可用性可能需要冗余，增加延迟
+- **复杂度代价**：实现高可用性需要复杂的故障检测和恢复机制
 
 **来源**：Gilbert & Lynch, "Brewer's Conjecture" (2002)
 
 #### 概念3：分区容错性（Partition Tolerance）
 
-**定义**：分区容错性是指系统在网络分区时仍能继续工作。
+**定义**：分区容错性是指系统在网络分区时仍能继续工作。网络分区是指网络被分割成多个部分，各部分之间无法通信。
 
 **形式化定义**：
 
-即使网络被分割成多个部分，系统仍能继续工作：
+对于分布式系统中的网络分区 $P$，系统应该继续工作：
 
-$$ \text{Partition}(Network) \implies \text{SystemContinues}() $$
+$$ \forall P: \text{SystemWorks}(P) $$
+
+其中 $P$ 是网络分区，将节点集合 $N$ 分割为 $P = \{N_1, N_2, ..., N_k\}$，使得：
+- $\bigcup_{i=1}^k N_i = N$
+- $\forall i \neq j: N_i \cap N_j = \emptyset$
+- $\forall i, j, n_1 \in N_i, n_2 \in N_j: \neg \text{CanCommunicate}(n_1, n_2)$
+
+**分区容错性的要求**：
+
+1. **部分可用**：即使网络分区，系统的部分节点仍能继续工作
+2. **数据完整性**：分区恢复后，数据应该保持一致
+3. **自动恢复**：分区恢复后，系统应该自动恢复正常状态
+
+**分区容错性的实现**：
+
+1. **数据复制**：在多个节点复制数据，即使部分节点不可达，其他节点仍能服务
+2. **故障检测**：检测网络分区，采取相应措施
+3. **冲突解决**：分区恢复后，解决数据冲突
+
+**分区容错性的代价**：
+
+- **一致性代价**：分区时可能无法保证强一致性
+- **复杂度代价**：实现分区容错需要复杂的协议和机制
+- **性能代价**：分区检测和恢复可能影响性能
+
+**实际考虑**：
+
+- **P通常是必需的**：在实际分布式系统中，网络分区是不可避免的
+- **因此实际选择是C和A之间的权衡**：选择CP（一致性+分区容错）或AP（可用性+分区容错）
+- **不同场景不同选择**：根据业务需求选择合适的一致性级别
 
 **来源**：Gilbert & Lynch, "Brewer's Conjecture" (2002)
 
@@ -646,7 +780,7 @@ graph TD
 3. **部分同步模型**：如果网络是部分同步的，可以绕过CAP定理
    - **说明**：CAP定理在异步模型下是严格的
 
-4. **弱一致性模型**：如果使用弱一致性模型，可以同时满足A和P
+4. **弱一致性模型**：如果使用弱一致性模型，可以同时满足A和P（参见[一致性模型专题文档](一致性模型专题文档.md)了解不同一致性级别）
    - **说明**：这是AP系统，牺牲了C
 
 **反例分析**：
@@ -659,7 +793,7 @@ graph TD
 
 - **反驳**：CAP定理假设异步网络模型，同步网络不适用
 
-**反例3**：使用最终一致性可以同时满足A、P
+**反例3**：使用最终一致性可以同时满足A、P（参见[一致性模型专题文档](一致性模型专题文档.md#定义6最终一致性eventual-consistency)和[Saga模式专题文档](../workflow/Saga模式专题文档.md)）
 
 - **反驳**：这是AP系统，牺牲了C，符合CAP定理
 
@@ -679,6 +813,20 @@ graph TD
 
 $$ \neg (C \land A \land P) \land (C \land A) \land (C \land P) \land (A \land P) $$
 
+**详细说明**：
+
+1. **CP系统**：满足一致性和分区容错性，牺牲可用性
+   - 在网络分区时，系统会拒绝请求以保证一致性
+   - 典型系统：PostgreSQL（同步复制）、MongoDB（强一致性模式）
+
+2. **AP系统**：满足可用性和分区容错性，牺牲一致性
+   - 在网络分区时，系统继续服务，但可能返回不一致的数据
+   - 典型系统：Cassandra、DynamoDB、CouchDB
+
+3. **CA系统**：满足一致性和可用性，牺牲分区容错性
+   - 不适用于分布式系统，因为网络分区是不可避免的
+   - 典型系统：单节点数据库（如SQLite）
+
 **来源**：CAP定理
 
 #### 性质2：P通常是必需的
@@ -687,11 +835,61 @@ $$ \neg (C \land A \land P) \land (C \land A) \land (C \land P) \land (A \land P
 
 **原因**：
 
-- 网络分区是不可避免的
-- 系统必须能够容忍网络故障
-- 因此，实际选择是C和A之间的权衡
+- **网络分区不可避免**：网络故障是分布式系统的固有特性
+- **系统必须容错**：系统必须能够容忍网络故障，否则无法在分布式环境中运行
+- **实际选择是C和A之间的权衡**：由于P通常是必需的，实际选择是在C和A之间权衡
+
+**形式化表述**：
+
+$$ \text{DistributedSystem}(DS) \implies \text{PartitionTolerance}(DS) \text{ is required} $$
+
+**实际影响**：
+
+- 大多数分布式系统选择CP或AP
+- CA系统通常只适用于单节点或小规模系统
+- 系统设计时需要明确选择CP还是AP
 
 **来源**：Brewer的后续讨论
+
+#### 性质3：CAP定理的对称性
+
+**表述**：CAP定理在C、A、P之间是对称的，任何两个性质的组合都是可能的。
+
+**形式化表述**：
+
+$$ \text{Possible}(C, A) \land \text{Possible}(C, P) \land \text{Possible}(A, P) \land \neg \text{Possible}(C, A, P) $$
+
+**详细说明**：
+
+- **对称性**：C、A、P三个性质在定理中地位平等
+- **组合可能性**：任何两个性质的组合都是可能的
+- **不可能性**：三个性质同时满足是不可能的
+
+**来源**：CAP定理
+
+#### 性质4：CAP定理的渐进性
+
+**表述**：CAP定理不是绝对的，系统可以在不同程度上满足C、A、P。
+
+**形式化表述**：
+
+$$ \text{Degree}(C) + \text{Degree}(A) + \text{Degree}(P) \le 2 $$
+
+其中 $\text{Degree}(X) \in [0, 1]$ 表示性质X的满足程度。
+
+**详细说明**：
+
+- **强一致性 vs 弱一致性**：系统可以选择强一致性（CP）或弱一致性（AP）
+- **高可用性 vs 低可用性**：系统可以选择高可用性（AP）或低可用性（CP）
+- **权衡**：系统设计时需要根据业务需求权衡C和A
+
+**实际应用**：
+
+- **强一致性系统**：金融系统、关键业务系统（选择CP）
+- **高可用性系统**：Web应用、内容分发系统（选择AP）
+- **混合系统**：某些系统在不同场景下选择不同的CAP组合
+
+**来源**：CAP定理的扩展讨论
 
 ### 5.2 重要定理
 
@@ -699,9 +897,52 @@ $$ \neg (C \land A \land P) \land (C \land A) \land (C \land P) \land (A \land P
 
 **表述**：CAP定理在异步网络模型下是严格的。
 
-**证明**：由Gilbert & Lynch的证明可得。
+**形式化表述**：
+
+$$ \text{AsyncNetwork}(N) \implies \neg \exists DS: \text{Consistent}(DS) \land \text{Available}(DS) \land \text{PartitionTolerant}(DS) $$
+
+**证明**：由Gilbert & Lynch的证明可得（见"四、形式化定义"部分的完整证明）。
+
+**关键点**：
+
+1. **异步网络假设**：CAP定理假设异步网络模型（消息延迟无界）
+2. **严格性**：在异步网络模型下，CAP定理是严格的，不存在例外
+3. **绕过方法**：可以通过部分同步模型、故障检测器等绕过CAP定理的限制
 
 **来源**：Gilbert & Lynch, "Brewer's Conjecture" (2002)
+
+#### 定理2：CAP定理的适用性
+
+**表述**：CAP定理适用于分布式系统，但不适用于单节点系统。
+
+**形式化表述**：
+
+$$ \text{DistributedSystem}(DS) \iff |N| \ge 2 \implies \text{CAPTheorem}(DS) $$
+
+其中 $N$ 是节点集合。
+
+**证明思路**：
+
+- **单节点系统**：如果 $|N| = 1$，不存在网络分区，CAP定理不适用
+- **分布式系统**：如果 $|N| \ge 2$，存在网络分区的可能性，CAP定理适用
+
+**来源**：CAP定理的适用条件
+
+#### 定理3：PACELC定理（CAP定理的扩展）
+
+**表述**：在分区（Partition）时，需要在可用性（Availability）和一致性（Consistency）之间选择；在无分区（Else）时，需要在延迟（Latency）和一致性（Consistency）之间选择。
+
+**形式化表述**：
+
+$$ \text{Partition} \implies (\text{Availability} \lor \text{Consistency}) \land \neg \text{Partition} \implies (\text{Latency} \lor \text{Consistency}) $$
+
+**详细说明**：
+
+- **PAC**：分区时选择A或C（与CAP定理相同）
+- **ELC**：无分区时选择L（低延迟）或C（一致性）
+- **扩展**：PACELC定理扩展了CAP定理，考虑了延迟因素
+
+**来源**：Abadi, "Consistency Tradeoffs in Modern Distributed Database System Design" (2012)
 
 ---
 
@@ -718,17 +959,17 @@ $$ T_{CP}(n) = O(n \log n) \text{ 或 } O(n) $$
 
 **详细分析**：
 
-- **Paxos算法**：$O(n \log n)$（使用树形结构优化）
-- **Raft算法**：$O(n)$（Leader模式）
-- **两阶段提交（2PC）**：$O(n)$（协调者模式）
+- **Paxos算法**：$O(n \log n)$（使用树形结构优化，参见[Paxos算法专题文档](Paxos算法专题文档.md)）
+- **Raft算法**：$O(n)$（Leader模式，参见[Raft算法专题文档](Raft算法专题文档.md)）
+- **两阶段提交（2PC）**：$O(n)$（协调者模式，参见[Saga模式专题文档](../workflow/Saga模式专题文档.md)关于分布式事务模式的对比）
 
 **消息复杂度**：
 $$ M_{CP}(n) = O(n^2) \text{ 或 } O(n) $$
 
 **详细分析**：
 
-- **Paxos算法**：$O(n^2)$（完全图网络）或 $O(n \log n)$（树形结构优化）
-- **Raft算法**：$O(n)$（Leader模式）
+- **Paxos算法**：$O(n^2)$（完全图网络）或 $O(n \log n)$（树形结构优化，参见[Paxos算法专题文档](Paxos算法专题文档.md)）
+- **Raft算法**：$O(n)$（Leader模式，参见[Raft算法专题文档](Raft算法专题文档.md)）
 - **2PC算法**：$O(n)$（协调者模式）
 
 **空间复杂度**：
@@ -820,9 +1061,9 @@ $$ S_{CA}(n) = O(1) $$
    - **可用性**：CP系统在分区时不可用 vs AP系统在分区时可用（AP系统更优）
 
 2. **Paxos vs Raft（CP系统）**：
-   - **时间复杂度**：Paxos $O(n \log n)$ vs Raft $O(n)$（Raft更优）
-   - **消息复杂度**：Paxos $O(n^2)$ vs Raft $O(n)$（Raft更优）
-   - **可理解性**：Paxos较复杂 vs Raft较简单（Raft更优）
+   - **时间复杂度**：Paxos $O(n \log n)$ vs Raft $O(n)$（Raft更优，参见[Paxos算法专题文档](Paxos算法专题文档.md)和[Raft算法专题文档](Raft算法专题文档.md)）
+   - **消息复杂度**：Paxos $O(n^2)$ vs Raft $O(n)$（Raft更优，参见[Paxos算法专题文档](Paxos算法专题文档.md)和[Raft算法专题文档](Raft算法专题文档.md)）
+   - **可理解性**：Paxos较复杂 vs Raft较简单（Raft更优，参见[Paxos算法专题文档](Paxos算法专题文档.md)和[Raft算法专题文档](Raft算法专题文档.md)）
 
 3. **Gossip vs CRDT（AP系统）**：
    - **时间复杂度**：Gossip $O(\log n)$ vs CRDT $O(1)$（CRDT更优）
@@ -2874,11 +3115,11 @@ $$Partition \implies Consistent(CP) \land \neg Available(CP)$$
 
 - ✅ **CAP定理 ↔ 一致性模型**：CAP定理文档已链接到一致性模型文档，一致性模型文档已链接到CAP定理文档
 - ✅ **CAP定理 ↔ FLP不可能定理**：两个文档已相互链接
+- ✅ **CAP定理 ↔ Saga模式**：已建立双向链接，Saga模式在CAP定理中的位置是**AP系统**（可用性+分区容错性）
 - ✅ **CAP定理 ↔ Paxos/Raft**：已建立双向链接
 - ✅ **CAP定理 ↔ Temporal选型论证**：已建立双向链接
 - ✅ **CAP定理 ↔ PostgreSQL选型论证**：已建立双向链接
 - ✅ **CAP定理 ↔ 技术堆栈对比分析**：已建立双向链接
-- ✅ **CAP定理 ↔ Temporal选型论证**：已建立双向链接（CAP定理文档已链接到Temporal选型论证文档，Temporal选型论证文档已链接到CAP定理文档）
 
 ---
 
@@ -2922,9 +3163,19 @@ $$Partition \implies Consistent(CP) \land \neg Available(CP)$$
 
 #### 学术论文
 
+**经典文献**：
+
 - Brewer, E. (2000). "Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services". ACM SIGACT News.
 - Brewer, E. (2012). "CAP Twelve Years Later: How the 'Rules' Have Changed". IEEE Computer.
 - Gilbert, S., & Lynch, N. (2002). "Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services". ACM SIGACT News.
+
+**最新研究（2024-2025年）**：
+
+- **A Framework for Consistency Models in Distributed Systems** (2024). [arXiv:2411.16355](https://arxiv.org/abs/2411.16355) - 提出了CLAM定理，提供了比CAP定理更强的实用洞察，允许在高度可用的分区容错系统中推理设计空间和权衡
+- **Arbitration-Free Consistency is Available (and Vice Versa)** (2025). [arXiv:2510.21304](https://arxiv.org/abs/2510.21304) - 引入了仲裁自由一致性（AFC）定理，统一并推广了之前的结果，强调仲裁自由是区分无协调一致性和固有同步行为的关键属性
+- **A Uniqueness Theorem for Distributed Computation under Physical Constraint** (2025). [arXiv:2509.11754](https://arxiv.org/abs/2509.11754) - 引入了自描述并行流（SDPF）模型，提供了CAP定理的构造性对应物
+- **SoK: DAG-based Consensus Protocols** (2024). [arXiv:2411.10026](https://arxiv.org/abs/2411.10026) - 系统化分析了基于DAG的共识协议，在CAP定理框架内探索其设计原则和权衡
+- **Approaches to Building Fault-Tolerant Distributed Systems: The CAP Theorem and Its Practical Application** (2025). [IJECS](https://www.ijecs.in/index.php/ijecs/article/view/5126) - 研究了在CAP定理约束下构建容错分布式系统的策略，评估了现实世界的CAP平衡策略
 
 #### 学术课程
 

@@ -4,6 +4,14 @@
 
 本文档为"为什么选择PostgreSQL作为Temporal的存储后端"提供完整的论证链条，包括理论依据、性能优势、成本优势、功能优势和反例分析。
 
+**快速导航**：
+
+- [↑ 返回目录](../../README.md)
+- [核心文档](#核心文档快速链接)：[Temporal选型论证](Temporal选型论证.md) | [技术栈组合论证](技术栈组合论证.md) | [技术堆栈对比分析](../技术堆栈对比分析.md) | [性能基准测试](../性能基准测试.md)
+- [理论模型](#理论模型快速链接)：[CAP定理专题文档](../../02-THEORY/distributed-systems/CAP定理专题文档.md) | [一致性模型专题文档](../../02-THEORY/distributed-systems/一致性模型专题文档.md) | [向量时钟专题文档](../../02-THEORY/distributed-systems/向量时钟专题文档.md)
+- [实践案例](#实践案例快速链接)：[企业实践案例](../../04-PRACTICE/企业实践案例.md) | [场景主题分类案例](../../04-PRACTICE/场景主题分类案例.md)
+- [分析评估](#分析评估快速链接)：[综合评估报告](../../06-ANALYSIS/综合评估报告.md) | [国际对标分析](../../06-ANALYSIS/国际对标分析.md) | [技术成熟度深度评估报告](../../06-ANALYSIS/技术成熟度深度评估报告.md)
+
 ---
 
 ## 一、理论依据论证
@@ -91,7 +99,7 @@ $$ \forall T \in \text{Transactions}: \text{If } T \text{ commits, then } \foral
 
 #### 1.2.1 MVCC理论基础
 
-**MVCC（Multi-Version Concurrency Control）**：多版本并发控制，通过维护数据的多个版本来实现并发控制。
+**MVCC（Multi-Version Concurrency Control）**：多版本并发控制，通过维护数据的多个版本来实现并发控制（参见[主题关系分析](../../01-FOUNDATION/主题关系分析.md#221-mvccmulti-version-concurrency-control)和[一致性模型专题文档](../../02-THEORY/distributed-systems/一致性模型专题文档.md)）。
 
 **形式化定义**：
 

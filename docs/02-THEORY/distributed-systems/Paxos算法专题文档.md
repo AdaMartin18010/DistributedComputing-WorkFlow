@@ -18,6 +18,7 @@
   - [二、历史背景](#二历史背景)
     - [2.1 发展历史](#21-发展历史)
     - [2.2 重要人物](#22-重要人物)
+      - [重要贡献者](#重要贡献者)
     - [2.3 重要里程碑](#23-重要里程碑)
   - [三、核心概念](#三核心概念)
     - [3.1 基本概念](#31-基本概念)
@@ -37,6 +38,8 @@
     - [5.1 基本性质](#51-基本性质)
       - [性质1：安全性（Safety）](#性质1安全性safety)
       - [性质2：活性（Liveness）](#性质2活性liveness)
+      - [性质3：大多数集合的性质](#性质3大多数集合的性质)
+      - [性质4：提议编号的唯一性](#性质4提议编号的唯一性)
     - [5.2 重要定理](#52-重要定理)
       - [定理1：Paxos正确性](#定理1paxos正确性)
       - [定理2：Paxos算法复杂度](#定理2paxos算法复杂度)
@@ -111,6 +114,7 @@
     - [13.1 项目内部文档](#131-项目内部文档)
       - [核心论证文档](#核心论证文档)
       - [理论模型专题文档](#理论模型专题文档)
+      - [实践案例文档](#实践案例文档)
       - [其他相关文档](#其他相关文档)
     - [13.2 外部资源链接](#132-外部资源链接)
       - [Wikipedia资源](#wikipedia资源)
@@ -118,6 +122,7 @@
       - [学术课程](#学术课程)
     - [13.3 项目管理文档](#133-项目管理文档)
     - [13.4 文档关联说明](#134-文档关联说明)
+    - [13.9 双向链接说明](#139-双向链接说明)
 
 ---
 
@@ -301,6 +306,7 @@ Paxos算法保证安全性：
   - **影响**：推动了共识算法的易用性发展
 
 **来源**：Wikipedia [Paxos](https://en.wikipedia.org/wiki/Paxos_(computer_science))、[Leslie Lamport](https://en.wikipedia.org/wiki/Leslie_Lamport)、Lamport的原始论文，以及分布式共识算法领域的经典文献
+
 - **背景**：美国计算机科学家，2013年图灵奖获得者
 - **贡献**：
   - 提出Paxos算法
@@ -346,6 +352,7 @@ Paxos算法保证安全性：
 $$ P: \text{Value} \times \text{ProposalNumber} \to \text{Proposal} $$
 
 其中：
+
 - $\text{Value}$ 是要达成共识的值
 - $\text{ProposalNumber}$ 是提议编号（单调递增）
 - $\text{Proposal}$ 是提议消息
@@ -375,6 +382,7 @@ $$ P: \text{Value} \times \text{ProposalNumber} \to \text{Proposal} $$
 $$ A = (\text{maxPromised}, \text{acceptedProposal}, \text{acceptedValue}) $$
 
 其中：
+
 - $\text{maxPromised}$ 是已承诺的最高提议编号
 - $\text{acceptedProposal}$ 是已接受的提议编号
 - $\text{acceptedValue}$ 是已接受的值
@@ -596,6 +604,7 @@ $$ \forall P_1, P_2: (\text{Proposer}(P_1) = \text{Proposer}(P_2) \land P_1 \tex
 $$ \text{PaxosCorrect} = \text{Safety} \land \text{Liveness} $$
 
 其中：
+
 - **Safety**：所有正确节点决定相同的值，且决定的值必须是某个节点提议的值
 - **Liveness**：只要大多数节点正确，系统最终会达成共识
 

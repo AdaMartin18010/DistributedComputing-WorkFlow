@@ -39,8 +39,12 @@
     - [5.1 基本性质](#51-基本性质)
       - [性质1：三选二约束](#性质1三选二约束)
       - [性质2：P通常是必需的](#性质2p通常是必需的)
+      - [性质3：CAP定理的对称性](#性质3cap定理的对称性)
+      - [性质4：CAP定理的渐进性](#性质4cap定理的渐进性)
     - [5.2 重要定理](#52-重要定理)
       - [定理1：CAP定理的严格性](#定理1cap定理的严格性)
+      - [定理2：CAP定理的适用性](#定理2cap定理的适用性)
+      - [定理3：PACELC定理（CAP定理的扩展）](#定理3pacelc定理cap定理的扩展)
   - [五、算法复杂度分析](#五算法复杂度分析)
     - [5.1 CAP系统实现算法复杂度](#51-cap系统实现算法复杂度)
       - [5.1.1 CP系统（一致性+分区容错性）算法复杂度](#511-cp系统一致性分区容错性算法复杂度)
@@ -505,6 +509,7 @@ $$ \forall N \in \text{NonFaulty}, r: \exists t < T_{\max}: \text{Response}(N, r
 $$ \forall P: \text{SystemWorks}(P) $$
 
 其中 $P$ 是网络分区，将节点集合 $N$ 分割为 $P = \{N_1, N_2, ..., N_k\}$，使得：
+
 - $\bigcup_{i=1}^k N_i = N$
 - $\forall i \neq j: N_i \cap N_j = \emptyset$
 - $\forall i, j, n_1 \in N_i, n_2 \in N_j: \neg \text{CanCommunicate}(n_1, n_2)$

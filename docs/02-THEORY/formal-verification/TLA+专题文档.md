@@ -19,6 +19,7 @@
   - [二、历史背景](#二历史背景)
     - [2.1 发展历史](#21-发展历史)
     - [2.2 重要人物](#22-重要人物)
+      - [重要贡献者](#重要贡献者)
     - [2.3 重要里程碑](#23-重要里程碑)
   - [三、核心概念](#三核心概念)
     - [3.1 基本概念](#31-基本概念)
@@ -43,6 +44,8 @@
     - [5.1 基本性质](#51-基本性质)
       - [性质1：不变式保持性（完整证明）](#性质1不变式保持性完整证明)
       - [性质2：安全性蕴含](#性质2安全性蕴含)
+      - [性质3：TLA+的组合性](#性质3tla的组合性)
+      - [性质4：TLA+的表达能力](#性质4tla的表达能力)
     - [5.2 重要定理](#52-重要定理)
       - [定理1：规约蕴含定理（完整证明）](#定理1规约蕴含定理完整证明)
       - [定理2：组合定理](#定理2组合定理)
@@ -514,6 +517,7 @@ $$ \Box(\text{StateConsistent} \implies \text{EventHistoryConsistent}) $$
 - **影响**：扩展了TLA+的验证能力
 
 **来源**：Wikipedia [Leslie Lamport](https://en.wikipedia.org/wiki/Leslie_Lamport)、TLA+官方文档，以及相关学术论文
+
 - **著作**：
   - "Specifying Systems: The TLA+ Language and Tools" (2002)
   - "The Temporal Logic of Actions" (1994)
@@ -983,6 +987,7 @@ $$ \text{Composable}(\text{Spec}_1, \text{Spec}_2) \implies \text{Valid}(\text{S
 $$ \text{TLA+} = \text{Safety} \land \text{Liveness} $$
 
 其中：
+
 - **Safety（安全性）**：使用 $\Box$ 表达
 - **Liveness（活性）**：使用 $\Diamond$ 表达
 

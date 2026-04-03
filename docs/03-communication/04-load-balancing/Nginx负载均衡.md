@@ -13,23 +13,23 @@ flowchart TB
         User2[用户2]
         UserN[用户N...]
     end
-    
+
     subgraph Nginx层["Nginx负载均衡层"]
         Nginx[Nginx
         反向代理+LB]
     end
-    
+
     subgraph 服务层["后端服务层"]
         S1[Server 1]
         S2[Server 2]
         S3[Server 3]
         SN[Server N...]
     end
-    
+
     User1 --> Nginx
     User2 --> Nginx
     UserN --> Nginx
-    
+
     Nginx -.->|负载均衡| S1
     Nginx -.->|负载均衡| S2
     Nginx -.->|负载均衡| S3
@@ -61,7 +61,7 @@ upstream backend {
 server {
     listen 80;
     server_name api.example.com;
-    
+
     location / {
         proxy_pass http://backend;
         proxy_set_header Host $host;
@@ -109,7 +109,7 @@ upstream backend {
 upstream backend {
     server 192.168.1.10:8080;
     server 192.168.1.11:8080;
-    
+
     # 主动健康检查（需要nginx plus或第三方模块）
     check interval=3000 rise=2 fall=3 timeout=1000 type=http;
     check_http_send "GET /health HTTP/1.0\r\n\r\n";
@@ -125,12 +125,12 @@ upstream backend {
 server {
     listen 443 ssl http2;
     server_name api.example.com;
-    
+
     ssl_certificate /etc/nginx/ssl/cert.pem;
     ssl_certificate_key /etc/nginx/ssl/key.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
-    
+
     location / {
         proxy_pass http://backend;
     }
@@ -178,6 +178,7 @@ server {
 ## 总结
 
 Nginx是应用层负载均衡的首选方案，特别适合：
+
 - 需要处理大量HTTP请求
 - SSL终端卸载
 - 静态内容加速

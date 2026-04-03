@@ -141,46 +141,46 @@ spec:
     - --advertise-address=192.168.1.10
     - --bind-address=0.0.0.0
     - --secure-port=6443
-    
+
     # etcd 连接
     - --etcd-servers=https://192.168.1.10:2379,https://192.168.1.11:2379,https://192.168.1.12:2379
     - --etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt
     - --etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt
     - --etcd-keyfile=/etc/kubernetes/pki/apiserver-etcd-client.key
-    
+
     # TLS 配置
     - --tls-cert-file=/etc/kubernetes/pki/apiserver.crt
     - --tls-private-key-file=/etc/kubernetes/pki/apiserver.key
     - --client-ca-file=/etc/kubernetes/pki/ca.crt
-    
+
     # 认证与授权
     - --authorization-mode=Node,RBAC
     - --enable-admission-plugins=NodeRestriction,NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota
     - --service-account-key-file=/etc/kubernetes/pki/sa.pub
     - --service-account-signing-key-file=/etc/kubernetes/pki/sa.key
     - --service-account-issuer=https://kubernetes.default.svc.cluster.local
-    
+
     # API 启用/禁用
     - --runtime-config=api/all=true
     - --feature-gates=HPAScaleToZero=true
-    
+
     # 审计日志
     - --audit-log-path=/var/log/kubernetes/audit.log
     - --audit-log-maxage=30
     - --audit-log-maxbackup=10
     - --audit-log-maxsize=100
     - --audit-policy-file=/etc/kubernetes/audit-policy.yaml
-    
+
     # 请求限制
     - --max-requests-inflight=400
     - --max-mutating-requests-inflight=200
     - --default-watch-cache-size=100
-    
+
     # 聚合层配置
     - --proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt
     - --proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key
     - --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt
-    
+
     volumeMounts:
     - mountPath: /etc/kubernetes/pki
       name: k8s-certs
@@ -450,7 +450,7 @@ profiles:
               weight: 1
       disabled:
       - name: NodeName
-    
+
     # 优选插件
     score:
       enabled:
@@ -462,12 +462,12 @@ profiles:
         weight: 2
       - name: NodeAffinity
         weight: 1
-    
+
     # 绑定插件
     bind:
       enabled:
       - name: DefaultBind
-  
+
   # 插件参数
   pluginConfig:
   - name: InterPodAffinity
@@ -529,13 +529,13 @@ profiles:
 for {
     // 1. 获取期望状态 (Desired State)
     desired := getDesiredState()
-    
+
     // 2. 获取当前状态 (Current State)
     current := getCurrentState()
-    
+
     // 3. 计算差异
     diff := compare(desired, current)
-    
+
     // 4. 执行调和动作
     if diff.needsCreate {
         createResource(diff.toCreate)
@@ -546,7 +546,7 @@ for {
     if diff.needsDelete {
         deleteResource(diff.toDelete)
     }
-    
+
     // 5. 等待或监听变化
     waitForNextEvent()
 }
@@ -571,12 +571,12 @@ spec:
     - --bind-address=0.0.0.0
     - --secure-port=10257
     - --cluster-name=kubernetes
-    
+
     # API Server 连接
     - --kubeconfig=/etc/kubernetes/controller-manager.conf
     - --authentication-kubeconfig=/etc/kubernetes/controller-manager.conf
     - --authorization-kubeconfig=/etc/kubernetes/controller-manager.conf
-    
+
     # 控制器配置
     - --concurrent-deployment-syncs=5
     - --concurrent-endpoint-syncs=5
@@ -587,28 +587,28 @@ spec:
     - --concurrent-resource-quota-syncs=5
     - --concurrent-service-syncs=1
     - --concurrent-serviceaccount-token-syncs=5
-    
+
     # 节点控制器配置
     - --node-monitor-grace-period=40s
     - --node-monitor-period=5s
     - --node-startup-grace-period=60s
     - --pod-eviction-timeout=5m0s
-    
+
     # 水平扩缩容配置
     - --horizontal-pod-autoscaler-sync-period=15s
     - --horizontal-pod-autoscaler-tolerance=0.1
     - --horizontal-pod-autoscaler-cpu-initialization-period=90s
     - --horizontal-pod-autoscaler-initial-readiness-delay=30s
-    
+
     # 服务配置
     - --service-cluster-ip-range=10.96.0.0/12
     - --cluster-cidr=10.244.0.0/16
     - --allocate-node-cidrs=true
-    
+
     # TLS 配置
     - --root-ca-file=/etc/kubernetes/pki/ca.crt
     - --service-account-private-key-file=/etc/kubernetes/pki/sa.key
-    
+
     # _leader 选举
     - --leader-elect=true
     - --leader-elect-lease-duration=15s
@@ -707,6 +707,7 @@ Kubernetes 控制平面是集群的大脑，各组件协同工作维护集群的
 4. **Controller Manager** 运行各种控制器，持续调和实际状态与期望状态
 
 在生产环境中：
+
 - 必须部署高可用控制平面（至少 3 个节点）
 - 定期备份 etcd 数据
 - 监控控制平面组件健康状况

@@ -203,7 +203,7 @@ val graph2 = graph.mapVertices((id, attr) => (attr._1.toUpperCase, attr._2))
 val graph3 = graph.mapEdges(e => e.attr.toUpperCase)
 
 // mapTriplets - 转换三元组
-val graph4 = graph.mapTriplets(triplet => 
+val graph4 = graph.mapTriplets(triplet =>
   triplet.srcAttr._1 + " - " + triplet.attr + " -> " + triplet.dstAttr._1
 )
 ```
@@ -275,13 +275,13 @@ import org.apache.spark.graphx._
 import org.apache.spark.graphx.util.GraphGenerators
 
 // 创建示例图
-val graph: Graph[Long, Double] = 
+val graph: Graph[Long, Double] =
   GraphGenerators.logNormalGraph(sc, numVertices = 100).mapEdges(e => e.attr.toDouble)
 
 val sourceId: VertexId = 42 // 源顶点
 
 // 初始化图：源顶点距离为0，其他为无穷大
-val initialGraph = graph.mapVertices((id, _) => 
+val initialGraph = graph.mapVertices((id, _) =>
   if (id == sourceId) 0.0 else Double.PositiveInfinity
 )
 
@@ -289,7 +289,7 @@ val initialGraph = graph.mapVertices((id, _) =>
 val sssp = initialGraph.pregel(Double.PositiveInfinity)(
   // 顶点程序
   (id, dist, newDist) => math.min(dist, newDist),
-  
+
   // 发送消息
   triplet => {
     if (triplet.srcAttr + triplet.attr < triplet.dstAttr) {
@@ -298,7 +298,7 @@ val sssp = initialGraph.pregel(Double.PositiveInfinity)(
       Iterator.empty
     }
   },
-  
+
   // 合并消息
   (a, b) => math.min(a, b)
 )
@@ -401,6 +401,7 @@ GraphX 的核心优势：
 - **表达力**：丰富的图操作和算法库
 
 最佳实践：
+
 1. 选择合适的分区策略优化性能
 2. 合理使用缓存减少重复计算
 3. 使用 Pregel API 实现自定义迭代算法

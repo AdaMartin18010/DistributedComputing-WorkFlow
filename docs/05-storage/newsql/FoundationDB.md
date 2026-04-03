@@ -18,12 +18,14 @@ FoundationDB是由Apple维护的开源分布式键值存储系统，以其严格
 ### 1.1 定义与原理
 
 FoundationDB是一个**分布式有序键值存储**，其设计哲学强调：
+
 - **严格ACID保证**：真正的Serializable隔离级别
 - **性能优先**：在保证一致性的前提下最大化吞吐
 - **简单核心**：核心仅处理有序KV，上层构建丰富功能
 - **故障恢复**：快速故障检测和自动恢复
 
 **核心设计理念**：
+
 - 无共享架构（Shared-Nothing）
 - 使用修改版OCC（乐观并发控制）+ MVCC
 - 基于分布式事务日志的恢复机制
@@ -63,20 +65,20 @@ graph TB
             DataDistributor[Data Distributor]
             RateKeeper[Rate Keeper]
         end
-        
+
         subgraph "存储平面"
             SS1[Storage Server 1]
             SS2[Storage Server 2]
             SS3[Storage Server 3]
             SS4[Storage Server 4]
         end
-        
+
         subgraph "日志平面"
             Log1[Log Server 1]
             Log2[Log Server 2]
             Log3[Log Server 3]
         end
-        
+
         subgraph "代理层"
             P1[Proxy 1]
             P2[Proxy 2]
@@ -84,17 +86,17 @@ graph TB
             R2[Resolver 2]
         end
     end
-    
+
     Client[Client] --> P1
     Client --> P2
-    
+
     P1 --> Sequencer
     P1 --> R1
     P1 --> Log1
-    
+
     Sequencer --> Log1
     Log1 --> SS1
-    
+
     Master --> DataDistributor
     DataDistributor --> SS1
     RateKeeper --> P1
@@ -119,18 +121,18 @@ graph TB
 graph TB
     subgraph "Storage Server内部"
         MVCC[MVCC引擎]
-        
+
         subgraph "内存结构"
             Redo[Redo Log Buffer]
             BTree[B-Tree索引<br/>5秒快照]
             Cache[Page Cache]
         end
-        
+
         subgraph "磁盘结构"
             SQLite[SQLite B-Tree<br/>每个Shard]
         end
     end
-    
+
     Write[写入] --> Redo
     Redo --> SQLite
     Read[读取] --> MVCC
@@ -160,31 +162,31 @@ sequenceDiagram
     participant R as Resolvers
     participant L as Log Servers
     participant SS as Storage Servers
-    
+
     C->>P: 1. Begin Transaction
-    
+
     loop Read Phase
         C->>P: Read(key)
         P->>SS: 读取数据
         SS-->>P: value + version
         P-->>C: value
     end
-    
+
     loop Write Phase
         C->>P: Set(key, value)
         P->>P: 缓存写入（本地）
     end
-    
+
     C->>P: 2. Commit
     P->>S: 获取Read Version
     S-->>P: read_version
-    
+
     P->>S: 获取Commit Version
     S-->>P: commit_version
-    
+
     P->>R: 冲突检测<br/>read_version之后是否有修改
     R-->>P: 无冲突 / 有冲突
-    
+
     alt 冲突检测通过
         P->>L: 写入事务日志
         L-->>P: 确认持久化
@@ -215,11 +217,11 @@ graph LR
         D --> E[冲突检测]
         E --> F[日志提交]
     end
-    
+
     style A fill:#90ee90
     style D fill:#90ee90
     style F fill:#90ee90
-    
+
     Note["必须在5秒内完成<br/>（可配置）"] -.-> A
     Note -.-> D
     Note -.-> F
@@ -262,19 +264,19 @@ graph TB
     subgraph "应用层"
         App[应用程序]
     end
-    
+
     subgraph "记录层 Record Layer"
         Schema[Schema管理]
         Index[索引管理]
         Query[查询处理]
         RecordStore[Record Store]
     end
-    
+
     subgraph "FoundationDB核心"
         Directory[Directory层]
         KV[有序KV存储]
     end
-    
+
     App --> Query
     Query --> Schema
     Query --> Index
@@ -321,14 +323,14 @@ graph LR
         SI[Snapshot Isolation]
         S[Serializable]
     end
-    
+
     RU --> RC
     RC --> RR
     RR --> SI
     SI --> S
-    
+
     style S fill:#90ee90
-    
+
     FDB["FoundationDB<br/>默认Serializable"] -.-> S
     CRDB["CockroachDB<br/>默认Serializable"] -.-> S
     TiDB["TiDB<br/>默认SI"] -.-> SI
@@ -343,19 +345,19 @@ graph LR
 graph TB
     subgraph "Apple iCloud架构"
         iCloud[CloudKit服务]
-        
+
         subgraph "FoundationDB集群"
             FDB1[FoundationDB<br/>多区域部署]
             FDB2[FoundationDB<br/>备份集群]
         end
-        
+
         subgraph "记录层"
             Record[CloudKit Record Layer]
             Index[索引服务]
             Query[查询引擎]
         end
     end
-    
+
     iCloud --> Record
     Record --> FDB1
     Record --> Index
@@ -448,13 +450,13 @@ def create_user(tr, user_id, user_data):
     # 良好的键设计：层级 + 前缀
     user_key = fdb.tuple.pack(('users', user_id))
     tr[user_key] = user_data
-    
+
     # 创建二级索引
     email_key = fdb.tuple.pack(('email_index', user_data['email'], user_id))
     tr[email_key] = b''
 
 # 范围查询示例
-@fdb.transactional  
+@fdb.transactional
 def get_users_in_range(tr, start_id, end_id):
     start_key = fdb.tuple.pack(('users', start_id))
     end_key = fdb.tuple.pack(('users', end_id))
@@ -497,6 +499,7 @@ def optimistic_update(tr, key, update_fn):
 
 **Q1: 事务频繁冲突怎么办？**
 A:
+
 - 缩短事务执行时间（<100ms）
 - 减少事务读取的数据量
 - 使用`set_read_version`预取版本
@@ -505,6 +508,7 @@ A:
 
 **Q2: 如何处理超过5秒的事务？**
 A:
+
 - 拆分大事务为多个小事务
 - 使用游标模式分批处理
 - 考虑使用FoundationDB的`Database.create_transaction()`手动控制
@@ -512,6 +516,7 @@ A:
 
 **Q3: 数据备份和恢复？**
 A:
+
 ```bash
 # 创建备份
 fdbbackup start -d file:///backup/path -t backup_tag
@@ -525,6 +530,7 @@ fdbbackup modify -t backup_tag --incremental
 
 **Q4: 如何扩容？**
 A:
+
 - 添加新机器，配置fdbserver进程
 - 使用`fdbcli`的`exclude`命令逐步迁移数据
 - FoundationDB自动重新平衡数据
@@ -546,6 +552,7 @@ A:
 4. **原子可见性**：通过Log Server的多副本复制保证所有写入同时可见或不可见
 
 **形式化保证**：
+
 ```
 对于任意两个事务T1、T2：
 - 如果T1在T2提交前完成，则T2的read_version ≥ T1的commit_version
@@ -576,6 +583,7 @@ A:
 | Storage Server | 读服务延迟增加 | 数秒（数据恢复） |
 
 **Quorum机制**：
+
 - Log Server：需要多数派确认写入
 - Storage Server：多副本保证读可用性
 

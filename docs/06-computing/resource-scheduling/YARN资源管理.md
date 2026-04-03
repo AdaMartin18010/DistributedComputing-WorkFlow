@@ -190,7 +190,7 @@ YARN 提供三种调度器，满足不同场景的资源调度需求。
 <allocations>
     <!-- 默认队列设置 -->
     <defaultQueueSchedulingPolicy>fair</defaultQueueSchedulingPolicy>
-    
+
     <!-- 用户队列 -->
     <user name="alice">
         <maxRunningApps>10</maxRunningApps>
@@ -198,7 +198,7 @@ YARN 提供三种调度器，满足不同场景的资源调度需求。
     <user name="bob">
         <maxRunningApps>5</maxRunningApps>
     </user>
-    
+
     <!-- 队列定义 -->
     <queue name="production">
         <weight>4.0</weight>
@@ -207,17 +207,17 @@ YARN 提供三种调度器，满足不同场景的资源调度需求。
         <maxRunningApps>50</maxRunningApps>
         <schedulingPolicy>fifo</schedulingPolicy>
     </queue>
-    
+
     <queue name="development">
         <weight>2.0</weight>
         <maxResources>4096mb,4vcores</maxResources>
         <schedulingPolicy>fair</schedulingPolicy>
     </queue>
-    
+
     <queue name="default">
         <weight>1.0</weight>
     </queue>
-    
+
     <!-- 队列放置规则 -->
     <queuePlacementPolicy>
         <rule name="specified" create="false"/>
@@ -408,7 +408,7 @@ curl http://rm-host:8088/ws/v1/cluster/scheduler
 | yarn.acl.enable | ACL 启用 | true (生产环境) |
 | yarn.resourcemanager.am.max-attempts | AM 最大重试 | 2 |
 | yarn.log-aggregation-enable | 日志聚合 | true |
-| yarn.log.server.url | 日志服务器 | http://jobhistory:19888/jobhistory/logs |
+| yarn.log.server.url | 日志服务器 | <http://jobhistory:19888/jobhistory/logs> |
 
 ## 7. 与 Kubernetes 对比
 
@@ -430,6 +430,7 @@ YARN 作为 Hadoop 生态的资源管理基石：
 - **演进**：向容器化（YARN on Docker）和云原生方向发展
 
 最佳实践：
+
 1. 生产环境使用 Capacity 或 Fair Scheduler
 2. 合理设置队列容量和权限
 3. 启用 ResourceManager HA

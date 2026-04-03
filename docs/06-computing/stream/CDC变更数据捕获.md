@@ -33,13 +33,13 @@ graph TB
     A[CDC模式] --> B[基于查询]
     A --> C[基于触发器]
     A --> D[基于日志<br/>推荐]
-    
+
     B --> B1[时间戳/版本号]
     B --> B2[优缺点：简单但有遗漏风险]
-    
+
     C --> C1[数据库触发器]
     C --> C2[优缺点：实时但开销大]
-    
+
     D --> D1[Binlog/Redo Log]
     D --> D2[优缺点：低开销、最完整]
 ```
@@ -76,7 +76,7 @@ graph TB
     E --> F[消息队列<br/>Kafka/Pulsar]
     F --> G[消费者处理]
     G --> H[(目标存储)]
-    
+
     I[Schema Registry] --> D
     J[Offset管理] --> B
 ```
@@ -90,6 +90,7 @@ graph TB
 | **MIXED** | 自动选择 | 不建议用于CDC |
 
 **ROW格式事件结构**
+
 ```
 Event Header:
   - timestamp
@@ -114,7 +115,7 @@ sequenceDiagram
     participant CDC as CDC Capture
     participant MQ as 消息队列
     participant Consumer as 消费者
-    
+
     DB->>DB: 执行事务
     DB->>DB: 写入Binlog
     CDC->>DB: 读取Binlog
@@ -138,13 +139,13 @@ graph TB
         A[Debezium Connectors] --> B[Kafka Connect]
         B --> C[Apache Kafka]
         C --> D[消费者应用]
-        
+
         A1[MySQL Connector] --> A
         A2[PostgreSQL Connector] --> A
         A3[MongoDB Connector] --> A
         A4[Oracle Connector] --> A
         A5[SQL Server Connector] --> A
-        
+
         E[Schema Registry] --> B
         F[Kafka Connect REST API] --> B
     end
@@ -233,13 +234,13 @@ graph TB
     B --> C[Binlog Parser]
     C --> D[Event Sink]
     D --> E[Event Store]
-    
+
     F[Canal Client] --> E
     F --> G[业务应用]
-    
+
     H[Zookeeper] --> B
     H --> F
-    
+
     I[Canal Admin] --> B
 ```
 
@@ -281,7 +282,7 @@ connector.subscribe("db\\.table");
 while (running) {
     Message message = connector.getWithoutAck(100);
     long batchId = message.getId();
-    
+
     for (Entry entry : message.getEntries()) {
         if (entry.getEntryType() == EntryType.ROWDATA) {
             RowChange rowChange = RowChange.parseFrom(entry.getStoreValue());
@@ -375,10 +376,10 @@ graph TB
         C[Oracle CDC] --> F
         D[MongoDB CDC] --> F
         E[SQL Server CDC] --> F
-        
+
         F --> G[Flink SQL]
         F --> H[DataStream API]
-        
+
         G --> I[实时数仓]
         G --> J[数据湖]
         G --> K[流处理应用]
@@ -445,18 +446,18 @@ sequenceDiagram
     participant S as Source DB
     participant F as Flink CDC
     participant C as Chunk分配
-    
+
     F->>S: FLUSH TABLES WITH READ LOCK
     F->>S: 记录Binlog位置
     F->>S: UNLOCK TABLES
-    
+
     loop 分片读取
         C->>F: 分配Chunk
         F->>S: 主键范围查询
         S->>F: 返回数据
         F->>F: 与Binlog流合并
     end
-    
+
     F->>F: 切换为纯Binlog读取
 ```
 
@@ -525,23 +526,23 @@ sequenceDiagram
     "database.server.name": "production",
     "database.include.list": "orders,payments",
     "table.include.list": "orders\\.order,orders\\.order_item",
-    
+
     "snapshot.mode": "when_needed",
     "snapshot.fetch.size": 10000,
     "snapshot.max.threads": 4,
-    
+
     "tombstones.on.delete": "false",
     "decimal.handling.mode": "string",
     "time.precision.mode": "connect",
     "binary.handling.mode": "hex",
-    
+
     "max.batch.size": 2048,
     "max.queue.size": 8192,
     "poll.interval.ms": 1000,
-    
+
     "heartbeat.interval.ms": 10000,
     "heartbeat.topics.prefix": "__debezium-heartbeat",
-    
+
     "transforms": "route,unwrap",
     "transforms.route.type": "org.apache.kafka.connect.transforms.RegexRouter",
     "transforms.route.regex": "([^.]+)\\.([^.]+)\\.([^.]+)",
@@ -589,18 +590,18 @@ env.execute("MySQL to StarRocks CDC");
 metrics:
   - name: lag_seconds
     description: CDC延迟（秒）
-    threshold: 
+    threshold:
       warning: 60
       critical: 300
-      
+
   - name: events_per_second
     description: 每秒事件数
-    
+
   - name: error_count
     description: 错误计数
     threshold:
       critical: 10
-      
+
   - name: connector_status
     description: 连接器状态
     expected: RUNNING
@@ -633,6 +634,7 @@ metrics:
 **Q1: CDC延迟过高如何排查？**
 
 A:
+
 1. 检查源库Binlog生成速度
 2. 监控CDC消费延迟（lag）
 3. 调整并行度和批量大小
@@ -641,6 +643,7 @@ A:
 **Q2: 如何处理大事务导致的OOM？**
 
 A:
+
 ```properties
 # Debezium配置
 max.batch.size=512
@@ -654,6 +657,7 @@ debezium.max.queue.size=2048
 **Q3: Schema变更后如何处理？**
 
 A:
+
 - 使用Schema Registry进行版本管理
 - 下游系统实现Schema Evolution
 - 考虑使用兼容性格式（如Avro with Schema Registry）

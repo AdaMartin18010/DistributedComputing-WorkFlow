@@ -20,6 +20,7 @@ MLOps（机器学习运维）是将DevOps最佳实践应用于机器学习领域
 **MLOps** 是一门工程学科，结合了机器学习、软件工程和数据工程的实践，旨在自动化和监控机器学习系统的整个生命周期。
 
 **核心原理**：
+
 - **自动化**：自动化ML流水线的各个环节
 - **可复现性**：确保实验和结果可复现
 - **可观测性**：全面监控模型和数据
@@ -27,6 +28,7 @@ MLOps（机器学习运维）是将DevOps最佳实践应用于机器学习领域
 - **持续集成/部署**：快速迭代和部署
 
 **MLOps成熟度模型**：
+
 ```
 Level 5: AI驱动自动化
     │
@@ -69,6 +71,7 @@ Level 1: 手动流程
 ### 2.1 ML生命周期管理
 
 **ML生命周期**：
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                     ML生命周期                                   │
@@ -96,6 +99,7 @@ Level 1: 手动流程
 ```
 
 **ML元数据追踪**：
+
 ```python
 # MLflow追踪示例
 import mlflow
@@ -109,25 +113,25 @@ with mlflow.start_run(run_name="xgboost_v1"):
     mlflow.log_param("n_estimators", 100)
     mlflow.log_param("max_depth", 6)
     mlflow.log_param("learning_rate", 0.1)
-    
+
     # 训练模型
     model = XGBClassifier(**params)
     model.fit(X_train, y_train)
-    
+
     # 评估
     accuracy = model.score(X_test, y_test)
     precision = precision_score(y_test, y_pred)
     recall = recall_score(y_test, y_pred)
-    
+
     # 记录指标
     mlflow.log_metric("accuracy", accuracy)
     mlflow.log_metric("precision", precision)
     mlflow.log_metric("recall", recall)
-    
+
     # 记录模型
     signature = infer_signature(X_train, model.predict(X_train))
     mlflow.xgboost.log_model(model, "model", signature=signature)
-    
+
     # 记录artifact
     mlflow.log_artifact("confusion_matrix.png")
     mlflow.log_artifact("feature_importance.json")
@@ -136,6 +140,7 @@ with mlflow.start_run(run_name="xgboost_v1"):
 ### 2.2 模型版本控制
 
 **DVC (Data Version Control)**：
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                      DVC工作流                                   │
@@ -163,6 +168,7 @@ with mlflow.start_run(run_name="xgboost_v1"):
 ```
 
 **DVC配置示例**：
+
 ```yaml
 # .dvc/config
 [core]
@@ -190,6 +196,7 @@ dvc params diff                   # 参数对比
 ```
 
 **MLflow Model Registry**：
+
 ```python
 import mlflow
 from mlflow.tracking import MlflowClient
@@ -227,6 +234,7 @@ client.set_registered_model_alias(
 ```
 
 **模型版本状态流转**：
+
 ```
 ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
 │  None    │───►│ Staging  │───►│Production│───►│ Archived │
@@ -242,6 +250,7 @@ client.set_registered_model_alias(
 ### 2.3 A/B测试
 
 **A/B测试架构**：
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                      A/B测试架构                                 │
@@ -285,6 +294,7 @@ client.set_registered_model_alias(
 ```
 
 **A/B测试实现(Kubernetes + Istio)**：
+
 ```yaml
 # VirtualService for A/B testing
 apiVersion: networking.istio.io/v1beta1
@@ -331,6 +341,7 @@ spec:
 ```
 
 **A/B测试分析**：
+
 ```python
 import numpy as np
 from scipy import stats
@@ -341,29 +352,29 @@ def ab_test_analysis(control_metrics, treatment_metrics, metric_name):
     """
     control = np.array(control_metrics)
     treatment = np.array(treatment_metrics)
-    
+
     # 描述统计
     control_mean = np.mean(control)
     treatment_mean = np.mean(treatment)
     lift = (treatment_mean - control_mean) / control_mean * 100
-    
+
     # 统计检验
     t_stat, p_value = stats.ttest_ind(treatment, control)
-    
+
     # 置信区间
     diff_mean = treatment_mean - control_mean
     se = np.sqrt(
-        np.var(control, ddof=1)/len(control) + 
+        np.var(control, ddof=1)/len(control) +
         np.var(treatment, ddof=1)/len(treatment)
     )
     ci_low = diff_mean - 1.96 * se
     ci_high = diff_mean + 1.96 * se
-    
+
     # 统计功效
     effect_size = diff_mean / np.sqrt(
         (np.var(control) + np.var(treatment)) / 2
     )
-    
+
     result = {
         "metric": metric_name,
         "control_mean": control_mean,
@@ -375,7 +386,7 @@ def ab_test_analysis(control_metrics, treatment_metrics, metric_name):
         "effect_size": effect_size,
         "recommendation": "promote" if p_value < 0.05 and lift > 0 else "keep"
     }
-    
+
     return result
 
 # 使用示例
@@ -391,6 +402,7 @@ print(f"Recommendation: {result['recommendation']}")
 ### 2.4 模型监控
 
 **监控体系**：
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                      模型监控体系                                │
@@ -444,6 +456,7 @@ print(f"Recommendation: {result['recommendation']}")
 | **Drift Detection Method (DDM)** | 在线检测 | 概念漂移 | 高 |
 
 **Evidently AI监控示例**：
+
 ```python
 from evidently import ColumnMapping
 from evidently.report import Report
@@ -491,6 +504,7 @@ concept_drift_report.run(
 ```
 
 **自定义监控服务**：
+
 ```python
 import numpy as np
 from scipy.stats import ks_2samp, chi2_contingency
@@ -510,7 +524,7 @@ class DriftDetector:
     def __init__(self, threshold: float = 0.05):
         self.threshold = threshold
         self.reference_stats = {}
-        
+
     def fit_reference(self, reference_data: pd.DataFrame):
         """学习参考分布"""
         for column in reference_data.columns:
@@ -524,11 +538,11 @@ class DriftDetector:
                     'type': 'categorical',
                     'distribution': reference_data[column].value_counts(normalize=True).to_dict()
                 }
-    
+
     def detect_drift(self, current_data: pd.DataFrame) -> List[DriftReport]:
         """检测数据漂移"""
         reports = []
-        
+
         for column, ref_stats in self.reference_stats.items():
             if ref_stats['type'] == 'numerical':
                 # KS检验
@@ -540,15 +554,15 @@ class DriftDetector:
                 # Chi-Square检验
                 current_dist = current_data[column].value_counts(normalize=True)
                 categories = set(ref_stats['distribution'].keys()) | set(current_dist.index)
-                
-                ref_counts = [ref_stats['distribution'].get(c, 0) * len(ref_stats['data']) 
+
+                ref_counts = [ref_stats['distribution'].get(c, 0) * len(ref_stats['data'])
                              for c in categories]
-                curr_counts = [current_dist.get(c, 0) * len(current_data) 
+                curr_counts = [current_dist.get(c, 0) * len(current_data)
                               for c in categories]
-                
+
                 _, p_value, _, _ = chi2_contingency([ref_counts, curr_counts])
                 statistic = 0  # Chi-square统计量
-            
+
             reports.append(DriftReport(
                 feature_name=column,
                 drift_detected=p_value < self.threshold,
@@ -556,7 +570,7 @@ class DriftDetector:
                 statistic=statistic,
                 threshold=self.threshold
             ))
-        
+
         return reports
 
 # 使用示例
@@ -575,6 +589,7 @@ for report in drift_reports:
 ### 2.5 CI/CD for ML
 
 **MLOps流水线**：
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                      MLOps CI/CD流水线                          │
@@ -601,6 +616,7 @@ for report in drift_reports:
 ```
 
 **GitHub Actions MLOps Pipeline**：
+
 ```yaml
 # .github/workflows/mlops-pipeline.yml
 name: MLOps Pipeline
@@ -617,23 +633,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-          
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
           pip install black flake8 pytest
-          
+
       - name: Lint with flake8
         run: flake8 src/ --max-line-length=100
-        
+
       - name: Format check with black
         run: black --check src/
-        
+
       - name: Unit tests
         run: pytest tests/unit/ -v
 
@@ -643,18 +659,18 @@ jobs:
     needs: lint-and-test
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Pull DVC data
         run: |
           pip install dvc[s3]
           dvc pull
-          
+
       - name: Validate data schema
         run: |
           python scripts/validate_data.py \
             --data-path data/training.csv \
             --schema schema/training_schema.json
-            
+
       - name: Data drift check
         run: |
           python scripts/check_drift.py \
@@ -667,22 +683,22 @@ jobs:
     needs: data-validation
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup MLflow
         run: |
           export MLFLOW_TRACKING_URI=http://mlflow-server:5000
-          
+
       - name: Train model
         run: |
           python src/train.py \
             --config configs/model_config.yaml \
             --experiment-name ${{ github.ref_name }}
-            
+
       - name: Model validation tests
         run: |
           pytest tests/model/ -v \
             --model-path models/latest
-            
+
       - name: Performance check
         run: |
           python scripts/check_performance.py \
@@ -695,34 +711,35 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Build Docker image
         run: |
           docker build -t ml-model:${{ github.sha }} .
           docker tag ml-model:${{ github.sha }} ml-model:latest
-          
+
       - name: Push to registry
         run: |
           echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
           docker push ml-model:${{ github.sha }}
-          
+
       - name: Deploy to staging
         run: |
           kubectl set image deployment/model-serving \
             model=ml-model:${{ github.sha }} \
             -n staging
-            
+
       - name: Run smoke tests
         run: |
           pytest tests/integration/ -v \
             --endpoint https://staging.api.example.com
-            
+
       - name: Deploy to production (canary)
         run: |
           kubectl apply -f k8s/canary-deployment.yaml
 ```
 
 **Kubeflow Pipeline CI/CD**：
+
 ```python
 import kfp
 from kfp import dsl
@@ -732,10 +749,10 @@ from kfp.components import create_component_from_func
 def data_validation_op(data_path: str) -> str:
     """数据验证组件"""
     import great_expectations as ge
-    
+
     df = ge.read_csv(data_path)
     results = df.validate(expectation_suite="suite.json")
-    
+
     if not results.success:
         raise ValueError("Data validation failed!")
     return "validation_passed"
@@ -744,7 +761,7 @@ def data_validation_op(data_path: str) -> str:
 def train_model_op(data_path: str, model_output: str) -> str:
     """模型训练组件"""
     import mlflow
-    
+
     with mlflow.start_run():
         # 训练逻辑
         model.fit(...)
@@ -756,7 +773,7 @@ def model_tests_op(run_id: str) -> str:
     """模型测试组件"""
     # 加载模型并运行测试
     model = mlflow.sklearn.load_model(f"runs:/{run_id}/model")
-    
+
     # 公平性测试
     # 性能测试
     # 压力测试
@@ -778,14 +795,14 @@ def mlops_pipeline(
 ):
     # 数据验证
     validation = data_validation_op(data_path)
-    
+
     # 模型训练
     train = train_model_op(data_path, '/tmp/model')
     train.after(validation)
-    
+
     # 模型测试
     test = model_tests_op(train.output)
-    
+
     # 部署
     deploy = deploy_op(train.output, environment)
     deploy.after(test)
@@ -847,6 +864,7 @@ MLOps工具选型
 ### 4.1 部署配置
 
 **MLflow Tracking Server**：
+
 ```yaml
 # docker-compose.mlflow.yml
 version: '3.8'
@@ -866,7 +884,7 @@ services:
       --default-artifact-root s3://mlflow-artifacts
       --host 0.0.0.0
       --port 5000
-      
+
   postgres:
     image: postgres:13
     environment:
@@ -875,7 +893,7 @@ services:
       POSTGRES_DB: mlflow
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      
+
   minio:
     image: minio/minio
     ports:
@@ -896,6 +914,7 @@ volumes:
 ### 4.2 最佳实践
 
 1. **版本控制策略**
+
    ```bash
    # Git分支策略
    main        # 生产分支
@@ -903,7 +922,7 @@ volumes:
    ├── feature/data-pipeline
    ├── feature/model-architecture
    └── hotfix/critical-bug
-   
+
    # DVC数据版本
    data/
    ├── raw.dvc           # 原始数据
@@ -912,10 +931,11 @@ volumes:
    ```
 
 2. **实验管理规范**
+
    ```python
    # 命名规范: <project>/<experiment>/<run_name>
    mlflow.set_experiment("fraud_detection/xgboost")
-   
+
    with mlflow.start_run(run_name="v1.2.0-feature-engineering"):
        mlflow.set_tag("version", "1.2.0")
        mlflow.set_tag("author", "data-scientist-a")
@@ -923,15 +943,18 @@ volumes:
    ```
 
 3. **模型测试金字塔**
+
    ```
        /\
       /  \
      / E2E\      # 端到端测试
     /──────\
    /Integration\  # 集成测试
+
   /────────────\
  /   Unit Test  \ # 单元测试（数据、模型）
 /────────────────\
+
    ```
 
 4. **监控告警配置**
@@ -942,12 +965,12 @@ volumes:
        condition: psi > 0.2
        severity: warning
        channels: [slack, email]
-       
+
      - name: performance_degradation
        condition: accuracy < 0.85
        severity: critical
        channels: [pagerduty, slack]
-       
+
      - name: prediction_latency
        condition: p99_latency > 100ms
        severity: warning
@@ -958,6 +981,7 @@ volumes:
 
 **Q1: 实验难以复现？**
 A:
+
 - 使用DVC锁定数据版本
 - 记录完整的随机种子
 - 容器化执行环境
@@ -965,6 +989,7 @@ A:
 
 **Q2: 模型版本混乱？**
 A:
+
 - 使用语义化版本（SemVer）
 - 建立模型生命周期流程
 - 限制同时运行的版本数
@@ -972,6 +997,7 @@ A:
 
 **Q3: 漂移检测误报？**
 A:
+
 - 调整漂移阈值
 - 使用滑动窗口而非固定参考
 - 排除季节性因素
@@ -979,6 +1005,7 @@ A:
 
 **Q4: CI/CD流水线慢？**
 A:
+
 - 并行化独立任务
 - 缓存依赖和数据
 - 增量训练而非全量
@@ -991,6 +1018,7 @@ A:
 ### 5.1 模型性能边界
 
 **正确性保证**：
+
 ```
 定义:
 - 训练数据分布: P_train(X, Y)
@@ -1010,6 +1038,7 @@ A:
 ### 5.2 CI/CD可靠性
 
 **部署正确性**：
+
 ```
 部署流程 D: Model × Config → Service
 

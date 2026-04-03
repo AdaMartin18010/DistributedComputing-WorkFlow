@@ -176,7 +176,7 @@ df.createOrReplaceTempView("employees")
 
 # 执行 SQL
 result = spark.sql("""
-    SELECT 
+    SELECT
         department,
         COUNT(*) as emp_count,
         AVG(salary) as avg_salary,
@@ -191,13 +191,13 @@ result = spark.sql("""
 # 复杂查询
 spark.sql("""
     WITH dept_stats AS (
-        SELECT 
+        SELECT
             department,
             AVG(salary) as avg_salary
         FROM employees
         GROUP BY department
     )
-    SELECT 
+    SELECT
         e.name,
         e.department,
         e.salary,
@@ -391,6 +391,7 @@ Spark SQL 的核心优势：
 - **生态丰富**：与 Hive、JDBC、Parquet 等深度集成
 
 最佳实践：
+
 1. 优先使用 DataFrame/Dataset API 而非 RDD
 2. 合理使用广播 Join 避免 Shuffle
 3. 启用 AQE 自动处理数据倾斜

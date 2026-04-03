@@ -7,17 +7,22 @@ Apache Thrift 是由 Facebook 开发并贡献给 Apache 基金会的跨语言 RP
 ## 核心特性
 
 ### 1. 完整的 RPC 栈
+
 Thrift 不仅提供 RPC 通信能力，还包含完整的协议栈：
+
 - **传输层（Transport）**：抽象网络 I/O，支持 TCP、文件、内存等
 - **协议层（Protocol）**：定义数据编码格式（Binary、JSON、Compact）
 - **处理层（Processor）**：封装 RPC 调用处理逻辑
 - **服务端（Server）**：管理连接和请求分发
 
 ### 2. 多语言支持
+
 原生支持 C++, Java, Python, PHP, Ruby, Erlang, Perl, Haskell, C#, Swift, JavaScript 等语言。
 
 ### 3. 灵活的传输与协议组合
+
 可以根据场景选择最佳组合：
+
 - **TBinaryProtocol**：快速、紧凑的二进制格式
 - **TCompactProtocol**：更高效的变长编码
 - **TJSONProtocol**：人类可读的 JSON 格式
@@ -30,14 +35,14 @@ flowchart TB
     subgraph IDL["Thrift IDL 定义"]
         ThriftFile[".thrift 文件"]
     end
-    
+
     subgraph Generator["代码生成器"]
         Compiler["thrift 编译器"]
         MultiLang["多语言代码输出"]
     end
-    
+
     ThriftFile --> Compiler --> MultiLang
-    
+
     subgraph Client["客户端栈"]
         CApp["应用程序"]
         CClient["Client 对象"]
@@ -45,7 +50,7 @@ flowchart TB
         CTransport["Transport"]
         Socket1["Socket"]
     end
-    
+
     subgraph Server["服务端栈"]
         SApp["Handler 实现"]
         SProcessor["Processor"]
@@ -53,15 +58,15 @@ flowchart TB
         STransport["Transport"]
         Socket2["Socket"]
     end
-    
+
     MultiLang --> CClient
     MultiLang --> SProcessor
-    
+
     CApp --> CClient --> CProtocol --> CTransport --> Socket1
     Socket2 --> STransport --> SProtocol --> SProcessor --> SApp
-    
+
     Socket1 -.TCP/HTTP.-> Socket2
-    
+
     subgraph Options["可选组件"]
         TMemory["TMemoryBuffer"]
         TFramed["TFramedTransport"]
@@ -69,7 +74,7 @@ flowchart TB
         TCompact["TCompactProtocol"]
         TJSON["TJSONProtocol"]
     end
-    
+
     CTransport -.-> TFramed
     CTransport -.-> TZlib
     CProtocol -.-> TCompact
@@ -124,17 +129,17 @@ exception InvalidOrderException {
 
 // 服务定义
 service OrderService {
-    Order createOrder(1: string customerId, 2: list<OrderItem> items) 
+    Order createOrder(1: string customerId, 2: list<OrderItem> items)
         throws (1: InvalidOrderException invalidError),
-    
-    Order getOrder(1: string orderId) 
+
+    Order getOrder(1: string orderId)
         throws (1: OrderNotFoundException notFound),
-    
+
     list<Order> listOrdersByCustomer(1: string customerId, 2: i32 limit, 3: i32 offset),
-    
-    void cancelOrder(1: string orderId) 
+
+    void cancelOrder(1: string orderId)
         throws (1: OrderNotFoundException notFound, 2: InvalidOrderException invalidError),
-    
+
     // 批量处理 - 返回结果的流式处理
     list<Order> batchCreateOrders(1: list<Order> orders)
 }
@@ -160,29 +165,29 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class OrderServiceImpl implements OrderService.Iface {
-    
+
     private final Map<String, Order> orderStore = new ConcurrentHashMap<>();
-    
+
     @Override
-    public Order createOrder(String customerId, List<OrderItem> items) 
+    public Order createOrder(String customerId, List<OrderItem> items)
             throws InvalidOrderException, TException {
-        
+
         // 参数校验
         if (customerId == null || customerId.isEmpty()) {
-            throw new InvalidOrderException("Customer ID cannot be empty", 
+            throw new InvalidOrderException("Customer ID cannot be empty",
                 Arrays.asList("customerId"));
         }
-        
+
         if (items == null || items.isEmpty()) {
-            throw new InvalidOrderException("Order items cannot be empty", 
+            throw new InvalidOrderException("Order items cannot be empty",
                 Arrays.asList("items"));
         }
-        
+
         // 计算总金额
         double totalAmount = items.stream()
             .mapToDouble(item -> item.price * item.quantity)
             .sum();
-        
+
         // 创建订单
         Order order = new Order();
         order.setOrderId(UUID.randomUUID().toString());
@@ -191,12 +196,12 @@ public class OrderServiceImpl implements OrderService.Iface {
         order.setTotalAmount(totalAmount);
         order.setStatus(OrderStatus.PENDING);
         order.setCreatedAt(System.currentTimeMillis() / 1000);
-        
+
         orderStore.put(order.getOrderId(), order);
-        
+
         return order;
     }
-    
+
     @Override
     public Order getOrder(String orderId) throws OrderNotFoundException, TException {
         Order order = orderStore.get(orderId);
@@ -205,9 +210,9 @@ public class OrderServiceImpl implements OrderService.Iface {
         }
         return order;
     }
-    
+
     @Override
-    public List<Order> listOrdersByCustomer(String customerId, int limit, int offset) 
+    public List<Order> listOrdersByCustomer(String customerId, int limit, int offset)
             throws TException {
         return orderStore.values().stream()
             .filter(o -> o.getCustomerId().equals(customerId))
@@ -215,24 +220,24 @@ public class OrderServiceImpl implements OrderService.Iface {
             .limit(limit)
             .toList();
     }
-    
+
     @Override
-    public void cancelOrder(String orderId) 
+    public void cancelOrder(String orderId)
             throws OrderNotFoundException, InvalidOrderException, TException {
         Order order = orderStore.get(orderId);
         if (order == null) {
             throw new OrderNotFoundException("Order not found", orderId);
         }
-        
-        if (order.getStatus() == OrderStatus.SHIPPED || 
+
+        if (order.getStatus() == OrderStatus.SHIPPED ||
             order.getStatus() == OrderStatus.DELIVERED) {
-            throw new InvalidOrderException("Cannot cancel shipped/delivered order", 
+            throw new InvalidOrderException("Cannot cancel shipped/delivered order",
                 Arrays.asList("status"));
         }
-        
+
         order.setStatus(OrderStatus.CANCELLED);
     }
-    
+
     @Override
     public List<Order> batchCreateOrders(List<Order> orders) throws TException {
         List<Order> results = new ArrayList<>();
@@ -246,31 +251,31 @@ public class OrderServiceImpl implements OrderService.Iface {
 
 // 服务端启动类
 public class OrderServer {
-    
+
     public static void main(String[] args) {
         try {
             // 创建 Handler
             OrderServiceImpl handler = new OrderServiceImpl();
-            OrderService.Processor<OrderServiceImpl> processor = 
+            OrderService.Processor<OrderServiceImpl> processor =
                 new OrderService.Processor<>(handler);
-            
+
             // 配置传输层 - 非阻塞服务器
-            TNonblockingServerSocket serverTransport = 
+            TNonblockingServerSocket serverTransport =
                 new TNonblockingServerSocket(9090);
-            
+
             // 配置线程池
-            TThreadedSelectorServer.Args serverArgs = 
+            TThreadedSelectorServer.Args serverArgs =
                 new TThreadedSelectorServer.Args(serverTransport)
                     .processor(processor)
                     .protocolFactory(new TCompactProtocol.Factory())
                     .workerThreads(100)
                     .selectorThreads(4);
-            
+
             TServer server = new TThreadedSelectorServer(serverArgs);
-            
+
             System.out.println("Starting Thrift server on port 9090...");
             server.serve();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -289,57 +294,57 @@ import org.apache.thrift.protocol.*;
 import java.util.*;
 
 public class OrderClient {
-    
+
     private TTransport transport;
     private OrderService.Client client;
-    
+
     public void connect(String host, int port) throws TTransportException {
         // 使用带帧传输的非阻塞传输
         transport = new TFramedTransport(
             new TSocket(host, port, 5000)  // 5秒超时
         );
-        
+
         // 使用紧凑协议
         TProtocol protocol = new TCompactProtocol(transport);
-        
+
         client = new OrderService.Client(protocol);
         transport.open();
     }
-    
-    public Order createOrder(String customerId, List<OrderItem> items) 
+
+    public Order createOrder(String customerId, List<OrderItem> items)
             throws InvalidOrderException, TException {
         return client.createOrder(customerId, items);
     }
-    
+
     public Order getOrder(String orderId) throws OrderNotFoundException, TException {
         return client.getOrder(orderId);
     }
-    
+
     public void close() {
         if (transport != null && transport.isOpen()) {
             transport.close();
         }
     }
-    
+
     // 使用示例
     public static void main(String[] args) {
         OrderClient client = new OrderClient();
         try {
             client.connect("localhost", 9090);
-            
+
             // 创建订单
             List<OrderItem> items = Arrays.asList(
                 new OrderItem("prod_001", 2, 29.99, null),
                 new OrderItem("prod_002", 1, 59.99, null)
             );
-            
+
             Order order = client.createOrder("cust_001", items);
             System.out.println("Created order: " + order.getOrderId());
-            
+
             // 查询订单
             Order retrieved = client.getOrder(order.getOrderId());
             System.out.println("Retrieved order status: " + retrieved.getStatus());
-            
+
         } catch (InvalidOrderException e) {
             System.err.println("Invalid order: " + e.getMessage());
         } catch (OrderNotFoundException e) {
@@ -364,7 +369,7 @@ flowchart TB
         THS["THsHaServer"]
         TTSS["TThreadedSelectorServer"]
     end
-    
+
     subgraph UseCases["适用场景"]
         Dev["开发测试"]
         Small["小并发"]
@@ -372,7 +377,7 @@ flowchart TB
         High["高并发"]
         Ultra["超高并发"]
     end
-    
+
     TS --> Dev
     TTS --> Small
     TNS --> Med
@@ -401,27 +406,27 @@ def main():
         # 创建传输层
         transport = TSocket.TSocket('localhost', 9090)
         transport = TTransport.TFramedTransport(transport)
-        
+
         # 创建协议层
         protocol = TCompactProtocol.TCompactProtocol(transport)
-        
+
         # 创建客户端
         client = OrderService.Client(protocol)
-        
+
         # 连接
         transport.open()
-        
+
         # 调用服务
         items = [
             ttypes.OrderItem(productId='prod_001', quantity=2, price=29.99),
             ttypes.OrderItem(productId='prod_002', quantity=1, price=59.99)
         ]
-        
+
         order = client.createOrder('cust_001', items)
         print(f"Created order: {order.orderId}, Total: {order.totalAmount}")
-        
+
         transport.close()
-        
+
     except Thrift.TException as tx:
         print(f"Thrift exception: {tx.message}")
 

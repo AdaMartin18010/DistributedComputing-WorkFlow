@@ -279,7 +279,7 @@ CREATE PUBLICATION pub_all FOR ALL TABLES;
 CREATE PUBLICATION pub_users FOR TABLE users, orders;
 
 -- 带过滤的发布
-CREATE PUBLICATION pub_active_users 
+CREATE PUBLICATION pub_active_users
 FOR TABLE users WHERE (active = true);
 
 -- 查看发布

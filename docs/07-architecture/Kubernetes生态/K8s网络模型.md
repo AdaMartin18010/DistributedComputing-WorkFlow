@@ -826,6 +826,7 @@ Kubernetes 网络是一个复杂的主题，涉及多个层次：
 5. **DNS**：服务发现和域名解析
 
 选择合适的 CNI 插件和网络架构对于集群性能和安全性至关重要。在生产环境中，建议：
+
 - 使用 Calico 或 Cilium 等功能丰富的 CNI
 - 启用 NetworkPolicy 进行网络隔离
 - 配置合适的 Service 类型和 Ingress

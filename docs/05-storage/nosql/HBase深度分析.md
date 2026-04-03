@@ -56,7 +56,7 @@ graph TB
     subgraph "HBase Cluster"
         HM[HMaster<br/>管理节点]
         ZK[ZooKeeper<br/>协调服务]
-        
+
         subgraph "RegionServer 1"
             RS1[RegionServer]
             R1A[Region A<br/>Table1]
@@ -65,7 +65,7 @@ graph TB
             WAL1[WAL<br/>预写日志]
             BlockCache1[BlockCache]
         end
-        
+
         subgraph "RegionServer 2"
             RS2[RegionServer]
             R2A[Region D<br/>Table1]
@@ -73,7 +73,7 @@ graph TB
             WAL2[WAL]
             BlockCache2[BlockCache]
         end
-        
+
         subgraph "HDFS Storage"
             HDFS[HDFS DataNodes]
             CF1["Table1/CF1<br/>HFiles"]
@@ -81,7 +81,7 @@ graph TB
             CF3["Table2/CF<br/>HFiles"]
         end
     end
-    
+
     Client[客户端] --> ZK
     Client --> RS1
     Client --> RS2
@@ -172,7 +172,7 @@ graph LR
         R0[Region<br/>大小达到阈值]
         R1[Region A<br/>Start-Mid]
         R2[Region B<br/>Mid-End]
-        
+
         R0 -->|自动分裂| R1
         R0 -->|自动分裂| R2
     end
@@ -189,7 +189,7 @@ graph LR
    触发条件：
    - Region大小 > hbase.hregion.max.filesize（默认10GB）
    - 或手动触发：split 'tableName','rowKey'
-   
+
    分裂过程：
    a. 获取分裂点（midKey）
    b. 创建子Region目录
@@ -202,7 +202,7 @@ graph LR
    触发条件：
    - 手动触发（merge_region）
    - 相邻Region都较小
-   
+
    限制：
    - 不能跨Table合并
    - 不能合并正在分裂的Region
@@ -244,21 +244,21 @@ graph LR
 graph TB
     subgraph "ZooKeeper协调机制"
         ZK[ZooKeeper Ensemble]
-        
+
         HM1[HMaster Active]
         HM2[HMaster Standby]
-        
+
         RS1[RegionServer 1]
         RS2[RegionServer 2]
         RS3[RegionServer 3]
     end
-    
+
     HM1 -.->|选举| ZK
     HM2 -.->|选举| ZK
     RS1 -.->|注册+心跳| ZK
     RS2 -.->|注册+心跳| ZK
     RS3 -.->|注册+心跳| ZK
-    
+
     ZK -.->|通知故障| HM1
 ```
 
@@ -307,11 +307,11 @@ graph TB
       - HDFS追加写
       - 保证数据持久性
       - 默认同步刷盘（可配置）
-   
+
    b. 写入MemStore（内存）
       - 按RowKey排序
       - 每个Column Family一个MemStore
-      
+
    c. 返回客户端成功
 
 3. MemStore刷盘（Flush）
@@ -320,7 +320,7 @@ graph TB
    - 总MemStore比例过高
    - 手动触发
    - RegionServer关闭
-   
+
    过程：
    - 创建新的HFile
    - 将MemStore数据按KeyValue格式写入
@@ -351,7 +351,7 @@ graph TB
    - 使用Bloom Filter快速排除
    - 读取Data Block
    - 解压、反序列化
-   
+
 4. 版本合并
    - 合并MemStore + HFile结果
    - 按Timestamp排序
@@ -458,7 +458,7 @@ Cassandra架构特点：
         <name>hbase.rootdir</name>
         <value>hdfs://namenode:8020/hbase</value>
     </property>
-    
+
     <!-- RegionServer配置 -->
     <property>
         <name>hbase.hregion.max.filesize</name>
@@ -472,7 +472,7 @@ Cassandra架构特点：
         <name>hbase.regionserver.handler.count</name>
         <value>100</value>
     </property>
-    
+
     <!-- BlockCache配置 -->
     <property>
         <name>hfile.block.cache.size</name>
@@ -486,7 +486,7 @@ Cassandra架构特点：
         <name>hbase.bucketcache.size</name>
         <value>8192</value> <!-- 8GB堆外内存 -->
     </property>
-    
+
     <!-- Compaction配置 -->
     <property>
         <name>hbase.hstore.compactionThreshold</name>
@@ -502,15 +502,16 @@ Cassandra架构特点：
 ### 4.2 最佳实践
 
 1. **RowKey设计原则**
+
    ```java
    // 避免热点：使用Salt前缀或哈希
    // 盐值前缀（分散写入）
    String saltedKey = (hash(userId) % 16) + "_" + userId;
-   
+
    // 组合键（支持扫描）
    // [userId_reverse][timestamp_reverse]
    // 便于按用户查询最新数据
-   
+
    // 避免的问题：
    // - 单调递增RowKey（时间戳序列）
    // - 过长的RowKey（增加索引开销）
@@ -518,6 +519,7 @@ Cassandra架构特点：
    ```
 
 2. **表设计建议**
+
    ```java
    // 预分区避免热点
    byte[][] splitKeys = new byte[][] {
@@ -527,13 +529,13 @@ Cassandra架构特点：
        // ...
    };
    admin.createTable(tableDescriptor, splitKeys);
-   
+
    // 列族数量控制（推荐<3）
    // 不同列族独立存储，过多影响性能
-   
+
    // 设置合理TTL
    columnDescriptor.setTimeToLive(2592000); // 30天
-   
+
    // 版本控制
    columnDescriptor.setMaxVersions(3); // 保留3个版本
    ```
@@ -546,6 +548,7 @@ Cassandra架构特点：
    - 监控并调整MemStore大小
 
 4. **运维监控**
+
    ```bash
    # 关键检查命令
    hbase shell
@@ -553,7 +556,7 @@ Cassandra架构特点：
    > list_regions 'tableName'    # Region分布
    > balancer_enabled            # 均衡器状态
    > compaction_queue            # Compaction队列
-   
+
    # 关键指标
    - Region数量/大小
    - MemStore Flush频率
@@ -566,6 +569,7 @@ Cassandra架构特点：
 
 **Q1: Region热点问题如何解决？**
 A:
+
 - 预分区（Pre-splitting）避免单个Region过大
 - 使用Salt前缀或哈希分散RowKey
 - 避免时间戳作为RowKey前缀
@@ -573,6 +577,7 @@ A:
 
 **Q2: MemStore Flush频繁怎么办？**
 A:
+
 - 增加hbase.hregion.memstore.flush.size
 - 增加RegionServer内存
 - 检查是否存在写入热点
@@ -580,6 +585,7 @@ A:
 
 **Q3: Compaction压力过大如何优化？**
 A:
+
 - 调整compactionThreshold（默认3）
 - 使用分层Compaction（Date Tiered）
 - 在低峰期执行Major Compaction
@@ -587,6 +593,7 @@ A:
 
 **Q4: Full GC频繁如何处理？**
 A:
+
 - 增加堆内存（但避免超过32GB）
 - 使用BucketCache（堆外内存）
 - 调整BlockCache比例

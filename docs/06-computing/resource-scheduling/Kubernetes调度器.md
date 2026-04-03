@@ -197,7 +197,7 @@ spec:
             values:
             - cache
         topologyKey: kubernetes.io/hostname
-    
+
     # Pod 反亲和性：不与特定 Pod 运行在同一节点
     podAntiAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
@@ -233,15 +233,15 @@ spec:
     operator: "Equal"
     value: "special-user"
     effect: "NoSchedule"
-  
+
   # 存在性匹配（不关心值）
   - key: "gpu"
     operator: "Exists"
     effect: "NoSchedule"
-  
+
   # 容忍所有污点
   - operator: "Exists"
-  
+
   containers:
   - name: app
     image: nginx
@@ -279,7 +279,7 @@ profiles:
         enabled:
         - name: NodeResourcesBalancedAllocation
           weight: 100
-  
+
   - schedulerName: gpu-scheduler
     plugins:
       filter:
@@ -334,7 +334,7 @@ spec:
         labelSelector:
           matchLabels:
             app: web
-      
+
       # 跨 Node 均匀分布
       - maxSkew: 2
         topologyKey: kubernetes.io/hostname
@@ -342,7 +342,7 @@ spec:
         labelSelector:
           matchLabels:
             app: web
-      
+
       containers:
       - name: web
         image: nginx
@@ -475,6 +475,7 @@ Kubernetes 调度器的优势：
 - **高性能**：高效的调度算法和低延迟
 
 适用场景：
+
 - 云原生应用部署
 - 微服务架构
 - AI/ML 工作负载

@@ -18,12 +18,14 @@ ScyllaDB是一个用C++重写的Cassandra兼容数据库，采用无共享线程
 ### 1.1 定义与原理
 
 ScyllaDB是一个**高性能分布式NoSQL数据库**，其设计目标包括：
+
 - **极致性能**：利用现代多核硬件的全部能力
 - **Cassandra兼容**：完全兼容CQL和Cassandra协议
 - **自动优化**：自适应配置和自动调优
 - **更低成本**：使用更少节点处理相同负载
 
 **核心架构创新**：
+
 - 无共享线程架构（每个CPU核心独立运行）
 - 用户空间任务调度（Seastar框架）
 - 自调优的缓存和I/O调度
@@ -58,20 +60,20 @@ ScyllaDB是一个**高性能分布式NoSQL数据库**，其设计目标包括：
 graph TB
     subgraph "ScyllaDB节点"
         Client[CQL Client]
-        
+
         subgraph "Seastar框架"
             Network[Network Stack<br/>DPDK/aio]
             RPC[RPC层]
-            
+
             subgraph "Shards每个CPU核心"
                 S1[Shard 0<br/>CPU 0]
                 S2[Shard 1<br/>CPU 1]
                 S3[Shard N<br/>CPU N]
             end
-            
+
             Scheduler[任务调度器]
         end
-        
+
         subgraph "存储层"
             Memtable1[Memtable 0]
             Memtable2[Memtable 1]
@@ -79,17 +81,17 @@ graph TB
             SSTable[SSTables]
         end
     end
-    
+
     Client --> Network
     Network --> RPC
     RPC --> S1
     RPC --> S2
     RPC --> S3
-    
+
     S1 --> Scheduler
     S2 --> Scheduler
     S3 --> Scheduler
-    
+
     S1 --> Memtable1
     S2 --> Memtable2
     S1 --> CommitLog
@@ -120,14 +122,14 @@ graph TB
         CData[共享数据<br/>锁竞争]
         CGC[GC暂停<br/>Stop-the-world]
     end
-    
+
     subgraph "ScyllaDB架构"
         SSeastar[Seastar]
         SShards[独立Shards<br/>每个CPU一个]
         SLocal[本地数据<br/>无锁访问]
         SNoGC[无GC<br/>确定性延迟]
     end
-    
+
     style CGC fill:#ffcccc
     style SNoGC fill:#ccffcc
 ```
@@ -142,10 +144,10 @@ private:
     memtable local_memtable;
     cache local_cache;
     commitlog local_commitlog;
-    
+
     // 本地任务队列
     queue<task> task_queue;
-    
+
 public:
     // 处理属于本Shard的Token范围
     future<> query(token_range range) {
@@ -181,19 +183,19 @@ Token Ring (0 ~ 2^64-1)
 graph TB
     subgraph "Seastar运行时"
         Reactor[Reactor<br/>事件循环]
-        
+
         subgraph "任务类型"
             CPU[CPU任务<br/>计算密集型]
             IO[IO任务<br/>异步非阻塞]
             Sleep[定时器任务]
         end
-        
+
         subgraph "I/O调度"
             PriorityIO[优先级IO]
             FairQueue[公平队列]
         end
     end
-    
+
     Reactor --> CPU
     Reactor --> IO
     Reactor --> Sleep
@@ -219,17 +221,17 @@ graph TB
 graph TB
     subgraph "LSA内存管理"
         Segments[内存段池<br/>固定大小]
-        
+
         subgraph "段类型"
             Hot[热数据段<br/>频繁访问]
             Cold[冷数据段<br/>即将刷盘]
             Free[空闲段<br/>可分配]
         end
-        
+
         Eviction[淘汰策略]
         Compaction[段压缩]
     end
-    
+
     Segments --> Hot
     Segments --> Cold
     Segments --> Free
@@ -254,22 +256,22 @@ graph TB
 graph TB
     subgraph "自动调优系统"
         Monitor[监控模块]
-        
+
         subgraph "调优目标"
             Latency[延迟目标<br/>p99 < X ms]
             Throughput[吞吐目标]
             Memory[内存约束]
         end
-        
+
         subgraph "可调参数"
             CacheSize[缓存大小]
             Compaction[Compaction速率]
             IOScheduler[IO调度权重]
         end
-        
+
         Adapt[自适应调整]
     end
-    
+
     Monitor --> Latency
     Monitor --> Throughput
     Monitor --> Memory
@@ -318,10 +320,10 @@ graph LR
         S3[ScyllaDB<br/>3节点<br/>~7x]
         S1[ScyllaDB<br/>1节点<br/>~3x]
     end
-    
+
     C --> S1
     S1 --> S3
-    
+
     style S3 fill:#90ee90
     style S1 fill:#90ee90
 ```
@@ -478,8 +480,8 @@ CREATE TABLE IF NOT EXISTS events.sensor_data (
 CREATE MATERIALIZED VIEW events.sensor_data_by_hour AS
     SELECT sensor_id, bucket, timestamp, value
     FROM events.sensor_data
-    WHERE sensor_id IS NOT NULL 
-      AND bucket IS NOT NULL 
+    WHERE sensor_id IS NOT NULL
+      AND bucket IS NOT NULL
       AND timestamp IS NOT NULL
     PRIMARY KEY ((bucket), timestamp, sensor_id)
     WITH CLUSTERING ORDER BY (timestamp DESC);
@@ -531,6 +533,7 @@ results = execute_concurrent(session, statements, concurrency=100)
 
 **Q1: 从Cassandra迁移到ScyllaDB的步骤？**
 A:
+
 ```
 1. 评估兼容性（CQL和驱动）
 2. 使用sstableloader导入数据
@@ -542,6 +545,7 @@ A:
 
 **Q2: ScyllaDB节点CPU使用率低？**
 A:
+
 - 检查客户端连接是否足够
 - 确认Token Awareness启用
 - 检查是否跨Shard访问
@@ -550,6 +554,7 @@ A:
 
 **Q3: 如何处理热点分区？**
 A:
+
 - 添加分区键前缀（如时间桶）
 - 使用`cdc`（变更数据捕获）分散写入
 - 启用`partition-key-index`（实验性）
@@ -557,6 +562,7 @@ A:
 
 **Q4: ScyllaDB集群扩容？**
 A:
+
 ```bash
 # 1. 启动新节点，加入集群
 scylla --seeds existing_node_ip
@@ -578,6 +584,7 @@ nodetool cleanup
 ### 5.1 性能模型
 
 **吞吐量分析**：
+
 ```
 设：
 - N = CPU核心数
@@ -594,6 +601,7 @@ ScyllaDB吞吐量 = min(
 ```
 
 **延迟分析**：
+
 ```
 P99延迟 = P50延迟 + 尾延迟
 
@@ -629,6 +637,7 @@ Cassandra额外延迟来源：
 | 网络分区 | Gossip恢复 | 数秒 |
 
 **Quorum机制**（与Cassandra相同）：
+
 - 读/写需要QUORUM（R + W > N）保证一致性
 - 支持可调一致性级别
 

@@ -18,12 +18,14 @@ CockroachDB（简称CRDB）是一个开源的分布式SQL数据库，提供与Go
 ### 1.1 定义与原理
 
 CockroachDB是由Cockroach Labs开发的分布式关系型数据库，其设计目标是在全球分布式环境中提供：
+
 - **水平扩展**：通过添加节点线性扩展吞吐量和存储
 - **强一致性**：使用Raft共识算法保证数据一致性
 - **高可用性**：容忍节点、机架甚至区域级故障
 - **SQL兼容**：支持标准SQL和ACID事务
 
 **核心设计哲学**：
+
 - 自动分片（Range-based）
 - 多版本并发控制（MVCC）
 - 无单点故障的完全分布式架构
@@ -64,7 +66,7 @@ graph TB
             R1a[Raft Group 1]
             R1b[Raft Group 2]
         end
-        
+
         subgraph "Node 2"
             S2[SQL Layer]
             T2[Transaction Manager]
@@ -73,7 +75,7 @@ graph TB
             R2a[Raft Group 1]
             R2c[Raft Group 3]
         end
-        
+
         subgraph "Node 3"
             S3[SQL Layer]
             T3[Transaction Manager]
@@ -83,11 +85,11 @@ graph TB
             R3b[Raft Group 2]
         end
     end
-    
+
     Client[客户端] --> S1
     Client --> S2
     Client --> S3
-    
+
     R1a -.->|Raft| R2a
     R2a -.->|Raft| R3a
     R1b -.->|Raft| R3b
@@ -126,6 +128,7 @@ DistSQL执行
 ```
 
 **关键优化技术**：
+
 - **代价优化器**：使用统计信息选择最优执行计划
 - **分布式执行**：将计算推送到数据所在节点
 - **向量化执行**：批量处理数据，提高CPU效率
@@ -141,13 +144,13 @@ graph LR
         A2[Follower<br/>Node 2]
         A3[Follower<br/>Node 3]
     end
-    
+
     subgraph "Range B (Raft Group 2)"
         B1[Leader<br/>Node 2]
         B2[Follower<br/>Node 1]
         B3[Follower<br/>Node 3]
     end
-    
+
     subgraph "Range C (Raft Group 3)"
         C1[Leader<br/>Node 3]
         C2[Follower<br/>Node 1]
@@ -156,6 +159,7 @@ graph LR
 ```
 
 **Range（分片）机制**：
+
 - 数据按主键范围划分为多个Range（默认64MB）
 - 每个Range是一个独立的Raft组
 - 通常3-5个副本，默认3副本
@@ -199,11 +203,13 @@ CockroachDB使用**混合逻辑时钟（Hybrid Logical Clock, HLC）** 实现分
 ```
 
 **写冲突处理（Write-Write Conflict）**：
+
 - 使用**写意图（Write Intent）**机制
 - 检测到冲突时，后来者等待或根据策略处理
 - 支持优先级和事务重试
 
 **读优化**：
+
 - **Follower Read**：从Follower读取过期数据（可配置过期时间）
 - **Leaseholder Read**：从Leaseholder读取最新数据
 
@@ -233,6 +239,7 @@ CockroachDB使用**混合逻辑时钟（Hybrid Logical Clock, HLC）** 实现分
 | SQL兼容性 | PostgreSQL协议 | 类似PostgreSQL |
 
 **关键差异**：
+
 - Spanner使用原子钟实现**外部一致性**（External Consistency），而CockroachDB使用HLC实现**可序列化**（Serializable）
 - 在大多数场景下，两者提供的隔离级别效果相当
 
@@ -319,7 +326,7 @@ CREATE TABLE orders (
 
 ```sql
 -- 使用STORING减少索引查找
-CREATE INDEX idx_orders_date ON orders (created_at) 
+CREATE INDEX idx_orders_date ON orders (created_at)
 STORING (total, status);
 
 -- 避免过多索引，影响写入性能
@@ -350,7 +357,8 @@ UPSERT INTO table VALUES (...), (...), (...);
 ### 4.3 常见问题
 
 **Q1: 事务重试频繁怎么办？**
-A: 
+A:
+
 - 减少事务执行时间
 - 按主键顺序访问数据
 - 考虑使用`SELECT FOR UPDATE`预锁定
@@ -358,6 +366,7 @@ A:
 
 **Q2: 写入性能不达标？**
 A:
+
 - 检查Range热点，使用`SHOW RANGES`查看分布
 - 减少二级索引数量
 - 考虑批量写入
@@ -365,6 +374,7 @@ A:
 
 **Q3: 跨Region延迟高？**
 A:
+
 - 使用Follower Reads：`AS OF SYSTEM TIME '-10s'`
 - 配置租约偏好（Lease Preferences）
 - 实施地理分区策略
@@ -372,6 +382,7 @@ A:
 
 **Q4: 如何选择分区键？**
 A:
+
 - 选择访问模式中的高频查询条件
 - 避免数据倾斜（热点）
 - 考虑时间序列数据的时间分区
@@ -386,6 +397,7 @@ A:
 **定理**：CockroachDB提供Serializable隔离级别
 
 **证明要点**：
+
 1. 所有事务按HLC时间戳排序
 2. 写操作使用写意图（Write Intent）检测冲突
 3. 读操作验证快照一致性
@@ -394,6 +406,7 @@ A:
 ### 5.2 可用性分析
 
 基于Raft的Quorum机制：
+
 - 写操作需要多数派（⌈N/2⌉+1）确认
 - 可容忍⌊(N-1)/2⌋个节点故障
 - 3节点集群可容忍1个节点故障

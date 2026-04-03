@@ -344,31 +344,31 @@ spring:
       ds3:
         jdbc-url: jdbc:mysql://localhost:3306/db3
         # ...
-    
+
     rules:
       sharding:
         tables:
           t_order:
             # 实际数据节点
             actual-data-nodes: ds${0..3}.t_order_${0..15}
-            
+
             # 分库策略
             database-strategy:
               standard:
                 sharding-column: user_id
                 sharding-algorithm-name: db-hash
-            
+
             # 分表策略
             table-strategy:
               standard:
                 sharding-column: order_id
                 sharding-algorithm-name: table-hash
-            
+
             # 主键生成策略
             key-generate-strategy:
               column: order_id
               key-generator-name: snowflake
-        
+
         # 分片算法
         sharding-algorithms:
           db-hash:
@@ -379,14 +379,14 @@ spring:
             type: INLINE
             props:
               algorithm-expression: t_order_${order_id % 16}
-        
+
         # 主键生成器
         key-generators:
           snowflake:
             type: SNOWFLAKE
             props:
               worker-id: ${WORKER_ID:0}
-    
+
     props:
       sql-show: true
 ```

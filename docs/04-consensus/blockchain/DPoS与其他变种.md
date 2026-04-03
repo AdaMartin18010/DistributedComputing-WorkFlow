@@ -1,8 +1,8 @@
 # DPoS与其他变种 专题文档
 
-**文档版本**：v1.0  
-**创建时间**：2026年  
-**最后更新**：2026年  
+**文档版本**：v1.0
+**创建时间**：2026年
+**最后更新**：2026年
 **状态**：✅ 已完成
 
 ---
@@ -55,7 +55,7 @@ class DPoSVoting:
         self.candidates = {}
         self.votes = {}
         self.witnesses = []
-    
+
     def cast_vote(self, voter, candidates):
         """
         投票给候选人
@@ -63,20 +63,20 @@ class DPoSVoting:
         candidates: 候选人列表（最多N个）
         """
         vote_weight = self.get_balance(voter)
-        
+
         # 记录投票
         self.votes[voter] = {
             'candidates': candidates,
             'weight': vote_weight,
             'timestamp': current_time()
         }
-        
+
         # 更新候选人得票
         for candidate in candidates:
             if candidate not in self.candidates:
                 self.candidates[candidate] = 0
             self.candidates[candidate] += vote_weight
-    
+
     def update_witnesses(self):
         """更新见证人列表"""
         # 按得票数排序
@@ -85,17 +85,17 @@ class DPoSVoting:
             key=lambda x: x[1],
             reverse=True
         )
-        
+
         # 选择前N名
         self.witnesses = [addr for addr, _ in sorted_candidates[:self.num_witnesses]]
-        
+
         return self.witnesses
-    
+
     def get_block_producer(self, slot):
         """根据时隙确定出块者"""
         if not self.witnesses:
             return None
-        
+
         # 轮流出块
         producer_index = slot % len(self.witnesses)
         return self.witnesses[producer_index]
@@ -134,26 +134,26 @@ class EOSConsensus:
         self.block_time = 0.5  # 0.5秒出块
         self.producers = []
         self.schedule = []
-    
+
     def update_producer_schedule(self):
         """更新出块者调度表"""
         # 获取投票前21名
         top_producers = self.get_top_voted_producers(self.num_producers)
-        
+
         # 随机打乱顺序（使用区块哈希作为种子）
         random.seed(self.get_last_block_hash())
         self.schedule = random.sample(top_producers, len(top_producers))
-    
+
     def produce_block(self, producer, timestamp):
         """生产区块"""
         # 验证出块权限
         expected_producer = self.get_expected_producer(timestamp)
         if producer != expected_producer:
             return False  # 无权出块
-        
+
         # 收集交易
         transactions = self.mempool.get_pending_transactions()
-        
+
         # 创建区块
         block = Block(
             timestamp=timestamp,
@@ -161,27 +161,27 @@ class EOSConsensus:
             transactions=transactions,
             previous_block_hash=self.get_last_block_hash()
         )
-        
+
         # 签名并广播
         block.sign(producer.private_key)
         self.broadcast(block)
-        
+
         return block
-    
+
     def validate_block(self, block):
         """验证区块"""
         # 验证出块者身份
         if block.producer not in self.schedule:
             return False
-        
+
         # 验证出块时间
         if block.producer != self.get_expected_producer(block.timestamp):
             return False
-        
+
         # 验证签名
         if not block.verify_signature():
             return False
-        
+
         return True
 ```
 
@@ -197,21 +197,21 @@ class BitSharesDPoS:
     - 参数化区块间隔（1.5秒）
     - 见证人可设置参数
     """
-    
+
     def __init__(self):
         self.num_witnesses = 101
         self.block_interval = 1.5
         self.witnesses = []
         self.parameters = {}
-    
+
     def witness_parameter_vote(self, parameter_changes):
         """见证人参数投票"""
         # 见证人可以投票调整网络参数
         # 如：区块大小、交易费用、通胀率等
-        
+
         for param, value in parameter_changes.items():
             votes = self.get_parameter_votes(param)
-            
+
             # 需要2/3以上见证人同意
             if votes['approve'] > self.num_witnesses * 2 // 3:
                 self.parameters[param] = value
@@ -230,49 +230,49 @@ class LiskDPoS:
     - 每个账户最多投票101个代表
     - 投票权重 = 账户余额
     """
-    
+
     def __init__(self):
         self.num_delegates = 101
         self.delegates = []
         self.votes = {}  # voter -> {delegates: [], weight: int}
-    
+
     def cast_votes(self, voter, delegates):
         """投票给代表"""
         if len(delegates) > self.num_delegates:
             return False
-        
+
         balance = self.get_balance(voter)
-        
+
         # 移除旧投票
         if voter in self.votes:
             self.remove_votes(voter)
-        
+
         # 记录新投票
         self.votes[voter] = {
             'delegates': delegates,
             'weight': balance
         }
-        
+
         # 更新代表得票
         for delegate in delegates:
             self.add_delegate_votes(delegate, balance)
-    
+
     def calculate_rewards(self, delegate):
         """计算代表奖励"""
         # 基础奖励
         base_reward = self.get_block_reward()
-        
+
         # 代表可以与投票者分享奖励
         sharing_percentage = delegate.sharing_percentage
-        
+
         # 计算分给投票者的部分
         total_votes = self.get_delegate_total_votes(delegate)
-        
+
         for voter, vote_info in self.votes.items():
             if delegate in vote_info['delegates']:
                 voter_share = (vote_info['weight'] / total_votes) * sharing_percentage
                 self.reward_voter(voter, base_reward * voter_share)
-        
+
         # 代表保留部分
         delegate_reward = base_reward * (1 - sharing_percentage)
         return delegate_reward
@@ -294,12 +294,12 @@ class NPoS:
     - 提名人（Nominator）：提名验证人，分享收益/风险
     - 公平代表制：优化提名分配，最大化去中心化
     """
-    
+
     def __init__(self):
         self.validators = []
         self.nominators = []
         self.validator_count_target = 297  # 目标验证人数量
-    
+
     def election(self):
         """
         选举算法（Phragmén方法）
@@ -313,12 +313,12 @@ class NPoS:
                 if validator not in stakes:
                     stakes[validator] = []
                 stakes[validator].append((nominator, stake))
-        
+
         # Phragmén算法
         elected = self.phragmen_election(stakes, self.validator_count_target)
-        
+
         return elected
-    
+
     def phragmen_election(self, stakes, target_count):
         """
         Phragmén选举算法
@@ -326,26 +326,26 @@ class NPoS:
         """
         elected = []
         load = {}  # 每个验证人的负载
-        
+
         while len(elected) < target_count:
             # 计算每个候选人的得分
             scores = {}
             for candidate, supporters in stakes.items():
                 if candidate in elected:
                     continue
-                
+
                 # 计算负载
                 total_load = sum(load.get(s[0], 0) for s in supporters)
                 scores[candidate] = total_load / len(supporters)
-            
+
             # 选择得分最低的候选人
             winner = min(scores, key=scores.get)
             elected.append(winner)
-            
+
             # 更新负载
             for supporter, stake in stakes[winner]:
                 load[supporter] = load.get(supporter, 0) + 1 / len(stakes[winner])
-        
+
         return elected
 ```
 
@@ -361,12 +361,12 @@ class LPoS:
     - 委托人可以随时撤回委托
     - 流动性：委托代币不被锁定
     """
-    
+
     def __init__(self):
         self.min_stake = 6000  # 成为验证人最低抵押
         self.bond_time = 0     # 无绑定时间
         self.bakers = []
-    
+
     def delegate(self, delegator, baker):
         """委托给验证人"""
         # LPoS特点：代币不转移，仅记录委托关系
@@ -376,10 +376,10 @@ class LPoS:
             amount=delegator.balance,
             timestamp=current_time()
         )
-        
+
         self.delegations.append(delegation)
         baker.add_delegation(delegation)
-    
+
     def undelegate(self, delegator):
         """撤回委托"""
         # LPoS特点：立即生效，无需等待期
@@ -387,23 +387,23 @@ class LPoS:
         if delegation:
             delegation.baker.remove_delegation(delegation)
             self.delegations.remove(delegation)
-    
+
     def bake_block(self, baker, priority):
         """烘焙区块（Tezos术语）"""
         # 验证烘焙权限
         if not self.can_bake(baker, priority):
             return False
-        
+
         # 创建区块
         block = self.create_block(baker)
-        
+
         # 签名并广播
         block.sign(baker.key)
         self.broadcast(block)
-        
+
         # 分配奖励
         self.distribute_baking_rewards(block, baker)
-        
+
         return block
 ```
 
@@ -419,32 +419,32 @@ class HPoS:
     - PoW出块，PoS投票确认
     - 或者PoS选出的验证人进行PoW竞争
     """
-    
+
     def __init__(self):
         self.pos_validators = []
         self.pow_miners = []
         self.confirmation_depth = 12
-    
+
     def hybrid_mining(self):
         """混合挖矿"""
         # PoS选择验证人集合
         validators = self.select_pos_validators()
-        
+
         # 被选中的验证人进行PoW竞争
         winner = None
         for validator in validators:
             if self.pow_solve(validator):
                 winner = validator
                 break
-        
+
         if winner:
             block = winner.create_block()
-            
+
             # PoS验证人投票确认
             votes = self.collect_pos_votes(block)
             if len(votes) >= len(validators) * 2 // 3:
                 self.commit_block(block)
-        
+
         return winner
 ```
 
@@ -461,11 +461,11 @@ class PurePoS:
     - 无需锁定代币
     - 拜占庭容错（BA*算法）
     """
-    
+
     def __init__(self):
         self.seed = genesis_seed
         self.block_time = 4  # 秒
-    
+
     def sortition(self, user, role, seed):
         """
         密码学随机选择
@@ -473,43 +473,43 @@ class PurePoS:
         """
         # 计算VRF
         vrf_output, vrf_proof = vrf_evaluate(user.private_key, seed)
-        
+
         # 根据持币量和角色确定选择概率
         j = 0
         balance = self.get_balance(user)
         expected_count = balance / self.total_supply * EXPECTED_COMMITTEE_SIZE
-        
+
         while True:
             threshold = self.sortition_threshold(role, j, expected_count)
             if int.from_bytes(vrf_output, 'big') < threshold:
                 j += 1
             else:
                 break
-        
+
         return j, vrf_output, vrf_proof  # 被选中的次数
-    
+
     def consensus_step(self, round):
         """共识步骤"""
         # 更新种子
         self.seed = hash(self.seed, round)
-        
+
         # 选择区块提议者
         proposers = []
         for user in self.users:
             count, output, proof = self.sortition(user, Role.PROPOSER, self.seed)
             if count > 0:
                 proposers.append((user, count, output))
-        
+
         # 选择最高优先级的提议
         winner = max(proposers, key=lambda x: x[1])
-        
+
         # 选择投票委员会
         committee = []
         for user in self.users:
             count, _, _ = self.sortition(user, Role.COMMITTEE, self.seed)
             if count > 0:
                 committee.extend([user] * count)
-        
+
         # 拜占庭共识
         return self.byzantine_agreement(winner.block, committee)
 ```
@@ -523,13 +523,13 @@ class PurePoS:
 ```python
 class OnChainGovernance:
     """链上治理系统"""
-    
+
     def __init__(self):
         self.proposals = []
         self.voting_period = 14 * 24 * 60 * 60  # 14天
         self.quorum = 0.3  # 30%投票率
         self.threshold = 0.66  # 66%通过
-    
+
     def create_proposal(self, proposer, action, description):
         """创建提案"""
         proposal = Proposal(
@@ -541,51 +541,51 @@ class OnChainGovernance:
             end_time=current_time() + self.voting_period,
             votes={'yes': 0, 'no': 0, 'abstain': 0}
         )
-        
+
         self.proposals.append(proposal)
         return proposal.id
-    
+
     def vote_on_proposal(self, voter, proposal_id, vote):
         """对提案投票"""
         proposal = self.proposals[proposal_id]
-        
+
         if current_time() > proposal.end_time:
             return False  # 投票已结束
-        
+
         vote_weight = self.get_voting_power(voter)
-        
+
         proposal.votes[vote] += vote_weight
-        
+
         return True
-    
+
     def execute_proposal(self, proposal_id):
         """执行提案"""
         proposal = self.proposals[proposal_id]
-        
+
         if current_time() <= proposal.end_time:
             return False  # 投票未结束
-        
+
         if proposal.executed:
             return False  # 已执行
-        
+
         total_votes = sum(proposal.votes.values())
-        
+
         # 检查投票率
         if total_votes < self.get_total_supply() * self.quorum:
             proposal.status = 'QUORUM_NOT_MET'
             return False
-        
+
         # 检查通过率
         yes_ratio = proposal.votes['yes'] / total_votes
         if yes_ratio < self.threshold:
             proposal.status = 'REJECTED'
             return False
-        
+
         # 执行提案
         self.execute_action(proposal.action)
         proposal.status = 'EXECUTED'
         proposal.executed = True
-        
+
         return True
 ```
 
@@ -630,12 +630,15 @@ class OnChainGovernance:
 ### 6.1 EOS
 
 高性能智能合约平台：
+
 - 21个活跃BP + 备用BP
 - 0.5秒出块，1.5秒最终性
 - 支持Wasm智能合约
 
 ### 6.2 TRON
+
 n波场区块链：
+
 - 27个超级代表
 - 3秒出块
 - 高TPS支持DApp
@@ -643,6 +646,7 @@ n波场区块链：
 ### 6.3 Polkadot
 
 多链互操作平台：
+
 - NPoS共识
 - 约297个验证人
 - 提名者分享收益/风险
@@ -650,6 +654,7 @@ n波场区块链：
 ### 6.4 Tezos
 
 自我修正的区块链：
+
 - LPoS共识
 - 内置链上治理
 - 形式化验证支持
@@ -657,6 +662,7 @@ n波场区块链：
 ### 6.5 Cosmos
 
 跨链生态系统：
+
 - Tendermint BFT + PoS
 - 验证人+委托人模式
 - IBC跨链通信
@@ -700,14 +706,14 @@ witness_setup:
     storage: 1TB NVMe SSD
     network: 1Gbps+ 专线
     redundancy: 多节点备份
-  
+
   # 竞选策略
   campaign:
     community_engagement: 积极参与社区
     technical_expertise: 展示技术能力
     reward_sharing: 制定奖励分享计划
     transparency: 公开运营报告
-  
+
   # 安全配置
   security:
     key_management: 硬件安全模块(HSM)
@@ -723,32 +729,32 @@ class VotingStrategy:
     def evaluate_witness(self, witness):
         """评估见证人"""
         score = 0
-        
+
         # 出块率
         score += witness.block_production_rate * 0.3
-        
+
         # 在线率
         score += witness.uptime * 0.2
-        
+
         # 社区贡献
         score += witness.community_score * 0.2
-        
+
         # 奖励分享率
         score += witness.reward_sharing_rate * 0.2
-        
+
         # 安全性历史
         score += witness.security_score * 0.1
-        
+
         return score
-    
+
     def optimize_votes(self, portfolio, candidates):
         """优化投票分配"""
         # 选择得分最高的候选组合
         candidates.sort(key=self.evaluate_witness, reverse=True)
-        
+
         # 分散投票，避免过度集中
         selected = candidates[:20]  # 选择前20个
-        
+
         return selected
 ```
 
@@ -797,5 +803,5 @@ class VotingStrategy:
 
 ---
 
-**维护者**：项目团队  
+**维护者**：项目团队
 **最后更新**：2026年

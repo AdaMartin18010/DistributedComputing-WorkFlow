@@ -447,20 +447,20 @@ maxclients 10000
 // Jedis Cluster客户端
 @Configuration
 public class RedisClusterConfig {
-    
+
     @Bean
     public JedisCluster jedisCluster() {
         Set<HostAndPort> nodes = new HashSet<>();
         nodes.add(new HostAndPort("192.168.1.101", 6379));
         nodes.add(new HostAndPort("192.168.1.102", 6379));
         nodes.add(new HostAndPort("192.168.1.103", 6379));
-        
+
         JedisPoolConfig poolConfig = new JedisPoolConfig();
         poolConfig.setMaxTotal(100);
         poolConfig.setMaxIdle(50);
         poolConfig.setMinIdle(10);
-        
-        return new JedisCluster(nodes, 2000, 2000, 3, 
+
+        return new JedisCluster(nodes, 2000, 2000, 3,
             "password", poolConfig);
     }
 }
@@ -468,14 +468,14 @@ public class RedisClusterConfig {
 // Lettuce连接池（推荐，支持响应式）
 @Bean
 public RedisConnectionFactory lettuceConnectionFactory() {
-    RedisClusterConfiguration clusterConfig = 
+    RedisClusterConfiguration clusterConfig =
         new RedisClusterConfiguration(Arrays.asList(
             "192.168.1.101:6379",
             "192.168.1.102:6379",
             "192.168.1.103:6379"
         ));
     clusterConfig.setPassword(RedisPassword.of("password"));
-    
+
     ClientOptions options = ClientOptions.builder()
         .socketOptions(SocketOptions.builder()
             .connectTimeout(Duration.ofMillis(100))
@@ -484,13 +484,13 @@ public RedisConnectionFactory lettuceConnectionFactory() {
             .timeoutCommands(true)
             .build())
         .build();
-    
-    LettuceClientConfiguration clientConfig = 
+
+    LettuceClientConfiguration clientConfig =
         LettuceClientConfiguration.builder()
             .clientOptions(options)
             .readFrom(ReadFrom.REPLICA_PREFERRED)
             .build();
-    
+
     return new LettuceConnectionFactory(clusterConfig, clientConfig);
 }
 ```

@@ -176,7 +176,7 @@ hive.hdfs.impersonation.enabled=true
 
 ```sql
 -- 基本查询
-SELECT 
+SELECT
     region,
     COUNT(*) as order_count,
     SUM(amount) as total_amount,
@@ -188,7 +188,7 @@ ORDER BY total_amount DESC
 LIMIT 100;
 
 -- 联邦查询（跨数据源 JOIN）
-SELECT 
+SELECT
     c.customer_name,
     o.order_id,
     p.product_name
@@ -198,7 +198,7 @@ JOIN postgresql.catalog.products p ON o.product_id = p.product_id
 WHERE o.order_date >= CURRENT_DATE - INTERVAL '7' DAY;
 
 -- 窗口函数
-SELECT 
+SELECT
     user_id,
     event_time,
     event_type,
@@ -208,7 +208,7 @@ FROM kafka.events.user_activity;
 
 -- 复杂分析
 WITH daily_stats AS (
-    SELECT 
+    SELECT
         DATE(order_time) as order_date,
         region,
         COUNT(*) as orders,
@@ -217,14 +217,14 @@ WITH daily_stats AS (
     WHERE order_time >= CURRENT_DATE - INTERVAL '30' DAY
     GROUP BY 1, 2
 )
-SELECT 
+SELECT
     order_date,
     region,
     orders,
     revenue,
     LAG(revenue) OVER (PARTITION BY region ORDER BY order_date) as prev_revenue,
-    (revenue - LAG(revenue) OVER (PARTITION BY region ORDER BY order_date)) 
-        / LAG(revenue) OVER (PARTITION BY region ORDER BY order_date) * 100 
+    (revenue - LAG(revenue) OVER (PARTITION BY region ORDER BY order_date))
+        / LAG(revenue) OVER (PARTITION BY region ORDER BY order_date) * 100
         as growth_pct
 FROM daily_stats
 ORDER BY order_date DESC, region;
@@ -348,12 +348,14 @@ Presto/Trino 的优势：
 - **标准 SQL**：ANSI SQL 兼容
 
 适用场景：
+
 - 交互式数据分析
 - 数据湖查询
 - 联邦查询（跨数据源 JOIN）
 - 实时仪表盘
 
 最佳实践：
+
 1. 合理配置内存限制
 2. 使用分区裁剪减少数据扫描
 3. 对常用数据使用缓存

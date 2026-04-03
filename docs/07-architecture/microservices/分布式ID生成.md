@@ -91,7 +91,7 @@ ID结构（64位）：
 2. IF timestamp < lastTimestamp THEN
 3.     抛出时钟回拨异常
 4. END IF
-5. 
+5.
 6. IF timestamp == lastTimestamp THEN
 7.     sequence = (sequence + 1) & 4095  // 序列号自增，掩码保12位
 8.     IF sequence == 0 THEN
@@ -100,17 +100,18 @@ ID结构（64位）：
 11. ELSE
 12.    sequence = 0  // 新毫秒，序列号归零
 13. END IF
-14. 
+14.
 15. lastTimestamp = timestamp
-16. 
-17. ID = ((timestamp - twepoch) << 22) 
-18.      | (dcId << 17) 
-19.      | (workerId << 12) 
+16.
+17. ID = ((timestamp - twepoch) << 22)
+18.      | (dcId << 17)
+19.      | (workerId << 12)
 20.      | sequence
 21. RETURN ID
 ```
 
 **复杂度分析**：
+
 - 时间复杂度：O(1)
 - 空间复杂度：O(1)
 - 性能：单机QPS可达400万+
@@ -121,34 +122,34 @@ ID结构（64位）：
 public class SnowflakeIdWorker {
     // 起始时间戳（2024-01-01）
     private final long twepoch = 1704067200000L;
-    
+
     // 位数分配
     private final long workerIdBits = 5L;
     private final long datacenterIdBits = 5L;
     private final long sequenceBits = 12L;
-    
+
     // 最大值
     private final long maxWorkerId = -1L ^ (-1L << workerIdBits);
     private final long maxDatacenterId = -1L ^ (-1L << datacenterIdBits);
     private final long sequenceMask = -1L ^ (-1L << sequenceBits);
-    
+
     // 位移
     private final long workerIdShift = sequenceBits;
     private final long datacenterIdShift = sequenceBits + workerIdBits;
     private final long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
-    
+
     private long workerId;
     private long datacenterId;
     private long sequence = 0L;
     private long lastTimestamp = -1L;
-    
+
     public synchronized long nextId() {
         long timestamp = timeGen();
-        
+
         if (timestamp < lastTimestamp) {
             throw new RuntimeException("Clock moved backwards");
         }
-        
+
         if (lastTimestamp == timestamp) {
             sequence = (sequence + 1) & sequenceMask;
             if (sequence == 0) {
@@ -157,15 +158,15 @@ public class SnowflakeIdWorker {
         } else {
             sequence = 0L;
         }
-        
+
         lastTimestamp = timestamp;
-        
+
         return ((timestamp - twepoch) << timestampLeftShift)
                 | (datacenterId << datacenterIdShift)
                 | (workerId << workerIdShift)
                 | sequence;
     }
-    
+
     private long tilNextMillis(long lastTimestamp) {
         long timestamp = timeGen();
         while (timestamp <= lastTimestamp) {
@@ -173,7 +174,7 @@ public class SnowflakeIdWorker {
         }
         return timestamp;
     }
-    
+
     private long timeGen() {
         return System.currentTimeMillis();
     }
@@ -197,6 +198,7 @@ UUID结构（128位）：
 ```
 
 **优缺点**：
+
 - 优点：本地生成，无依赖，全球唯一
 - 缺点：128位太长，无序，存储效率低，含"-"字符
 
@@ -207,6 +209,7 @@ UUID结构（128位）：
 **方案**：
 
 1. **单点数据库**：
+
 ```sql
 -- 创建ID表
 CREATE TABLE id_generator (
@@ -219,7 +222,8 @@ REPLACE INTO id_generator (stub) VALUES ('a');
 SELECT LAST_INSERT_ID();
 ```
 
-2. **数据库号段模式**：
+1. **数据库号段模式**：
+
 ```sql
 -- 号段表
 CREATE TABLE leaf_alloc (
@@ -235,6 +239,7 @@ SELECT max_id FROM leaf_alloc WHERE biz_tag = 'order';
 ```
 
 **复杂度分析**：
+
 - 单点：高延迟（网络+数据库），存在单点故障
 - 号段：批量获取减少DB访问，双Buffer优化
 
@@ -251,6 +256,7 @@ SELECT max_id FROM leaf_alloc WHERE biz_tag = 'order';
 ```
 
 **优缺点**：
+
 - 优点：号段内ID连续递增，DB压力小
 - 缺点：ID非严格递增（号段切换时跳变），依赖DB
 
@@ -263,13 +269,13 @@ public long nextId(String key) {
     // 每日重置
     String today = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE);
     String redisKey = "id:" + key + ":" + today;
-    
+
     // 原子自增
     Long id = redisTemplate.opsForValue().increment(redisKey);
-    
+
     // 设置过期时间
     redisTemplate.expire(redisKey, 2, TimeUnit.DAYS);
-    
+
     // 组合日期和序列
     return Long.parseLong(today) * 1000000 + id;
 }
@@ -346,10 +352,10 @@ id-generator:
 public class SafeSnowflakeIdWorker {
     private long lastTimestamp = -1L;
     private final long maxBackwardMs = 5;
-    
+
     public synchronized long nextId() {
         long timestamp = timeGen();
-        
+
         // 时钟回拨检测
         if (timestamp < lastTimestamp) {
             long offset = lastTimestamp - timestamp;
@@ -435,6 +441,7 @@ A: Snowflake用datacenterId区分；Leaf号段用不同biz_tag区分。
 对于不同机器：workerId或datacenterId不同，ID必然不同。
 
 对于同一机器：
+
 - 不同毫秒：timestamp不同，ID不同
 - 同一毫秒：sequence自增，范围0-4095，超过则等待下一毫秒
 
@@ -445,6 +452,7 @@ A: Snowflake用datacenterId区分；Leaf号段用不同biz_tag区分。
 **定理**：双Buffer号段模式下，服务可用性 = 1 - (DB故障概率)^2
 
 **证明**：
+
 - 单Buffer：DB故障时无号段可用，不可用
 - 双Buffer：需两个Buffer同时耗尽且DB故障才不可用
 - 假设DB可用性99.9%，则服务可用性 ≈ 99.9999%

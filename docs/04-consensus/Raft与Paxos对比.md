@@ -1,8 +1,8 @@
 # Raft与Paxos对比 专题文档
 
-**文档版本**：v1.0  
-**创建时间**：2026年  
-**最后更新**：2026年  
+**文档版本**：v1.0
+**创建时间**：2026年
+**最后更新**：2026年
 **状态**：✅ 已完成
 
 ---
@@ -40,7 +40,7 @@ graph LR
         A2 --> L1
         A3 --> L1
     end
-    
+
     subgraph Raft架构
         R1[Leader] -->|日志复制| F1[Follower]
         R1 --> F2[Follower]
@@ -72,7 +72,7 @@ stateDiagram-v2
     Candidate --> Follower: 发现更高任期
     Leader --> Follower: 发现更高任期
     Follower --> Follower: 收到心跳
-    
+
     note right of Candidate
         Raft特有的显式选举机制
         Paxos中选举是隐式的
@@ -94,16 +94,16 @@ sequenceDiagram
     P->>A1: Prepare(n)
     P->>A2: Prepare(n)
     P->>A3: Prepare(n)
-    
+
     A1-->>P: Promise(n, null)
     A2-->>P: Promise(n, (v1, n1))
     A3-->>P: Promise(n, null)
-    
+
     Note over P: Phase 2: Accept
     P->>A1: Accept(n, v1)
     P->>A2: Accept(n, v1)
     P->>A3: Accept(n, v1)
-    
+
     A1-->>P: Accepted(n, v1)
     A2-->>P: Accepted(n, v1)
     A3-->>P: Accepted(n, v1)
@@ -119,10 +119,10 @@ sequenceDiagram
 
     L->>F1: AppendEntries(prevLogIndex, prevLogTerm, entries)
     L->>F2: AppendEntries(prevLogIndex, prevLogTerm, entries)
-    
+
     F1-->>L: AppendEntriesReply(success)
     F2-->>L: AppendEntriesReply(success)
-    
+
     Note over L: 收到多数确认
     L->>F1: AppendEntries(leaderCommit)
     L->>F2: AppendEntries(leaderCommit)
@@ -180,26 +180,26 @@ func (n *RaftNode) AppendEntries(args AppendEntriesArgs, reply *AppendEntriesRep
         reply.Success = false
         return
     }
-    
+
     n.currentTerm = args.Term
     n.state = Follower
     n.resetElectionTimer()
-    
+
     // 日志一致性检查
     if args.PrevLogIndex > len(n.log) ||
        n.log[args.PrevLogIndex].Term != args.PrevLogTerm {
         reply.Success = false
         return
     }
-    
+
     // 追加新条目
     n.log = append(n.log[:args.PrevLogIndex+1], args.Entries...)
-    
+
     // 更新commitIndex
     if args.LeaderCommit > n.commitIndex {
         n.commitIndex = min(args.LeaderCommit, len(n.log)-1)
     }
-    
+
     reply.Success = true
 }
 ```
@@ -218,6 +218,7 @@ func (n *RaftNode) AppendEntries(args AppendEntriesArgs, reply *AppendEntriesRep
 | **形式化描述** | 复杂 | 清晰 |
 
 **Raft的可理解性优势**：
+
 - 明确的领导者概念
 - 清晰的状态转换
 - 日志复制过程直观
@@ -288,12 +289,14 @@ Raft实现优势：
 ### 5.1 Paxos优缺点
 
 **优点**：
+
 - 理论完备，经过严格证明
 - 灵活性高，可适应多种场景
 - 故障模型假设弱
 - 学术界认可度高
 
 **缺点**：
+
 - 难以理解和实现
 - 活锁问题需要额外处理
 - 缺乏优秀的开源实现
@@ -302,6 +305,7 @@ Raft实现优势：
 ### 5.2 Raft优缺点
 
 **优点**：
+
 - 易于理解和学习
 - 工程实现友好
 - 大量生产验证
@@ -309,6 +313,7 @@ Raft实现优势：
 - 清晰的成员变更
 
 **缺点**：
+
 - 单Leader可能成为瓶颈
 - 写性能受限于Leader
 - 网络分区时少数派不可用
@@ -323,14 +328,14 @@ Raft实现优势：
 ```mermaid
 graph TD
     Start([选择共识算法]) --> Q1{首要考虑?}
-    
+
     Q1 -->|可理解性| Raft[选择Raft]
     Q1 -->|灵活性| Q2{是否有Raft经验?}
     Q1 -->|理论完备| Paxos[选择Paxos]
-    
+
     Q2 -->|是| Raft
     Q2 -->|否| Q3{团队能力?}
-    
+
     Q3 -->|强| Paxos
     Q3 -->|一般| Raft
 ```
@@ -338,6 +343,7 @@ graph TD
 ### 6.2 具体建议
 
 **选择Raft当**：
+
 - 团队首次实现分布式共识
 - 需要快速上线和维护
 - 需要丰富的工具和生态支持
@@ -345,6 +351,7 @@ graph TD
 - 运维团队需要理解系统
 
 **选择Paxos当**：
+
 - 需要极高的灵活性
 - 团队有深厚理论基础
 - 特定场景Raft无法满足
@@ -367,7 +374,7 @@ graph TD
 |------|------|
 | Paxos Made Simple | Lamport的简化版Paxos论文 |
 | Raft Dissertation | Diego Ongaro的博士论文 |
-| Raft可视化 | https://raft.github.io |
+| Raft可视化 | <https://raft.github.io> |
 
 ---
 
@@ -387,5 +394,5 @@ graph TD
 
 ---
 
-**维护者**：项目团队  
+**维护者**：项目团队
 **最后更新**：2026年

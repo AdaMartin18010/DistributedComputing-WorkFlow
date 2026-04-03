@@ -20,6 +20,7 @@ HDFS（Hadoop Distributed File System）是Apache Hadoop项目的核心组件，
 **HDFS** 是一个主从（Master/Slave）架构的分布式文件系统，遵循GFS（Google File System）的设计思想。它将大文件分割成固定大小的数据块（默认128MB或256MB），并将这些块复制到多个DataNode上以实现容错。
 
 **核心设计原则**：
+
 - **故障常态化**：假设硬件故障是常态而非例外
 - **流式数据访问**：优化批处理而非交互式低延迟访问
 - **大规模数据集**：支持GB到TB级别的文件
@@ -60,20 +61,20 @@ graph TB
         NN[NameNode<br/>元数据管理]
         SNN[Secondary NameNode<br/>辅助检查点]
         JN[JournalNode<br/>编辑日志同步]
-        
+
         subgraph "DataNode Cluster"
             DN1[DataNode 1]
             DN2[DataNode 2]
             DN3[DataNode 3]
             DNn[DataNode n...]
         end
-        
+
         subgraph "Clients"
             Client1[Client]
             Client2[Client]
         end
     end
-    
+
     NN <-->|元数据| JN
     SNN -->|检查点| NN
     NN <-->|心跳&块报告| DN1
@@ -88,17 +89,20 @@ graph TB
 #### 2.1.1 NameNode（主节点）
 
 **职责**：
+
 - 管理文件系统命名空间（目录树结构）
 - 维护文件到数据块的映射关系
 - 管理数据块到DataNode的映射
 - 处理客户端的元数据操作请求
 
 **元数据存储**：
+
 - **FsImage**：文件系统命名空间的持久化快照
 - **EditLog**：所有元数据变更的事务日志
 - **内存结构**：加载整个命名空间到内存，加速访问
 
 **关键数据结构**：
+
 ```java
 // 简化示意
 class INodeDirectory extends INode {
@@ -117,12 +121,14 @@ class INodeFile extends INode {
 #### 2.1.2 DataNode（数据节点）
 
 **职责**：
+
 - 存储实际的数据块（Block）
 - 定期向NameNode发送心跳和块报告
 - 执行数据块的创建、删除和复制
 - 处理客户端的读写请求
 
 **存储结构**：
+
 ```
 ${dfs.data.dir}/
 ├── current/
@@ -143,6 +149,7 @@ ${dfs.data.dir}/
 **注意**：不是NameNode的热备份，仅辅助合并FsImage和EditLog
 
 **工作流程**：
+
 1. 定期从NameNode下载FsImage和EditLog
 2. 在内存中合并生成新的FsImage
 3. 将新的FsImage传回NameNode
@@ -162,15 +169,15 @@ sequenceDiagram
 
     Client->>NN: create(path)
     NN-->>Client: 返回输出流对象(FSDataOutputStream)
-    
+
     loop 按块写入
         Client->>NN: addBlock()
         NN-->>Client: 返回DataNode列表(DN1, DN2, DN3)
-        
+
         Client->>DN1: 建立pipeline（DN1→DN2→DN3）
         DN1->>DN2: 建立连接
         DN2->>DN3: 建立连接
-        
+
         loop 数据包写入
             Client->>DN1: 发送packet (64KB)
             DN1->>DN2: 转发packet
@@ -179,16 +186,17 @@ sequenceDiagram
             DN2-->>DN1: ack
             DN1-->>Client: ack
         end
-        
+
         DN1->>NN: 块报告
         DN2->>NN: 块报告
         DN3->>NN: 块报告
     end
-    
+
     Client->>NN: complete()
 ```
 
 **关键细节**：
+
 - **Pipeline机制**：数据以packet（默认64KB）为单位流水线传输
 - **packet确认**：每个packet需要收到下游ack才确认写入成功
 - **副本放置策略**：
@@ -207,22 +215,23 @@ sequenceDiagram
 
     Client->>NN: open(path)
     NN-->>Client: 返回LocatedBlocks（块位置信息）
-    
+
     loop 按块读取
         Client->>Client: 选择最近的DataNode
         Client->>DN1: 读取block数据
         DN1-->>Client: 返回数据
-        
+
         alt DN1故障
             Client->>DN2: 切换到备用DataNode
             DN2-->>Client: 返回数据
         end
     end
-    
+
     Client->>NN: 关闭文件
 ```
 
 **读取优化**：
+
 - **就近读取**：优先选择本地DataNode，其次是同机架、不同机架
 - **故障切换**：自动尝试其他副本，对客户端透明
 - **预读机制**：顺序读取时预加载后续数据块
@@ -236,25 +245,25 @@ graph LR
     subgraph "HA Architecture"
         ANN[Active NameNode]
         SNN[Standby NameNode]
-        
+
         subgraph "JournalNode Cluster"
             JN1[JournalNode 1]
             JN2[JournalNode 2]
             JN3[JournalNode 3]
         end
-        
+
         ZKFC1[ZKFailoverController]
         ZKFC2[ZKFailoverController]
         ZK[ZooKeeper]
     end
-    
+
     ANN <-->|实时同步EditLog| JN1
     ANN <-->|实时同步EditLog| JN2
     ANN <-->|实时同步EditLog| JN3
     SNN <-->|读取EditLog| JN1
     SNN <-->|读取EditLog| JN2
     SNN <-->|读取EditLog| JN3
-    
+
     ANN <-->|健康监测| ZKFC1
     SNN <-->|健康监测| ZKFC2
     ZKFC1 <-->|选举协调| ZK
@@ -272,6 +281,7 @@ graph LR
 | **ZooKeeper** | 维护选举锁，防止脑裂 |
 
 **故障转移流程**：
+
 1. ZKFC检测到Active NN无响应
 2. 在ZK中删除Active NN的临时锁节点
 3. Standby NN的ZKFC获得锁
@@ -285,6 +295,7 @@ graph LR
 **问题**：网络分区时可能出现双Active
 
 **解决方案**：
+
 ```bash
 # SSH Fencing
 ssh fencer@old-active-nn "pkill -9 -f NameNode"
@@ -294,6 +305,7 @@ shell(/bin/true)  # 执行自定义脚本
 ```
 
 **QJM内建防护**：
+
 - Standby晋升时必须获得JournalNode的写权限
 - 原Active失去JournalNode写权限后无法继续写入
 
@@ -371,19 +383,19 @@ shell(/bin/true)  # 执行自定义脚本
         <name>fs.defaultFS</name>
         <value>hdfs://nameservice1</value>
     </property>
-    
+
     <!-- 指定Hadoop临时目录 -->
     <property>
         <name>hadoop.tmp.dir</name>
         <value>/data/hadoop/tmp</value>
     </property>
-    
+
     <!-- 启用垃圾回收（删除文件保留天数） -->
     <property>
         <name>fs.trash.interval</name>
         <value>1440</value> <!-- 24小时 -->
     </property>
-    
+
     <!-- HA配置：指定NameNode服务 -->
     <property>
         <name>ha.zookeeper.quorum</name>
@@ -401,13 +413,13 @@ shell(/bin/true)  # 执行自定义脚本
         <name>dfs.blocksize</name>
         <value>268435456</value> <!-- 256MB -->
     </property>
-    
+
     <!-- 副本数配置 -->
     <property>
         <name>dfs.replication</name>
         <value>3</value>
     </property>
-    
+
     <!-- NameNode RPC地址 -->
     <property>
         <name>dfs.namenode.rpc-address.nameservice1.nn1</name>
@@ -417,25 +429,25 @@ shell(/bin/true)  # 执行自定义脚本
         <name>dfs.namenode.rpc-address.nameservice1.nn2</name>
         <value>nn2:8020</value>
     </property>
-    
+
     <!-- JournalNode配置 -->
     <property>
         <name>dfs.namenode.shared.edits.dir</name>
         <value>qjournal://jn1:8485;jn2:8485;jn3:8485/nameservice1</value>
     </property>
-    
+
     <!-- 自动故障转移 -->
     <property>
         <name>dfs.ha.automatic-failover.enabled</name>
         <value>true</value>
     </property>
-    
+
     <!-- DataNode数据目录 -->
     <property>
         <name>dfs.datanode.data.dir</name>
         <value>/data/dfs/data1,/data/dfs/data2</value>
     </property>
-    
+
     <!-- NameNode元数据目录 -->
     <property>
         <name>dfs.namenode.name.dir</name>
@@ -456,6 +468,7 @@ shell(/bin/true)  # 执行自定义脚本
 | 5000万 | 500万 | 5亿 | 512GB+（需联邦架构）|
 
 **计算公式**：
+
 ```
 NameNode内存 ≈ (文件数 + 目录数) × 200字节 + 块数 × 200字节
 ```
@@ -467,13 +480,14 @@ NameNode内存 ≈ (文件数 + 目录数) × 200字节 + 块数 × 200字节
 **解决方案**：
 
 1. **SequenceFile**：将小文件合并为二进制键值对文件
+
 ```java
 // 写入SequenceFile示例
 Configuration conf = new Configuration();
 FileSystem fs = FileSystem.get(conf);
 Path outputPath = new Path("/output/merged.seq");
 SequenceFile.Writer writer = SequenceFile.createWriter(
-    conf, 
+    conf,
     SequenceFile.Writer.file(outputPath),
     SequenceFile.Writer.keyClass(Text.class),
     SequenceFile.Writer.valueClass(BytesWritable.class)
@@ -482,7 +496,8 @@ SequenceFile.Writer writer = SequenceFile.createWriter(
 writer.close();
 ```
 
-2. **HAR（Hadoop Archive）**：HDFS原生归档格式
+1. **HAR（Hadoop Archive）**：HDFS原生归档格式
+
 ```bash
 # 创建HAR归档
 hadoop archive -archiveName files.har -p /input /output
@@ -491,7 +506,7 @@ hadoop archive -archiveName files.har -p /input /output
 hadoop fs -ls har:///output/files.har/
 ```
 
-3. **Compaction策略**：定期合并小文件
+1. **Compaction策略**：定期合并小文件
 
 #### 4.2.3 数据均衡
 
@@ -511,6 +526,7 @@ stop-balancer.sh
 **Q1: NameNode启动缓慢或失败？**
 
 A: 排查步骤：
+
 1. 检查FsImage和EditLog文件完整性：`hdfs oiv -i fsimage -o output`
 2. 检查磁盘空间：`df -h`
 3. 检查内存配置是否足够
@@ -519,6 +535,7 @@ A: 排查步骤：
 **Q2: DataNode无法连接到NameNode？**
 
 A: 排查步骤：
+
 1. 检查网络连通性：`ping namenode-host`
 2. 检查NameNode RPC端口：`netstat -anp | grep 8020`
 3. 检查防火墙设置
@@ -527,6 +544,7 @@ A: 排查步骤：
 **Q3: 副本不足或块损坏？**
 
 A: 处理命令：
+
 ```bash
 # 查看损坏的块
 hdfs fsck / -list-corruptfileblocks
@@ -540,7 +558,8 @@ hdfs fsck /path/to/file -delete
 
 **Q4: 安全模式（Safe Mode）无法退出？**
 
-A: 
+A:
+
 ```bash
 # 查看安全模式状态
 hdfs dfsadmin -safemode get
@@ -560,11 +579,13 @@ hdfs dfsadmin -safemode leave
 **目标**：在满足容错要求的同时，最小化跨机架带宽消耗
 
 **约束条件**：
+
 - 副本数 R = 3
 - 机架数 Rack ≥ 2
 - 同一机架内节点数 ≥ 2
 
 **优化目标**：
+
 ```
 minimize: 跨机架写入带宽
 subject to:
@@ -577,6 +598,7 @@ subject to:
 **定理**：HDFS的数据本地性调度可减少约50%的网络流量
 
 **证明概要**：
+
 - 假设：计算集群与存储集群节点重合
 - 理想情况：数据本地率 100%，网络流量 = 0
 - 实际情况（机架本地）：网络流量 ≤ 数据量 × (非本地比例)
@@ -637,5 +659,5 @@ subject to:
 
 ---
 
-**维护者**：项目团队  
+**维护者**：项目团队
 **最后更新**：2026年4月

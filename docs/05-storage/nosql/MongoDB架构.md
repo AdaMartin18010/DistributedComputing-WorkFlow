@@ -54,13 +54,13 @@ MongoDB 是基于**文档模型**的分布式数据库，核心设计理念：
 graph TB
     subgraph "MongoDB Cluster"
         Router[mongos<br/>路由节点]
-        
+
         subgraph "Config Servers"
             CS1[Config Server 1]
             CS2[Config Server 2]
             CS3[Config Server 3]
         end
-        
+
         subgraph "Shard 1"
             P1[Primary]
             S1A[Secondary A]
@@ -68,7 +68,7 @@ graph TB
             P1 -.->|复制| S1A
             P1 -.->|复制| S1B
         end
-        
+
         subgraph "Shard 2"
             P2[Primary]
             S2A[Secondary A]
@@ -76,7 +76,7 @@ graph TB
             P2 -.->|复制| S2A
             P2 -.->|复制| S2B
         end
-        
+
         subgraph "Shard 3"
             P3[Primary]
             S3A[Secondary A]
@@ -85,7 +85,7 @@ graph TB
             P3 -.->|复制| S3B
         end
     end
-    
+
     Client[客户端] --> Router
     Router --> CS1
     Router --> P1
@@ -123,6 +123,7 @@ BSON类型扩展（vs JSON）:
 ```
 
 **文档示例**：
+
 ```javascript
 {
     "_id": ObjectId("65a1b2c3d4e5f6a7b8c9d0e1"),
@@ -155,7 +156,7 @@ BSON类型扩展（vs JSON）:
    │ - 需要一起查询的数据                     │
    │ - 原子更新需求                           │
    └─────────────────────────────────────────┘
-   
+
    ┌─────────────────────────────────────────┐
    │ 引用式（DBRef/手动引用）                  │
    │ - 一对多（>100个）                       │
@@ -182,14 +183,14 @@ graph LR
         S2[Secondary 2<br/>复制+读]
         A[Arbiter<br/>仅投票]
     end
-    
+
     W[写入] --> P
     R[读取] --> P
     R -.->|读偏好| S1
     R -.->|读偏好| S2
     P -.->|Oplog复制| S1
     P -.->|Oplog复制| S2
-    
+
     style P fill:#f9f,stroke:#333
     style S1 fill:#bbf,stroke:#333
     style S2 fill:#bbf,stroke:#333
@@ -214,6 +215,7 @@ Oplog Entry Structure:
 ```
 
 **复制流程**：
+
 1. Primary接收写操作，写入本地Oplog
 2. Secondary轮询Primary的Oplog
 3. Secondary在本地重放（apply）操作
@@ -249,23 +251,23 @@ Oplog Entry Structure:
 graph TB
     subgraph "数据分片逻辑"
         direction TB
-        
+
         subgraph "Chunk分布"
             C1["Chunk 1\nshard key: [-∞, 100)"]
             C2["Chunk 2\nshard key: [100, 200)"]
             C3["Chunk 3\nshard key: [200, +∞)"]
         end
-        
+
         subgraph "Shard A"
             A1[(Chunk 1)]
             A2[(Chunk 3)]
         end
-        
+
         subgraph "Shard B"
             B1[(Chunk 2)]
         end
     end
-    
+
     C1 --> A1
     C2 --> B1
     C3 --> A2
@@ -280,7 +282,7 @@ graph TB
    - 按shard key范围划分Chunk
    - 适合范围查询、排序
    - 风险：热点（顺序写入）
-   
+
    示例：{ createdAt: 1 }
    Chunk1: {createdAt: {$minKey: 1}} -> {createdAt: ISODate("2026-01-01")}
    Chunk2: {createdAt: ISODate("2026-01-01")} -> {createdAt: ISODate("2026-02-01")}
@@ -289,13 +291,13 @@ graph TB
    - 对shard key计算哈希值
    - 均匀分布，避免热点
    - 不支持范围查询
-   
+
    示例：{ _id: "hashed" }
 
 3. 组合分片（Compound）
    - 多个字段组合作为shard key
    - 前缀匹配原则
-   
+
    示例：{ userId: 1, _id: 1 }
 ```
 
@@ -311,7 +313,7 @@ Chunk生命周期：
 2. 迁移（Migration）
    当Shard间Chunk数量差异>阈值（默认2）:
    mongos协调从源Shard迁移Chunk到目标Shard
-   
+
 3. 均衡器（Balancer）
    - 后台进程监控Chunk分布
    - 自动触发迁移
@@ -343,19 +345,19 @@ session.startTransaction({
 
 try {
     const accounts = session.getDatabase("bank").accounts;
-    
+
     // 扣款
     accounts.updateOne(
         { _id: "accountA" },
         { $inc: { balance: -100 } }
     );
-    
+
     // 入账
     accounts.updateOne(
         { _id: "accountB" },
         { $inc: { balance: 100 } }
     );
-    
+
     session.commitTransaction();
 } catch (error) {
     session.abortTransaction();
@@ -398,14 +400,14 @@ Write Concern Levels:
 
 1. w: 1 (默认)
    - Primary确认即返回
-   
+
 2. w: "majority"
    - 复制到多数派后返回
    - 数据持久性保证
-   
+
 3. w: <number>
    - 指定副本数确认
-   
+
 4. j: true
    - 写入journal后返回
 ```
@@ -504,12 +506,13 @@ security:
 ### 4.2 最佳实践
 
 1. **索引策略**
+
    ```javascript
    // ESR原则：Equality, Sort, Range
    // 好的索引
    db.orders.createIndex({ status: 1, createdAt: -1, amount: 1 })
    // status用于等值查询，createdAt用于排序，amount用于范围
-   
+
    // 复合索引前缀匹配
    // 索引 {a: 1, b: 1, c: 1} 支持：
    // - {a: 1}
@@ -532,6 +535,7 @@ security:
    - 批量操作（bulkWrite）
 
 4. **运维监控**
+
    ```javascript
    // 关键监控指标
    db.serverStatus().connections    // 连接数
@@ -545,14 +549,16 @@ security:
 ### 4.3 常见问题
 
 **Q1: 如何选择分片键避免热点？**
-A: 
+A:
+
 - 避免单调递增字段（如ObjectId、时间戳）
 - 使用哈希分片均匀分布
-- 或使用组合键：{business_id: 1, _id: 1}
+- 或使用组合键：{business_id: 1,_id: 1}
 - 预分片（pre-split）减少初始迁移
 
 **Q2: Oplog大小如何设置？**
 A:
+
 - 计算公式：oplogSize = 每小时写入量 × 维护窗口小时数
 - 默认5%磁盘空间（最小990MB）
 - 存储密集型应用需要更大Oplog
@@ -560,6 +566,7 @@ A:
 
 **Q3: 事务性能差如何优化？**
 A:
+
 - 事务尽量短，减少锁持有时间
 - 调整transactionLifetimeLimitSeconds
 - 避免事务中大量文档修改
@@ -568,6 +575,7 @@ A:
 
 **Q4: 内存告警" Resident memory low" 如何处理？**
 A:
+
 - 增加物理内存
 - 调整WiredTiger缓存：cacheSizeGB
 - 检查索引大小：`db.collection.stats().indexSizes`

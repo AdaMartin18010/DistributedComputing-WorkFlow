@@ -1,8 +1,8 @@
 # BFT算法对比 专题文档
 
-**文档版本**：v1.0  
-**创建时间**：2026年  
-**最后更新**：2026年  
+**文档版本**：v1.0
+**创建时间**：2026年
+**最后更新**：2026年
 **状态**：✅ 已完成
 
 ---
@@ -59,7 +59,7 @@ graph TD
         A3 --> A1
         A3 --> A2
     end
-    
+
     subgraph HotStuff通信模式
         L[Leader] --> B1[Replica]
         L --> B2[Replica]
@@ -91,12 +91,12 @@ sequenceDiagram
     participant R3 as Replica 3
 
     C->>P: Request
-    
+
     Note over P: Pre-prepare
     P->>R1: Pre-prepare
     P->>R2: Pre-prepare
     P->>R3: Pre-prepare
-    
+
     Note over R1,R2,R3: Prepare阶段<br/>全网广播
     R1->>R1: Prepare
     R1->>R2: Prepare
@@ -107,7 +107,7 @@ sequenceDiagram
     R3->>R1: Prepare
     R3->>R2: Prepare
     R3->>R3: Prepare
-    
+
     Note over R1,R2,R3: Commit阶段<br/>全网广播
     R1->>R1: Commit
     R1->>R2: Commit
@@ -118,7 +118,7 @@ sequenceDiagram
     R3->>R1: Commit
     R3->>R2: Commit
     R3->>R3: Commit
-    
+
     Note over P,R1,R2,R3: 2f+1 Commit后执行
 ```
 
@@ -135,36 +135,36 @@ sequenceDiagram
     R1->>L: NewView + highQC
     R2->>L: NewView + highQC
     R3->>L: NewView + highQC
-    
+
     Note over L: Prepare阶段
     L->>R1: Proposal + QC
     L->>R2: Proposal + QC
     L->>R3: Proposal + QC
-    
+
     Note over R1,R2,R3: Pre-commit投票<br/>发送给Leader
     R1->>L: PrepareVote
     R2->>L: PrepareVote
     R3->>L: PrepareVote
-    
+
     Note over L: 聚合为QC1
-    
+
     Note over L: Pre-commit阶段
     L->>R1: QC1
     L->>R2: QC1
     L->>R3: QC1
-    
+
     Note over R1,R2,R3: Commit投票
     R1->>L: PrecommitVote
     R2->>L: PrecommitVote
     R3->>L: PrecommitVote
-    
+
     Note over L: 聚合为QC2
-    
+
     Note over L: Commit阶段
     L->>R1: QC2
     L->>R2: QC2
     L->>R3: QC2
-    
+
     Note over R1,R2,R3: Decide投票<br/>三链提交后执行
 ```
 
@@ -181,22 +181,22 @@ func PBFT_ViewChange(newView uint64) {
             QSet: prePreparedProofs,
         })
     }
-    
+
     // Phase 2: 新Primary收集并发送New-View
     if amNewPrimary {
         // 需要收集2f+1个View-Change
         viewChanges := collectViewChanges(2*f + 1)
-        
+
         // 构造O集合（待执行消息）
         O := constructOSet(viewChanges)
-        
+
         broadcast(NewViewMsg{
             View: newView,
             VSet: viewChanges,
             O:    O,
         })
     }
-    
+
     // Phase 3: 验证New-View并进入新视图
     verifyNewView(newViewMsg)
     executeOSet(O)
@@ -209,7 +209,7 @@ func HotStuff_ViewChange(newView uint64) {
         View:   newView,
         HighQC: localHighQC,
     })
-    
+
     // 新Leader收集后直接开始提案
     if amNewLeader {
         highQCs := collectNewViews(2*f + 1)
@@ -300,11 +300,13 @@ func HotStuff_ViewChange(newView uint64) {
 ### 5.1 PBFT
 
 **优点**：
+
 - 经过充分验证的经典算法
 - 确定性强，无概率性
 - 成熟的企业级实现
 
 **缺点**：
+
 - 通信复杂度高 O(n²)
 - 视图变更复杂 O(n³)
 - 节点规模受限（<20）
@@ -312,11 +314,13 @@ func HotStuff_ViewChange(newView uint64) {
 ### 5.2 Tendermint
 
 **优点**：
+
 - BFT与PoS良好结合
 - 活跃的生态系统（Cosmos）
 - ABCI接口解耦应用层
 
 **缺点**：
+
 - 通信复杂度 O(n²)
 - 节点数受限
 - 对网络质量敏感
@@ -324,12 +328,14 @@ func HotStuff_ViewChange(newView uint64) {
 ### 5.3 HotStuff
 
 **优点**：
+
 - 线性通信复杂度 O(n)
 - 高效的视图变更
 - 支持流水线处理
 - 可扩展至150+节点
 
 **缺点**：
+
 - 依赖阈值签名（计算开销）
 - 实现复杂度高
 - 相对较新，生产验证较少
@@ -337,11 +343,13 @@ func HotStuff_ViewChange(newView uint64) {
 ### 5.4 Streamlet
 
 **优点**：
+
 - 极简设计（几百行代码）
 - 易于形式化验证
 - 清晰的正确性证明
 
 **缺点**：
+
 - 通信复杂度 O(n²)
 - 需要同步网络假设
 - 性能优化空间有限
@@ -353,23 +361,23 @@ func HotStuff_ViewChange(newView uint64) {
 ```mermaid
 graph TD
     Start([选择BFT算法]) --> Q1{节点规模?}
-    
+
     Q1 -->|<20| Q2{是否需要PoS?}
     Q1 -->|20-100| Q3{性能优先级?}
     Q1 -->|>100| Q4{实现能力?}
-    
+
     Q2 -->|是| Tendermint[Tendermint]
     Q2 -->|否| PBFT[PBFT]
-    
+
     Q3 -->|延迟| PBFT2[PBFT]
     Q3 -->|吞吐| Q5{是否需要流水线?}
-    
+
     Q5 -->|是| HotStuff[HotStuff]
     Q5 -->|否| Tendermint2[Tendermint]
-    
+
     Q4 -->|强| HotStuff2[HotStuff]
     Q4 -->|一般| SBFT[SBFT]
-    
+
     style Tendermint fill:#90EE90
     style HotStuff fill:#FFD700
     style PBFT fill:#87CEEB
@@ -429,5 +437,5 @@ graph TD
 
 ---
 
-**维护者**：项目团队  
+**维护者**：项目团队
 **最后更新**：2026年

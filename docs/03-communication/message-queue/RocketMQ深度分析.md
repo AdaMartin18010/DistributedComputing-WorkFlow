@@ -20,6 +20,7 @@ RocketMQ是阿里巴巴开源的分布式消息中间件，采用NameServer-Brok
 RocketMQ是一款低延迟、高性能、高可靠的分布式消息中间件，基于发布-订阅模式构建。其核心设计目标是提供异步解耦能力和削峰填谷功能，支持万亿级消息堆积和流式数据处理。
 
 **核心设计哲学**：
+
 - **存储计算分离**：NameServer负责服务发现，Broker专注消息存储与转发
 - **顺序写盘**：CommitLog顺序写入，最大化磁盘IO性能
 - **内存映射**：利用mmap技术加速文件访问
@@ -61,18 +62,18 @@ graph TB
         P[Producer生产者]
         C[Consumer消费者]
     end
-    
+
     subgraph 服务发现层
         NS1[NameServer集群]
     end
-    
+
     subgraph 消息存储层
         B1[Broker-Master]
         B2[Broker-Slave]
         B3[Broker-Master]
         B4[Broker-Slave]
     end
-    
+
     P -->|1. 拉取路由| NS1
     C -->|1. 拉取路由| NS1
     P -->|2. 发送消息| B1
@@ -97,11 +98,13 @@ graph TB
 ### 2.2 NameServer详解
 
 **功能定位**：
+
 - 维护Broker的路由信息（Topic到Broker的映射）
 - 提供轻量级的服务发现机制
 - 无状态设计，可水平扩展
 
 **路由注册流程**：
+
 ```
 1. Broker启动时向所有NameServer注册
 2. 每30秒发送心跳续约
@@ -139,6 +142,7 @@ graph TB
 ```
 
 **CommitLog特点**：
+
 - 顺序追加写，性能接近内存
 - 单文件大小默认1GB，写满滚动
 - 所有Topic消息混合存储
@@ -162,6 +166,7 @@ graph TB
 ```
 
 **ConsumeQueue作用**：
+
 - 作为CommitLog的索引，加速消息消费
 - 定长条目（20字节），支持快速定位
 - 按Topic-Queue维度组织
@@ -176,19 +181,20 @@ sequenceDiagram
     participant CL as CommitLog
     participant CQ as ConsumeQueue
     participant IDX as IndexFile
-    
+
     P->>B: 发送消息
     B->>CL: 顺序写入CommitLog
     B->>CQ: 异步构建ConsumeQueue
     B->>IDX: 异步构建索引(可选)
     B-->>P: 返回发送结果
-    
+
     Note over CL,IDX: 后台线程异步构建索引
 ```
 
 ### 2.4 事务消息
 
 **事务消息原理**：
+
 ```
 ┌─────────┐         ┌─────────┐         ┌─────────┐
 │ Producer│         │ Broker  │         │Consumer │
@@ -213,6 +219,7 @@ sequenceDiagram
 ```
 
 **事务状态**：
+
 | 状态 | 说明 |
 |------|------|
 | `HALF_MESSAGE` | 半消息，对消费者不可见 |
@@ -221,6 +228,7 @@ sequenceDiagram
 | `UNKNOWN` | 未知，触发回查 |
 
 **代码示例**：
+
 ```java
 TransactionMQProducer producer = new TransactionMQProducer("group");
 producer.setTransactionListener(new TransactionListener() {
@@ -229,18 +237,18 @@ producer.setTransactionListener(new TransactionListener() {
         try {
             // 执行本地事务
             boolean success = doLocalTransaction();
-            return success ? LocalTransactionState.COMMIT_MESSAGE 
+            return success ? LocalTransactionState.COMMIT_MESSAGE
                           : LocalTransactionState.ROLLBACK_MESSAGE;
         } catch (Exception e) {
             return LocalTransactionState.UNKNOW;
         }
     }
-    
+
     @Override
     public LocalTransactionState checkLocalTransaction(MessageExt msg) {
         // 事务回查
         boolean committed = checkTransactionStatus(msg);
-        return committed ? LocalTransactionState.COMMIT_MESSAGE 
+        return committed ? LocalTransactionState.COMMIT_MESSAGE
                         : LocalTransactionState.ROLLBACK_MESSAGE;
     }
 });
@@ -249,6 +257,7 @@ producer.setTransactionListener(new TransactionListener() {
 ### 2.5 延迟消息
 
 **延迟级别设计**：
+
 ```java
 // broker.conf中配置
 messageDelayLevel = 1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h
@@ -256,6 +265,7 @@ messageDelayLevel = 1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h
 ```
 
 **延迟消息实现**：
+
 ```
 ┌─────────────────────────────────────────────────────┐
 │                  延迟消息处理流程                    │
@@ -279,6 +289,7 @@ messageDelayLevel = 1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h
 ```
 
 **延迟消息特点**：
+
 - 使用18个固定延迟级别
 - 内部使用SCHEDULE_TOPIC_XXXX存储
 - 定时任务每秒扫描到期消息
@@ -344,6 +355,7 @@ messageDelayLevel = 1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h
 ### 4.1 部署配置
 
 **broker.conf核心配置**：
+
 ```properties
 # Broker身份
 brokerName=broker-a
@@ -392,13 +404,15 @@ maxMessageSize=4194304  # 4MB
 
 **Q1: 消息发送失败如何处理？**
 A: 实现重试机制，默认同步发送重试2次，异步发送重试2次。关键业务建议：
+
 ```java
 producer.setRetryTimesWhenSendFailed(3);
 producer.setRetryTimesWhenSendAsyncFailed(3);
 ```
 
 **Q2: 消息消费积压严重怎么办？**
-A: 
+A:
+
 - 扩容Consumer实例（不超过队列数）
 - 增加消费线程数
 - 优化消费逻辑，减少单条处理时间
@@ -406,6 +420,7 @@ A:
 
 **Q3: 如何保证消息顺序？**
 A: 使用MessageQueueSelector选择队列：
+
 ```java
 SendResult sendResult = producer.send(msg, new MessageQueueSelector() {
     @Override
@@ -418,7 +433,8 @@ SendResult sendResult = producer.send(msg, new MessageQueueSelector() {
 ```
 
 **Q4: Broker磁盘满了怎么办？**
-A: 
+A:
+
 - 调整文件保留时间：`fileReservedTime=48`
 - 手动删除过期CommitLog
 - 扩容磁盘或增加Broker节点
@@ -430,6 +446,7 @@ A:
 ### 5.1 消息可靠性模型
 
 **可靠性承诺**：
+
 | 模式 | 生产者 | Broker | 消费者 | 整体保证 |
 |------|--------|--------|--------|----------|
 | 最多一次 | 异步发送不重试 | 不刷盘 | 先ACK后处理 | At Most Once |
@@ -439,6 +456,7 @@ A:
 ### 5.2 存储性能分析
 
 **CommitLog顺序写性能**：
+
 ```
 磁盘顺序写吞吐：~600MB/s（HDD），~3GB/s（SSD）
 单条消息平均大小：1KB
@@ -447,6 +465,7 @@ A:
 ```
 
 **复杂度分析**：
+
 | 操作 | 时间复杂度 | 空间复杂度 |
 |------|-----------|-----------|
 | 消息发送 | O(1) | O(1) |

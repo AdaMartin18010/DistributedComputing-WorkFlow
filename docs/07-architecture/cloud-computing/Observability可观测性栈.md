@@ -22,12 +22,14 @@
 **定义**：系统在特定时间点的数值状态聚合，回答"发生了什么"的问题。
 
 **类型**：
+
 - **Counter**：单调递增计数器（如请求总数、错误数）
 - **Gauge**：可增可减的瞬时值（如内存使用、队列长度）
 - **Histogram**：采样分布（如请求延迟分布）
 - **Summary**：滑动时间窗口的分位数统计
 
 **关键特性**：
+
 - 时间序列数据，支持长期趋势分析
 - 高压缩比，适合长期存储
 - 低基数告警，适合SLI/SLO定义
@@ -37,11 +39,13 @@
 **定义**：离散事件的结构化或非结构化文本记录，回答"为什么会发生"的问题。
 
 **演进**：
+
 - **Logging 1.0**：本地文件，grep分析
 - **Logging 2.0**：集中化收集（ELK/EFK）
 - **Logging 3.0**：与Metrics/Traces关联的结构化日志
 
 **关键特性**：
+
 - 高维度的上下文信息
 - 支持全文检索
 - 与Trace ID关联实现请求链路追踪
@@ -51,11 +55,13 @@
 **定义**：请求在分布式系统中的完整传播路径，回答"请求经过哪里"的问题。
 
 **核心概念**：
+
 - **Trace**：一个完整请求的链路树
 - **Span**：链路中的单个操作单元
 - **Context**：跨进程传播的上下文（Trace ID、Span ID）
 
 **关键特性**：
+
 - 端到端延迟分析
 - 服务依赖拓扑发现
 - 异常定位与性能瓶颈识别
@@ -63,12 +69,14 @@
 ### 1.2 OpenTelemetry标准
 
 OpenTelemetry（OTel）是CNCF孵化的可观测性框架，提供：
+
 - **统一的API和SDK**：支持11+编程语言
 - **标准化的数据模型**：OTLP协议
 - **自动Instrumentation**：无代码或低代码接入
 - **Collector**：可扩展的采集、处理、导出组件
 
 **架构优势**：
+
 - 打破供应商锁定，数据格式标准化
 - 单Agent采集三大信号
 - 与Prometheus、Jaeger等生态无缝集成
@@ -100,23 +108,23 @@ graph TB
         A3[Kubernetes<br/>Kubelet Metrics] --> B
         A4[中间件<br/>Receiver] --> B
     end
-    
+
     subgraph "信号处理层"
         B --> C1[Metrics Pipeline]
         B --> C2[Logs Pipeline]
         B --> C3[Traces Pipeline]
-        
+
         C1 --> D1[Batch/Filter]
         C2 --> D2[Parse/Enrich]
         C3 --> D3[Tail-based Sampling]
     end
-    
+
     subgraph "存储层"
         D1 --> E1[Mimir/Prometheus]
         D2 --> E2[Loki]
         D3 --> E3[Tempo]
     end
-    
+
     subgraph "可视化层"
         E1 --> F[Grafana]
         E2 --> F
@@ -131,17 +139,17 @@ graph TB
 graph LR
     A[Receivers] --> B[Processors]
     B --> C[Exporters]
-    
+
     A1[OTLP] --> B
     A2[Prometheus] --> B
     A3[Jaeger] --> B
     A4[Zipkin] --> B
-    
+
     B --> B1[Batch]
     B --> B2[Memory Limiter]
     B --> B3[Resource Detection]
     B --> B4[Attribute Processor]
-    
+
     B --> C1[OTLP]
     B --> C2[Prometheus Remote Write]
     B --> C3[Loki]
@@ -153,6 +161,7 @@ graph LR
 #### Prometheus/Mimir - 指标存储
 
 **Prometheus架构**：
+
 ```mermaid
 graph LR
     A[Prometheus Server] --> B[TSDB]
@@ -163,12 +172,14 @@ graph LR
 ```
 
 **Mimir增强**：
+
 - 水平扩展的TSDB
 - 多租户隔离
 - 长期存储（对象存储后端）
 - 查询分片并行化
 
 **关键配置**：
+
 ```yaml
 # prometheus.yml
 global:
@@ -193,11 +204,13 @@ scrape_configs:
 #### Loki - 日志系统
 
 **设计理念**：
+
 - 只索引标签，不索引日志内容
 - 与Prometheus标签模型一致
 - 基于对象存储，成本低廉
 
 **架构组件**：
+
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │   Promtail  │────▶│   Distributor│────▶│   Ingester  │
@@ -217,6 +230,7 @@ scrape_configs:
 ```
 
 **LogQL查询语言**：
+
 ```logql
 # 基础查询
 {app="frontend", env="production"}
@@ -225,9 +239,9 @@ scrape_configs:
 {app="api"} |= "error" != "debug" |~ "timeout|retry"
 
 # 解析JSON并提取字段
-{app="gateway"} 
-  | json 
-  | status_code = "500" 
+{app="gateway"}
+  | json
+  | status_code = "500"
   | line_format "{{.message}} - {{.duration}}ms"
 
 # 统计聚合
@@ -237,11 +251,13 @@ sum(rate({app="nginx"} |= "404" [5m])) by (path)
 #### Tempo - 分布式追踪
 
 **架构特点**：
+
 - 与对象存储集成（S3/GCS/Azure Blob）
 - 支持多种后端格式（Jaeger/Zipkin/OTLP）
 - TraceQL查询语言
 
 **存储模型**：
+
 ```
 Trace Data
 ├── Trace ID Index (Bloom Filter)
@@ -253,6 +269,7 @@ Trace Data
 ```
 
 **TraceQL查询**：
+
 ```traceql
 # 基础查询
 {resource.service.name="frontend"}
@@ -264,7 +281,7 @@ Trace Data
 {duration > 100ms}
 
 # 结构化查询
-{resource.service.name="api"} 
+{resource.service.name="api"}
   | select(status, span.http.route, span.duration)
 ```
 
@@ -296,10 +313,10 @@ FlaskInstrumentor().instrument()
 with tracer.start_as_current_span("process_order") as span:
     span.set_attribute("order.id", order_id)
     span.set_attribute("order.amount", amount)
-    
+
     with tracer.start_as_current_span("validate_payment"):
         validate_payment(payment_info)
-    
+
     with tracer.start_as_current_span("update_inventory"):
         update_inventory(items)
 ```
@@ -315,7 +332,7 @@ receivers:
         endpoint: 0.0.0.0:4317
       http:
         endpoint: 0.0.0.0:4318
-  
+
   prometheus:
     config:
       scrape_configs:
@@ -327,17 +344,17 @@ processors:
   batch:
     timeout: 1s
     send_batch_size: 1024
-  
+
   memory_limiter:
     limit_mib: 512
     spike_limit_mib: 128
-  
+
   resource:
     attributes:
       - key: environment
         value: production
         action: upsert
-  
+
   tail_sampling:
     decision_wait: 10s
     num_traces: 100
@@ -353,14 +370,14 @@ processors:
 exporters:
   prometheusremotewrite:
     endpoint: http://mimir:9090/api/v1/push
-  
+
   loki:
     endpoint: http://loki:3100/loki/api/v1/push
     labels:
       resource:
         service.name: "service_name"
         service.namespace: "service_namespace"
-  
+
   otlp/tempo:
     endpoint: tempo:4317
     tls:
@@ -372,12 +389,12 @@ service:
       receivers: [otlp, prometheus]
       processors: [memory_limiter, batch, resource]
       exporters: [prometheusremotewrite]
-    
+
     logs:
       receivers: [otlp]
       processors: [memory_limiter, batch, resource]
       exporters: [loki]
-    
+
     traces:
       receivers: [otlp]
       processors: [memory_limiter, tail_sampling, batch, resource]
@@ -505,7 +522,7 @@ spec:
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
         prometheus.io/path: "/metrics"
-        
+
         # 日志收集
         loki.io/enable: "true"
         loki.io/job: "myapp"
@@ -530,31 +547,34 @@ spec:
 **指标最佳实践**：
 
 1. **命名规范**：使用`service_component_unit`格式
+
    ```
    http_requests_total{method="GET",status="200"}
    database_query_duration_seconds_bucket{le="0.1"}
    ```
 
 2. **标签控制**：避免高基数标签（如user_id、request_id）
-   
+
 3. **RED方法**：监控请求率、错误率、持续时间
+
    ```promql
    # 请求率
    rate(http_requests_total[5m])
-   
+
    # 错误率
    rate(http_requests_total{status=~"5.."}[5m])
-   
+
    # 延迟
-   histogram_quantile(0.99, 
+   histogram_quantile(0.99,
      rate(http_request_duration_seconds_bucket[5m]))
    ```
 
 4. **USE方法**：监控使用率、饱和度、错误
+
    ```promql
    # CPU使用率
    100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
-   
+
    # 内存饱和度
    rate(node_vmstat_pgpgin[5m]) + rate(node_vmstat_pgpgout[5m])
    ```
@@ -562,6 +582,7 @@ spec:
 **日志最佳实践**：
 
 1. **结构化日志**：统一JSON格式
+
    ```json
    {
      "timestamp": "2026-01-15T10:30:00Z",
@@ -585,6 +606,7 @@ spec:
 **链路追踪最佳实践**：
 
 1. **传播协议**：使用W3C Trace Context标准
+
    ```
    traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01
    tracestate: rojo=00f067aa0ba902b7
@@ -595,6 +617,7 @@ spec:
    - 尾部采样：基于延迟/错误率延迟采样
 
 3. **Span属性规范**：遵循OpenTelemetry语义约定
+
    ```python
    span.set_attribute("http.method", "GET")
    span.set_attribute("http.url", "/api/users")
@@ -607,6 +630,7 @@ spec:
 **Q1: 如何处理高基数Metrics问题？**
 
 A:
+
 1. 避免在标签中使用user_id、request_id等高基数字段
 2. 使用histogram代替summary
 3. 启用Mimir的cardinality control限制
@@ -615,6 +639,7 @@ A:
 **Q2: Loki查询慢如何优化？**
 
 A:
+
 1. 缩小时间范围
 2. 优化标签选择器，先过滤再管道
 3. 增加Ingester副本数
@@ -624,6 +649,7 @@ A:
 **Q3: Tempo存储成本优化方案？**
 
 A:
+
 1. 调整Block大小和保留策略
 2. 启用Compactor合并小Block
 3. 配置合理的采样率（尾部采样保留异常Trace）
@@ -632,6 +658,7 @@ A:
 **Q4: 如何实现Metrics-Logs-Traces关联？**
 
 A:
+
 ```yaml
 # 统一exemplar和trace_id
 # Prometheus Exemplar关联Trace
@@ -669,11 +696,13 @@ Traces(t) = {(s₁, s₂, ..., sₘ)}  # Span序列集合
 ### 5.2 采样算法的正确性
 
 **头部采样（Head-based）**：
+
 - 在请求入口处决定采样
 - 优点：简单，无存储压力
 - 缺点：可能丢失异常Trace
 
 **尾部采样（Tail-based）**：
+
 - 等待Trace完成后再决策
 - 采样条件：error=true OR duration > threshold
 - 保证异常Trace100%保留

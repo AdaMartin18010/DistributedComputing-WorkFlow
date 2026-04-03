@@ -18,11 +18,13 @@ Ray是UC Berkeley RISELab开发的统一分布式计算框架，通过灵活的A
 ### 1.1 定义与原理
 
 **Ray设计哲学**
+
 - 简单性：单机代码可无缝扩展到分布式
 - 通用性：支持训练、 serving、超参搜索等多种工作负载
 - 高性能：微秒级任务调度，每秒百万级任务吞吐
 
 **核心抽象**
+
 - **Task**：无状态函数，可在集群任意节点执行
 - **Actor**：有状态计算单元，方法调用保持状态
 - **Object**：不可变数据对象，通过共享内存和对象存储传递
@@ -60,27 +62,27 @@ graph TB
         Driver[Driver进程]
         Dashboard[Dashboard]
     end
-    
+
     subgraph "Worker Node 1"
         R1[Raylet<br/>调度器/Worker管理]
         W11[Worker进程]
         W12[Worker进程]
         O1[Object Store<br/>Plasma]
     end
-    
+
     subgraph "Worker Node 2"
         R2[Raylet]
         W21[Worker进程]
         W22[Worker进程]
         O2[Object Store]
     end
-    
+
     subgraph "Worker Node 3"
         R3[Raylet]
         W31[Worker进程]
         O3[Object Store]
     end
-    
+
     Driver --> GCS
     R1 --> GCS
     R2 --> GCS
@@ -116,7 +118,7 @@ sequenceDiagram
     participant R2 as Raylet-2
     participant G as GCS
     participant W as Worker
-    
+
     D->>G: 提交Task
     G->>R1: 调度请求
     alt 资源充足
@@ -129,6 +131,7 @@ sequenceDiagram
 ```
 
 **调度流程**：
+
 1. Driver提交Task，生成ObjectID
 2. 本地Raylet检查资源
 3. 资源充足：本地Worker执行
@@ -137,6 +140,7 @@ sequenceDiagram
 6. 返回ObjectID给调用方
 
 **调度优化**：
+
 - **数据本地性**：优先调度到数据所在节点
 - **资源预留**：Placement Group预留资源
 - **反亲和性**：分散部署避免单点故障
@@ -159,6 +163,7 @@ result = ray.get(future)
 ```
 
 **特性**：
+
 - 无状态，幂等
 - 失败自动重试
 - 支持指定资源（CPU/GPU）
@@ -171,7 +176,7 @@ result = ray.get(future)
 class Counter:
     def __init__(self):
         self.count = 0
-    
+
     def increment(self):
         self.count += 1
         return self.count
@@ -183,6 +188,7 @@ result = ray.get(counter.increment.remote())
 ```
 
 **特性**：
+
 - 有状态，单线程执行
 - Actor方法串行执行保证一致性
 - 可指定资源，支持GPU Actor
@@ -217,18 +223,18 @@ result = ray.get(counter.increment.remote())
 ```mermaid
 graph TB
     RayCore[Ray Core<br/>Task/Actor/Object]
-    
+
     RayCore --> RayData[Ray Data<br/>分布式数据加载]
     RayCore --> RayTrain[Ray Train<br/>分布式训练]
     RayCore --> RayServe[Ray Serve<br/>模型服务]
     RayCore --> RayTune[Ray Tune<br/>超参搜索]
     RayCore --> RLlib[RLlib<br/>强化学习]
     RayCore --> RayWorkflow[Ray Workflows<br/>工作流]
-    
+
     RayTrain --> DataParallel[数据并行]
     RayTrain --> ModelParallel[模型并行]
     RayTrain --> Horovod[Horovod集成]
-    
+
     RayServe --> ModelComposition[模型组合]
     RayServe --> AutoScaling[自动扩缩容]
     RayServe --> MultiModel[多模型服务]
@@ -251,6 +257,7 @@ graph TB
 ### 4.1 集群部署
 
 **本地启动**：
+
 ```bash
 # 启动Head节点
 ray start --head --port=6379 --dashboard-host=0.0.0.0
@@ -260,6 +267,7 @@ ray start --address=<head-ip>:6379
 ```
 
 **K8s部署**：
+
 ```yaml
 # ray-cluster.yaml
 apiVersion: ray.io/v1alpha1
@@ -296,22 +304,24 @@ spec:
 ### 4.2 最佳实践
 
 1. **资源管理**
+
    ```python
    # 指定CPU/GPU资源
    @ray.remote(num_cpus=4, num_gpus=1)
    def train_model(data):
        pass
-   
+
    # 批量提交避免调度开销
    futures = [train_model.remote(d) for d in dataset]
    results = ray.get(futures)
    ```
 
 2. **数据本地性**
+
    ```python
    # 大对象放入Object Store
    data_ref = ray.put(large_data)
-   
+
    # Task接收ObjectRef而非数据
    @ray.remote
    def process(data_ref):
@@ -320,10 +330,11 @@ spec:
    ```
 
 3. **Actor池模式**
+
    ```python
    # 创建Actor池处理有状态任务
    actors = [Worker.remote() for _ in range(10)]
-   
+
    # 轮询调度
    results = []
    for i, item in enumerate(items):
@@ -359,11 +370,13 @@ A: 1) 增大object_store_memory；2) 及时ray.get获取结果释放；3) 大数
 ### 5.1 调度复杂度分析
 
 **任务调度延迟**：
+
 - 本地调度：O(1)，直接入队
 - 远程调度：O(1)，Raylet间直接转发
 - GCS参与：仅用于Actor创建和资源更新
 
 **Actor创建复杂度**：
+
 - GCS写入：O(1)
 - 节点选择：基于资源可用性
 - 启动时间：进程启动开销

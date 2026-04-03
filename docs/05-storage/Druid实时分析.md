@@ -225,7 +225,7 @@ druid_services:
     image: zookeeper:3.8
     ports:
       - "2181:2181"
-  
+
   # Coordinator
   coordinator:
     image: apache/druid:28.0.0
@@ -233,26 +233,26 @@ druid_services:
     environment:
       - DRUID_COORDINATOR_STARTUP_RETRY_DELAY=10
       - druid_coordinator_period=PT30S
-  
+
   # Overlord
   overlord:
     image: apache/druid:28.0.0
     command: overlord
-  
+
   # Broker
   broker:
     image: apache/druid:28.0.0
     command: broker
     ports:
       - "8082:8082"
-  
+
   # Historical
   historical:
     image: apache/druid:28.0.0
     command: historical
     volumes:
       - druid_data:/var/druid
-  
+
   # MiddleManager
   middlemanager:
     image: apache/druid:28.0.0
@@ -275,7 +275,7 @@ druid_services:
     "type": "and",
     "fields": [
       {"type": "selector", "dimension": "country", "value": "CN"},
-      {"type": "interval", "dimension": "__time", 
+      {"type": "interval", "dimension": "__time",
        "intervals": ["2024-01-01/2024-01-02"]}
     ]
   },
@@ -283,7 +283,7 @@ druid_services:
 }
 
 // SQL查询（推荐）
-SELECT 
+SELECT
   FLOOR(__time TO HOUR) as hour,
   country,
   SUM(click) as total_clicks,

@@ -7,19 +7,23 @@ gRPC 是由 Google 开发的高性能、开源和通用的 RPC 框架，基于 H
 ## 核心特性
 
 ### 1. 基于 HTTP/2
+
 gRPC 使用 HTTP/2 作为传输协议，带来多项优势：
+
 - **多路复用**：单一 TCP 连接上并发处理多个请求/响应
 - **头部压缩**：HPACK 算法减少头部开销
 - **服务器推送**：服务端主动向客户端推送数据
 - **流式通信**：支持双向流式数据传输
 
 ### 2. Protocol Buffers 序列化
+
 - 高效的二进制序列化格式
 - 强类型接口定义
 - 自动生成多语言代码
 - 向后兼容的协议演进
 
 ### 3. 四种服务类型
+
 - **Unary RPC**：简单的一请求一响应
 - **Server Streaming**：服务端流式返回多个响应
 - **Client Streaming**：客户端流式发送多个请求
@@ -34,37 +38,37 @@ flowchart TB
         CStub["gRPC Stub"]
         CChannel["HTTP/2 Channel"]
     end
-    
+
     subgraph Server["服务端"]
         SApp["服务实现"]
         SStub["gRPC Stub"]
         SChannel["HTTP/2 Channel"]
     end
-    
+
     subgraph Proto["Protocol Buffers"]
         PDef[".proto 定义文件"]
         CGen["生成代码"]
         SGen["生成代码"]
     end
-    
+
     PDef --> CGen
     PDef --> SGen
     CGen --> CStub
     SGen --> SStub
-    
+
     CApp --> CStub
     CStub --> CChannel
     CChannel -.HTTP/2.-> SChannel
     SChannel --> SStub
     SStub --> SApp
-    
+
     subgraph Features["高级特性"]
         LB["负载均衡"]
         Retry["自动重试"]
         Timeout["超时控制"]
         Interceptor["拦截器链"]
     end
-    
+
     CChannel -.-> LB
     CChannel -.-> Retry
     CChannel -.-> Timeout
@@ -85,13 +89,13 @@ option go_package = "github.com/example/order";
 service OrderService {
     // 创建订单
     rpc CreateOrder(CreateOrderRequest) returns (Order);
-    
+
     // 获取订单流
     rpc StreamOrders(StreamOrdersRequest) returns (stream Order);
-    
+
     // 批量创建订单
     rpc BatchCreateOrders(stream CreateOrderRequest) returns (OrderSummary);
-    
+
     // 双向流式处理
     rpc ProcessOrders(stream OrderEvent) returns (stream OrderStatus);
 }
@@ -152,7 +156,7 @@ import (
     "log"
     "net"
     "time"
-    
+
     "google.golang.org/grpc"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
@@ -168,7 +172,7 @@ func (s *OrderServer) CreateOrder(ctx context.Context, req *CreateOrderRequest) 
     if ctx.Err() == context.Canceled {
         return nil, status.Error(codes.Canceled, "request canceled")
     }
-    
+
     order := &Order{
         OrderId:      generateOrderID(),
         CustomerId:   req.CustomerId,
@@ -177,7 +181,7 @@ func (s *OrderServer) CreateOrder(ctx context.Context, req *CreateOrderRequest) 
         Status:       OrderStatus_PENDING,
         CreatedAt:    time.Now().Unix(),
     }
-    
+
     s.orders[order.OrderId] = order
     return order, nil
 }
@@ -197,7 +201,7 @@ func (s *OrderServer) StreamOrders(req *StreamOrdersRequest, stream OrderService
 
 func (s *OrderServer) BatchCreateOrders(stream OrderService_BatchCreateOrdersServer) error {
     var summary OrderSummary
-    
+
     for {
         req, err := stream.Recv()
         if err == io.EOF {
@@ -206,7 +210,7 @@ func (s *OrderServer) BatchCreateOrders(stream OrderService_BatchCreateOrdersSer
         if err != nil {
             return err
         }
-        
+
         order, _ := s.CreateOrder(stream.Context(), req)
         summary.TotalOrders++
         summary.TotalAmount += order.TotalAmount
@@ -226,17 +230,17 @@ func main() {
     if err != nil {
         log.Fatalf("failed to listen: %v", err)
     }
-    
+
     s := grpc.NewServer(
         grpc.UnaryInterceptor(loggingInterceptor),
         grpc.MaxConcurrentStreams(100),
         grpc.ConnectionTimeout(30 * time.Second),
     )
-    
+
     RegisterOrderServiceServer(s, &OrderServer{
         orders: make(map[string]*Order),
     })
-    
+
     log.Printf("gRPC server listening on :50051")
     if err := s.Serve(lis); err != nil {
         log.Fatalf("failed to serve: %v", err)
@@ -253,7 +257,7 @@ import (
     "context"
     "log"
     "time"
-    
+
     "google.golang.org/grpc"
     "google.golang.org/grpc/credentials/insecure"
     "google.golang.org/grpc/keepalive"
@@ -266,7 +270,7 @@ func main() {
         Timeout:             3 * time.Second,
         PermitWithoutStream: true,
     }
-    
+
     conn, err := grpc.Dial(
         "localhost:50051",
         grpc.WithTransportCredentials(insecure.NewCredentials()),
@@ -280,11 +284,11 @@ func main() {
         log.Fatalf("did not connect: %v", err)
     }
     defer conn.Close()
-    
+
     client := NewOrderServiceClient(conn)
     ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
     defer cancel()
-    
+
     // Unary 调用
     order, err := client.CreateOrder(ctx, &CreateOrderRequest{
         CustomerId: "cust_001",
@@ -298,13 +302,13 @@ func main() {
         log.Fatalf("could not create order: %v", err)
     }
     log.Printf("Created order: %v", order)
-    
+
     // 服务端流式调用
     stream, err := client.StreamOrders(ctx, &StreamOrdersRequest{CustomerId: "cust_001"})
     if err != nil {
         log.Fatalf("could not stream orders: %v", err)
     }
-    
+
     for {
         order, err := stream.Recv()
         if err == io.EOF {
@@ -328,7 +332,7 @@ flowchart LR
     LB --> S1["Server 1"]
     LB --> S2["Server 2"]
     LB --> S3["Server 3"]
-    
+
     subgraph Strategy["负载均衡策略"]
         RR["Round Robin"]
         PW["Pick First"]
@@ -339,6 +343,7 @@ flowchart LR
 ### 2. 服务网格集成
 
 gRPC 与 Istio、Linkerd 等服务网格无缝集成，实现：
+
 - 自动 mTLS 加密
 - 流量管理（金丝雀发布、A/B测试）
 - 可观测性（指标、追踪、日志）

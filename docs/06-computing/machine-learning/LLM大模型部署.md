@@ -18,16 +18,19 @@
 ### 1.1 LLM推理挑战
 
 **显存瓶颈**
+
 - 模型权重：LLaMA-70B FP16需140GB显存
 - KV Cache：长上下文占用大量显存
 - 激活值：中间计算结果存储
 
 **计算瓶颈**
+
 - 自回归生成：逐token顺序生成
 - 内存带宽限制：小batch时算力利用率低
 - 长序列注意力：O(n²)复杂度
 
 **吞吐挑战**
+
 - 请求到达随机，难以批处理
 - 不同请求生成长度差异大
 - GPU利用率波动严重
@@ -62,23 +65,23 @@ graph TB
         Req[请求队列]
         Scheduler[连续批处理调度器]
     end
-    
+
     subgraph "内存管理层"
         PagedAttn[PagedAttention<br/>块化KV Cache]
         MemoryPool[显存池管理]
     end
-    
+
     subgraph "计算层"
         Attn[Attention计算]
         FFN[FFN计算]
         Quant[量化计算<br/>INT8/FP8/INT4]
     end
-    
+
     subgraph "并行层"
         TP[张量并行<br/>Tensor Parallel]
         PP[流水线并行<br/>Pipeline Parallel]
     end
-    
+
     Req --> Scheduler
     Scheduler --> PagedAttn
     PagedAttn --> MemoryPool
@@ -92,23 +95,27 @@ graph TB
 ### 2.2 PagedAttention原理
 
 **传统KV Cache问题**
+
 - 预分配最大长度，浪费显存
 - 内存碎片严重
 - 无法共享，多序列重复计算
 
 **PagedAttention创新**
+
 - 借鉴OS虚拟内存分页思想
 - KV Cache划分为固定大小块（Block）
 - 块按需分配，支持动态扩展
 - 支持块共享（Copy-on-Write）
 
 **工作流程**：
+
 1. 将KV Cache分割为固定大小的逻辑块
 2. 使用Block Table映射逻辑块到物理块
 3. 生成新token时按需分配新块
 4. 支持多个序列共享相同前缀块
 
 **效果**：
+
 - 显存利用率提升2-4倍
 - 支持更大batch size
 - 支持更长上下文
@@ -116,29 +123,33 @@ graph TB
 ### 2.3 连续批处理（Continuous Batching）
 
 **静态批处理问题**
+
 - 等待batch填满，首token延迟高
 - 序列长度不一，短序列等待长序列
 - GPU利用率波动
 
 **连续批处理机制**
+
 - 请求到达立即处理，不等待batch填满
 - 动态调度：序列完成立即移除，新请求插入
 - 迭代级别调度，最大化GPU利用率
 
 **调度算法**：
+
 ```python
 while True:
     # 每轮迭代
     new_requests = get_new_requests()
     batch.add(new_requests)  # 新请求加入
-    
+
     outputs = model.forward(batch)
-    
+
     completed = batch.check_completed()
     batch.remove(completed)  # 完成请求移除
 ```
 
 **效果对比**：
+
 | 指标 | 静态批处理 | 连续批处理 |
 |------|------------|------------|
 | 吞吐量 | 1x | 10-20x |
@@ -236,6 +247,7 @@ python run.py --engine_dir ./trt_engines/llama-7b-int4 \
    - 关键任务避免INT4：法律、医疗等敏感领域
 
 2. **量化流程**
+
    ```
    原始FP16模型
        ↓
@@ -251,9 +263,10 @@ python run.py --engine_dir ./trt_engines/llama-7b-int4 \
    ```
 
 3. **显存计算公式**
+
    ```
    总显存 = 模型权重 + KV Cache + 激活值
-   
+
    模型权重 = 参数量 × 精度字节数
    KV Cache = 2 × 层数 × 隐藏维度 × 序列长度 × batch × 精度
    ```
@@ -261,16 +274,19 @@ python run.py --engine_dir ./trt_engines/llama-7b-int4 \
 ### 4.3 性能调优
 
 **吞吐优化**：
+
 - 使用连续批处理
 - 增大max_num_seqs（受显存限制）
 - 启用prefix caching（共享系统提示词）
 
 **延迟优化**：
+
 - 使用投机采样（Speculative Decoding）
 - 启用CUDA graph
 - 优化attention算法（FlashAttention/FlashInfer）
 
 **显存优化**：
+
 - 启用KV Cache量化
 - 使用分页注意力
 - 调整gpu_memory_utilization
@@ -293,11 +309,13 @@ A: 1) 启用序列并行；2) 使用Ring Attention；3) KV Cache压缩（H2O、S
 ### 5.1 推理复杂度分析
 
 **自回归生成复杂度**：
+
 - 预填充阶段（Prefill）：O(n² × d)
 - 解码阶段（Decode）：O(n × d)
 - 总计算量：O(n² × d + t × n × d)
 
 **显存占用分析**：
+
 ```
 M_total = M_weights + M_kvcache + M_activations
 

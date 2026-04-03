@@ -1,8 +1,8 @@
 # Raft算法详解 专题文档
 
-**文档版本**：v1.0  
-**创建时间**：2026年  
-**最后更新**：2026年  
+**文档版本**：v1.0
+**创建时间**：2026年
+**最后更新**：2026年
 **状态**：✅ 已完成
 
 ---
@@ -64,6 +64,7 @@ Raft集群中的每个节点处于以下三种状态之一：
 #### 任期（Term）概念
 
 Raft将时间划分为任意长度的**任期（Term）**：
+
 - 每个Term以一次选举开始
 - 如果Candidate赢得选举，则在该Term内担任Leader
 - 如果没有选出Leader，Term号递增，开始新选举
@@ -77,6 +78,7 @@ Term 1    Term 2    Term 3    Term 4
 #### 选举触发条件
 
 Follower在以下情况下触发选举：
+
 1. 在**election timeout**时间内未收到Leader的心跳
 2. 收到Leader的有效AppendEntries RPC
 3. 收到Candidate的RequestVote RPC
@@ -104,12 +106,12 @@ class Follower:
         self.current_term = 0
         self.voted_for = None
         self.last_heartbeat = now()
-    
+
     def on_timeout(self):
         # 选举超时，转换为Candidate
         if now() - self.last_heartbeat > ELECTION_TIMEOUT:
             become_candidate()
-    
+
     def on_append_entries(self, term, leader_id):
         if term >= self.current_term:
             self.current_term = term
@@ -123,16 +125,16 @@ class Candidate:
         self.current_term += 1
         self.voted_for = self.id
         self.votes_received = {self.id}
-    
+
     def start_election(self):
         # 向所有服务器发送RequestVote RPC
         for server in cluster:
-            send_request_vote(server, self.current_term, 
+            send_request_vote(server, self.current_term,
                             self.last_log_index, self.last_log_term)
-        
+
         # 重置选举超时
         reset_election_timer()
-    
+
     def on_vote_response(self, voter_id, vote_granted):
         if vote_granted:
             self.votes_received.add(voter_id)
@@ -188,29 +190,29 @@ sequenceDiagram
     participant F3 as Follower 3
 
     Client->>Leader: 请求: set x=10
-    
+
     Note over Leader: 1. 追加到本地日志
     Leader->>Leader: log[index=7, term=3] = set x=10
-    
+
     Note over Leader: 2. 并行发送给所有Follower
     Leader->>F1: AppendEntries(term=3, prevIndex=6, prevTerm=3, entries=[set x=10])
     Leader->>F2: AppendEntries(term=3, prevIndex=6, prevTerm=3, entries=[set x=10])
     Leader->>F3: AppendEntries(term=3, prevIndex=6, prevTerm=3, entries=[set x=10])
-    
+
     Note over F1,F2,F3: 3. Follower验证并追加
     F1-->>Leader: success=true
     F2-->>Leader: success=true
     F3-->>Leader: success=false (日志不一致)
-    
+
     Note over Leader: 4. Leader处理不一致
     Leader->>F3: AppendEntries(term=3, prevIndex=5, prevTerm=3, entries=[...])
     F3-->>Leader: success=true
-    
+
     Note over Leader: 5. 大多数成功后提交
     Leader->>Leader: commitIndex = 7
-    
+
     Leader-->>Client: 响应成功
-    
+
     Note over Leader,F1,F2,F3: 6. 应用到状态机
     Leader->>F1: commitIndex=7 (心跳中携带)
     Leader->>F2: commitIndex=7
@@ -353,6 +355,7 @@ Raft支持配置变更的安全方法：
 ### 6.1 etcd
 
 CoreOS开发的分布式键值存储：
+
 - Kubernetes的默认后端存储
 - 使用Raft实现强一致性
 - 支持Watch机制，实现配置推送
@@ -360,6 +363,7 @@ CoreOS开发的分布式键值存储：
 ### 6.2 Consul
 
 HashiCorp的服务发现和配置工具：
+
 - 使用Raft维护集群状态
 - 支持多数据中心部署
 - 集成健康检查和服务网格
@@ -367,6 +371,7 @@ HashiCorp的服务发现和配置工具：
 ### 6.3 TiKV
 
 PingCAP的分布式事务键值存储：
+
 - TiDB的存储层
 - 使用Multi-Raft架构
 - 每个Region是一个Raft组
@@ -374,6 +379,7 @@ PingCAP的分布式事务键值存储：
 ### 6.4 Apache Kafka（KRaft模式）
 
 Kafka 3.0+的元数据管理模式：
+
 - 替代ZooKeeper的自管理元数据
 - 使用Raft管理Controller元数据
 - 简化部署和运维
@@ -401,6 +407,7 @@ Raft保证以下安全属性：
 **定理**：在一个Term内，最多只有一个Leader被选举出来。
 
 **证明**：
+
 1. 候选人在选举前会递增自己的Term
 2. 服务器在一个Term内只投一票
 3. 候选人需要获得大多数选票才能成为Leader
@@ -412,6 +419,7 @@ Raft保证以下安全属性：
 **定理**：如果一个日志条目在某个Term被提交，则该条目会出现在所有更高Term的Leader的日志中。
 
 **证明概要**：
+
 1. 假设条目e在Term T被提交
 2. 这意味着e被复制到了大多数服务器
 3. 任何Term T' > T的Leader必须获得大多数服务器的投票
@@ -505,5 +513,5 @@ A: 配置合理的快照策略，定期触发日志压缩。
 
 ---
 
-**维护者**：项目团队  
+**维护者**：项目团队
 **最后更新**：2026年

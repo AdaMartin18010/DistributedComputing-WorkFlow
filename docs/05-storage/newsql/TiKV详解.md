@@ -18,12 +18,14 @@ TiKV是由PingCAP开发的开源分布式事务型键值存储系统，采用Rus
 ### 1.1 定义与原理
 
 TiKV是一个**分布式事务键值存储系统**，其设计目标包括：
+
 - **水平扩展**：通过添加节点线性扩展存储和吞吐
 - **强一致性**：基于Raft协议实现多副本强一致
 - **分布式事务**：支持ACID事务的跨键操作
 - **高可用性**：自动故障检测和Leader切换
 
 **核心架构理念**：
+
 - 数据按Range分区，每个Range构成独立Raft组
 - 基于RocksDB的本地存储
 - MVCC实现多版本并发控制
@@ -63,7 +65,7 @@ graph TB
             RAFT1[Raft Module]
             DB1[RocksDB]
         end
-        
+
         subgraph "TiKV Node 2"
             GRPC2[gRPC Server]
             TXN2[Transaction Scheduler]
@@ -71,7 +73,7 @@ graph TB
             RAFT2[Raft Module]
             DB2[RocksDB]
         end
-        
+
         subgraph "TiKV Node 3"
             GRPC3[gRPC Server]
             TXN3[Transaction Scheduler]
@@ -80,18 +82,18 @@ graph TB
             DB3[RocksDB]
         end
     end
-    
+
     PD[PD Cluster<br/>Placement Driver]
     Client[TiDB/Client]
-    
+
     Client --> GRPC1
     Client --> GRPC2
     Client --> GRPC3
-    
+
     PD --> GRPC1
     PD --> GRPC2
     PD --> GRPC3
-    
+
     RAFT1 -.->|Raft| RAFT2
     RAFT2 -.->|Raft| RAFT3
     RAFT3 -.->|Raft| RAFT1
@@ -120,7 +122,7 @@ graph TB
             BlockCache[Block Cache<br/>热点数据缓存]
             WriteBuffer[Write Buffer<br/>批量写入缓冲]
         end
-        
+
         subgraph "磁盘层"
             WAL[WAL<br/>预写日志]
             SST1[SSTable L0<br/>新刷盘数据]
@@ -128,7 +130,7 @@ graph TB
             Manifest[Manifest<br/>元数据日志]
         end
     end
-    
+
     Write[写入请求] --> Memtable
     Write --> WAL
     Memtable -- 刷盘 --> SST1
@@ -177,30 +179,30 @@ graph LR
         R2[Region 2<br/>Key Range: N-Z]
         R3[Region 3<br/>Key Range: 0-9]
     end
-    
+
     subgraph "Node A"
         A1[Raft Group 1<br/>Leader]
         A2[Raft Group 2<br/>Follower]
     end
-    
+
     subgraph "Node B"
         B1[Raft Group 1<br/>Follower]
         B2[Raft Group 2<br/>Leader]
     end
-    
+
     subgraph "Node C"
         C1[Raft Group 1<br/>Follower]
         C2[Raft Group 2<br/>Follower]
     end
-    
+
     R1 -.-> A1
     R1 -.-> B1
     R1 -.-> C1
-    
+
     R2 -.-> A2
     R2 -.-> B2
     R2 -.-> C2
-    
+
     A1 -.->|Raft| B1
     B1 -.->|Raft| C1
     A2 -.->|Raft| B2
@@ -249,20 +251,20 @@ graph TB
     subgraph "MVCC Key编码"
         K1["Key: user:1001"]
         V1["Value: {name: Alice, age: 30}"]
-        
+
         K2["Key: user:1001<br/>Version: 100"]
         V2["Value: {name: Alice, age: 31}"]
-        
+
         K3["Key: user:1001<br/>Version: 95"]
         V3["Value: {name: Alice, age: 30}"]
     end
-    
+
     subgraph "时间轴"
         T1["T=95: 创建记录"]
         T2["T=100: 更新年龄"]
         T3["T=105: 当前"]
     end
-    
+
     T1 --> K3
     T2 --> K2
     K1 --> V1
@@ -287,36 +289,36 @@ sequenceDiagram
     participant T as TiKV Txn
     participant PD as PD
     participant S as TiKV Storage
-    
+
     C->>PD: 1. Get start_ts
     PD-->>C: timestamp
-    
+
     C->>T: 2. Begin(start_ts)
-    
+
     loop Read Operations
         C->>T: Read(key)
         T->>S: Read MVCC at start_ts
         S-->>T: value
         T-->>C: value
     end
-    
+
     loop Write Operations
         C->>T: Write(key, value)
         T->>S: Prewrite(key, value, lock)
         S-->>T: OK
     end
-    
+
     C->>PD: 3. Get commit_ts
     PD-->>C: timestamp
-    
+
     C->>T: 4. Commit(keys, commit_ts)
     T->>S: Commit(primary_key)
     S-->>T: OK
-    
+
     par Async Commit Others
         T->>S: Commit(secondary_keys)
     end
-    
+
     T-->>C: Success
 ```
 
@@ -336,22 +338,22 @@ graph TB
     subgraph "计算下推流程"
         Client[SQL查询] --> Parser[解析查询]
         Parser --> Optimizer[优化器]
-        
+
         Optimizer -->|下推条件| Pushdown[Coprocessor]
         Optimizer -->|复杂计算| Local[本地执行]
-        
+
         subgraph "TiKV Coprocessor"
             Scan[Table Scan]
             Select[Selection过滤]
             Agg[聚合计算]
             TopN[TopN排序]
         end
-        
+
         Pushdown --> Scan
         Scan --> Select
         Select --> Agg
         Agg --> TopN
-        
+
         TopN --> Result[返回结果]
         Local --> Result
     end
@@ -385,6 +387,7 @@ graph TB
 | **适用场景** | 海量数据、事务处理 | 服务发现、配置中心 |
 
 **选择建议**：
+
 - 需要大规模数据存储 → TiKV
 - 需要复杂事务支持 → TiKV
 - 配置/元数据存储 → etcd
@@ -397,18 +400,18 @@ graph TB
     subgraph "TiDB完整架构"
         SQL[SQL层<br/>TiDB Server]
         PD[调度层<br/>PD]
-        
+
         subgraph "存储层"
             TiKV[TiKV<br/>行存储]
             TiFlash[TiFlash<br/>列存储]
         end
     end
-    
+
     SQL -->|gRPC| TiKV
     SQL -->|gRPC| TiFlash
     PD -->|调度| TiKV
     PD -->|调度| TiFlash
-    
+
     style TiKV fill:#e1f5fe
 ```
 
@@ -556,6 +559,7 @@ let commit_ts = txn.commit().await?;
 
 **Q1: 如何处理写热点？**
 A:
+
 - 使用`AUTO_RANDOM`主键或加盐前缀
 - 预分裂Region：`SPLIT TABLE ... BETWEEN ...`
 - 启用`shuffle-leader-scheduler`打散Leader
@@ -563,6 +567,7 @@ A:
 
 **Q2: TiKV内存使用过高？**
 A:
+
 - 调整`block-cache-size`（通常占总内存30-45%）
 - 限制`write-buffer-size`和`max-write-buffer-number`
 - 检查Coprocessor大查询，启用磁盘溢出
@@ -570,6 +575,7 @@ A:
 
 **Q3: Region分布不均？**
 A:
+
 - 检查是否有热点Key
 - 启用`balance-region-scheduler`和`balance-leader-scheduler`
 - 手动执行`operator add transfer-leader`
@@ -577,6 +583,7 @@ A:
 
 **Q4: 如何独立使用TiKV（不依赖TiDB）？**
 A:
+
 - 使用TiKV的RawKV API（无事务，简单KV）
 - 使用TxnKV API（完整事务支持）
 - 使用Rust/Go/Java客户端直接访问
@@ -591,6 +598,7 @@ A:
 **定理**：TiKV提供Snapshot Isolation（SI）隔离级别
 
 **证明要点**：
+
 1. **TSO保证全局单调性**：PD分配的start_ts和commit_ts全局单调递增
 2. **MVCC实现快照读**：每个读取使用start_ts获取一致性快照
 3. **两阶段提交保证原子性**：Prewrite + Commit确保事务要么全成功要么全失败
@@ -609,6 +617,7 @@ A:
 ### 5.3 可用性分析
 
 **基于Raft的可用性**：
+
 - 写操作需要⌈N/2⌉+1个副本确认（N为副本数）
 - 3副本集群可容忍1个节点故障
 - 5副本集群可容忍2个节点故障

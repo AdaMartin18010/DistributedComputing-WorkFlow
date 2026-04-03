@@ -93,23 +93,23 @@ Pregel 是 Google 提出的分布式图计算框架，采用"以顶点为中心"
 
 ```java
 // Pregel 计算接口
-public interface VertexProgram<I extends WritableComparable, 
+public interface VertexProgram<I extends WritableComparable,
                                V extends Writable,
                                E extends Writable,
                                M extends Writable> {
-    
+
     /**
      * 在每个超步中执行
      * @param vertex 当前顶点
      * @param messages 接收到的消息
      */
     void compute(Vertex<I, V, E> vertex, Iterable<M> messages);
-    
+
     /**
      * 初始化顶点值
      */
     void initialize(Vertex<I, V, E> vertex);
-    
+
     /**
      * 聚合器 - 全局通信
      */
@@ -122,11 +122,11 @@ public class Vertex<I, V, E> {
     private V value;                 // 顶点值
     private List<Edge<I, E>> edges;  // 出边列表
     private boolean active;          // 激活状态
-    
+
     // 发送消息给邻居
     public void sendMessageToAllEdges(M message);
     public void sendMessageTo(I targetId, M message);
-    
+
     // 投票停止
     public void voteToHalt();
 }
@@ -135,33 +135,33 @@ public class Vertex<I, V, E> {
 ### 3.2 单源最短路径 (SSSP) 实现
 
 ```java
-public class SSSPVertexProgram implements 
+public class SSSPVertexProgram implements
     VertexProgram<LongWritable, DoubleWritable, FloatWritable, DoubleWritable> {
-    
+
     public static final LongWritable SOURCE_ID = new LongWritable(1);
-    
+
     @Override
     public void compute(Vertex<LongWritable, DoubleWritable, FloatWritable> vertex,
                        Iterable<DoubleWritable> messages) {
-        
+
         double minDist = (vertex.getId().equals(SOURCE_ID)) ? 0 : Double.MAX_VALUE;
-        
+
         // 接收消息，更新最短距离
         for (DoubleWritable msg : messages) {
             minDist = Math.min(minDist, msg.get());
         }
-        
+
         // 如果距离被更新，继续传播
         if (minDist < vertex.getValue().get()) {
             vertex.setValue(new DoubleWritable(minDist));
-            
+
             // 发送消息给所有邻居
             for (Edge<LongWritable, FloatWritable> edge : vertex.getEdges()) {
                 double distance = minDist + edge.getValue().get();
                 sendMessage(edge.getTargetVertexId(), new DoubleWritable(distance));
             }
         }
-        
+
         // 投票停止
         vertex.voteToHalt();
     }
@@ -173,24 +173,24 @@ public class SSSPVertexProgram implements
 ```java
 public class PageRankVertexProgram implements
     VertexProgram<LongWritable, DoubleWritable, NullWritable, DoubleWritable> {
-    
+
     private static final double DAMPING_FACTOR = 0.85;
     private static final double EPSILON = 0.001;
-    
+
     @Override
     public void compute(Vertex<LongWritable, DoubleWritable, NullWritable> vertex,
                        Iterable<DoubleWritable> messages) {
-        
+
         double sum = 0;
         for (DoubleWritable msg : messages) {
             sum += msg.get();
         }
-        
+
         double oldRank = vertex.getValue().get();
         double newRank = (1 - DAMPING_FACTOR) + DAMPING_FACTOR * sum;
-        
+
         vertex.setValue(new DoubleWritable(newRank));
-        
+
         // 检查收敛
         if (Math.abs(newRank - oldRank) > EPSILON) {
             // 继续传播
@@ -249,15 +249,15 @@ public class PageRankVertexProgram implements
 ```java
 // 使用聚合器
 public class CommunityDetection implements VertexProgram<...> {
-    
+
     @Override
     public void compute(Vertex<...> vertex, Iterable<...> messages) {
         // 本地计算
         int community = detectCommunity(vertex);
-        
+
         // 聚合到全局
         aggregate("communityCount", new LongWritable(1));
-        
+
         // 获取全局聚合结果
         LongWritable total = getAggregatedValue("communityCount");
         System.out.println("Total communities: " + total.get());
@@ -294,7 +294,7 @@ public class CommunityDetection implements VertexProgram<...> {
 ```java
 // 自定义 Combiner
 public class MinValueCombiner implements MessageCombiner<LongWritable, DoubleWritable> {
-    
+
     @Override
     public DoubleWritable combine(Iterable<DoubleWritable> messages) {
         double min = Double.MAX_VALUE;
@@ -401,6 +401,7 @@ Pregel 模型的核心优势：
 4. **可扩展性好**：支持大规模图处理
 
 最佳实践：
+
 - 合理使用 Combiner 减少消息传输
 - 使用聚合器进行全局通信
 - 及时调用 voteToHalt() 减少计算量

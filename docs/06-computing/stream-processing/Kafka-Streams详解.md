@@ -56,7 +56,7 @@ Kafka Streams 是一个用于构建流处理应用的客户端库，它与 Apach
 | **轻量级** | 纯 Java 库，无需独立集群 |
 | **无缝集成** | 与 Kafka 深度集成，自动处理分区分配 |
 | **状态管理** | 内置本地状态存储，支持容错恢复 |
-| ** Exactly-Once** | 支持精确一次处理语义 |
+| **Exactly-Once** | 支持精确一次处理语义 |
 | **弹性伸缩** | 自动重平衡，动态扩缩容 |
 
 ## 2. 拓扑（Topology）
@@ -110,35 +110,35 @@ import java.util.Arrays;
 import java.util.Properties;
 
 public class WordCountApplication {
-    
+
     public static void main(String[] args) {
         Properties props = new Properties();
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "wordcount-application");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, 
+        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG,
                   Serdes.String().getClass());
-        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, 
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG,
                   Serdes.String().getClass());
-        
+
         StreamsBuilder builder = new StreamsBuilder();
-        
+
         // 创建 Source Stream
         KStream<String, String> source = builder.stream("input-topic");
-        
+
         // 处理逻辑
         KStream<String, Long> wordCounts = source
             .flatMapValues(value -> Arrays.asList(value.toLowerCase().split("\\W+")))
             .groupBy((key, word) -> word)
             .count(Materialized.as("counts-store"))
             .toStream();
-        
+
         // 输出到 Sink
         wordCounts.to("output-topic", Produced.with(Serdes.String(), Serdes.Long()));
-        
+
         // 构建并启动
         KafkaStreams streams = new KafkaStreams(builder.build(), props);
         streams.start();
-        
+
         // 优雅关闭
         Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
     }
@@ -154,22 +154,22 @@ import org.apache.kafka.streams.processor.api.Record;
 import org.apache.kafka.streams.state.KeyValueStore;
 
 public class CustomProcessor implements Processor<String, String, String, Long> {
-    
+
     private ProcessorContext<String, Long> context;
     private KeyValueStore<String, Long> kvStore;
-    
+
     @Override
     public void init(ProcessorContext<String, Long> context) {
         this.context = context;
         // 获取状态存储
         this.kvStore = context.getStateStore("my-store");
     }
-    
+
     @Override
     public void process(Record<String, String> record) {
         String key = record.key();
         String value = record.value();
-        
+
         // 自定义处理逻辑
         Long current = kvStore.get(key);
         if (current == null) {
@@ -177,14 +177,14 @@ public class CustomProcessor implements Processor<String, String, String, Long> 
         }
         current++;
         kvStore.put(key, current);
-        
+
         // 转发记录
         context.forward(record.withValue(current));
-        
+
         // 提交 (可选，用于精确控制)
         context.commit();
     }
-    
+
     @Override
     public void close() {
         // 清理资源
@@ -253,7 +253,7 @@ public class CustomStoreSupplier implements KeyValueBytesStoreSupplier {
     public String name() {
         return "custom-store";
     }
-    
+
     @Override
     public KeyValueStore<Bytes, byte[]> get() {
         return Stores.persistentKeyValueStore(name()).get();
@@ -362,17 +362,17 @@ props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exactly-once-app");
 props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 
 // 启用 Exactly-Once 语义
-props.put(StreamsConfig.PROCESSING_GUARANTEE_CONFIG, 
+props.put(StreamsConfig.PROCESSING_GUARANTEE_CONFIG,
           StreamsConfig.EXACTLY_ONCE_V2);
 
 // 事务配置
-props.put(StreamsConfig.PRODUCER_PREFIX + ProducerConfig.TRANSACTION_TIMEOUT_CONFIG, 
+props.put(StreamsConfig.PRODUCER_PREFIX + ProducerConfig.TRANSACTION_TIMEOUT_CONFIG,
           "60000");
-props.put(StreamsConfig.PRODUCER_PREFIX + ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, 
+props.put(StreamsConfig.PRODUCER_PREFIX + ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG,
           "true");
 
 // 消费者隔离级别
-props.put(StreamsConfig.CONSUMER_PREFIX + ConsumerConfig.ISOLATION_LEVEL_CONFIG, 
+props.put(StreamsConfig.CONSUMER_PREFIX + ConsumerConfig.ISOLATION_LEVEL_CONFIG,
           "read_committed");
 ```
 
@@ -422,7 +422,7 @@ props.put(StreamsConfig.STATE_DIR_CONFIG, "/var/lib/kafka-streams");
 props.put(StreamsConfig.REPLICATION_FACTOR_CONFIG, "3");
 
 // RocksDB 调优
-props.put(StreamsConfig.ROCKSDB_CONFIG_SETTER_CLASS_CONFIG, 
+props.put(StreamsConfig.ROCKSDB_CONFIG_SETTER_CLASS_CONFIG,
           CustomRocksDbConfig.class.getName());
 ```
 
@@ -448,12 +448,14 @@ Kafka Streams 的优势：
 - **弹性伸缩**：自动重平衡，支持动态扩缩容
 
 适用场景：
+
 - Kafka 为中心的流处理应用
 - 微服务架构中的事件处理
 - 实时 ETL 管道
 - 与 KSQL DB 配合使用
 
 局限性：
+
 - 仅支持 Kafka 作为数据源
 - 不支持复杂的窗口类型（如 Watermark）
 - 状态管理相对简单

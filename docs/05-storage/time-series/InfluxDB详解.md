@@ -45,16 +45,19 @@ InfluxDB 采用模块化架构，主要由以下组件构成：
 TSM 是 InfluxDB 的核心存储引擎，专门为时序数据优化：
 
 **WAL (Write Ahead Log)**
+
 - 保证数据持久性，写入先记录到 WAL
 - 崩溃后可从 WAL 恢复未持久化数据
 - 顺序写入，性能极高
 
 **Cache (内存缓存)**
+
 - 热数据存储在内存中，加速查询
 - 按时间范围组织，便于快速检索
 - 达到阈值后刷盘生成 TSM 文件
 
 **TSM Files**
+
 - 列式存储格式，高效压缩时序数据
 - 数据按时间序列分组，每个序列独立存储
 - 支持多种压缩算法（Gorilla、Snappy 等）
@@ -137,13 +140,15 @@ TSM 是 InfluxDB 的核心存储引擎，专门为时序数据优化：
 InfluxDB 支持两种查询语言：
 
 **InfluxQL** (类 SQL)
+
 ```sql
-SELECT mean("value") FROM "cpu_usage" 
-WHERE "host" = 'server1' AND time > now() - 1h 
+SELECT mean("value") FROM "cpu_usage"
+WHERE "host" = 'server1' AND time > now() - 1h
 GROUP BY time(5m)
 ```
 
 **Flux** (函数式编程)
+
 ```flux
 from(bucket: "metrics")
   |> range(start: -1h)

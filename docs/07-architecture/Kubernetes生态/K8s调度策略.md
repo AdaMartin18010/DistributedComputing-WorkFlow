@@ -640,7 +640,7 @@ profiles:
       - name: NodeAffinity
       disabled:
       - name: NodeName  # 禁用某些插件
-    
+
     # 优选插件
     score:
       enabled:
@@ -720,12 +720,12 @@ kubectl get events --field-selector reason=Scheduled
 # 解决: 检查节点标签或调整 nodeSelector
 
 # 问题 3: 污点不匹配
-# 错误: 0/3 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, 
+# 错误: 0/3 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: },
 #       that the pod didn't tolerate.
 # 解决: 添加 tolerations 或选择其他节点
 
 # 问题 4: 端口冲突
-# 错误: 0/3 nodes are available: 1 node(s) didn't have free ports for 
+# 错误: 0/3 nodes are available: 1 node(s) didn't have free ports for
 #       the requested pod ports.
 # 解决: 更改主机端口或使用动态分配
 
@@ -763,7 +763,7 @@ spec:
           limits:
             memory: "1Gi"
             cpu: "1000m"
-      
+
       # 2. 拓扑分布 - 高可用
       topologySpreadConstraints:
       - maxSkew: 1
@@ -772,7 +772,7 @@ spec:
         labelSelector:
           matchLabels:
             app: prod-app
-      
+
       # 3. 反亲和性 - 避免同节点
       affinity:
         podAntiAffinity:
@@ -786,7 +786,7 @@ spec:
                   values:
                   - prod-app
               topologyKey: kubernetes.io/hostname
-        
+
         # 4. 节点亲和性 - 优选特定节点
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -797,14 +797,14 @@ spec:
                 operator: In
                 values:
                 - production
-      
+
       # 5. 容忍 - 允许调度到专用节点
       tolerations:
       - key: "dedicated"
         operator: "Equal"
         value: "production"
         effect: "NoSchedule"
-      
+
       # 6. 优雅终止
       terminationGracePeriodSeconds: 60
 ```
@@ -821,6 +821,7 @@ Kubernetes 调度策略提供了强大的控制能力：
 6. **自定义调度器**：针对特殊需求的调度策略
 
 在生产环境中，建议：
+
 - 结合使用多种调度策略实现高可用
 - 合理设置资源请求，避免调度失败
 - 使用拓扑分布约束实现跨可用区部署

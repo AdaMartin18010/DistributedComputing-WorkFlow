@@ -57,19 +57,19 @@ graph TB
         C2[SDK]
         C3[Web Console]
     end
-    
+
     subgraph S3["S3服务"]
         API[REST API<br/>HTTPS]
         Auth[认证授权]
         Router[请求路由]
         Storage[存储引擎]
     end
-    
+
     subgraph Backend["后端存储"]
         Meta[元数据服务]
         Data[数据存储<br/>多副本/EC]
     end
-    
+
     Client --> API
     API --> Auth
     Auth --> Router
@@ -117,7 +117,7 @@ graph TB
 #### AWS Signature Version 4
 
 ```
-Authorization: AWS4-HMAC-SHA256 
+Authorization: AWS4-HMAC-SHA256
     Credential={access-key}/{date}/{region}/s3/aws4_request,
     SignedHeaders={signed-headers},
     Signature={signature}
@@ -214,21 +214,22 @@ erDiagram
 ```mermaid
 graph TB
     subgraph "Versioning Enabled"
-        V0[Object v0<br/>删除标记] 
+        V0[Object v0<br/>删除标记]
         V1[Object v1<br/>当前版本]
         V2[Object v2<br/>历史版本]
         V3[Object v3<br/>历史版本]
     end
-    
+
     V0 -.-> V1
     V1 -.-> V2
     V2 -.-> V3
-    
+
     style V0 fill:#f99
     style V1 fill:#9f9
 ```
 
 **版本控制状态**：
+
 - **Disabled（默认）**：新对象覆盖旧对象
 - **Enabled**：保留所有版本，删除创建删除标记
 - **Suspended**：暂停版本控制，但保留已有版本
@@ -313,7 +314,7 @@ graph LR
     IA --> G
     IA --> DA
     G --> DA
-    
+
     style S fill:#4CAF50
     style I fill:#2196F3
     style IA fill:#FF9800
@@ -362,20 +363,20 @@ public class OssExample {
         String endpoint = "https://oss-cn-hangzhou.aliyuncs.com";
         String accessKeyId = "yourAccessKeyId";
         String accessKeySecret = "yourAccessKeySecret";
-        
+
         OSS ossClient = new OSSClientBuilder()
             .build(endpoint, accessKeyId, accessKeySecret);
-        
+
         // 上传文件
-        ossClient.putObject("my-bucket", "my-object", 
+        ossClient.putObject("my-bucket", "my-object",
             new FileInputStream("local-file.txt"));
-        
+
         // 图片处理
         String style = "image/resize,m_fixed,w_100,h_100";
         GetObjectRequest request = new GetObjectRequest("my-bucket", "image.jpg");
         request.setProcess(style);
         OSSObject processed = ossClient.getObject(request);
-        
+
         ossClient.shutdown();
     }
 }
@@ -478,11 +479,11 @@ func main() {
     // 创建存储桶
     ctx := context.Background()
     err = minioClient.MakeBucket(ctx, "mybucket", minio.MakeBucketOptions{})
-    
+
     // 上传文件
-    _, err = minioClient.FPutObject(ctx, "mybucket", "object", 
+    _, err = minioClient.FPutObject(ctx, "mybucket", "object",
         "/path/to/file", minio.PutObjectOptions{})
-    
+
     fmt.Println("Success")
 }
 ```
@@ -553,6 +554,7 @@ s3.upload_file(
 ### 6.4 安全最佳实践
 
 1. **最小权限原则**
+
    ```json
    {
      "Version": "2012-10-17",
@@ -596,12 +598,12 @@ graph TB
     S3Storage --> Lambda[Lambda处理]
     Lambda --> S3Output[输出存储桶]
     S3Storage -.-> Glacier[Glacier归档]
-    
+
     subgraph "数据处理"
         Lambda
         Batch[批量处理]
     end
-    
+
     subgraph "监控"
         CloudWatch[CloudWatch]
         CloudTrail[CloudTrail]

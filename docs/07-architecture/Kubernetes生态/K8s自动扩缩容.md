@@ -206,7 +206,7 @@ spec:
       target:
         type: AverageValue
         averageValue: "0.5"  # 500ms
-  
+
   # 每秒请求数
   - type: Pods
     pods:
@@ -215,7 +215,7 @@ spec:
       target:
         type: AverageValue
         averageValue: "1000"
-  
+
   # 消息队列积压
   - type: External
     external:
@@ -227,7 +227,7 @@ spec:
       target:
         type: AverageValue
         averageValue: "100"
-  
+
   # 外部指标（云厂商）
   - type: External
     external:
@@ -376,7 +376,7 @@ spec:
         - cpu
         - memory
       controlledValues: RequestsAndLimits  # 或 RequestsOnly
-    
+
     # 特定容器配置
     - containerName: sidecar
       mode: "Off"  # 不管理此容器
@@ -890,7 +890,7 @@ spec:
     - alert: HPAMaxReplicasReached
       expr: |
         kube_horizontalpodautoscaler_status_current_replicas
-        / 
+        /
         kube_horizontalpodautoscaler_spec_max_replicas == 1
       for: 5m
       labels:
@@ -898,7 +898,7 @@ spec:
       annotations:
         summary: "HPA {{ $labels.horizontalpodautoscaler }} 已达到最大副本数"
         description: "HPA {{ $labels.horizontalpodautoscaler }} 在 namespace {{ $labels.namespace }} 已达到最大副本数 {{ $labels.max_replicas }}"
-    
+
     # 扩容失败
     - alert: HPAScaleUpFailed
       expr: |
@@ -909,7 +909,7 @@ spec:
       annotations:
         summary: "HPA 扩容失败"
         description: "HPA {{ $labels.horizontalpodautoscaler }} 扩容失败"
-    
+
     # Pod 长时间 Pending（可能需要扩容节点）
     - alert: PodsStuckPending
       expr: |
@@ -936,6 +936,7 @@ Kubernetes 自动扩缩容提供了多层级的弹性能力：
 | **KEDA** | Pod 副本数 | 事件源（消息队列等）| 事件驱动应用 |
 
 最佳实践：
+
 1. **HPA + Cluster Autoscaler**：最常用的组合，实现应用和基础设施弹性
 2. **VPA 初始模式**：用于确定合理的资源请求值
 3. **KEDA**：用于事件驱动的批处理任务

@@ -1,8 +1,8 @@
 # HotStuff算法 专题文档
 
-**文档版本**：v1.0  
-**创建时间**：2026年  
-**最后更新**：2026年  
+**文档版本**：v1.0
+**创建时间**：2026年
+**最后更新**：2026年
 **状态**：✅ 已完成
 
 ---
@@ -95,7 +95,7 @@ class QuorumCertificate(QC):
         self.view = view              # 视图编号
         self.votes = votes            # 投票集合
         self.threshold_sig = None     # 阈值签名
-        
+
     def verify(self):
         """验证阈值签名"""
         return threshold_verify(self.votes, self.threshold_sig)
@@ -177,15 +177,15 @@ class HotStuffProtocol:
             high_qc=high_qc,           # 本地最高QC
             sender=self.id
         )
-        
+
         new_leader = (self.view + 1) % self.n
         send_to(new_leader, new_view)
-    
+
     def handle_new_view(self, msgs):
         """Leader处理NEW-VIEW消息"""
         # 选择最高的QC
         high_qc = max(msgs, key=lambda m: m.high_qc.view).high_qc
-        
+
         # 创建新提案
         new_block = Block(
             view=self.view,
@@ -193,7 +193,7 @@ class HotStuffProtocol:
             cmds=self.pending_commands,
             author=self.id
         )
-        
+
         # 进入PREPARE阶段
         self.broadcast_prepare(new_block)
 ```
@@ -207,21 +207,21 @@ class HotStuffProtocol:
             block=block,
             view=self.view
         )
-        
+
         broadcast(prepare_msg)
-    
+
     def handle_prepare(self, msg):
         """Replica处理PREPARE消息"""
         block = msg.block
-        
+
         # 验证区块
         if not self.verify_block(block):
             return
-        
+
         # 安全规则检查
         if not self.safe_node(block):
             return
-        
+
         # 创建投票
         vote = Vote(
             block_hash=hash(block),
@@ -229,23 +229,23 @@ class HotStuffProtocol:
             voter=self.id
         )
         vote.signature = sign(vote, self.private_key)
-        
+
         # 发送给Leader
         send_to_leader(vote)
-        
+
         # 更新本地状态
         self.pending_block = block
-    
+
     def safe_node(self, block):
         """安全规则：决定是否可以投票"""
         # 规则1: 块扩展了当前锁定的QC
         if block.parent_qc.view > self.locked_qc.view:
             return True
-        
+
         # 规则2: 块与锁定的QC在同一分支
         if self.extends(block, self.locked_qc):
             return True
-        
+
         return False
 ```
 
@@ -257,7 +257,7 @@ class HotStuffProtocol:
         # 需要2f+1个投票
         if len(votes) < 2 * self.f + 1:
             return
-        
+
         # 聚合阈值签名
         qc = QuorumCertificate(
             block_hash=votes[0].block_hash,
@@ -265,28 +265,28 @@ class HotStuffProtocol:
             votes=votes
         )
         qc.threshold_sig = aggregate_signatures(votes)
-        
+
         # 推进到下一阶段
         self.advance_phase(qc)
-    
+
     def advance_phase(self, qc):
         """推进到下一阶段"""
         if self.phase == Phase.PREPARE:
             self.prepare_qc = qc
             self.phase = Phase.PRE_COMMIT
             self.broadcast_pre_commit(qc)
-            
+
         elif self.phase == Phase.PRE_COMMIT:
             self.pre_commit_qc = qc
             self.locked_qc = qc        # 更新锁
             self.phase = Phase.COMMIT
             self.broadcast_commit(qc)
-            
+
         elif self.phase == Phase.COMMIT:
             self.commit_qc = qc
             self.phase = Phase.DECIDE
             self.broadcast_decide(qc)
-            
+
         elif self.phase == Phase.DECIDE:
             self.decide_qc = qc
             self.execute_block(qc.block_hash)
@@ -304,21 +304,21 @@ class CommitRule:
         b1 (PREPARE)  <- b2 (PRE-COMMIT) <- b3 (COMMIT) <- b4 (DECIDE)
         │              │                │              │
         QC1            QC2              QC3            QC4
-        
+
         当b4被DECIDE时，b1可以提交
         """
         b2 = self.get_parent(b)
         if not b2 or not b2.qc:
             return False
-            
+
         b3 = self.get_parent(b2)
         if not b3 or not b3.qc:
             return False
-            
+
         b4 = self.get_parent(b3)
         if not b4 or not b4.qc:
             return False
-        
+
         # b4的DECIDE QC证明了b1的安全性
         return True
 ```
@@ -337,36 +337,36 @@ sequenceDiagram
     R1->>L: NEW_VIEW(qc)
     R2->>L: NEW_VIEW(qc)
     R3->>L: NEW_VIEW(qc)
-    
+
     Note over L: 选择最高QC，创建新块
-    
+
     L->>R1: PREPARE(block)
     L->>R2: PREPARE(block)
     L->>R3: PREPARE(block)
-    
+
     Note over R1,R2,R3: 验证并投票
     R1-->>L: Vote(block_hash)
     R2-->>L: Vote(block_hash)
     R3-->>L: Vote(block_hash)
-    
+
     Note over L: 聚合2f+1票，形成QC
-    
+
     L->>R1: PRE_COMMIT(QC)
     L->>R2: PRE_COMMIT(QC)
     L->>R3: PRE_COMMIT(QC)
-    
+
     R1-->>L: Vote(QC)
     R2-->>L: Vote(QC)
     R3-->>L: Vote(QC)
-    
+
     Note over L: 形成PRE_COMMIT QC
-    
+
     L->>R1: COMMIT(QC)
     L->>R2: COMMIT(QC)
     L->>R3: COMMIT(QC)
-    
+
     Note over R1,R2,R3: 满足3-Chain，执行块
-    
+
     L-->>C: Reply(result)
 ```
 
@@ -409,23 +409,23 @@ class ThresholdSignature:
         self.t = threshold      # 阈值
         self.n = total          # 总数
         self.shares = {}        # 签名share
-    
+
     def add_share(self, replica_id, signature):
         """添加签名share"""
         self.shares[replica_id] = signature
-        
+
         # 检查是否达到阈值
         if len(self.shares) >= self.t:
             return self.aggregate()
         return None
-    
+
     def aggregate(self):
         """聚合签名"""
         # 使用BLS阈值签名聚合
         sig_shares = list(self.shares.values())
         aggregated_sig = bls_aggregate(sig_shares)
         return aggregated_sig
-    
+
     def verify(self, message, aggregated_sig):
         """验证聚合签名"""
         return bls_verify(self.public_key, message, aggregated_sig)
@@ -443,32 +443,32 @@ class Pacemaker:
         self.current_view = 0
         self.timeout_duration = 1000  # ms
         self.timer = None
-    
+
     def start_timer(self):
         """启动视图定时器"""
         self.timer = Timer(self.timeout_duration, self.on_timeout)
         self.timer.start()
-    
+
     def on_timeout(self):
         """视图超时处理"""
         # 增加超时时间（指数退避）
         self.timeout_duration *= 2
-        
+
         # 发送NEW-VIEW消息给下一个Leader
         next_leader = (self.current_view + 1) % self.n
         self.send_new_view(next_leader)
-        
+
         # 进入下一个视图
         self.advance_view()
-    
+
     def advance_view(self):
         """推进视图"""
         self.current_view += 1
-        
+
         # 如果是Leader，开始收集NEW-VIEW
         if self.is_leader():
             self.collect_new_views()
-        
+
         # 重启定时器
         self.start_timer()
 ```
@@ -535,6 +535,7 @@ HotStuff的视图变更与正常流程共享代码路径：
 ### 7.1 Diem（原Libra）
 
 Facebook发起的区块链项目：
+
 - HotStuff作为核心共识算法（DiemBFT）
 - 针对许可链场景优化
 - 支持100+验证者节点
@@ -542,6 +543,7 @@ Facebook发起的区块链项目：
 ### 7.2 Celo
 
 去中心化金融平台：
+
 - 使用HotStuff的变体
 - 针对移动优先场景优化
 - 支持轻客户端验证
@@ -549,6 +551,7 @@ Facebook发起的区块链项目：
 ### 7.3 Flow
 
 NFT和游戏区块链：
+
 - 采用HotStuff共识
 - 多角色架构设计
 - 高吞吐交易处理
@@ -556,6 +559,7 @@ NFT和游戏区块链：
 ### 7.4 学术研究
 
 HotStuff广泛用于：
+
 - 区块链共识研究
 - BFT算法优化
 - 分布式系统教学
@@ -609,16 +613,16 @@ hotstuff:
   # 节点配置
   n: 10                   # 总节点数
   f: 3                    # 最大拜占庭节点数
-  
+
   # 超时配置
   base_timeout: 1000      # 基础超时(ms)
   timeout_multiplier: 2   # 超时倍增因子
   max_timeout: 60000      # 最大超时(ms)
-  
+
   # 区块配置
   block_size: 1000        # 每块交易数
   block_time: 1000        # 出块间隔(ms)
-  
+
   # 网络配置
   max_parallel_views: 4   # 最大并行视图数
 ```
@@ -684,5 +688,5 @@ A: 视图变更机制自动切换Leader，超时后进入下一视图。
 
 ---
 
-**维护者**：项目团队  
+**维护者**：项目团队
 **最后更新**：2026年

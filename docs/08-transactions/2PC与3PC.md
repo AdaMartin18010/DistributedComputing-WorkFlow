@@ -481,7 +481,39 @@ A: 主要原因：
 - [MVCC多版本并发控制](./MVCC多版本并发控制.md)
 - [TCC事务模式](./TCC事务模式.md)
 
+## 八、相关主题
+
+### 分布式事务
+
+- [分布式事务选型](./分布式事务选型.md) - 事务处理方案对比与选择
+- [TCC事务模式](./TCC事务模式.md) - 补偿型分布式事务
+- [MVCC多版本并发控制](./MVCC多版本并发控制.md) - 并发控制机制
+
+### 共识与一致性
+
+- [Raft算法](../02-THEORY/distributed-systems/Raft算法专题文档.md) - 共识算法实现协调者高可用
+- [Paxos算法](../02-THEORY/distributed-systems/Paxos算法专题文档.md) - 经典共识算法
+- [一致性模型](../02-THEORY/distributed-systems/一致性模型专题文档.md) - 分布式一致性保证
+
+### 工作流与Saga
+
+- [Saga模式专题文档](../02-THEORY/workflow/Saga模式专题文档.md) - 长事务补偿模式
+- [工作流模式专题文档](../02-THEORY/workflow/工作流模式专题文档.md) - 工作流设计模式
+- [Temporal-2025新功能深度分析](../03-TECHNOLOGY/Temporal-2025新功能深度分析.md) - 现代工作流引擎
+
+### 存储系统
+
+- [Spanner深度分析](../05-storage/newsql/Spanner深度分析.md) - 全球分布式数据库事务
+- [TiDB架构深度分析](../05-storage/newsql/TiDB架构深度分析.md) - 分布式SQL事务
+- [CockroachDB架构](../05-storage/newsql/CockroachDB架构.md) - 分布式事务实现
+
+### 架构设计
+
+- [微服务架构](../07-architecture/microservices/微服务架构.md) - 微服务事务处理
+- [分布式事务协议](../03-communication/protocol/分布式事务协议.md) - 事务协议详解
+
 ---
 
 **维护者**：项目团队
-**最后更新**：2026年
+**最后更新**：2026-04-03
+**更新说明**：添加相关主题交叉引用

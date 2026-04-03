@@ -18,6 +18,7 @@ TiDB是由PingCAP开发的开源分布式SQL数据库，采用计算与存储分
 ### 1.1 定义与原理
 
 TiDB是一个开源的分布式NewSQL数据库，其设计目标包括：
+
 - **水平弹性扩展**：计算和存储可独立扩展
 - **金融级高可用**：多副本Raft协议保证数据安全
 - **实时HTAP**：同时支持高吞吐OLTP和实时OLAP
@@ -25,6 +26,7 @@ TiDB是一个开源的分布式NewSQL数据库，其设计目标包括：
 - **MySQL兼容**：协议和语法高度兼容，降低迁移成本
 
 **核心架构理念**：
+
 - 计算层（TiDB Server）无状态，可水平扩展
 - 存储层（TiKV/TiFlash）分离，各司其职
 - 使用Raft协议保证强一致性
@@ -64,44 +66,44 @@ graph TB
             T2[TiDB Server]
             T3[TiDB Server]
         end
-        
+
         subgraph "协调层"
             PD[PD<br/>Placement Driver]
         end
-        
+
         subgraph "存储层 (Storage)"
             subgraph "TiKV - 行存储"
                 K1[TiKV Node 1]
                 K2[TiKV Node 2]
                 K3[TiKV Node 3]
             end
-            
+
             subgraph "TiFlash - 列存储"
                 F1[TiFlash Node 1]
                 F2[TiFlash Node 2]
             end
         end
     end
-    
+
     Client[客户端<br/>MySQL协议] --> T1
     Client --> T2
     Client --> T3
-    
+
     T1 --> PD
     T2 --> PD
     T3 --> PD
-    
+
     T1 --> K1
     T1 --> K2
     T1 --> K3
-    
+
     T1 -.-> F1
     T1 -.-> F2
-    
+
     PD --> K1
     PD --> K2
     PD --> K3
-    
+
     K1 -.->|Raft Learner| F1
     K2 -.->|Raft Learner| F1
     K3 -.->|Raft Learner| F2
@@ -125,19 +127,19 @@ graph LR
     subgraph "逻辑视图 - 表"
         Table[Table: users]
     end
-    
+
     subgraph "TiKV - 行存储"
         R1[Key: t_r1<br/>Value: {id:1,name:Alice,age:30}]
         R2[Key: t_r2<br/>Value: {id:2,name:Bob,age:25}]
         R3[Key: t_r3<br/>Value: {id:3,name:Carol,age:35}]
     end
-    
+
     subgraph "TiFlash - 列存储"
         C1[id列: [1,2,3]]
         C2[name列: [Alice,Bob,Carol]]
         C3[age列: [30,25,35]]
     end
-    
+
     Table --> R1
     Table --> R2
     Table --> R3
@@ -147,6 +149,7 @@ graph LR
 ```
 
 **Region（分区）机制**：
+
 - 数据按Key Range划分为Region（默认96MB）
 - 每个Region是独立的Raft组
 - Region可自动分裂和合并
@@ -161,16 +164,16 @@ graph TB
         TXN[事务调度器<br/>Transaction Scheduler]
         MVCC[MVCC管理器]
         RAFT[Raft模块]
-        
+
         subgraph "多Raft组"
             R1[Raft Group 1<br/>Region A]
             R2[Raft Group 2<br/>Region B]
             R3[Raft Group 3<br/>Region C]
         end
-        
+
         RocksDB[RocksDB<br/>本地存储]
     end
-    
+
     GRPC --> TXN
     TXN --> MVCC
     MVCC --> RAFT
@@ -183,6 +186,7 @@ graph TB
 ```
 
 **TiKV存储结构**：
+
 - **RaftDB**：存储Raft日志
 - **KvDB**：存储实际数据（MVCC版本）
 - **CF（Column Family）**：
@@ -201,7 +205,7 @@ graph TB
         Compaction[Compaction<br/>合并优化]
         Vector[向量化执行引擎]
     end
-    
+
     Proxy --> Delta
     Delta --> Stable
     Stable --> Compaction
@@ -209,6 +213,7 @@ graph TB
 ```
 
 **TiFlash特点**：
+
 - 作为Raft Learner接收变更
 - 实时数据同步，毫秒级延迟
 - 列式存储，高压缩比
@@ -225,25 +230,25 @@ graph LR
         A2[Region 2<br/>Follower]
         A3[Region 3<br/>Follower]
     end
-    
+
     subgraph "Node B"
         B1[Region 1<br/>Follower]
         B2[Region 2<br/>Leader]
         B3[Region 3<br/>Follower]
     end
-    
+
     subgraph "Node C"
         C1[Region 1<br/>Follower]
         C2[Region 2<br/>Follower]
         C3[Region 3<br/>Leader]
     end
-    
+
     A1 -.->|Raft| B1
     B1 -.->|Raft| C1
-    
+
     B2 -.->|Raft| A2
     A2 -.->|Raft| C2
-    
+
     C3 -.->|Raft| A3
     A3 -.->|Raft| B3
 ```
@@ -258,6 +263,7 @@ graph LR
 | Leader Lease | Leader租约优化 | 减少心跳开销 |
 
 **一致性保证**：
+
 - **强一致性（Strong Consistency）**：从Leader读取
 - **线性一致性（Linearizability）**：默认保证
 - **Follower Read**：可从Follower读取历史版本
@@ -270,15 +276,15 @@ graph LR
 graph TB
     SQL[SQL查询] --> Optimizer[优化器]
     Optimizer --> Analyzer[查询分析器]
-    
+
     Analyzer -->|OLTP特征| TiKV[TiKV<br/>行存储]
     Analyzer -->|OLAP特征| TiFlash[TiFlash<br/>列存储]
     Analyzer -->|混合特征| Hybrid[混合执行]
-    
+
     TiKV --> Result[结果聚合]
     TiFlash --> Result
     Hybrid --> Result
-    
+
     Result --> Client
 ```
 
@@ -291,6 +297,7 @@ graph TB
 | 混合查询 | 智能选择 | 代价模型评估 |
 
 **TiFlash加速能力**：
+
 - **列裁剪**：只读取需要的列
 - **谓词下推**：过滤条件下推到存储层
 - **向量化执行**：SIMD指令加速
@@ -318,25 +325,26 @@ sequenceDiagram
     participant T as TiDB Server
     participant PD as PD
     participant K as TiKV
-    
+
     C->>T: BEGIN
     T->>PD: 获取TSO（开始时间戳）
     PD-->>T: start_ts
-    
+
     C->>T: 写入数据
     T->>K: Prewrite（预写）
     K-->>T: 成功
-    
+
     C->>T: COMMIT
     T->>PD: 获取TSO（提交时间戳）
     PD-->>T: commit_ts
-    
+
     T->>K: Commit（提交）
     K-->>T: 成功
     T-->>C: 完成
 ```
 
 **Percolator模型**：
+
 - 使用TSO（Timestamp Oracle）分配全局单调递增时间戳
 - Prewrite阶段锁定数据并写入临时记录
 - Commit阶段更新提交状态
@@ -362,37 +370,38 @@ graph TB
             OP[Operator控制器]
             Scheduler[自定义调度器]
         end
-        
+
         subgraph "TiDB集群"
             DB1[TiDB Pod]
             DB2[TiDB Pod]
-            
+
             PD1[PD Pod]
             PD2[PD Pod]
             PD3[PD Pod]
-            
+
             K1[TiKV Pod]
             K2[TiKV Pod]
             K3[TiKV Pod]
         end
-        
+
         subgraph "存储"
             PV1[Local PV]
             PV2[Local PV]
             PV3[Local PV]
         end
     end
-    
+
     OP --> DB1
     OP --> PD1
     OP --> K1
-    
+
     K1 --> PV1
     K2 --> PV2
     K3 --> PV3
 ```
 
 **云原生特性**：
+
 - **Operator模式**：自动化部署、扩容、升级、故障恢复
 - **存储分离**：支持Local PV、云盘等多种存储
 - **弹性伸缩**：计算和存储独立扩缩容
@@ -533,11 +542,11 @@ CREATE TABLE logs (
 
 ```sql
 -- 使用覆盖索引
-CREATE INDEX idx_user_name ON users(username) 
+CREATE INDEX idx_user_name ON users(username)
 COVERING (email, phone);
 
 -- 复合索引设计
-CREATE INDEX idx_order_time_status ON orders 
+CREATE INDEX idx_order_time_status ON orders
 (created_at, status, user_id);
 
 -- 使用EXPLAIN分析
@@ -569,18 +578,18 @@ COMMIT;
 SELECT * FROM orders WHERE id = 100;
 
 -- 大数据量分析 → TiFlash
-SELECT region, SUM(amount), AVG(amount) 
-FROM orders 
+SELECT region, SUM(amount), AVG(amount)
+FROM orders
 GROUP BY region;
 
 -- 混合查询优化器自动选择
-EXPLAIN SELECT o.*, c.name 
-FROM orders o 
-JOIN customers c ON o.customer_id = c.id 
+EXPLAIN SELECT o.*, c.name
+FROM orders o
+JOIN customers c ON o.customer_id = c.id
 WHERE o.amount > 1000;
 
 -- 查看TiFlash同步状态
-SELECT * FROM information_schema.tiflash_replica 
+SELECT * FROM information_schema.tiflash_replica
 WHERE TABLE_SCHEMA = 'test';
 ```
 
@@ -588,6 +597,7 @@ WHERE TABLE_SCHEMA = 'test';
 
 **Q1: 如何解决写热点问题？**
 A:
+
 - 使用`AUTO_RANDOM`替代`AUTO_INCREMENT`
 - 对单调索引使用`SHARD_ROW_ID_BITS`
 - 使用分区表分散写入
@@ -595,6 +605,7 @@ A:
 
 **Q2: 事务频繁冲突怎么办？**
 A:
+
 - 切换到悲观事务模式
 - 减少事务执行时间
 - 按主键顺序访问数据
@@ -602,6 +613,7 @@ A:
 
 **Q3: OOM（内存溢出）如何处理？**
 A:
+
 - 限制单条SQL内存使用：`tidb_mem_quota_query`
 - 启用磁盘溢出：`tidb_enable_tmp_storage_on_oom`
 - 优化大查询，添加合适索引
@@ -609,6 +621,7 @@ A:
 
 **Q4: TiFlash同步延迟高？**
 A:
+
 - 检查TiFlash节点负载
 - 增加TiFlash副本数
 - 监控`tiflash_sync_status`
@@ -616,6 +629,7 @@ A:
 
 **Q5: 从MySQL迁移需要注意什么？**
 A:
+
 - 使用DM（Data Migration）工具
 - 检查不兼容的SQL语法
 - 评估事务模型差异（乐观vs悲观）
@@ -630,6 +644,7 @@ A:
 **定理**：TiDB提供Snapshot Isolation（SI）隔离级别，可配置为Serializable
 
 **证明要点**：
+
 1. TSO保证全局单调递增时间戳
 2. MVCC实现多版本并发控制
 3. 两阶段提交保证原子性
@@ -638,11 +653,13 @@ A:
 ### 5.2 可用性分析
 
 **理论可用性**：
+
 - PD：需要多数派存活（3节点容忍1故障）
 - TiKV：每个Region需要多数派（3副本容忍1故障）
 - TiDB：完全无状态，任意实例可服务
 
 **故障恢复时间**：
+
 - TiKV节点故障：秒级Leader重新选举
 - PD节点故障：自动选举新Leader
 - TiDB节点故障：客户端重连其他节点
@@ -712,7 +729,43 @@ A:
 - [NewSQL数据库对比](./newsql对比分析.md)
 - [MySQL兼容层设计](../mysql兼容层.md)
 
+## 八、相关主题
+
+### 共识算法
+
+- [Raft算法](../../02-THEORY/distributed-systems/Raft算法专题文档.md) - TiKV底层共识算法
+- [Paxos算法](../../02-THEORY/distributed-systems/Paxos算法专题文档.md) - 经典共识算法对比
+- [Consensus协议对比](../../03-communication/protocol/Consensus协议对比.md) - 共识协议综合对比
+
+### NewSQL数据库
+
+- [CockroachDB架构](./CockroachDB架构.md) - 另一款NewSQL实现
+- [Spanner深度分析](./Spanner深度分析.md) - Google全球分布式数据库
+- [分布式事务](../../08-transactions/2PC与3PC.md) - 分布式事务协议
+
+### 存储与一致性
+
+- [一致性模型](../../02-THEORY/distributed-systems/一致性模型专题文档.md) - TiDB的强一致性保证
+- [MVCC多版本并发控制](../../08-transactions/MVCC多版本并发控制.md) - TiDB并发控制机制
+- [TiKV详解](./TiKV详解.md) - TiKV存储引擎详解
+
+### 消息与计算
+
+- [Kafka架构深度分析](../../03-communication/message-queue/Kafka架构深度分析.md) - 分布式消息系统
+- [Flink流处理框架](../../06-computing/stream/流处理框架对比.md) - 与TiDB的实时计算集成
+- [Kubernetes架构深度分析](../../07-architecture/cloud-computing/Kubernetes架构深度分析.md) - TiDB云原生部署平台
+
+### 架构设计
+
+- [微服务架构](../../07-architecture/microservices/微服务架构.md) - 微服务数据存储
+- [分布式系统架构设计指南](../../13-practice/分布式系统架构设计指南.md) - 系统架构设计
+
+### 知识体系
+
+- [全局知识概念关系图](../../07-KNOWLEDGE/全局知识概念关系图.md) - 完整知识网络
+
 ---
 
 **维护者**：项目团队
-**最后更新**：2026年
+**最后更新**：2026-04-03
+**更新说明**：添加相关主题交叉引用

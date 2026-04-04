@@ -831,3 +831,16 @@ Kubernetes 网络是一个复杂的主题，涉及多个层次：
 - 启用 NetworkPolicy 进行网络隔离
 - 配置合适的 Service 类型和 Ingress
 - 定期监控网络性能和连通性
+
+
+---
+
+## 相关主题
+
+- [Kubernetes架构深度分析](../cloud-computing/Kubernetes架构深度分析.md)
+- [K8s存储](./K8s存储.md)
+- [CNI规范](https://www.cni.dev/)
+
+## 参考资源
+
+- [K8s网络文档](https://kubernetes.io/docs/concepts/cluster-administration/networking/)

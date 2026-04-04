@@ -542,3 +542,16 @@ A: 1) 业务拆分，将大Hash拆分为多个小Hash；2) 使用unlink代替del
 
 **维护者**：分布式计算知识库团队
 **最后更新**：2026年
+
+
+---
+
+## 相关主题
+
+- [Redis深度分析](./nosql/Redis深度分析.md)
+- [缓存一致性](./缓存一致性.md)
+- [缓存穿透与雪崩](./缓存穿透与雪崩.md)
+
+## 参考资源
+
+- [Redis Cluster](https://redis.io/docs/management/scaling/)

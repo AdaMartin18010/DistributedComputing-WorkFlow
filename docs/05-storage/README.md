@@ -22,3 +22,24 @@
 - 分布式存储选型
 - 数据复制与一致性
 - 存储性能优化
+
+---
+
+## 相关主题
+
+- [分布式事务](../08-transactions/README.md) - 存储系统的事务处理
+- [计算框架](../06-computing/README.md) - 存储与计算分离架构
+- [共识算法](../04-consensus/README.md) - 分布式存储的共识机制
+- [性能优化](../10-performance/README.md) - 存储性能调优
+- [缓存设计模式](./缓存设计模式.md) - 分布式缓存策略
+
+## 参考资源
+
+- [Designing Data-Intensive Applications](https://dataintensive.net/) - Martin Kleppmann经典著作
+- [Google Spanner论文](https://research.google/pubs/spanner-googles-globally-distributed-database/)
+- [Amazon Dynamo论文](https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf)
+
+---
+
+**维护者**：项目团队
+**最后更新**：2026年

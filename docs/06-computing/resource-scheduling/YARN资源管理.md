@@ -435,3 +435,16 @@ YARN 作为 Hadoop 生态的资源管理基石：
 2. 合理设置队列容量和权限
 3. 启用 ResourceManager HA
 4. 监控资源使用，及时调整配置
+
+
+---
+
+## 相关主题
+
+- [Kubernetes调度器](./Kubernetes调度器.md)
+- [Hadoop-MapReduce详解](../batch-processing/Hadoop-MapReduce详解.md)
+- [资源隔离技术](./资源隔离技术.md)
+
+## 参考资源
+
+- [YARN官方文档](https://hadoop.apache.org/docs/stable/hadoop-yarn/hadoop-yarn-site/YARN.html)

@@ -396,3 +396,15 @@ graph TD
 
 **维护者**：项目团队
 **最后更新**：2026年
+
+
+---
+
+## 相关主题
+
+- [Raft算法详解](./classic/Raft算法详解.md)
+- [Paxos算法详解](./classic/Paxos算法详解.md)
+
+## 参考资源
+
+- [Raft官网](https://raft.github.io/)

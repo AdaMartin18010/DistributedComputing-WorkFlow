@@ -773,3 +773,17 @@ A: 推荐场景：
 
 **维护者**：分布式计算工作流项目团队
 **最后更新**：2026年4月
+
+
+---
+
+## 相关主题
+
+- [RabbitMQ架构](./RabbitMQ架构.md)
+- [RocketMQ深度分析](./RocketMQ深度分析.md)
+- [消息队列选型指南](./消息队列选型指南.md)
+
+## 参考资源
+
+- [Kafka文档](https://kafka.apache.org/documentation/)
+- [Kafka设计论文](https://notes.stephenholiday.com/Kafka.pdf)

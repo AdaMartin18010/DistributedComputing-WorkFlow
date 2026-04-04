@@ -466,3 +466,17 @@ Flink Runtime 的核心优势：
 3. 合理设置 Checkpoint 间隔和超时
 4. 使用 Slot 共享组优化资源利用
 5. 监控反压指标，及时调整并行度
+
+
+---
+
+## 相关主题
+
+- [Spark-Structured-Streaming](./Spark-Structured-Streaming.md)
+- [流处理语义](./流处理语义.md)
+- [状态管理](./状态管理.md)
+
+## 参考资源
+
+- [Flink官方文档](https://nightlies.apache.org/flink/flink-docs-stable/)
+- [Flink论文](https://asterios.katsifodimos.com/assets/publications/flink-deb.pdf)

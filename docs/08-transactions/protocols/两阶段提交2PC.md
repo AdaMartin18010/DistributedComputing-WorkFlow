@@ -723,3 +723,16 @@ public class TransactionLogManager {
 2. Mohan C. et al., "Transaction Processing: Concepts and Techniques", 1992
 3. X/Open CAE Specification, "Distributed Transaction Processing: The XA Specification", 1991
 4. "Designing Data-Intensive Applications" by Martin Kleppmann, Chapter 9
+
+
+---
+
+## 相关主题
+
+- [三阶段提交3PC](./三阶段提交3PC.md)
+- [Saga模式详解](./Saga模式详解.md)
+- [分布式事务选型指南](../分布式事务选型指南.md)
+
+## 参考资源
+
+- [2PC协议维基](https://en.wikipedia.org/wiki/Two-phase_commit_protocol)

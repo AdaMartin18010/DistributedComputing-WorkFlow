@@ -16,3 +16,15 @@
 - 一致性模型
 - 共识算法（Paxos, Raft）
 - 时序逻辑（LTL, CTL）
+
+
+---
+
+## 相关主题
+
+- [CAP定理专题文档](./distributed-systems/CAP定理专题文档.md)
+- [形式化验证](../01-foundation/形式化验证理论.md)
+
+## 参考资源
+
+- [分布式系统理论](https://pdos.csail.mit.edu/6.824/schedule.html)

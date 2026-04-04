@@ -661,3 +661,16 @@ subject to:
 
 **维护者**：项目团队
 **最后更新**：2026年4月
+
+
+---
+
+## 相关主题
+
+- [GFS深度分析](./GFS深度分析.md)
+- [Hadoop-MapReduce详解](../../06-computing/batch-processing/Hadoop-MapReduce详解.md)
+- [YARN资源管理](../../06-computing/resource-scheduling/YARN资源管理.md)
+
+## 参考资源
+
+- [HDFS架构指南](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html)

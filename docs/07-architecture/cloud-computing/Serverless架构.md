@@ -540,3 +540,17 @@ plugins:
 
 **维护者**：项目团队
 **最后更新**：2026年
+
+
+---
+
+## 相关主题
+
+- [Knative架构](../Serverless/Knative架构.md)
+- [FaaS介绍](https://github.com/cncf/wg-serverless/blob/master/whitepapers/serverless-overview.md)
+- [微服务架构](../microservices/微服务架构.md)
+
+## 参考资源
+
+- [AWS Lambda](https://aws.amazon.com/lambda/)
+- [Serverless架构模式](https://www.serverless.com/learn/)

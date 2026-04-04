@@ -590,3 +590,17 @@ kubectl run debug --rm -it --image=nicolaka/netshoot -- /bin/bash
 
 **维护者**：项目团队
 **最后更新**：2026年4月
+
+
+---
+
+## 相关主题
+
+- [Docker容器技术](./Docker容器技术.md)
+- [K8s网络模型](../Kubernetes生态/K8s网络模型.md)
+- [K8s调度策略](../Kubernetes生态/K8s调度策略.md)
+
+## 参考资源
+
+- [K8s官方文档](https://kubernetes.io/docs/concepts/overview/components/)
+- [K8s设计文档](https://github.com/kubernetes/design-proposals-archive)

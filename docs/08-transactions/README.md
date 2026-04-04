@@ -5,25 +5,30 @@
 ## 核心内容
 
 ### 协议基础
+
 - [2PC两阶段提交详解](./2PC两阶段提交详解.md) - 协议流程、优缺点
 - [3PC三阶段提交详解](./3PC三阶段提交详解.md) - 改进与局限
 - [XA规范详解](./XA规范详解.md) - 分布式事务标准
 
 ### 柔性事务模式
+
 - [TCC柔性事务](./TCC柔性事务.md) - Try-Confirm-Cancel模式
 - [Saga模式详解](./Saga模式详解.md) - 编排与协调
 - [AT模式详解](./AT模式详解.md) - Seata自动补偿
 
 ### 异步一致性
+
 - [本地消息表](./本地消息表.md) - 可靠消息最终一致
 - [最大努力通知](./最大努力通知.md) - 对账补偿
 
 ### 事务基础
+
 - [事务隔离级别](./事务隔离级别.md) - 读未提交到串行化
 - [MVCC多版本并发控制](./MVCC多版本并发控制.md) - 并发控制机制
 - [分布式锁实现](./分布式锁实现.md) - Redis/ZK锁
 
 ### 选型与运维
+
 - [分布式事务选型指南](./分布式事务选型指南.md) - 场景决策
 - [事务监控与诊断](./事务监控与诊断.md) - 问题排查
 
@@ -31,3 +36,16 @@
 
 - [03-communication](../03-communication/) - 事务协议通信实现
 - [09-reliability](../09-reliability/) - 事务可靠性保障
+
+
+---
+
+## 相关主题
+
+- [事务理论](./theory/ACID与BASE理论.md)
+- [2PC两阶段提交](./protocols/两阶段提交2PC.md)
+- [Saga模式详解](./protocols/Saga模式详解.md)
+
+## 参考资源
+
+- [分布式事务概述](https://microservices.io/patterns/data/distributed-transaction.html)

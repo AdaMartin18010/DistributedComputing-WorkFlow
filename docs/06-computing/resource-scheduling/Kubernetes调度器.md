@@ -480,3 +480,16 @@ Kubernetes 调度器的优势：
 - 微服务架构
 - AI/ML 工作负载
 - 混合云/多云部署
+
+
+---
+
+## 相关主题
+
+- [YARN资源管理](./YARN资源管理.md)
+- [K8s调度策略](../../07-architecture/Kubernetes生态/K8s调度策略.md)
+- [资源隔离技术](./资源隔离技术.md)
+
+## 参考资源
+
+- [K8s调度文档](https://kubernetes.io/docs/concepts/scheduling-eviction/)

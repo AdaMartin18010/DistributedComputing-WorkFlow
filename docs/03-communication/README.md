@@ -16,3 +16,16 @@
 - 消息队列选型指南
 - 分布式RPC深度分析
 - 序列化格式对比
+
+
+---
+
+## 相关主题
+
+- [RPC框架详解](./rpc/gRPC详解.md)
+- [消息队列选型指南](./message-queue/消息队列选型指南.md)
+
+## 参考资源
+
+- [gRPC官网](https://grpc.io/)
+- [Kafka官网](https://kafka.apache.org/)

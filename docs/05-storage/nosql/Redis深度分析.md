@@ -485,3 +485,17 @@ redis-cli SLOWLOG GET 10
 
 **维护者**：项目团队
 **最后更新**：2026年4月
+
+
+---
+
+## 相关主题
+
+- [Redis集群模式](../Redis集群模式.md)
+- [缓存设计模式](../缓存设计模式.md)
+- [Caffeine本地缓存](../Caffeine本地缓存.md)
+
+## 参考资源
+
+- [Redis官方文档](https://redis.io/documentation)
+- [Redis设计与实现](http://redisbook.com/)

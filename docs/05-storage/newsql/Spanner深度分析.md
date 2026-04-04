@@ -492,3 +492,16 @@ Spanner保证：
 
 **维护者**：项目团队
 **最后更新**：2026年4月
+
+
+---
+
+## 相关主题
+
+- [TiDB架构深度分析](./TiDB架构深度分析.md)
+- [TrueTime API](https://cloud.google.com/spanner/docs/true-time-external-consistency)
+- [分布式事务](../../08-transactions/README.md)
+
+## 参考资源
+
+- [Spanner论文](https://research.google/pubs/spanner-googles-globally-distributed-database/)

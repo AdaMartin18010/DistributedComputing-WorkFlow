@@ -757,3 +757,16 @@ public class TimeoutAwareParticipant implements ThreePhaseCommitParticipant {
 2. Bernstein P.A., Hadzilacos V., Goodman N., "Concurrency Control and Recovery in Database Systems", 1987
 3. Gray J., Reuter A., "Transaction Processing: Concepts and Techniques", 1993
 4. "Designing Data-Intensive Applications" by Martin Kleppmann, Chapter 9
+
+
+---
+
+## 相关主题
+
+- [两阶段提交2PC](./两阶段提交2PC.md)
+- [Saga模式详解](./Saga模式详解.md)
+- [FLP不可能定理](../../02-theory/distributed-systems/FLP不可能定理专题文档.md)
+
+## 参考资源
+
+- [3PC协议](https://en.wikipedia.org/wiki/Three-phase_commit_protocol)

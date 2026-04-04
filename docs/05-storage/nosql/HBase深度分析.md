@@ -711,3 +711,16 @@ HBase选择：
 
 **维护者**：项目团队
 **最后更新**：2026年
+
+
+---
+
+## 相关主题
+
+- [Cassandra深度分析](./Cassandra深度分析.md)
+- [HDFS实现](../dfs/HDFS实现.md)
+- [LSM-Tree存储引擎](../LSM-Tree存储引擎.md)
+
+## 参考资源
+
+- [HBase官方文档](https://hbase.apache.org/book.html)

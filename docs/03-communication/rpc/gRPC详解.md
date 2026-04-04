@@ -387,3 +387,17 @@ flowchart LR
 3. **定义清晰的 proto**：遵循命名规范和版本管理
 4. **启用健康检查**：配合 Kubernetes 等容器编排平台
 5. **监控关键指标**：QPS、延迟、错误率、流量
+
+
+---
+
+## 相关主题
+
+- [Dubbo详解](./Dubbo详解.md)
+- [Thrift详解](./Thrift详解.md)
+- [Protobuf协议](../02-serialization/Protobuf协议.md)
+
+## 参考资源
+
+- [gRPC文档](https://grpc.io/docs/)
+- [gRPC vs REST](https://cloud.google.com/blog/products/api-management/understanding-grpc-openapi-and-rest-and-when-to-use-them)

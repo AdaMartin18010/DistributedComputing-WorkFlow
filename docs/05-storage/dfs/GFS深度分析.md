@@ -354,3 +354,16 @@ GFS (2003) → GFS2 → Colossus (Google内部)
 
 **维护者**：项目团队
 **最后更新**：2026年4月
+
+
+---
+
+## 相关主题
+
+- [HDFS实现](./HDFS实现.md)
+- [Ceph架构](./Ceph架构.md)
+- [MapReduce论文精读](../../01-foundation/mapreduce论文精读.md)
+
+## 参考资源
+
+- [GFS论文](https://research.google/pubs/the-google-file-system/)

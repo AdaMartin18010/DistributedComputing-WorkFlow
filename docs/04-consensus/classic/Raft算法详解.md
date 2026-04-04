@@ -513,5 +513,21 @@ A: 配置合理的快照策略，定期触发日志压缩。
 
 ---
 
+## 相关主题
+
+- [Paxos算法详解](./Paxos算法详解.md) - 经典共识算法
+- [Raft与Paxos对比](../Raft与Paxos对比.md) - 两种算法的详细对比
+- [ZAB协议详解](./ZAB协议详解.md) - ZooKeeper的共识协议
+- [etcd详解](../../03-communication/03-service-discovery/etcd详解.md) - Raft的工程实现
+- [TiKV详解](../../05-storage/newsql/TiKV详解.md) - 基于Raft的分布式KV
+
+## 参考资源
+
+- [Raft论文](https://raft.github.io/raft.pdf) - 原始论文
+- [Raft可视化演示](https://raft.github.io/) - 交互式演示
+- [Consensus: Bridging Theory and Practice](https://web.stanford.edu/~ouster/cgi-bin/papers/OngaroPhD.pdf) - Diego Ongaro博士论文
+
+---
+
 **维护者**：项目团队
 **最后更新**：2026年

@@ -936,3 +936,16 @@ Kubernetes 存储系统提供了灵活的数据持久化能力：
 - 实施加密保护敏感数据
 - 建立定期备份策略
 - 监控存储使用率和性能指标
+
+
+---
+
+## 相关主题
+
+- [K8s网络模型](./K8s网络模型.md)
+- [CSI规范](https://kubernetes-csi.github.io/docs/)
+- [分布式存储](../../05-storage/README.md)
+
+## 参考资源
+
+- [K8s存储文档](https://kubernetes.io/docs/concepts/storage/)

@@ -605,3 +605,17 @@ weight: Rule → [0, 100]
 
 **维护者**：项目团队
 **最后更新**：2026年
+
+
+---
+
+## 相关主题
+
+- [微服务架构](./微服务架构.md)
+- [Istio流量管理](../服务网格/Istio流量管理.md)
+- [Envoy代理](../../03-communication/04-load-balancing/Envoy代理.md)
+
+## 参考资源
+
+- [Istio官方文档](https://istio.io/latest/docs/)
+- [Service Mesh模式](https://philcalcado.com/2017/08/03/pattern_service_mesh.html)

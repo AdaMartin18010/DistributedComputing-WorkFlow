@@ -330,3 +330,17 @@ Hadoop MapReduce 作为分布式计算的奠基性框架，具有以下特点：
 1. 超大规模离线数据处理（PB级）
 2. 与现有 Hadoop 生态系统深度集成
 3. 对稳定性要求极高的生产环境
+
+
+---
+
+## 相关主题
+
+- [Spark-Core详解](./Spark-Core详解.md)
+- [HDFS实现](../../05-storage/dfs/HDFS实现.md)
+- [MapReduce论文精读](../../01-foundation/mapreduce论文精读.md)
+
+## 参考资源
+
+- [Hadoop官方文档](https://hadoop.apache.org/docs/stable/)
+- [MapReduce教程](https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html)

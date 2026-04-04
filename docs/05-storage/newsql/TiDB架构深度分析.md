@@ -769,3 +769,17 @@ A:
 **维护者**：项目团队
 **最后更新**：2026-04-03
 **更新说明**：添加相关主题交叉引用
+
+
+---
+
+## 相关主题
+
+- [Spanner深度分析](./Spanner深度分析.md)
+- [CockroachDB架构](./CockroachDB架构.md)
+- [TiKV详解](./TiKV详解.md)
+
+## 参考资源
+
+- [TiDB官方文档](https://docs.pingcap.com/)
+- [TiDB论文](https://pingcap.com/blog/)

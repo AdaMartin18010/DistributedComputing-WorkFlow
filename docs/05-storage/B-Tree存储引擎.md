@@ -529,3 +529,16 @@ B+树高度计算：
 
 **维护者**：分布式计算知识库团队
 **最后更新**：2026年
+
+
+---
+
+## 相关主题
+
+- [LSM-Tree存储引擎](./LSM-Tree存储引擎.md)
+- [存储引擎对比](./存储引擎对比.md)
+- [MySQL InnoDB](https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html)
+
+## 参考资源
+
+- [B+树数据结构](https://en.wikipedia.org/wiki/B%2B_tree)

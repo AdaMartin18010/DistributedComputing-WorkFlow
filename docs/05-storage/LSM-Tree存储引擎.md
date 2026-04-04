@@ -578,3 +578,17 @@ Leveled Compaction放大因子：
 
 **维护者**：分布式计算知识库团队
 **最后更新**：2026年
+
+
+---
+
+## 相关主题
+
+- [B-Tree存储引擎](./B-Tree存储引擎.md)
+- [存储引擎对比](./存储引擎对比.md)
+- [RocksDB官方文档](https://rocksdb.org/)
+
+## 参考资源
+
+- [LevelDB](https://github.com/google/leveldb)
+- [RocksDB](https://rocksdb.org/)

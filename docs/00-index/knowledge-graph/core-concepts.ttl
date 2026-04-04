@@ -1,0 +1,1554 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <http://distributedcomputing.org/ontology#> .
+@prefix person: <http://distributedcomputing.org/person#> .
+@prefix paper: <http://distributedcomputing.org/paper#> .
+@prefix sys: <http://distributedcomputing.org/system#> .
+
+# ============================================
+# 核心定理与理论基础 (Theorems & Theory)
+# ============================================
+
+:CAPTheorem rdf:type :Theorem, owl:NamedIndividual ;
+    rdfs:label "CAP定理"@zh, "CAP Theorem"@en ;
+    :name "CAP定理"@zh ;
+    :nameEn "CAP Theorem"@en ;
+    :definition "在一个分布式计算系统中，一致性、可用性、分区容忍性三者不可兼得，最多只能同时满足其中两项"@zh ;
+    :definitionEn "In a distributed computing system, it is impossible to simultaneously provide more than two out of the three guarantees: Consistency, Availability, and Partition Tolerance"@en ;
+    :category :Theory ;
+    :hasPart :Consistency, :Availability, :PartitionTolerance ;
+    :relatedTo :PACELC, :TwoGeneralsProblem ;
+    :hasYear 2000 ;
+    :proposedBy person:EricBrewer ;
+    :provedBy person:SethGilbert, person:NancyLynch ;
+    :difficulty "中级"@zh .
+
+:FLPResult rdf:type :Theorem, owl:NamedIndividual ;
+    rdfs:label "FLP不可能性结果"@zh, "FLP Impossibility"@en ;
+    :name "FLP不可能性结果"@zh ;
+    :nameEn "FLP Impossibility"@en ;
+    :definition "在异步系统中，即使只有一个进程可能崩溃，也不存在确定性的共识算法"@zh ;
+    :category :Theory ;
+    :hasYear 1985 ;
+    :proposedBy person:MichaelFischer, person:NancyLynch, person:MichaelPaterson ;
+    :relatedTo :CAPTheorem, :ConsensusProblem ;
+    :difficulty "高级"@zh .
+
+:TwoGeneralsProblem rdf:type :Theorem, owl:NamedIndividual ;
+    rdfs:label "两将军问题"@zh, "Two Generals Problem"@en ;
+    :name "两将军问题"@zh ;
+    :nameEn "Two Generals Problem"@en ;
+    :definition "两个将军需要通过不可靠的信使通信来协调攻击，证明了在不可靠通信信道上无法保证达成的共识"@zh ;
+    :category :Theory ;
+    :hasYear 1975 ;
+    :relatedTo :ByzantineGeneralsProblem, :ConsensusProblem ;
+    :difficulty "中级"@zh .
+
+:ByzantineGeneralsProblem rdf:type :Theorem, owl:NamedIndividual ;
+    rdfs:label "拜占庭将军问题"@zh, "Byzantine Generals Problem"@en ;
+    :name "拜占庭将军问题"@zh ;
+    :nameEn "Byzantine Generals Problem"@en ;
+    :definition "描述在存在叛徒（拜占庭故障）的情况下，忠诚的将军如何达成共识的问题"@zh ;
+    :category :Theory ;
+    :hasYear 1982 ;
+    :proposedBy person:LeslieLamport, person:RobertShostak, person:MarshallPease ;
+    :solvedBy :PBFT ;
+    :difficulty "高级"@zh .
+
+:PACELC rdf:type :Theorem, owl:NamedIndividual ;
+    rdfs:label "PACELC定理"@zh, "PACELC Theorem"@en ;
+    :name "PACELC定理"@zh ;
+    :nameEn "PACELC Theorem"@en ;
+    :definition "扩展CAP定理，指出如果存在分区(P)，必须在可用性(A)和一致性(C)之间选择；否则(E)，必须在延迟(L)和一致性(C)之间选择"@zh ;
+    :category :Theory ;
+    :hasYear 2010 ;
+    :proposedBy person:DanielAbadi ;
+    :extends :CAPTheorem ;
+    :difficulty "中级"@zh .
+
+# ============================================
+# 一致性模型 (Consistency Models)
+# ============================================
+
+:Consistency rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "一致性"@zh, "Consistency"@en ;
+    :name "一致性"@zh ;
+    :nameEn "Consistency"@en ;
+    :definition "分布式系统中所有节点在同一时间看到相同数据的特性"@zh ;
+    :category :Theory ;
+    :hasPart :Linearizability, :SequentialConsistency, :CausalConsistency, :EventualConsistency ;
+    :difficulty "初级"@zh .
+
+:Linearizability rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "线性一致性"@zh, "Linearizability"@en ;
+    :name "线性一致性"@zh ;
+    :nameEn "Linearizability"@en ;
+    :definition "最强的单对象一致性模型，要求操作看起来在调用的瞬间原子性地生效"@zh ;
+    :category :Theory ;
+    :isA :ConsistencyModel ;
+    :implementedBy sys:ZooKeeper, sys:etcd, sys:Consul ;
+    :difficulty "高级"@zh .
+
+:SequentialConsistency rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "顺序一致性"@zh, "Sequential Consistency"@en ;
+    :name "顺序一致性"@zh ;
+    :nameEn "Sequential Consistency"@en ;
+    :definition "所有进程看到的操作执行顺序一致，但不需要与实时顺序一致"@zh ;
+    :category :Theory ;
+    :isA :ConsistencyModel ;
+    :difficulty "中级"@zh .
+
+:CausalConsistency rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "因果一致性"@zh, "Causal Consistency"@en ;
+    :name "因果一致性"@zh ;
+    :nameEn "Causal Consistency"@en ;
+    :definition "保证因果相关的操作被所有进程以相同顺序看到"@zh ;
+    :category :Theory ;
+    :isA :ConsistencyModel ;
+    :implementedBy sys:COPS, sys:AntidoteDB ;
+    :difficulty "中级"@zh .
+
+:EventualConsistency rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "最终一致性"@zh, "Eventual Consistency"@en ;
+    :name "最终一致性"@zh ;
+    :nameEn "Eventual Consistency"@en ;
+    :definition "如果没有新的更新，最终所有副本都会收敛到相同的值"@zh ;
+    :category :Theory ;
+    :isA :ConsistencyModel ;
+    :implementedBy sys:DynamoDB, sys:Cassandra, sys:Riak ;
+    :difficulty "初级"@zh .
+
+:ConsistencyModel rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "一致性模型"@zh, "Consistency Model"@en ;
+    :name "一致性模型"@zh ;
+    :nameEn "Consistency Model"@en ;
+    :definition "定义分布式系统中数据一致性的规则和保证"@zh ;
+    :category :Theory ;
+    :hasPart :Linearizability, :SequentialConsistency, :CausalConsistency, :EventualConsistency ;
+    :difficulty "中级"@zh .
+
+# ============================================
+# 共识算法 (Consensus Algorithms)
+# ============================================
+
+:ConsensusProblem rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "共识问题"@zh, "Consensus Problem"@en ;
+    :name "共识问题"@zh ;
+    :nameEn "Consensus Problem"@en ;
+    :definition "分布式系统中多个进程就某个值达成一致的协议问题"@zh ;
+    :category :Theory ;
+    :solvedBy :Paxos, :Raft, :PBFT, :ZAB ;
+    :difficulty "中级"@zh .
+
+:Paxos rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "Paxos算法"@zh, "Paxos Algorithm"@en ;
+    :name "Paxos算法"@zh ;
+    :nameEn "Paxos Algorithm"@en ;
+    :definition "一种用于解决分布式系统中共识问题的经典算法"@zh ;
+    :category :Algorithm ;
+    :isA :ConsensusAlgorithm ;
+    :complexity "O(n²) messages per consensus" ;
+    :faultTolerance "Crash fault tolerance, minority failures"@en ;
+    :hasPart :PreparePhase, :AcceptPhase, :LearnPhase ;
+    :proposedBy person:LeslieLamport ;
+    :hasYear 1989 ;
+    :publishedIn paper:PaxosPaper ;
+    :implementedBy sys:Chubby, sys:ZooKeeper ;
+    :solves :ConsensusProblem ;
+    :extendedBy :MultiPaxos, :FastPaxos, :EPaxos ;
+    :difficulty "高级"@zh .
+
+:Raft rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "Raft算法"@zh, "Raft Algorithm"@en ;
+    :name "Raft算法"@zh ;
+    :nameEn "Raft Algorithm"@en ;
+    :definition "一种为管理复制日志而设计的易于理解的共识算法"@zh ;
+    :category :Algorithm ;
+    :isA :ConsensusAlgorithm ;
+    :complexity "O(n) messages per consensus" ;
+    :faultTolerance "Crash fault, minority partition"@en ;
+    :hasPart :LeaderElection, :LogReplication, :Safety ;
+    :proposedBy person:DiegoOngaro, person:JohnOusterhout ;
+    :hasYear 2014 ;
+    :publishedIn paper:RaftPaper ;
+    :implementedBy sys:etcd, sys:Consul, sys:TiKV, sys:Nacos ;
+    :solves :ConsensusProblem ;
+    :improvesUpon :Paxos ;
+    :uses :StrongLeadership, :LogReplication ;
+    :difficulty "中级"@zh .
+
+:MultiPaxos rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "Multi-Paxos算法"@zh, "Multi-Paxos Algorithm"@en ;
+    :name "Multi-Paxos算法"@zh ;
+    :nameEn "Multi-Paxos Algorithm"@en ;
+    :definition "Paxos的优化版本，通过选举稳定的主节点减少消息轮数"@zh ;
+    :category :Algorithm ;
+    :isA :ConsensusAlgorithm ;
+    :extends :Paxos ;
+    :hasYear 2001 ;
+    :implementedBy sys:Chubby, sys:Spanner ;
+    :difficulty "高级"@zh .
+
+:FastPaxos rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "Fast-Paxos算法"@zh, "Fast-Paxos Algorithm"@en ;
+    :name "Fast-Paxos算法"@zh ;
+    :nameEn "Fast-Paxos Algorithm"@en ;
+    :definition "Paxos的变种，允许客户端直接向所有Acceptor发送请求以减少延迟"@zh ;
+    :category :Algorithm ;
+    :isA :ConsensusAlgorithm ;
+    :extends :Paxos ;
+    :hasYear 2006 ;
+    :proposedBy person:LeslieLamport ;
+    :difficulty "高级"@zh .
+
+:EPaxos rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "EPaxos算法"@zh, "EPaxos Algorithm"@en ;
+    :name "EPaxos算法"@zh ;
+    :nameEn "EPaxos Algorithm"@en ;
+    :definition "Egalitarian Paxos，无主节点的Paxos变种，支持并行提交"@zh ;
+    :category :Algorithm ;
+    :isA :ConsensusAlgorithm ;
+    :extends :Paxos ;
+    :hasYear 2013 ;
+    :implementedBy sys:ScyllaDB ;
+    :difficulty "高级"@zh .
+
+:PBFT rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "PBFT算法"@zh, "PBFT Algorithm"@en ;
+    :name "PBFT算法"@zh ;
+    :nameEn "Practical Byzantine Fault Tolerance"@en ;
+    :definition "实用的拜占庭容错算法，容忍不超过1/3的拜占庭故障节点"@zh ;
+    :category :Algorithm ;
+    :isA :ConsensusAlgorithm, :BFTAlgorithm ;
+    :complexity "O(n²) messages per request" ;
+    :faultTolerance "Byzantine fault, up to f < n/3"@en ;
+    :hasPart :PrePrepare, :Prepare, :Commit ;
+    :proposedBy person:MiguelCastro, person:BarbaraLiskov ;
+    :hasYear 1999 ;
+    :publishedIn paper:PBFTPaper ;
+    :implementedBy sys:Tendermint, sys:HyperledgerFabric ;
+    :solves :ByzantineGeneralsProblem ;
+    :difficulty "高级"@zh .
+
+:ZAB rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "ZAB协议"@zh, "ZAB Protocol"@en ;
+    :name "ZAB协议"@zh ;
+    :nameEn "ZooKeeper Atomic Broadcast"@en ;
+    :definition "ZooKeeper使用的原子广播协议，保证消息的全序广播"@zh ;
+    :category :Algorithm ;
+    :isA :ConsensusAlgorithm, :AtomicBroadcast ;
+    :hasPart :Discovery, :Synchronization, :Broadcast ;
+    :implementedBy sys:ZooKeeper ;
+    :difficulty "中级"@zh .
+
+:ConsensusAlgorithm rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "共识算法"@zh, "Consensus Algorithm"@en ;
+    :name "共识算法"@zh ;
+    :nameEn "Consensus Algorithm"@en ;
+    :definition "使分布式系统中多个节点就某个值达成一致的算法"@zh ;
+    :category :Algorithm ;
+    :hasSubtype :Paxos, :Raft, :PBFT, :ZAB, :ViewstampedReplication ;
+    :difficulty "中级"@zh .
+
+:BFTAlgorithm rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "拜占庭容错算法"@zh, "BFT Algorithm"@en ;
+    :name "拜占庭容错算法"@zh ;
+    :nameEn "Byzantine Fault Tolerant Algorithm"@en ;
+    :definition "能够容忍拜占庭故障（恶意或任意行为）的共识算法"@zh ;
+    :category :Algorithm ;
+    :isA :ConsensusAlgorithm ;
+    :hasPart :PBFT, :HotStuff, :Tendermint ;
+    :difficulty "高级"@zh .
+
+:ViewstampedReplication rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "Viewstamped Replication"@en ;
+    :name "Viewstamped Replication"@en ;
+    :definition "一种基于主备复制的共识算法，支持视图变更"@zh ;
+    :category :Algorithm ;
+    :isA :ConsensusAlgorithm ;
+    :hasYear 1988 ;
+    :hasYear 2012 ;
+    :proposedBy person:BarbaraLiskov, person:JamesCowling ;
+    :implementedBy sys:MongoDB ;
+    :difficulty "中级"@zh .
+
+# ============================================
+# 选举与成员管理算法
+# ============================================
+
+:LeaderElection rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "领导者选举"@zh, "Leader Election"@en ;
+    :name "领导者选举"@zh ;
+    :nameEn "Leader Election"@en ;
+    :definition "在分布式系统中选出一个协调者的过程"@zh ;
+    :category :Algorithm ;
+    :hasPart :BullyAlgorithm, :RingAlgorithm ;
+    :implementedBy sys:ZooKeeper, sys:etcd ;
+    :difficulty "中级"@zh .
+
+:BullyAlgorithm rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "Bully算法"@zh, "Bully Algorithm"@en ;
+    :name "Bully算法"@zh ;
+    :nameEn "Bully Algorithm"@en ;
+    :definition "基于进程ID的领导者选举算法，ID最大的进程成为领导者"@zh ;
+    :category :Algorithm ;
+    :isA :ElectionAlgorithm ;
+    :hasYear 1982 ;
+    :complexity "O(n²) messages" ;
+    :difficulty "初级"@zh .
+
+:RingAlgorithm rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "环算法"@zh, "Ring Algorithm"@en ;
+    :name "环算法"@zh ;
+    :nameEn "Ring Algorithm"@en ;
+    :definition "基于逻辑环结构的领导者选举算法"@zh ;
+    :category :Algorithm ;
+    :isA :ElectionAlgorithm ;
+    :complexity "O(n log n) messages" ;
+    :difficulty "初级"@zh .
+
+:MembershipProtocol rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "成员协议"@zh, "Membership Protocol"@en ;
+    :name "成员协议"@zh ;
+    :nameEn "Membership Protocol"@en ;
+    :definition "管理分布式系统节点成员身份和故障检测的协议"@zh ;
+    :category :Protocol ;
+    :hasPart :SWIM, :GossipProtocol ;
+    :difficulty "中级"@zh .
+
+:SWIM rdf:type :Protocol, owl:NamedIndividual ;
+    rdfs:label "SWIM协议"@zh, "SWIM Protocol"@en ;
+    :name "SWIM协议"@zh ;
+    :nameEn "Scalable Weakly-consistent Infection-style Process Group Membership"@en ;
+    :definition "可扩展的弱一致性组成员协议，使用 gossip 方式进行故障检测"@zh ;
+    :category :Protocol ;
+    :hasYear 2002 ;
+    :implementedBy sys:Consul, sys:Serf ;
+    :difficulty "中级"@zh .
+
+:GossipProtocol rdf:type :Protocol, owl:NamedIndividual ;
+    rdfs:label "Gossip协议"@zh, "Gossip Protocol"@en ;
+    :name "Gossip协议"@zh ;
+    :nameEn "Gossip Protocol"@en ;
+    :definition "基于随机传播的 epidemic 算法，用于信息传播和故障检测"@zh ;
+    :category :Protocol ;
+    :hasPart :AntiEntropy, :RumorMongering ;
+    :implementedBy sys:Cassandra, sys:Consul, sys:Redis ;
+    :difficulty "中级"@zh .
+
+# ============================================
+# 核心分布式系统 (Core Systems)
+# ============================================
+
+sys:etcd rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "etcd"@en ;
+    :name "etcd"@en ;
+    :nameEn "etcd"@en ;
+    :definition "一个分布式键值存储，用于配置管理和服务发现"@zh ;
+    :systemType :KeyValueStore, :ConfigurationStore ;
+    :programmingLanguage "Go" ;
+    :license "Apache-2.0" ;
+    :github "https://github.com/etcd-io/etcd" ;
+    :documentation "https://etcd.io/docs" ;
+    :created 2013 ;
+    :isActive true ;
+    :implements :Raft ;
+    :uses :gRPC, :BoltDB ;
+    :usedBy sys:Kubernetes ;
+    :relatedTo sys:ZooKeeper, sys:Consul ;
+    :difficulty "中级"@zh .
+
+sys:ZooKeeper rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "Apache ZooKeeper"@en ;
+    :name "Apache ZooKeeper"@en ;
+    :nameEn "Apache ZooKeeper"@en ;
+    :definition "Apache Hadoop的子项目，提供分布式协调服务"@zh ;
+    :systemType :CoordinationService, :ConfigurationStore ;
+    :programmingLanguage "Java" ;
+    :license "Apache-2.0" ;
+    :github "https://github.com/apache/zookeeper" ;
+    :created 2008 ;
+    :isActive true ;
+    :implements :ZAB, :MultiPaxos ;
+    :uses :Jute ;
+    :usedBy sys:Kafka, sys:HBase, sys:Hadoop ;
+    :difficulty "中级"@zh .
+
+sys:Consul rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "HashiCorp Consul"@en ;
+    :name "HashiCorp Consul"@en ;
+    :nameEn "HashiCorp Consul"@en ;
+    :definition "服务发现、服务网格和配置管理的工具"@zh ;
+    :systemType :ServiceDiscovery, :ServiceMesh ;
+    :programmingLanguage "Go" ;
+    :license "MPL-2.0" ;
+    :github "https://github.com/hashicorp/consul" ;
+    :created 2014 ;
+    :isActive true ;
+    :implements :Raft ;
+    :uses :SWIM, :gossipProtocol ;
+    :relatedTo sys:etcd, sys:ZooKeeper ;
+    :difficulty "中级"@zh .
+
+sys:Kafka rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "Apache Kafka"@en ;
+    :name "Apache Kafka"@en ;
+    :nameEn "Apache Kafka"@en ;
+    :definition "高吞吐量的分布式消息流平台"@zh ;
+    :systemType :MessageQueue, :StreamPlatform ;
+    :programmingLanguage "Java, Scala" ;
+    :license "Apache-2.0" ;
+    :github "https://github.com/apache/kafka" ;
+    :created 2011 ;
+    :isActive true ;
+    :uses :ZooKeeper, :Raft ;
+    :relatedTo sys:RabbitMQ, sys:RocketMQ, sys:Pulsar ;
+    :difficulty "中级"@zh .
+
+sys:Redis rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "Redis"@en ;
+    :name "Redis"@en ;
+    :nameEn "Redis"@en ;
+    :definition "内存数据结构存储，用作数据库、缓存和消息代理"@zh ;
+    :systemType :Cache, :KeyValueStore, :MessageQueue ;
+    :programmingLanguage "C" ;
+    :license "BSD-3-Clause" ;
+    :github "https://github.com/redis/redis" ;
+    :created 2009 ;
+    :isActive true ;
+    :uses :GossipProtocol, :Raft ;
+    :hasPart :RedisCluster, :RedisSentinel ;
+    :difficulty "初级"@zh .
+
+sys:Cassandra rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "Apache Cassandra"@en ;
+    :name "Apache Cassandra"@en ;
+    :nameEn "Apache Cassandra"@en ;
+    :definition "分布式宽列存储，具有最终一致性和高可用性"@zh ;
+    :systemType :WideColumnStore, :Database ;
+    :programmingLanguage "Java" ;
+    :license "Apache-2.0" ;
+    :github "https://github.com/apache/cassandra" ;
+    :created 2008 ;
+    :isActive true ;
+    :implements :GossipProtocol, :EventualConsistency ;
+    :uses :LogStructuredMergeTree ;
+    :relatedTo sys:ScyllaDB, sys:HBase, sys:BigTable ;
+    :difficulty "中级"@zh .
+
+sys:MongoDB rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "MongoDB"@en ;
+    :name "MongoDB"@en ;
+    :nameEn "MongoDB"@en ;
+    :definition "面向文档的NoSQL数据库，支持复制和分片"@zh ;
+    :systemType :DocumentStore, :Database ;
+    :programmingLanguage "C++" ;
+    :license "SSPL" ;
+    :github "https://github.com/mongodb/mongo" ;
+    :created 2009 ;
+    :isActive true ;
+    :implements :Raft ;
+    :relatedTo sys:Couchbase, sys:DocumentDB ;
+    :difficulty "初级"@zh .
+
+sys:TiDB rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "TiDB"@en ;
+    :name "TiDB"@en ;
+    :nameEn "TiDB"@en ;
+    :definition "开源的分布式NewSQL数据库，兼容MySQL协议"@zh ;
+    :systemType :NewSQL, :DistributedDatabase ;
+    :programmingLanguage "Go, Rust" ;
+    :license "Apache-2.0" ;
+    :github "https://github.com/pingcap/tidb" ;
+    :created 2015 ;
+    :isActive true ;
+    :implements :Raft, :Percolator ;
+    :uses sys:TiKV, sys:PD, :Spanner ;
+    :relatedTo sys:CockroachDB, sys:Spanner, sys:YugabyteDB ;
+    :difficulty "高级"@zh .
+
+sys:TiKV rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "TiKV"@en ;
+    :name "TiKV"@en ;
+    :nameEn "TiKV"@en ;
+    :definition "分布式事务键值存储，受Google Spanner启发"@zh ;
+    :systemType :KeyValueStore, :TransactionalStore ;
+    :programmingLanguage "Rust" ;
+    :license "Apache-2.0" ;
+    :github "https://github.com/tikv/tikv" ;
+    :created 2016 ;
+    :isActive true ;
+    :implements :Raft, :MultiRaft ;
+    :uses :RocksDB, :gRPC ;
+    :usedBy sys:TiDB ;
+    :relatedTo sys:etcd, sys:CockroachDB ;
+    :difficulty "高级"@zh .
+
+sys:CockroachDB rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "CockroachDB"@en ;
+    :name "CockroachDB"@en ;
+    :nameEn "CockroachDB"@en ;
+    :definition "开源的分布式SQL数据库，提供ACID事务和一致性"@zh ;
+    :systemType :NewSQL, :DistributedDatabase ;
+    :programmingLanguage "Go" ;
+    :license "BSL/Apache-2.0" ;
+    :github "https://github.com/cockroachdb/cockroach" ;
+    :created 2014 ;
+    :isActive true ;
+    :implements :MultiRaft, :SerializableIsolation ;
+    :uses :RocksDB ;
+    :relatedTo sys:TiDB, sys:Spanner, sys:YugabyteDB ;
+    :difficulty "高级"@zh .
+
+sys:Spanner rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "Google Spanner"@en ;
+    :name "Google Spanner"@en ;
+    :nameEn "Google Spanner"@en ;
+    :definition "Google的全球分布式数据库，提供外部一致性"@zh ;
+    :systemType :NewSQL, :GloballyDistributedDatabase ;
+    :programmingLanguage "C++, Java" ;
+    :license "Proprietary" ;
+    :created 2012 ;
+    :isActive true ;
+    :implements :Paxos, :TrueTime, :TwoPhaseCommit ;
+    :uses :GPS, :AtomicClock ;
+    :relatedTo sys:TiDB, sys:CockroachDB ;
+    :difficulty "高级"@zh .
+
+sys:Kubernetes rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "Kubernetes"@en ;
+    :name "Kubernetes"@en ;
+    :nameEn "Kubernetes"@en ;
+    :definition "开源的容器编排平台，用于自动化部署、扩展和管理"@zh ;
+    :systemType :Orchestrator, :Platform ;
+    :programmingLanguage "Go" ;
+    :license "Apache-2.0" ;
+    :github "https://github.com/kubernetes/kubernetes" ;
+    :created 2014 ;
+    :isActive true ;
+    :uses sys:etcd, :gRPC ;
+    :hasPart :Pod, :Service, :Deployment, :StatefulSet ;
+    :relatedTo sys:Docker, sys:Helm ;
+    :difficulty "中级"@zh .
+
+sys:Hadoop rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "Apache Hadoop"@en ;
+    :name "Apache Hadoop"@en ;
+    :nameEn "Apache Hadoop"@en ;
+    :definition "开源的分布式计算框架，用于大数据处理"@zh ;
+    :systemType :Framework, :Platform ;
+    :programmingLanguage "Java" ;
+    :license "Apache-2.0" ;
+    :github "https://github.com/apache/hadoop" ;
+    :created 2006 ;
+    :isActive true ;
+    :hasPart sys:HDFS, sys:YARN, sys:MapReduce ;
+    :uses sys:ZooKeeper ;
+    :relatedTo sys:Spark, sys:Flink ;
+    :difficulty "中级"@zh .
+
+sys:HDFS rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "HDFS"@en, "Hadoop分布式文件系统"@zh ;
+    :name "HDFS"@en ;
+    :nameEn "Hadoop Distributed File System"@en ;
+    :definition "Hadoop的分布式文件系统，设计用于存储超大文件"@zh ;
+    :systemType :FileSystem, :DistributedFileSystem ;
+    :programmingLanguage "Java" ;
+    :license "Apache-2.0" ;
+    :created 2006 ;
+    :isActive true ;
+    :uses sys:ZooKeeper ;
+    :relatedTo sys:Ceph, sys:GFS, sys:MinIO ;
+    :difficulty "中级"@zh .
+
+sys:Spark rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "Apache Spark"@en ;
+    :name "Apache Spark"@en ;
+    :nameEn "Apache Spark"@en ;
+    :definition "统一的分析引擎，用于大规模数据处理"@zh ;
+    :systemType :Framework, :ComputingEngine ;
+    :programmingLanguage "Scala, Java, Python, R" ;
+    :license "Apache-2.0" ;
+    :github "https://github.com/apache/spark" ;
+    :created 2014 ;
+    :isActive true ;
+    :implements :RDD, :DAGScheduler ;
+    :uses sys:HDFS, sys:YARN ;
+    :relatedTo sys:Hadoop, sys:Flink ;
+    :difficulty "中级"@zh .
+
+sys:Flink rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "Apache Flink"@en ;
+    :name "Apache Flink"@en ;
+    :nameEn "Apache Flink"@en ;
+    :definition "开源的流处理框架，支持有状态计算"@zh ;
+    :systemType :Framework, :StreamProcessor ;
+    :programmingLanguage "Java, Scala" ;
+    :license "Apache-2.0" ;
+    :github "https://github.com/apache/flink" ;
+    :created 2011 ;
+    :isActive true ;
+    :implements :ChandyLamportSnapshot, :ExactlyOnceSemantics ;
+    :uses sys:Kafka, sys:ZooKeeper ;
+    :relatedTo sys:Spark, sys:Storm ;
+    :difficulty "高级"@zh .
+
+sys:Elasticsearch rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "Elasticsearch"@en ;
+    :name "Elasticsearch"@en ;
+    :nameEn "Elasticsearch"@en ;
+    :definition "分布式搜索和分析引擎，基于Lucene"@zh ;
+    :systemType :SearchEngine, :AnalyticsEngine ;
+    :programmingLanguage "Java" ;
+    :license "SSPL/Elastic License" ;
+    :github "https://github.com/elastic/elasticsearch" ;
+    :created 2010 ;
+    :isActive true ;
+    :implements :Raft ;
+    :uses :Lucene, sys:ZenDiscovery ;
+    :relatedTo sys:Solr, sys:OpenSearch ;
+    :difficulty "中级"@zh .
+
+sys:Istio rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "Istio"@en ;
+    :name "Istio"@en ;
+    :nameEn "Istio"@en ;
+    :definition "开源的服务网格，提供流量管理、安全和可观测性"@zh ;
+    :systemType :ServiceMesh ;
+    :programmingLanguage "Go" ;
+    :license "Apache-2.0" ;
+    :github "https://github.com/istio/istio" ;
+    :created 2017 ;
+    :isActive true ;
+    :uses :Envoy, sys:Kubernetes ;
+    :relatedTo sys:Linkerd, sys:Consul ;
+    :difficulty "高级"@zh .
+
+sys:Envoy rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "Envoy"@en ;
+    :name "Envoy"@en ;
+    :nameEn "Envoy"@en ;
+    :definition "开源的边缘和服务代理，专为云原生应用设计"@zh ;
+    :systemType :Proxy, :LoadBalancer ;
+    :programmingLanguage "C++" ;
+    :license "Apache-2.0" ;
+    :github "https://github.com/envoyproxy/envoy" ;
+    :created 2016 ;
+    :isActive true ;
+    :uses :gRPC ;
+    :usedBy sys:Istio, sys:Consul ;
+    :difficulty "高级"@zh .
+
+# ============================================
+# 消息队列系统
+# ============================================
+
+sys:RabbitMQ rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "RabbitMQ"@en ;
+    :name "RabbitMQ"@en ;
+    :nameEn "RabbitMQ"@en ;
+    :definition "开源的消息代理，实现了AMQP协议"@zh ;
+    :systemType :MessageQueue ;
+    :programmingLanguage "Erlang" ;
+    :license "MPL-2.0" ;
+    :github "https://github.com/rabbitmq/rabbitmq-server" ;
+    :created 2007 ;
+    :isActive true ;
+    :implements :AMQP, :Raft ;
+    :relatedTo sys:Kafka, sys:RocketMQ ;
+    :difficulty "中级"@zh .
+
+sys:RocketMQ rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "Apache RocketMQ"@en ;
+    :name "Apache RocketMQ"@en ;
+    :nameEn "Apache RocketMQ"@en ;
+    :definition "阿里巴巴开源的分布式消息和流计算平台"@zh ;
+    :systemType :MessageQueue, :StreamPlatform ;
+    :programmingLanguage "Java" ;
+    :license "Apache-2.0" ;
+    :github "https://github.com/apache/rocketmq" ;
+    :created 2012 ;
+    :isActive true ;
+    :implements :Raft ;
+    :relatedTo sys:Kafka, sys:RabbitMQ ;
+    :difficulty "中级"@zh .
+
+sys:Pulsar rdf:type :System, owl:NamedIndividual ;
+    rdfs:label "Apache Pulsar"@en ;
+    :name "Apache Pulsar"@en ;
+    :nameEn "Apache Pulsar"@en ;
+    :definition "分布式消息流平台，采用分层架构存储和计算分离"@zh ;
+    :systemType :MessageQueue, :StreamPlatform ;
+    :programmingLanguage "Java" ;
+    :license "Apache-2.0" ;
+    :github "https://github.com/apache/pulsar" ;
+    :created 2016 ;
+    :isActive true ;
+    :implements :BookKeeper, :ZooKeeper ;
+    :relatedTo sys:Kafka, sys:RocketMQ ;
+    :difficulty "高级"@zh .
+
+# ============================================
+# 核心论文 (Core Papers)
+# ============================================
+
+paper:RaftPaper rdf:type :Paper, owl:NamedIndividual ;
+    rdfs:label "In Search of an Understandable Consensus Algorithm"@en ;
+    :title "In Search of an Understandable Consensus Algorithm"@en ;
+    :authors ("Diego Ongaro" "John Ousterhout") ;
+    :year 2014 ;
+    :venue "USENIX ATC"@en ;
+    :doi "10.5555/2643634.2643666" ;
+    :abstract "Raft is a consensus algorithm for managing a replicated log..."@en ;
+    :proposes :Raft ;
+    :citations 5000 .
+
+paper:PaxosPaper rdf:type :Paper, owl:NamedIndividual ;
+    rdfs:label "The Part-Time Parliament"@en ;
+    :title "The Part-Time Parliament"@en ;
+    :authors ("Leslie Lamport") ;
+    :year 1998 ;
+    :venue "ACM TOCS"@en ;
+    :doi "10.1145/279227.279229" ;
+    :abstract "A consensus algorithm for asynchronous distributed systems..."@en ;
+    :proposes :Paxos ;
+    :citations 8000 .
+
+paper:CAPPaper rdf:type :Paper, owl:NamedIndividual ;
+    rdfs:label "Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services"@en ;
+    :title "Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services"@en ;
+    :authors ("Seth Gilbert" "Nancy Lynch") ;
+    :year 2002 ;
+    :venue "ACM SIGACT News"@en ;
+    :doi "10.1145/564585.564601" ;
+    :abstract "Formal proof of the CAP theorem..."@en ;
+    :proves :CAPTheorem ;
+    :citations 12000 .
+
+paper:BigtablePaper rdf:type :Paper, owl:NamedIndividual ;
+    rdfs:label "Bigtable: A Distributed Storage System for Structured Data"@en ;
+    :title "Bigtable: A Distributed Storage System for Structured Data"@en ;
+    :authors ("Fay Chang" "Jeffrey Dean" "Sanjay Ghemawat" "Wilson C. Hsieh" "Deborah A. Wallach" "Mike Burrows" "Tushar Chandra" "Andrew Fikes" "Robert E. Gruber") ;
+    :year 2006 ;
+    :venue "OSDI"@en ;
+    :doi "10.5555/1267308.1267323" ;
+    :abstract "Bigtable is a distributed storage system for managing structured data..."@en ;
+    :citations 15000 .
+
+paper:SpannerPaper rdf:type :Paper, owl:NamedIndividual ;
+    rdfs:label "Spanner: Google's Globally-Distributed Database"@en ;
+    :title "Spanner: Google's Globally-Distributed Database"@en ;
+    :authors ("James C. Corbett" "Jeffrey Dean" "Michael Epstein" "Andrew Fikes" "Christopher Frost" "JJ Furman" "Sanjay Ghemawat" "Andrey Gubarev" "Christopher Heiser" "Peter Hochschild" "Wilson Hsieh" "Sebastian Kanthak" "Eugene Kogan" "Hongyi Li" "Alexander Lloyd" "Sergey Melnik" "David Mwaura" "David Nagle" "Sean Quinlan" "Rajesh Rao" "Lindsay Rolig" "Yasushi Saito" "Michal Szymaniak" "Christopher Taylor" "Ruth Wang" "Dale Woodford") ;
+    :year 2012 ;
+    :venue "OSDI"@en ;
+    :doi "10.5555/2387880.2387905" ;
+    :abstract "Spanner is Google's scalable, multi-version, globally-distributed..."@en ;
+    :citations 8000 .
+
+paper:GFS rdf:type :Paper, owl:NamedIndividual ;
+    rdfs:label "The Google File System"@en ;
+    :title "The Google File System"@en ;
+    :authors ("Sanjay Ghemawat" "Howard Gobioff" "Shun-Tak Leung") ;
+    :year 2003 ;
+    :venue "SOSP"@en ;
+    :doi "10.1145/945445.945450" ;
+    :abstract "We have designed and implemented the Google File System..."@en ;
+    :citations 18000 .
+
+paper:MapReduce rdf:type :Paper, owl:NamedIndividual ;
+    rdfs:label "MapReduce: Simplified Data Processing on Large Clusters"@en ;
+    :title "MapReduce: Simplified Data Processing on Large Clusters"@en ;
+    :authors ("Jeffrey Dean" "Sanjay Ghemawat") ;
+    :year 2004 ;
+    :venue "OSDI"@en ;
+    :doi "10.5555/1251254.1251264" ;
+    :abstract "MapReduce is a programming model and an associated implementation..."@en ;
+    :citations 25000 .
+
+paper:DynamoPaper rdf:type :Paper, owl:NamedIndividual ;
+    rdfs:label "Dynamo: Amazon's Highly Available Key-Value Store"@en ;
+    :title "Dynamo: Amazon's Highly Available Key-Value Store"@en ;
+    :authors ("Giuseppe DeCandia" "Deniz Hastorun" "Madan Jampani" "Gunavardhan Kakulapati" "Avinash Lakshman" "Alex Pilchin" "Swaminathan Sivasubramanian" "Peter Vosshall" "Werner Vogels") ;
+    :year 2007 ;
+    :venue "SOSP"@en ;
+    :doi "10.1145/1294261.1294281" ;
+    :abstract "Dynamo is a highly available key-value storage system..."@en ;
+    :citations 10000 .
+
+paper:FLPPaper rdf:type :Paper, owl:NamedIndividual ;
+    rdfs:label "Impossibility of Distributed Consensus with One Faulty Process"@en ;
+    :title "Impossibility of Distributed Consensus with One Faulty Process"@en ;
+    :authors ("Michael J. Fischer" "Nancy A. Lynch" "Michael S. Paterson") ;
+    :year 1985 ;
+    :venue "JACM"@en ;
+    :doi "10.1145/3149.214121" ;
+    :abstract "The consensus problem involves an asynchronous system of processes..."@en ;
+    :proves :FLPResult ;
+    :citations 5000 .
+
+paper:PBFTPaper rdf:type :Paper, owl:NamedIndividual ;
+    rdfs:label "Practical Byzantine Fault Tolerance"@en ;
+    :title "Practical Byzantine Fault Tolerance"@en ;
+    :authors ("Miguel Castro" "Barbara Liskov") ;
+    :year 1999 ;
+    :venue "OSDI"@en ;
+    :doi "10.5555/296806.296824" ;
+    :abstract "We describe a replication algorithm that tolerates Byzantine faults..."@en ;
+    :proposes :PBFT ;
+    :citations 6000 .
+
+# ============================================
+# 重要人物 (Key People)
+# ============================================
+
+person:LeslieLamport rdf:type :Person, owl:NamedIndividual ;
+    rdfs:label "Leslie Lamport"@en ;
+    :name "Leslie Lamport"@en ;
+    :affiliation "Microsoft Research"@en ;
+    :orcid "0000-0003-3525-6597" ;
+    :homepage "https://www.lamport.org" ;
+    :proposes :Paxos, :VectorClock, :LamportTimestamp, :ByzantineGeneralsProblem ;
+    :authorOf paper:PaxosPaper, paper:VectorClockPaper, paper:TimeClocksPaper ;
+    :contributions (:Paxos :VectorClock :LamportTimestamp :TLA) .
+
+person:EricBrewer rdf:type :Person, owl:NamedIndividual ;
+    rdfs:label "Eric Brewer"@en ;
+    :name "Eric Brewer"@en ;
+    :affiliation "UC Berkeley, Google"@en ;
+    :homepage "https://people.eecs.berkeley.edu/~brewer" ;
+    :proposes :CAPTheorem ;
+    :contributions (:CAPTheorem :NoSQL) .
+
+person:JeffreyDean rdf:type :Person, owl:NamedIndividual ;
+    rdfs:label "Jeffrey Dean"@en ;
+    :name "Jeffrey Dean"@en ;
+    :affiliation "Google"@en ;
+    :homepage "https://research.google.com/people/jeff" ;
+    :authorOf paper:MapReduce, paper:BigtablePaper, paper:GFS, paper:SpannerPaper ;
+    :contributions (:MapReduce :Bigtable :Spanner :TensorFlow) .
+
+person:SanjayGhemawat rdf:type :Person, owl:NamedIndividual ;
+    rdfs:label "Sanjay Ghemawat"@en ;
+    :name "Sanjay Ghemawat"@en ;
+    :affiliation "Google"@en ;
+    :authorOf paper:MapReduce, paper:BigtablePaper, paper:GFS, paper:SpannerPaper ;
+    :contributions (:MapReduce :Bigtable :Spanner :LevelDB) .
+
+person:DiegoOngaro rdf:type :Person, owl:NamedIndividual ;
+    rdfs:label "Diego Ongaro"@en ;
+    :name "Diego Ongaro"@en ;
+    :affiliation "VMware"@en ;
+    :proposes :Raft ;
+    :authorOf paper:RaftPaper ;
+    :contributions (:Raft) .
+
+person:JohnOusterhout rdf:type :Person, owl:NamedIndividual ;
+    rdfs:label "John Ousterhout"@en ;
+    :name "John Ousterhout"@en ;
+    :affiliation "Stanford University"@en ;
+    :homepage "https://web.stanford.edu/~ouster" ;
+    :proposes :Raft, :LogStructuredFileSystem ;
+    :authorOf paper:RaftPaper ;
+    :contributions (:Raft :LogStructuredFileSystem :Tcl :RAMCloud) .
+
+person:BarbaraLiskov rdf:type :Person, owl:NamedIndividual ;
+    rdfs:label "Barbara Liskov"@en ;
+    :name "Barbara Liskov"@en ;
+    :affiliation "MIT"@en ;
+    :homepage "https://www.csail.mit.edu/person/barbara-liskov" ;
+    :orcid "0000-0003-3525-6597" ;
+    :proposes :ViewstampedReplication, :PBFT, :LiskovSubstitutionPrinciple ;
+    :authorOf paper:PBFTPaper ;
+    :contributions (:ViewstampedReplication :PBFT :CLU :Argus) .
+
+person:NancyLynch rdf:type :Person, owl:NamedIndividual ;
+    rdfs:label "Nancy Lynch"@en ;
+    :name "Nancy Lynch"@en ;
+    :affiliation "MIT"@en ;
+    :homepage "https://people.csail.mit.edu/lynch" ;
+    :proves :CAPTheorem, :FLPResult ;
+    :authorOf paper:CAPPaper, paper:FLPPaper ;
+    :contributions (:CAPTheorem :FLPResult :I/OAutomata) .
+
+person:MichaelFischer rdf:type :Person, owl:NamedIndividual ;
+    rdfs:label "Michael J. Fischer"@en ;
+    :name "Michael J. Fischer"@en ;
+    :affiliation "Yale University"@en ;
+    :proposes :FLPResult ;
+    :authorOf paper:FLPPaper ;
+    :contributions (:FLPResult) .
+
+person:SethGilbert rdf:type :Person, owl:NamedIndividual ;
+    rdfs:label "Seth Gilbert"@en ;
+    :name "Seth Gilbert"@en ;
+    :affiliation "National University of Singapore"@en ;
+    :proves :CAPTheorem ;
+    :authorOf paper:CAPPaper ;
+    :contributions (:CAPTheorem) .
+
+person:WernerVogels rdf:type :Person, owl:NamedIndividual ;
+    rdfs:label "Werner Vogels"@en ;
+    :name "Werner Vogels"@en ;
+    :affiliation "Amazon"@en ;
+    :homepage "https://www.allthingsdistributed.com" ;
+    :authorOf paper:DynamoPaper ;
+    :contributions (:Dynamo :EventualConsistency :AmazonWebServices) .
+
+# ============================================
+# 其他重要概念 (Other Key Concepts)
+# ============================================
+
+:VectorClock rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "向量时钟"@zh, "Vector Clock"@en ;
+    :name "向量时钟"@zh ;
+    :nameEn "Vector Clock"@en ;
+    :definition "用于在分布式系统中捕获因果关系的时间戳机制"@zh ;
+    :category :Algorithm ;
+    :proposedBy person:LeslieLamport ;
+    :hasYear 1988 ;
+    :implementedBy sys:DynamoDB, sys:Cassandra, sys:Riak ;
+    :difficulty "中级"@zh .
+
+:LamportTimestamp rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "Lamport时间戳"@zh, "Lamport Timestamp"@en ;
+    :name "Lamport时间戳"@zh ;
+    :nameEn "Lamport Timestamp"@en ;
+    :definition "分布式系统中的逻辑时钟，用于确定事件的偏序关系"@zh ;
+    :category :Algorithm ;
+    :proposedBy person:LeslieLamport ;
+    :hasYear 1978 ;
+    :relatedTo :VectorClock, :HappensBefore ;
+    :difficulty "中级"@zh .
+
+:TwoPhaseCommit rdf:type :Protocol, owl:NamedIndividual ;
+    rdfs:label "两阶段提交"@zh, "Two-Phase Commit"@en ;
+    :name "两阶段提交"@zh ;
+    :nameEn "Two-Phase Commit"@en ;
+    :definition "分布式事务协议，通过协调者和参与者的两阶段交互实现原子提交"@zh ;
+    :category :Protocol ;
+    :hasPart :VotingPhase, :CommitPhase ;
+    :hasYear 1981 ;
+    :extends :ThreePhaseCommit ;
+    :difficulty "中级"@zh .
+
+:ThreePhaseCommit rdf:type :Protocol, owl:NamedIndividual ;
+    rdfs:label "三阶段提交"@zh, "Three-Phase Commit"@en ;
+    :name "三阶段提交"@zh ;
+    :nameEn "Three-Phase Commit"@en ;
+    :definition "改进的两阶段提交，增加预提交阶段以处理协调者故障"@zh ;
+    :category :Protocol ;
+    :hasPart :CanCommitPhase, :PreCommitPhase, :DoCommitPhase ;
+    :hasYear 1981 ;
+    :difficulty "中级"@zh .
+
+:SagaPattern rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "Saga模式"@zh, "Saga Pattern"@en ;
+    :name "Saga模式"@zh ;
+    :nameEn "Saga Pattern"@en ;
+    :definition "长事务拆分模式，通过补偿操作保证最终一致性"@zh ;
+    :category :Pattern ;
+    :hasPart :ChoreographySaga, :OrchestrationSaga ;
+    :hasYear 1987 ;
+    :uses :CompensatingTransaction ;
+    :difficulty "中级"@zh .
+
+:TCC rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "TCC模式"@zh, "Try-Confirm-Cancel"@en ;
+    :name "TCC模式"@zh ;
+    :nameEn "Try-Confirm-Cancel"@en ;
+    :definition "柔性事务模式，通过预留、确认、取消三阶段实现最终一致性"@zh ;
+    :category :Pattern ;
+    :hasPart :TryPhase, :ConfirmPhase, :CancelPhase ;
+    :difficulty "中级"@zh .
+
+:MVCC rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "多版本并发控制"@zh, "Multi-Version Concurrency Control"@en ;
+    :name "多版本并发控制"@zh ;
+    :nameEn "MVCC"@en ;
+    :definition "通过维护数据的多个版本来实现并发控制，避免读写冲突"@zh ;
+    :category :Theory ;
+    :hasYear 1981 ;
+    :implementedBy sys:PostgreSQL, sys:MySQL, sys:Spanner, sys:TiDB ;
+    :difficulty "高级"@zh .
+
+:ConsistentHashing rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "一致性哈希"@zh, "Consistent Hashing"@en ;
+    :name "一致性哈希"@zh ;
+    :nameEn "Consistent Hashing"@en ;
+    :definition "分布式哈希表的一种技术，当节点增减时最小化键的重新映射"@zh ;
+    :category :Algorithm ;
+    :hasYear 1997 ;
+    :implementedBy sys:DynamoDB, sys:Cassandra, sys:Riak ;
+    :difficulty "中级"@zh .
+
+:Quorum rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "法定人数"@zh, "Quorum"@en ;
+    :name "法定人数"@zh ;
+    :nameEn "Quorum"@en ;
+    :definition "分布式系统中进行决策所需的最小同意票数"@zh ;
+    :category :Theory ;
+    :hasPart :ReadQuorum, :WriteQuorum ;
+    :usedBy :DynamoDB, :Cassandra, :ZooKeeper ;
+    :difficulty "中级"@zh .
+
+:Availability rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "可用性"@zh, "Availability"@en ;
+    :name "可用性"@zh ;
+    :nameEn "Availability"@en ;
+    :definition "系统在规定时间内正常响应请求的能力"@zh ;
+    :category :Theory ;
+    :partOf :CAPTheorem ;
+    :measuredBy :Uptime, :SLA ;
+    :difficulty "初级"@zh .
+
+:PartitionTolerance rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "分区容忍性"@zh, "Partition Tolerance"@en ;
+    :name "分区容忍性"@zh ;
+    :nameEn "Partition Tolerance"@en ;
+    :definition "系统在出现网络分区时仍能继续运行的能力"@zh ;
+    :category :Theory ;
+    :partOf :CAPTheorem ;
+    :difficulty "初级"@zh .
+
+:Replication rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "复制"@zh, "Replication"@en ;
+    :name "复制"@zh ;
+    :nameEn "Replication"@en ;
+    :definition "在多个节点上维护数据副本以提高可用性和性能"@zh ;
+    :category :Theory ;
+    :hasPart :MasterSlaveReplication, :MultiMasterReplication, :LeaderlessReplication ;
+    :difficulty "中级"@zh .
+
+:Sharding rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "分片"@zh, "Sharding"@en ;
+    :name "分片"@zh ;
+    :nameEn "Sharding"@en ;
+    :definition "将数据水平分割到多个节点以扩展存储和计算能力"@zh ;
+    :category :Theory ;
+    :hasPart :RangeSharding, :HashSharding ;
+    :uses :ConsistentHashing ;
+    :difficulty "中级"@zh .
+
+:CircuitBreaker rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "熔断器模式"@zh, "Circuit Breaker Pattern"@en ;
+    :name "熔断器模式"@zh ;
+    :nameEn "Circuit Breaker Pattern"@en ;
+    :definition "防止级联故障的模式，当错误率超过阈值时自动断开连接"@zh ;
+    :category :Pattern ;
+    :hasPart :ClosedState, :OpenState, :HalfOpenState ;
+    :usedBy :Netflix, :Istio ;
+    :difficulty "初级"@zh .
+
+:RateLimiting rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "限流模式"@zh, "Rate Limiting"@en ;
+    :name "限流模式"@zh ;
+    :nameEn "Rate Limiting"@en ;
+    :definition "控制请求速率以保护系统免受过载"@zh ;
+    :category :Pattern ;
+    :hasPart :TokenBucket, :LeakyBucket, :FixedWindow, :SlidingWindow ;
+    :difficulty "初级"@zh .
+
+:Backpressure rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "背压"@zh, "Backpressure"@en ;
+    :name "背压"@zh ;
+    :nameEn "Backpressure"@en ;
+    :definition "当消费者处理速度跟不上生产者时，向上游传递压力信号"@zh ;
+    :category :Pattern ;
+    :implementedBy sys:ReactiveStreams, sys:Flink ;
+    :difficulty "中级"@zh .
+
+:CRDT rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "无冲突复制数据类型"@zh, "Conflict-free Replicated Data Type"@en ;
+    :name "无冲突复制数据类型"@zh ;
+    :nameEn "CRDT"@en ;
+    :definition "保证在网络分区下也能实现最终一致性的数据结构"@zh ;
+    :category :Theory ;
+    :hasPart :StateBasedCRDT, :OperationBasedCRDT ;
+    :hasYear 2011 ;
+    :implementedBy sys:Riak, sys:Redis, sys:AntidoteDB ;
+    :difficulty "高级"@zh .
+
+:ServiceDiscovery rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "服务发现"@zh, "Service Discovery"@en ;
+    :name "服务发现"@zh ;
+    :nameEn "Service Discovery"@en ;
+    :definition "在动态环境中自动定位和连接服务实例的机制"@zh ;
+    :category :Pattern ;
+    :implementedBy sys:Consul, sys:etcd, sys:Eureka, sys:Nacos ;
+    :difficulty "中级"@zh .
+
+:LoadBalancing rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "负载均衡"@zh, "Load Balancing"@en ;
+    :name "负载均衡"@zh ;
+    :nameEn "Load Balancing"@en ;
+    :definition "将请求分配到多个服务器以优化资源使用和响应时间"@zh ;
+    :category :Theory ;
+    :hasPart :RoundRobin, :LeastConnections, :ConsistentHashing, :Random ;
+    :implementedBy sys:Nginx, sys:HAProxy, sys:Envoy ;
+    :difficulty "初级"@zh .
+
+:Observability rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "可观测性"@zh, "Observability"@en ;
+    :name "可观测性"@zh ;
+    :nameEn "Observability"@en ;
+    :definition "通过外部输出推断系统内部状态的能力，包括日志、指标和追踪"@zh ;
+    :category :Theory ;
+    :hasPart :Logging, :Metrics, :Tracing ;
+    :implementedBy sys:Prometheus, sys:Jaeger, sys:Grafana, sys:ELK ;
+    :difficulty "中级"@zh .
+
+:ServiceMesh rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "服务网格"@zh, "Service Mesh"@en ;
+    :name "服务网格"@zh ;
+    :nameEn "Service Mesh"@en ;
+    :definition "处理服务间通信的基础设施层，透明地提供流量管理、安全和可观测性"@zh ;
+    :category :Architecture ;
+    :hasPart :DataPlane, :ControlPlane ;
+    :implementedBy sys:Istio, sys:Linkerd, sys:Consul ;
+    :difficulty "高级"@zh .
+
+:Serverless rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "无服务器"@zh, "Serverless"@en ;
+    :name "无服务器"@zh ;
+    :nameEn "Serverless"@en ;
+    :definition "云计算执行模型，云提供商动态管理服务器资源分配"@zh ;
+    :category :Architecture ;
+    :hasPart :FaaS, :BaaS ;
+    :implementedBy sys:AWSLambda, sys:AzureFunctions, sys:Knative ;
+    :difficulty "中级"@zh .
+
+:ChaosEngineering rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "混沌工程"@zh, "Chaos Engineering"@en ;
+    :name "混沌工程"@zh ;
+    :nameEn "Chaos Engineering"@en ;
+    :definition "通过在生产环境进行实验来建立对系统承受故障能力的信心"@zh ;
+    :category :Theory ;
+    :hasPart :ChaosMonkey, :LatencyInjection, :FailureInjection ;
+    :implementedBy sys:ChaosMonkey, sys:Litmus, sys:ChaosMesh ;
+    :difficulty "高级"@zh .
+
+:ChandyLamportSnapshot rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "Chandy-Lamport快照算法"@zh, "Chandy-Lamport Snapshot"@en ;
+    :name "Chandy-Lamport快照算法"@zh ;
+    :nameEn "Chandy-Lamport Snapshot Algorithm"@en ;
+    :definition "分布式系统中捕获全局一致状态的经典算法"@zh ;
+    :category :Algorithm ;
+    :proposedBy person:KManChandy, person:LeslieLamport ;
+    :hasYear 1985 ;
+    :implementedBy sys:Flink, sys:ApacheSamza ;
+    :difficulty "高级"@zh .
+
+:HotStuff rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "HotStuff算法"@zh, "HotStuff"@en ;
+    :name "HotStuff算法"@zh ;
+    :nameEn "HotStuff Consensus Protocol"@en ;
+    :definition "基于BFT的共识算法，具有线性通信复杂度和响应性"@zh ;
+    :category :Algorithm ;
+    :isA :BFTAlgorithm ;
+    :hasYear 2018 ;
+    :implementedBy sys:Diem, sys:Celo ;
+    :difficulty "高级"@zh .
+
+:Tendermint rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "Tendermint共识"@zh, "Tendermint"@en ;
+    :name "Tendermint共识"@zh ;
+    :nameEn "Tendermint Consensus"@en ;
+    :definition "基于BFT的PoS共识算法，用于区块链网络"@zh ;
+    :category :Algorithm ;
+    :isA :BFTAlgorithm, :PoS ;
+    :hasYear 2014 ;
+    :implementedBy sys:Cosmos ;
+    :difficulty "高级"@zh .
+
+:PoW rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "工作量证明"@zh, "Proof of Work"@en ;
+    :name "工作量证明"@zh ;
+    :nameEn "Proof of Work"@en ;
+    :definition "通过计算难题证明工作量的共识机制"@zh ;
+    :category :Algorithm ;
+    :hasYear 1993 ;
+    :implementedBy sys:Bitcoin, sys:Ethereum1 ;
+    :difficulty "中级"@zh .
+
+:PoS rdf:type :Algorithm, owl:NamedIndividual ;
+    rdfs:label "权益证明"@zh, "Proof of Stake"@en ;
+    :name "权益证明"@zh ;
+    :nameEn "Proof of Stake"@en ;
+    :definition "基于持币量和时间的共识机制，替代PoW"@zh ;
+    :category :Algorithm ;
+    :hasYear 2012 ;
+    :implementedBy sys:Ethereum2, sys:Cosmos, sys:Cardano ;
+    :difficulty "中级"@zh .
+
+:Blockchain rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "区块链"@zh, "Blockchain"@en ;
+    :name "区块链"@zh ;
+    :nameEn "Blockchain"@en ;
+    :definition "分布式账本技术，通过密码学链接的数据块链"@zh ;
+    :category :Architecture ;
+    :hasPart :Block, :Transaction, :Consensus, :SmartContract ;
+    :implements :PoW, :PoS, :PBFT ;
+    :difficulty "中级"@zh .
+
+:SmartContract rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "智能合约"@zh, "Smart Contract"@en ;
+    :name "智能合约"@zh ;
+    :nameEn "Smart Contract"@en ;
+    :definition "在区块链上自动执行的程序代码"@zh ;
+    :category :Pattern ;
+    :hasYear 1994 ;
+    :implementedBy sys:Ethereum, sys:EOS, sys:HyperledgerFabric ;
+    :difficulty "中级"@zh .
+
+# ============================================
+# 补充概念与组件
+# ============================================
+
+:AvailabilityZone rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "可用区"@zh, "Availability Zone"@en ;
+    :name "可用区"@zh ;
+    :nameEn "Availability Zone"@en ;
+    :definition "云数据中心中物理隔离的区域，用于高可用性设计"@zh ;
+    :category :Architecture ;
+    :difficulty "初级"@zh .
+
+:Region rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "区域"@zh, "Region"@en ;
+    :name "区域"@zh ;
+    :nameEn "Region"@en ;
+    :definition "地理上独立的数据中心位置"@zh ;
+    :category :Architecture ;
+    :hasPart :AvailabilityZone ;
+    :difficulty "初级"@zh .
+
+:EdgeComputing rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "边缘计算"@zh, "Edge Computing"@en ;
+    :name "边缘计算"@zh ;
+    :nameEn "Edge Computing"@en ;
+    :definition "在网络边缘靠近数据源处理数据的计算范式"@zh ;
+    :category :Architecture ;
+    :relatedTo :FogComputing, :CDN ;
+    :difficulty "中级"@zh .
+
+:FogComputing rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "雾计算"@zh, "Fog Computing"@en ;
+    :name "雾计算"@zh ;
+    :nameEn "Fog Computing"@en ;
+    :definition "介于云计算和边缘计算之间的中间层计算架构"@zh ;
+    :category :Architecture ;
+    :relatedTo :EdgeComputing ;
+    :difficulty "中级"@zh .
+
+:CDN rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "内容分发网络"@zh, "Content Delivery Network"@en ;
+    :name "内容分发网络"@zh ;
+    :nameEn "Content Delivery Network"@en ;
+    :definition "地理分布的服务器网络，用于加速内容传输"@zh ;
+    :category :Architecture ;
+    :difficulty "初级"@zh .
+
+:Microservices rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "微服务架构"@zh, "Microservices Architecture"@en ;
+    :name "微服务架构"@zh ;
+    :nameEn "Microservices Architecture"@en ;
+    :definition "将应用拆分为小型、独立部署服务的架构风格"@zh ;
+    :category :Architecture ;
+    :hasPart :ServiceDiscovery, :API gateway, :CircuitBreaker ;
+    :relatedTo :ServiceMesh, :Serverless ;
+    :difficulty "中级"@zh .
+
+:APIGateway rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "API网关"@zh, "API Gateway"@en ;
+    :name "API网关"@zh ;
+    :nameEn "API Gateway"@en ;
+    :definition "管理、路由和保护API请求的服务入口"@zh ;
+    :category :Architecture ;
+    :hasPart :Routing, :Authentication, :RateLimiting ;
+    :implementedBy sys:Kong, sys:Envoy, sys:Nginx, sys:Zuul ;
+    :difficulty "中级"@zh .
+
+:ZeroTrust rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "零信任安全"@zh, "Zero Trust Security"@en ;
+    :name "零信任安全"@zh ;
+    :nameEn "Zero Trust Security"@en ;
+    :definition "不信任任何内外部网络的安全模型，始终验证身份和设备"@zh ;
+    :category :Theory ;
+    :hasPart :IdentityVerification, :DeviceTrust, :LeastPrivilege ;
+    :difficulty "高级"@zh .
+
+:MTLS rdf:type :Protocol, owl:NamedIndividual ;
+    rdfs:label "双向TLS"@zh, "Mutual TLS"@en ;
+    :name "双向TLS"@zh ;
+    :nameEn "Mutual TLS"@en ;
+    :definition "客户端和服务器相互验证的TLS协议"@zh ;
+    :category :Protocol ;
+    :usedBy sys:Istio, sys:Linkerd ;
+    :difficulty "中级"@zh .
+
+:OAuth2 rdf:type :Protocol, owl:NamedIndividual ;
+    rdfs:label "OAuth 2.0"@en ;
+    :name "OAuth 2.0"@en ;
+    :nameEn "OAuth 2.0"@en ;
+    :definition "授权框架，允许第三方应用获得有限的资源访问权限"@zh ;
+    :category :Protocol ;
+    :hasYear 2012 ;
+    :hasPart :AuthorizationCode, :Implicit, :Password, :ClientCredentials ;
+    :difficulty "中级"@zh .
+
+:JWT rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "JSON Web Token"@en ;
+    :name "JWT"@en ;
+    :nameEn "JSON Web Token"@en ;
+    :definition "用于安全传输信息的紧凑、自包含方式"@zh ;
+    :category :Protocol ;
+    :hasYear 2015 ;
+    :difficulty "初级"@zh .
+
+:ACID rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "ACID属性"@zh, "ACID Properties"@en ;
+    :name "ACID"@en ;
+    :nameEn "Atomicity, Consistency, Isolation, Durability"@en ;
+    :definition "数据库事务的四个基本属性：原子性、一致性、隔离性、持久性"@zh ;
+    :category :Theory ;
+    :hasPart :Atomicity, :Isolation, :Durability ;
+    :difficulty "初级"@zh .
+
+:BASE rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "BASE模型"@zh, "BASE Model"@en ;
+    :name "BASE"@en ;
+    :nameEn "Basically Available, Soft state, Eventually consistent"@en ;
+    :definition "NoSQL数据库的可用性优先模型，与ACID相对"@zh ;
+    :category :Theory ;
+    :hasYear 2008 ;
+    :relatedTo :ACID, :EventualConsistency ;
+    :difficulty "初级"@zh .
+
+:DistributedTransaction rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "分布式事务"@zh, "Distributed Transaction"@en ;
+    :name "分布式事务"@zh ;
+    :nameEn "Distributed Transaction"@en ;
+    :definition "跨多个数据源或服务的事务，需要协调保证原子性"@zh ;
+    :category :Theory ;
+    :uses :TwoPhaseCommit, :ThreePhaseCommit, :SagaPattern, :TCC ;
+    :difficulty "高级"@zh .
+
+:DistributedLock rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "分布式锁"@zh, "Distributed Lock"@en ;
+    :name "分布式锁"@zh ;
+    :nameEn "Distributed Lock"@en ;
+    :definition "在分布式系统中协调多个进程访问共享资源的机制"@zh ;
+    :category :Pattern ;
+    :implementedBy sys:Redis, sys:ZooKeeper, sys:etcd ;
+    :difficulty "中级"@zh .
+
+:Idempotency rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "幂等性"@zh, "Idempotency"@en ;
+    :name "幂等性"@zh ;
+    :nameEn "Idempotency"@en ;
+    :definition "操作执行一次和执行多次产生相同结果的性质"@zh ;
+    :category :Theory ;
+    :difficulty "中级"@zh .
+
+:ExactlyOnceSemantics rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "恰好一次语义"@zh, "Exactly-Once Semantics"@en ;
+    :name "恰好一次语义"@zh ;
+    :nameEn "Exactly-Once Semantics"@en ;
+    :definition "保证消息只被处理一次的语义，通常通过幂等性和事务实现"@zh ;
+    :category :Theory ;
+    :implementedBy sys:Kafka, sys:Flink ;
+    :relatedTo :Idempotency ;
+    :difficulty "高级"@zh .
+
+:AtLeastOnce rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "至少一次"@zh, "At-Least-Once"@en ;
+    :name "至少一次"@zh ;
+    :nameEn "At-Least-Once"@en ;
+    :definition "保证消息至少被处理一次，可能重复"@zh ;
+    :category :Theory ;
+    :difficulty "初级"@zh .
+
+:AtMostOnce rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "至多一次"@zh, "At-Most-Once"@en ;
+    :name "至多一次"@zh ;
+    :nameEn "At-Most-Once"@en ;
+    :definition "保证消息最多被处理一次，可能丢失"@zh ;
+    :category :Theory ;
+    :difficulty "初级"@zh .
+
+:WAL rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "预写日志"@zh, "Write-Ahead Log"@en ;
+    :name "预写日志"@zh ;
+    :nameEn "Write-Ahead Log"@en ;
+    :definition "在修改数据前先写入日志，保证持久性和恢复能力"@zh ;
+    :category :Theory ;
+    :implementedBy sys:PostgreSQL, sys:MySQL, sys:Cassandra ;
+    :difficulty "中级"@zh .
+
+:LSMTree rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "LSM树"@zh, "Log-Structured Merge Tree"@en ;
+    :name "LSM树"@zh ;
+    :nameEn "Log-Structured Merge Tree"@en ;
+    :definition "通过批量合并优化写性能的磁盘数据结构"@zh ;
+    :category :Theory ;
+    :hasYear 1996 ;
+    :implementedBy sys:RocksDB, sys:LevelDB, sys:Cassandra, sys:HBase ;
+    :difficulty "高级"@zh .
+
+:BTree rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "B树"@zh, "B-Tree"@en ;
+    :name "B树"@zh ;
+    :nameEn "B-Tree"@en ;
+    :definition "平衡的多路搜索树，广泛用于数据库索引"@zh ;
+    :category :Algorithm ;
+    :hasYear 1972 ;
+    :implementedBy sys:PostgreSQL, sys:MySQL, sys:MongoDB ;
+    :difficulty "中级"@zh .
+
+:Gossip rdf:type :Protocol, owl:NamedIndividual ;
+    rdfs:label "Gossip协议"@zh, "Gossip Protocol"@en ;
+    :name "Gossip协议"@zh ;
+    :nameEn "Gossip Protocol"@en ;
+    :definition "基于随机传播的 epidemic 算法，用于信息传播和故障检测"@zh ;
+    :category :Protocol ;
+    :hasPart :AntiEntropy, :RumorMongering ;
+    :implementedBy sys:Cassandra, sys:Consul, sys:Redis ;
+    :difficulty "中级"@zh .
+
+:HeartBeat rdf:type :Protocol, owl:NamedIndividual ;
+    rdfs:label "心跳机制"@zh, "Heartbeat"@en ;
+    :name "心跳机制"@zh ;
+    :nameEn "Heartbeat"@en ;
+    :definition "通过定期消息检测节点存活状态的机制"@zh ;
+    :category :Protocol ;
+    :difficulty "初级"@zh .
+
+:Timeout rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "超时"@zh, "Timeout"@en ;
+    :name "超时"@zh ;
+    :nameEn "Timeout"@en ;
+    :definition "在指定时间内未收到响应则采取预设动作的机制"@zh ;
+    :category :Theory ;
+    :difficulty "初级"@zh .
+
+:Retry rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "重试模式"@zh, "Retry Pattern"@en ;
+    :name "重试模式"@zh ;
+    :nameEn "Retry Pattern"@en ;
+    :definition "临时失败后自动重试操作的容错模式"@zh ;
+    :category :Pattern ;
+    :hasPart :ExponentialBackoff, :Jitter ;
+    :difficulty "初级"@zh .
+
+:ExponentialBackoff rdf:type :Concept, owl:NamedIndividual ;
+    rdfs:label "指数退避"@zh, "Exponential Backoff"@en ;
+    :name "指数退避"@zh ;
+    :nameEn "Exponential Backoff"@en ;
+    :definition "每次重试后指数级增加等待时间的策略"@zh ;
+    :category :Algorithm ;
+    :usedBy :Retry ;
+    :difficulty "初级"@zh .
+
+:GracefulShutdown rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "优雅关闭"@zh, "Graceful Shutdown"@en ;
+    :name "优雅关闭"@zh ;
+    :nameEn "Graceful Shutdown"@en ;
+    :definition "在停止服务前完成进行中的请求和清理资源"@zh ;
+    :category :Pattern ;
+    :difficulty "中级"@zh .
+
+:HealthCheck rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "健康检查"@zh, "Health Check"@en ;
+    :name "健康检查"@zh ;
+    :nameEn "Health Check"@en ;
+    :definition "定期检查系统组件健康状态的机制"@zh ;
+    :category :Pattern ;
+    :hasPart :LivenessProbe, :ReadinessProbe ;
+    :difficulty "初级"@zh .
+
+:Bulkhead rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "舱壁隔离"@zh, "Bulkhead Pattern"@en ;
+    :name "舱壁隔离"@zh ;
+    :nameEn "Bulkhead Pattern"@en ;
+    :definition "将资源隔离到池中，防止一个组件故障影响其他组件"@zh ;
+    :category :Pattern ;
+    :difficulty "中级"@zh .
+
+:StranglerFig rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "绞杀者模式"@zh, "Strangler Fig Pattern"@en ;
+    :name "绞杀者模式"@zh ;
+    :nameEn "Strangler Fig Pattern"@en ;
+    :definition "逐步用新系统替换旧系统的渐进式迁移模式"@zh ;
+    :category :Pattern ;
+    :difficulty "中级"@zh .
+
+:Sidecar rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "边车模式"@zh, "Sidecar Pattern"@en ;
+    :name "边车模式"@zh ;
+    :nameEn "Sidecar Pattern"@en ;
+    :definition "将辅助功能部署为与主应用同生命周期的独立容器"@zh ;
+    :category :Pattern ;
+    :usedBy :ServiceMesh ;
+    :difficulty "中级"@zh .
+
+:Ambassador rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "大使模式"@zh, "Ambassador Pattern"@en ;
+    :name "大使模式"@zh ;
+    :nameEn "Ambassador Pattern"@en ;
+    :definition "通过代理容器处理客户端与外部服务的连接"@zh ;
+    :category :Pattern ;
+    :difficulty "中级"@zh .
+
+:Adapter rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "适配器模式"@zh, "Adapter Pattern"@en ;
+    :name "适配器模式"@zh ;
+    :nameEn "Adapter Pattern"@en ;
+    :definition "将不兼容接口转换为可兼容接口的结构型模式"@zh ;
+    :category :Pattern ;
+    :difficulty "初级"@zh .
+
+:EventSourcing rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "事件溯源"@zh, "Event Sourcing"@en ;
+    :name "事件溯源"@zh ;
+    :nameEn "Event Sourcing"@en ;
+    :definition "通过存储事件序列来重建系统状态的模式"@zh ;
+    :category :Pattern ;
+    :hasPart :EventStore, :CQRS ;
+    :difficulty "高级"@zh .
+
+:CQRS rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "命令查询职责分离"@zh, "CQRS"@en ;
+    :name "CQRS"@en ;
+    :nameEn "Command Query Responsibility Segregation"@en ;
+    :definition "将读取和写入操作分离到不同模型的架构模式"@zh ;
+    :category :Pattern ;
+    :relatedTo :EventSourcing ;
+    :difficulty "高级"@zh .
+
+:MaterializedView rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "物化视图"@zh, "Materialized View"@en ;
+    :name "物化视图"@zh ;
+    :nameEn "Materialized View"@en ;
+    :definition "预先计算并存储的查询结果，用于优化读取性能"@zh ;
+    :category :Pattern ;
+    :difficulty "中级"@zh .
+
+:OutboxPattern rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "发件箱模式"@zh, "Outbox Pattern"@en ;
+    :name "发件箱模式"@zh ;
+    :nameEn "Outbox Pattern"@en ;
+    :definition "保证数据库事务和消息发送原子性的模式"@zh ;
+    :category :Pattern ;
+    :difficulty "高级"@zh .
+
+:TransactionOutbox rdf:type :Pattern, owl:NamedIndividual ;
+    rdfs:label "事务发件箱"@zh, "Transaction Outbox"@en ;
+    :name "事务发件箱"@zh ;
+    :nameEn "Transaction Outbox"@en ;
+    :definition "与Outbox模式相同，确保消息可靠发送"@zh ;
+    :category :Pattern ;
+    :sameAs :OutboxPattern ;
+    :difficulty "高级"@zh .

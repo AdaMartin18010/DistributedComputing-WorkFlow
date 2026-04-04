@@ -1,0 +1,666 @@
+{
+  "version": "1.0.0",
+  "description": "分布式计算知识图谱可视化配置",
+  "graph": {
+    "name": "分布式计算知识图谱",
+    "language": "zh-CN",
+    "nodeCount": 180,
+    "edgeCount": 320
+  },
+  "metadata": {
+    "lastUpdated": "2026-04-04",
+    "author": "DistributedComputing-WorkFlow",
+    "license": "MIT"
+  },
+  "visualization": {
+    "engine": "d3-force",
+    "layout": {
+      "type": "force-directed",
+      "width": 1920,
+      "height": 1080,
+      "center": [960, 540],
+      "gravity": 0.05,
+      "charge": -500,
+      "linkDistance": 100,
+      "linkStrength": 0.5,
+      "collisionRadius": 30,
+      "alpha": 0.3,
+      "alphaDecay": 0.02,
+      "velocityDecay": 0.4
+    },
+    "zoom": {
+      "enabled": true,
+      "min": 0.1,
+      "max": 4,
+      "extent": [[0, 0], [1920, 1080]]
+    },
+    "physics": {
+      "enabled": true,
+      "stabilization": {
+        "iterations": 1000,
+        "updateInterval": 50
+      }
+    }
+  },
+  "styles": {
+    "nodes": {
+      "default": {
+        "stroke": "#fff",
+        "strokeWidth": 2,
+        "opacity": 0.9
+      },
+      "byCategory": {
+        "Theorem": {
+          "shape": "hexagon",
+          "color": "#FF6B6B",
+          "size": 35,
+          "strokeColor": "#C92A2A"
+        },
+        "Algorithm": {
+          "shape": "diamond",
+          "color": "#4ECDC4",
+          "size": 28,
+          "strokeColor": "#087F5B"
+        },
+        "System": {
+          "shape": "rect",
+          "color": "#45B7D1",
+          "size": 25,
+          "strokeColor": "#1864AB",
+          "rx": 5,
+          "ry": 5
+        },
+        "Protocol": {
+          "shape": "circle",
+          "color": "#96CEB4",
+          "size": 22,
+          "strokeColor": "#2F5D3D"
+        },
+        "Pattern": {
+          "shape": "triangle",
+          "color": "#FFEAA7",
+          "size": 20,
+          "strokeColor": "#B7791F"
+        },
+        "Concept": {
+          "shape": "circle",
+          "color": "#DDA0DD",
+          "size": 20,
+          "strokeColor": "#862E9C"
+        },
+        "Paper": {
+          "shape": "document",
+          "color": "#FAB1A0",
+          "size": 18,
+          "strokeColor": "#E17055"
+        },
+        "Person": {
+          "shape": "person",
+          "color": "#74B9FF",
+          "size": 24,
+          "strokeColor": "#0984E3"
+        }
+      },
+      "byDifficulty": {
+        "初级": {
+          "opacity": 0.8,
+          "borderStyle": "solid"
+        },
+        "中级": {
+          "opacity": 0.9,
+          "borderStyle": "solid",
+          "strokeWidth": 3
+        },
+        "高级": {
+          "opacity": 1.0,
+          "borderStyle": "double",
+          "strokeWidth": 4,
+          "glow": true
+        }
+      }
+    },
+    "edges": {
+      "default": {
+        "strokeWidth": 1.5,
+        "opacity": 0.6,
+        "arrowSize": 8
+      },
+      "byType": {
+        "isA": {
+          "color": "#495057",
+          "strokeWidth": 2,
+          "dashArray": "5,5",
+          "arrowhead": "vee"
+        },
+        "implements": {
+          "color": "#087F5B",
+          "strokeWidth": 2.5,
+          "arrowhead": "triangle"
+        },
+        "uses": {
+          "color": "#1864AB",
+          "strokeWidth": 1.5,
+          "arrowhead": "arrow"
+        },
+        "dependsOn": {
+          "color": "#C92A2A",
+          "strokeWidth": 2,
+          "arrowhead": "arrow"
+        },
+        "extends": {
+          "color": "#E67700",
+          "strokeWidth": 2,
+          "dashArray": "10,5",
+          "arrowhead": "triangle"
+        },
+        "relatedTo": {
+          "color": "#862E9C",
+          "strokeWidth": 1,
+          "dashArray": "2,2",
+          "arrowhead": "none"
+        },
+        "hasPart": {
+          "color": "#2F5D3D",
+          "strokeWidth": 1.5,
+          "arrowhead": "diamond"
+        },
+        "proposedBy": {
+          "color": "#0984E3",
+          "strokeWidth": 2,
+          "arrowhead": "arrow"
+        },
+        "proves": {
+          "color": "#D9480F",
+          "strokeWidth": 2,
+          "arrowhead": "triangle",
+          "dashArray": "5,3"
+        }
+      }
+    },
+    "labels": {
+      "nodeLabels": {
+        "enabled": true,
+        "fontSize": 12,
+        "fontFamily": "Microsoft YaHei, SimHei, sans-serif",
+        "color": "#212529",
+        "background": "rgba(255,255,255,0.8)",
+        "padding": 4,
+        "borderRadius": 3,
+        "maxWidth": 120,
+        "wrap": true
+      },
+      "edgeLabels": {
+        "enabled": true,
+        "fontSize": 10,
+        "fontFamily": "Microsoft YaHei, SimHei, sans-serif",
+        "color": "#495057",
+        "background": "rgba(255,255,255,0.9)",
+        "padding": 2,
+        "borderRadius": 2
+      }
+    }
+  },
+  "interaction": {
+    "drag": {
+      "enabled": true,
+      "fixAfterDrag": false
+    },
+    "hover": {
+      "enabled": true,
+      "highlightNeighbors": true,
+      "tooltip": {
+        "enabled": true,
+        "showProperties": ["name", "category", "difficulty", "definition"],
+        "maxWidth": 300
+      }
+    },
+    "click": {
+      "enabled": true,
+      "actions": ["focus", "expand", "showDetails"]
+    },
+    "doubleClick": {
+      "enabled": true,
+      "action": "expandNode"
+    },
+    "wheel": {
+      "enabled": true,
+      "zoom": true
+    },
+    "selection": {
+      "enabled": true,
+      "multiSelect": true,
+      "showSelectedCount": true
+    },
+    "search": {
+      "enabled": true,
+      "fields": ["name", "nameEn", "definition", "tags"],
+      "highlightMatches": true,
+      "autoComplete": true
+    }
+  },
+  "filters": {
+    "enabled": true,
+    "categories": {
+      "Theorem": true,
+      "Algorithm": true,
+      "System": true,
+      "Protocol": true,
+      "Pattern": true,
+      "Concept": true,
+      "Paper": true,
+      "Person": true
+    },
+    "difficulty": {
+      "初级": true,
+      "中级": true,
+      "高级": true
+    },
+    "year": {
+      "min": 1970,
+      "max": 2026,
+      "enabled": false
+    }
+  },
+  "clusters": {
+    "enabled": true,
+    "algorithm": "louvain",
+    "resolution": 1.0,
+    "showHull": true,
+    "hullOpacity": 0.15,
+    "clusters": [
+      {
+        "id": "consensus",
+        "name": "共识算法群",
+        "color": "#FF6B6B",
+        "nodes": ["Paxos", "Raft", "PBFT", "ZAB", "MultiPaxos", "FastPaxos", "EPaxos", "HotStuff", "Tendermint"]
+      },
+      {
+        "id": "storage",
+        "name": "存储系统群",
+        "color": "#4ECDC4",
+        "nodes": ["etcd", "ZooKeeper", "Redis", "Cassandra", "TiDB", "CockroachDB", "MongoDB", "Spanner", "Kafka"]
+      },
+      {
+        "id": "theory",
+        "name": "理论基础群",
+        "color": "#FFEAA7",
+        "nodes": ["CAPTheorem", "FLPResult", "PACELC", "ByzantineGeneralsProblem", "TwoGeneralsProblem"]
+      },
+      {
+        "id": "consistency",
+        "name": "一致性模型群",
+        "color": "#DDA0DD",
+        "nodes": ["Consistency", "Linearizability", "SequentialConsistency", "CausalConsistency", "EventualConsistency"]
+      },
+      {
+        "id": "transaction",
+        "name": "事务与协议群",
+        "color": "#96CEB4",
+        "nodes": ["TwoPhaseCommit", "ThreePhaseCommit", "SagaPattern", "TCC", "MVCC", "DistributedTransaction"]
+      },
+      {
+        "id": "cloudnative",
+        "name": "云原生群",
+        "color": "#74B9FF",
+        "nodes": ["Kubernetes", "Istio", "Envoy", "ServiceMesh", "Microservices", "Serverless"]
+      }
+    ]
+  },
+  "export": {
+    "formats": ["png", "svg", "json", "graphml"],
+    "includeLabels": true,
+    "resolution": 2
+  },
+  "nodes": [
+    {
+      "id": "CAPTheorem",
+      "label": "CAP定理",
+      "category": "Theorem",
+      "difficulty": "中级",
+      "size": 40,
+      "color": "#FF6B6B",
+      "x": 400,
+      "y": 300,
+      "properties": {
+        "year": 2000,
+        "description": "一致性、可用性、分区容忍性三者不可兼得"
+      }
+    },
+    {
+      "id": "Raft",
+      "label": "Raft算法",
+      "category": "Algorithm",
+      "difficulty": "中级",
+      "size": 32,
+      "color": "#4ECDC4",
+      "x": 600,
+      "y": 400,
+      "properties": {
+        "year": 2014,
+        "complexity": "O(n)"
+      }
+    },
+    {
+      "id": "Paxos",
+      "label": "Paxos算法",
+      "category": "Algorithm",
+      "difficulty": "高级",
+      "size": 35,
+      "color": "#4ECDC4",
+      "x": 550,
+      "y": 250,
+      "properties": {
+        "year": 1989,
+        "complexity": "O(n²)"
+      }
+    },
+    {
+      "id": "etcd",
+      "label": "etcd",
+      "category": "System",
+      "difficulty": "中级",
+      "size": 28,
+      "color": "#45B7D1",
+      "x": 800,
+      "y": 450,
+      "properties": {
+        "language": "Go",
+        "created": 2013
+      }
+    },
+    {
+      "id": "ZooKeeper",
+      "label": "ZooKeeper",
+      "category": "System",
+      "difficulty": "中级",
+      "size": 28,
+      "color": "#45B7D1",
+      "x": 750,
+      "y": 300,
+      "properties": {
+        "language": "Java",
+        "created": 2008
+      }
+    },
+    {
+      "id": "Consul",
+      "label": "Consul",
+      "category": "System",
+      "difficulty": "中级",
+      "size": 26,
+      "color": "#45B7D1",
+      "x": 850,
+      "y": 380,
+      "properties": {
+        "language": "Go",
+        "created": 2014
+      }
+    },
+    {
+      "id": "Kubernetes",
+      "label": "Kubernetes",
+      "category": "System",
+      "difficulty": "中级",
+      "size": 32,
+      "color": "#45B7D1",
+      "x": 1000,
+      "y": 600,
+      "properties": {
+        "language": "Go",
+        "created": 2014
+      }
+    },
+    {
+      "id": "Kafka",
+      "label": "Kafka",
+      "category": "System",
+      "difficulty": "中级",
+      "size": 28,
+      "color": "#45B7D1",
+      "x": 900,
+      "y": 200,
+      "properties": {
+        "language": "Java",
+        "created": 2011
+      }
+    },
+    {
+      "id": "FLPResult",
+      "label": "FLP不可能性",
+      "category": "Theorem",
+      "difficulty": "高级",
+      "size": 35,
+      "color": "#FF6B6B",
+      "x": 200,
+      "y": 400,
+      "properties": {
+        "year": 1985
+      }
+    },
+    {
+      "id": "PBFT",
+      "label": "PBFT算法",
+      "category": "Algorithm",
+      "difficulty": "高级",
+      "size": 30,
+      "color": "#4ECDC4",
+      "x": 500,
+      "y": 500,
+      "properties": {
+        "year": 1999
+      }
+    },
+    {
+      "id": "Linearizability",
+      "label": "线性一致性",
+      "category": "Concept",
+      "difficulty": "高级",
+      "size": 25,
+      "color": "#DDA0DD",
+      "x": 300,
+      "y": 150
+    },
+    {
+      "id": "EventualConsistency",
+      "label": "最终一致性",
+      "category": "Concept",
+      "difficulty": "初级",
+      "size": 22,
+      "color": "#DDA0DD",
+      "x": 250,
+      "y": 200
+    },
+    {
+      "id": "TwoPhaseCommit",
+      "label": "两阶段提交",
+      "category": "Protocol",
+      "difficulty": "中级",
+      "size": 24,
+      "color": "#96CEB4",
+      "x": 400,
+      "y": 600
+    },
+    {
+      "id": "SagaPattern",
+      "label": "Saga模式",
+      "category": "Pattern",
+      "difficulty": "中级",
+      "size": 22,
+      "color": "#FFEAA7",
+      "x": 350,
+      "y": 700
+    },
+    {
+      "id": "LeslieLamport",
+      "label": "Leslie Lamport",
+      "category": "Person",
+      "difficulty": "高级",
+      "size": 26,
+      "color": "#74B9FF",
+      "x": 150,
+      "y": 250
+    },
+    {
+      "id": "EricBrewer",
+      "label": "Eric Brewer",
+      "category": "Person",
+      "difficulty": "中级",
+      "size": 24,
+      "color": "#74B9FF",
+      "x": 300,
+      "y": 350
+    },
+    {
+      "id": "RaftPaper",
+      "label": "Raft论文",
+      "category": "Paper",
+      "difficulty": "中级",
+      "size": 20,
+      "color": "#FAB1A0",
+      "x": 700,
+      "y": 500
+    }
+  ],
+  "edges": [
+    {
+      "source": "Raft",
+      "target": "CAPTheorem",
+      "type": "satisfies",
+      "label": "satisfies",
+      "color": "#495057",
+      "strokeWidth": 1.5
+    },
+    {
+      "source": "Raft",
+      "target": "Paxos",
+      "type": "improvesUpon",
+      "label": "改进自",
+      "color": "#E67700",
+      "strokeWidth": 2,
+      "dashArray": "5,5"
+    },
+    {
+      "source": "etcd",
+      "target": "Raft",
+      "type": "implements",
+      "label": "实现",
+      "color": "#087F5B",
+      "strokeWidth": 2.5
+    },
+    {
+      "source": "ZooKeeper",
+      "target": "Paxos",
+      "type": "implements",
+      "label": "实现",
+      "color": "#087F5B",
+      "strokeWidth": 2.5
+    },
+    {
+      "source": "Consul",
+      "target": "Raft",
+      "type": "implements",
+      "label": "实现",
+      "color": "#087F5B",
+      "strokeWidth": 2.5
+    },
+    {
+      "source": "Kubernetes",
+      "target": "etcd",
+      "type": "uses",
+      "label": "使用",
+      "color": "#1864AB",
+      "strokeWidth": 1.5
+    },
+    {
+      "source": "Kafka",
+      "target": "ZooKeeper",
+      "type": "uses",
+      "label": "使用",
+      "color": "#1864AB",
+      "strokeWidth": 1.5
+    },
+    {
+      "source": "FLPResult",
+      "target": "ConsensusProblem",
+      "type": "proves",
+      "label": "证明",
+      "color": "#D9480F",
+      "strokeWidth": 2
+    },
+    {
+      "source": "PBFT",
+      "target": "ByzantineGeneralsProblem",
+      "type": "solves",
+      "label": "解决",
+      "color": "#087F5B",
+      "strokeWidth": 2
+    },
+    {
+      "source": "Linearizability",
+      "target": "Consistency",
+      "type": "isA",
+      "label": "是一种",
+      "color": "#495057",
+      "strokeWidth": 1.5,
+      "dashArray": "5,5"
+    },
+    {
+      "source": "EventualConsistency",
+      "target": "Consistency",
+      "type": "isA",
+      "label": "是一种",
+      "color": "#495057",
+      "strokeWidth": 1.5,
+      "dashArray": "5,5"
+    },
+    {
+      "source": "TwoPhaseCommit",
+      "target": "DistributedTransaction",
+      "type": "isA",
+      "label": "是一种",
+      "color": "#495057",
+      "strokeWidth": 1.5,
+      "dashArray": "5,5"
+    },
+    {
+      "source": "SagaPattern",
+      "target": "DistributedTransaction",
+      "type": "solves",
+      "label": "解决",
+      "color": "#087F5B",
+      "strokeWidth": 2
+    },
+    {
+      "source": "Paxos",
+      "target": "LeslieLamport",
+      "type": "proposedBy",
+      "label": "提出者",
+      "color": "#0984E3",
+      "strokeWidth": 2
+    },
+    {
+      "source": "CAPTheorem",
+      "target": "EricBrewer",
+      "type": "proposedBy",
+      "label": "提出者",
+      "color": "#0984E3",
+      "strokeWidth": 2
+    },
+    {
+      "source": "RaftPaper",
+      "target": "Raft",
+      "type": "describes",
+      "label": "描述",
+      "color": "#862E9C",
+      "strokeWidth": 1.5
+    },
+    {
+      "source": "CAPPaper",
+      "target": "CAPTheorem",
+      "type": "proves",
+      "label": "证明",
+      "color": "#D9480F",
+      "strokeWidth": 2
+    }
+  ]
+}

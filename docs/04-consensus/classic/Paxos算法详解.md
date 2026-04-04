@@ -441,5 +441,20 @@ A: 保证只有包含大多数节点的分区可以继续处理请求。
 
 ---
 
+## 相关主题
+
+- [Raft算法详解](./Raft算法详解.md) - 更易理解的共识算法
+- [Raft与Paxos对比](../Raft与Paxos对比.md) - 两种算法的详细对比
+- [FLP不可能定理专题文档](../../02-theory/distributed-systems/FLP不可能定理专题文档.md) - 共识的理论限制
+- [共识算法选型指南](../共识算法选型指南.md) - 如何选择共识算法
+- [ZAB协议详解](./ZAB协议详解.md) - ZooKeeper使用的协议
+
+## 参考资源
+
+- [Paxos Made Simple](https://lamport.azurewebsites.net/pubs/paxos-simple.pdf) - Lamport的简化版论文
+- [The Part-Time Parliament](https://lamport.azurewebsites.net/pubs/lamport-paxos.pdf) - 原始Paxos论文
+
+---
+
 **维护者**：项目团队
 **最后更新**：2026年
